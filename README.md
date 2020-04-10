@@ -1,3 +1,6 @@
-### my linux config files
+## my linux config files
 
-> arch + i3wm + vim + fish
+> arch + i3wm + polybar + vim + fish + ranger + dunst
+
+[dwm](https://github.com/UniqueDing/mydwm)
+[st](https://github.com/UniqueDing/myst)

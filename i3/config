@@ -55,7 +55,7 @@ bindsym XF86TouchpadOff exec firefox
 #bindsym XF86TouchpadOff exec xinput disable "Synaptics TM3242-001"
 #exec --no-startup-id pulseaudio
 #exec --no-startup-id pa-applet
-#bindsym $mod+Ctrl+m exec pavucontrol
+bindsym $mod+Ctrl+m exec pavucontrol
 
 # Screen brightness controls
 bindsym XF86MonBrightnessUp exec "xbacklight -inc 5"
@@ -68,8 +68,8 @@ bindsym $mod+c exec google-chrome-stable
 # bindsym $mod+t exec --no-startup-id pkill compton
 # bindsym $mod+Ctrl+t exec --no-startup-id compton -b
 # bindsym $mod+Shift+d --release exec "killall dunst; exec notify-send 'restart dunst'"
-bindsym $mod+P exec --no-startup-id scrot
-bindsym $mod+Ctrl+P --release exec --no-startup-id scrot -w
+bindsym $mod+P exec --no-startup-id scrot -e 'mv $f ~/Pictures/screenscrot/'
+bindsym $mod+Ctrl+P --release exec --no-startup-id scrot -w 
 bindsym $mod+Shift+P --release exec --no-startup-id scrot -s
 bindsym $mod+Ctrl+x --release exec --no-startup-id xkill
 
@@ -242,8 +242,8 @@ mode "$mode_system" {
     bindsym s exec --no-startup-id bash .config/i3/lock-blur.sh && systemctl suspend, mode "default"
     bindsym e exec --no-startup-id i3-msg exit, mode "default"
     bindsym h exec --no-startup-id bash .config/i3/lock-blur.sh && systemctl hibernate, mode "default"
-    bindsym r exec --no-startup-id bash .config/i3/lock-blur.sh && systemctl reboot, mode "default"
-    bindsym Shift+s exec --no-startup-id systemctl shutdown, mode "default"
+    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id systemctl poweroff, mode "default"
 
     # exit system mode: "Enter" or "Escape"
     bindsym Return mode "default"
@@ -279,12 +279,13 @@ bindsym $mod+l exec --no-startup-id bash .config/i3/lock-blur.sh
 # Autostart applications
 # exec --no-startup-id nitrogen --restore; sleep 1; compton -b
 exec --no-startup-id nm-applet
-exec --no-startup-id compton -b
-exec --no-startup-id yay
+exec --no-startup-id picom -b
+exec --no-startup-id dunst
+# exec --no-startup-id yay
 # exec --no-startup-id pamac-tray
 # exec --no-startup-id clipit
 exec --no-startup-id ~/.config/polybar/launch.sh
-exec --no-startup-id ~/.config/naturalscroll.sh
+# exec --no-startup-id ~/.config/naturalscroll.sh
 exec --no-startup-id fcitx
 exec --no-startup-id variety
 exec --no-startup-id redshift-gtk
@@ -294,8 +295,8 @@ exec --no-startup-id blueman-applet
 # exec --no-startup-id start_conky_maia
 # exec --no-startup-id start_conky_green
 exec --no-startup-id xautolock -time 15 -locker "bash .config/i3/lock-blur.sh"
-exec_always --no-startup-id ff-theme-util
-exec_always --no-startup-id fix_xcursor
+#exec_always --no-startup-id ff-theme-util
+#exec_always --no-startup-id fix_xcursor
 
 # Color palette used for the terminal ( ~/.Xresources file )
 # Colors are gathered based on the documentation:

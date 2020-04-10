@@ -9,12 +9,17 @@ call plug#begin('~/.vim/plugged')
     Plug 'octol/vim-cpp-enhanced-highlight'
     Plug 'rip-rip/clang_complete'
     Plug 'godlygeek/tabular'
-    Plug 'plasticboy/vim-markdown'
+"    Plug 'plasticboy/vim-markdown'
     Plug 'neoclide/coc.nvim' , {'branch': 'release'}
     Plug 'tpope/vim-surround'
     Plug 'Yggdroot/indentLine'
     Plug 'scrooloose/syntastic'
+    Plug 'vim-scripts/taglist.vim'
 
+    "lua
+    Plug 'xolox/vim-misc'
+    Plug 'xolox/vim-lua-inspect'
+    Plug 'xolox/vim-lua-ftplugin'
 call plug#end()
 "colemak
 noremap n j
@@ -31,6 +36,9 @@ noremap j e
 noremap J E
 
 imap jj <ESC>
+set nu
+set ts=4
+" set tw=4
 "color
 "colorscheme nord
 "colorscheme jellybeans
@@ -51,12 +59,8 @@ endif
 
 
 
-
-set nu
-set ts=4
-set tw=4
-set softtabstop=4
-set expandtab
-set autoindent
-set ruler
+" set softtabstop=4
+" set expandtab
+" set autoindent
+" set ruler
 
