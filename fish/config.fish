@@ -6,6 +6,15 @@ alias yss='yay -Ss'
 alias yr='yay -R'
 alias yr='yay -R'
 alias yu='yay -Syyu'
+alias ga='git add'
+alias gr='git rm'
+alias gu='git status'
+alias gm='git commit'
+alias gp='git push'
+alias gph='git push github'
+alias gpt='git push gitee'
+alias gl='git logs'
+alias gc='git checkout'
 
 function mkcd
     mkdir $argv
@@ -13,7 +22,7 @@ function mkcd
 end
 
 
-set EDITOR 'vim'
+set EDITOR 'neovim'
 set PATH $PATH /home/uniqueding/.local/bin /home/uniqueding/Android/Sdk/tools/bin
 set -U fish_key_bindings fish_vi_key_bindings
 
