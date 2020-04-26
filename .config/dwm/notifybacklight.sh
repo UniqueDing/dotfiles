@@ -7,5 +7,5 @@ elif [ $1 == 'down' ];then
 fi
 backlightSize=$(xbacklight | awk -F '.' '{print $1}')
 
-notify-send -t 800 "light $backlightSize"
+#notify-send -t 800 "light $backlightSize"
 

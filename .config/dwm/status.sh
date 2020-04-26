@@ -4,7 +4,7 @@ show(){
 	do
 		str=$(printf "C%2s M%2s T%2s F%2s V%2s L%2s B%3s $(date '+%H:%M')" $(cpu) $(memory) $(temperature) $(disk /home) $(volume) $(backlight) $(battery))
 		xsetroot -name "$str"
-		sleep 0.5
+		sleep 0.3
 	done
 }
 

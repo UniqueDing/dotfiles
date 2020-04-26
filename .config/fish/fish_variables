@@ -1,5 +1,9 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
+SETUVAR --export ZLUA_LUAEXE:/usr/bin/lua
+SETUVAR --export ZLUA_SCRIPT:/home/uniqueding/\x2elocal/share/omf/pkg/zlua/z\x2elua
+SETUVAR --export _ZL_DATA:/home/uniqueding/\x2elocal/share/zlua/zlua\x2etxt
+SETUVAR _ZL_DATA_DIR:/home/uniqueding/\x2elocal/share/zlua
 SETUVAR __fish_init_2_39_8:\x1d
 SETUVAR __fish_init_2_3_0:\x1d
 SETUVAR __fish_init_3_x:\x1d

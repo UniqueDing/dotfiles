@@ -1,5 +1,14 @@
 alias l ls
+alias s sudo
 alias ra ranger
+alias pS='pacman -S'
+alias pSs='pacman -Ss'
+alias pSyu='pacman -Syu'
+alias pR='pacman -R'
+alias pRs='pacman -Rs'
+alias pSi='pacman -Si'
+alias pQs='pacman -Qs'
+alias pQi='pacman -Qi'
 alias y yay
 alias ys='yay -S'
 alias yss='yay -Ss'
@@ -11,10 +20,12 @@ alias gr='git rm'
 alias gu='git status'
 alias gm='git commit'
 alias gp='git push'
+alias gpa='git push github & git push gitee'
 alias gph='git push github'
 alias gpt='git push gitee'
-alias gl='git logs'
+alias gl='git log'
 alias gc='git checkout'
+alias gd='git diff'
 
 function mkcd
     mkdir $argv
@@ -23,7 +34,7 @@ end
 
 
 set EDITOR 'neovim'
-set PATH $PATH /home/uniqueding/.local/bin /home/uniqueding/Android/Sdk/tools/bin
+set PATH $PATH /home/uniqueding/.local/bin /home/uniqueding/Android/Sdk/tools/bin /home/uniqueding/Github/flutter/bin
 set -U fish_key_bindings fish_vi_key_bindings
 
 function reverse_history_search

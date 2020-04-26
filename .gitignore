@@ -1,1 +1,16 @@
-__pycache__
+/*
+
+!/.gitignore
+!/README.md
+!/LICENSE
+!/.config
+/.config/*
+!/.config/nvim
+!/.config/dwm
+!/.config/ranger
+/.config/ranger/__pycache__
+/.config/ranger/plugins/__pycache__
+!/.config/dunst
+!/.config/fish
+!/.config/polybar
+!/.config/i3
