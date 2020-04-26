@@ -1,11 +1,12 @@
 alias l ls
 alias s sudo
 alias ra ranger
-alias pS='pacman -S'
+alias pS='sudo pacman -S'
 alias pSs='pacman -Ss'
-alias pSyu='pacman -Syu'
-alias pR='pacman -R'
-alias pRs='pacman -Rs'
+alias pSyu='sudo pacman -Syu'
+alias pSyyu='sudo pacman -Syyu'
+alias pR='sudo pacman -R'
+alias pRs='sudo pacman -Rs'
 alias pSi='pacman -Si'
 alias pQs='pacman -Qs'
 alias pQi='pacman -Qi'
