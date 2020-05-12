@@ -5,6 +5,7 @@ fcitx &
 nm-applet &
 variety &
 blueman-applet &
+redshift-gtk &
 #slstatus &
 xautolock -time 15 -locker slock &
 ~/.config/dwm/status.sh &
