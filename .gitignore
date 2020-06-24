@@ -4,6 +4,8 @@
 !/README.md
 !/LICENSE
 !/nvim
+/nvim/autoload
+/nvim/plugged
 !/dwm
 !/ranger
 /ranger/__pycache__

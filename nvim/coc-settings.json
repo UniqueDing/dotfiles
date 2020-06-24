@@ -1,0 +1,14 @@
+{
+	"$schema": "http://json-schema.org/draft-06/schema",
+    "description": "Configuration file for coc.nvim",
+  "  additionalProperties": false,
+	"definitions": {
+		"languageserver": {
+			"clangd": {
+			  "command": "clangd",
+			  "rootPatterns": ["compile_flags.txt", "compile_commands.json"],
+			  "filetypes": ["c", "cc", "cpp", "c++", "objc", "objcpp"]
+			}
+		  }
+	}
+}
