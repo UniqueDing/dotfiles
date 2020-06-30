@@ -149,3 +149,17 @@ augroup Smartf
   autocmd User SmartfLeave :hi Conceal ctermfg=239 guifg=#504945
 augroup end
 
+" coc-python
+" map <LEADER>r :CocCommand python.execInTerminal<CR>
+
+" C Compiler:
+autocmd FileType c nnoremap <LEADER>r :!gcc % && ./a.out <CR>
+
+" C++ Compiler
+autocmd FileType cpp nnoremap <LEADER>r :!g++ % && ./a.out <CR>
+
+" Python Interpreter
+autocmd FileType python nnoremap <LEADER>r :CocCommand python.execInTerminal <CR>
+
+" Bash script
+autocmd FileType sh nnoremap <LEADER>r :!sh % <CR>
