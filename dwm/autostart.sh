@@ -3,7 +3,7 @@ sed 's/breeze\b/bloom/' -i /home/uniqueding/.config/gtk-3.0/settings.ini
 sed 's/breeze\b/bloom/' -i /home/uniqueding/.gtkrc-2.0
 dunst &
 picom &
-fcitx &
+fcitx5 &
 nm-applet &
 variety &
 blueman-applet &

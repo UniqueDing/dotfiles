@@ -1,4 +1,5 @@
 alias l ls
+alias sf screenfetch
 alias s sudo
 alias ra ranger
 alias pS='sudo pacman -S'
