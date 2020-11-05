@@ -11,7 +11,6 @@ alias pRs='sudo pacman -Rs'
 alias pSi='pacman -Si'
 alias pQs='pacman -Qs'
 alias pQi='pacman -Qi'
-alias y yay
 alias yS='yay -S'
 alias ySs='yay -Ss'
 alias yR='yay -R'
@@ -28,13 +27,21 @@ alias gl='git log'
 alias gc='git checkout'
 alias gd='git diff'
 
+alias musiclake='/opt/musiclake/musiclake-224.38d4ca5-linux.AppImage > /dev/null 2>&1'
+alias v2ray_desktop='nohup /opt/v2ray-desktop/v2ray-desktop > /dev/null 2>&1 &'
+
+function aU
+	sudo apt update
+	sudo apt upgrade
+end
+
 function mkcd
     mkdir $argv
     cd $argv
 end
 
 
-set EDITOR 'neovim'
+set EDITOR 'nvim'
 set PATH $PATH /home/uniqueding/.local/bin /home/uniqueding/Android/Sdk/tools/bin /home/uniqueding/Github/flutter/bin
 set -U fish_key_bindings fish_vi_key_bindings
 

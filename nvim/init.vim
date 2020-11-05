@@ -24,6 +24,9 @@ set incsearch
 set tabstop=4
 set shiftwidth=4
 set scrolloff=4
+set cmdheight=2
+set hidden
+
 noremap <LEADER>h :nohlsearch<CR>
 noremap <LEADER>o o<ESC>
 noremap <LEADER>a a <ESC>
@@ -39,8 +42,12 @@ noremap <LEADER><LEADER> <Esc>/<++><CR>:nohlsearch<CR>c4l
 
 " plug
 call plug#begin('~/.vim/plugged')
+	"color"
     Plug 'arcticicestudio/nord-vim'
     Plug 'nanotech/jellybeans.vim'
+    Plug 'altercation/vim-colors-solarized'
+    Plug 'morhetz/gruvbox'
+
     Plug 'vim-airline/vim-airline'
     Plug 'scrooloose/nerdtree'
     Plug 'mhinz/vim-startify'
@@ -69,9 +76,36 @@ call plug#begin('~/.vim/plugged')
     " Plug 'xolox/vim-lua-ftplugin'
 call plug#end()
 
+"coc-extensions
+let g:coc_global_extensions = [
+	\ 'coc-tsserver',
+	\ 'coc-vimlsp',
+	\ 'coc-snippets',
+	\ 'coc-smartf',
+	\ 'coc-pairs',
+	\ 'coc-marketplace',
+	\ 'coc-lists',
+	\ 'coc-git',
+	\ 'coc-explorer',
+	\ 'coc-yaml',
+	\ 'coc-python',
+	\ 'coc-docker',
+	\ 'coc-cmake',
+	\ 'coc-java',
+	\ 'coc-html',
+	\ 'coc-css',
+	\ 'coc-lua',
+	\ 'coc-json',
+    \ 'coc-clangd'
+  \ ]
+
 "color
 "colorscheme nord
 "colorscheme jellybeans
+colorscheme gruvbox
+let g:gruvbox_bold = '1'
+
+hi Normal ctermfg=252 ctermbg=none
 
 " nerdtree
 map <A-t> :NERDTreeToggle<CR>
