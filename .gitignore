@@ -10,6 +10,8 @@
 !/ranger
 /ranger/__pycache__
 /ranger/plugins/__pycache__
+/ranger/*/*.pyo
+/ranger/*.pyo
 !/dunst
 !/fish
 !/polybar
