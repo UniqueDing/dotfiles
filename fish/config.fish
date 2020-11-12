@@ -17,12 +17,16 @@ alias yR='yay -R'
 alias ySyyu='yay -Syyu'
 alias bI='brew install'
 alias bcI='brew cask Install'
-alias bU='brew upgrade & brew upgrade --cask'
 alias bR='brew remove'
 alias bcR='brew cask remove'
 alias bS='brew search'
 alias bL='brew list'
 alias bF='brew info'
+alias aI='sudo apt install'
+alias aS='apt search'
+alias aR='sudo apt remove'
+alias aL='apt list'
+alias aH='apt show'
 alias ga='git add'
 alias gr='git rm'
 alias gu='git status'
@@ -37,6 +41,12 @@ alias gd='git diff'
 
 alias musiclake='/opt/musiclake/musiclake-224.38d4ca5-linux.AppImage > /dev/null 2>&1'
 alias v2ray_desktop='nohup /opt/v2ray-desktop/v2ray-desktop > /dev/null 2>&1 &'
+
+function bU
+	sudo brew update
+	sudo brew upgrade
+	sudo brew upgrade --cask
+end
 
 function aU
 	sudo apt update
