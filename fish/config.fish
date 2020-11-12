@@ -2,6 +2,7 @@ alias l ls
 alias sf screenfetch
 alias s sudo
 alias ra ranger
+
 alias pS='sudo pacman -S'
 alias pSs='pacman -Ss'
 alias pSyu='sudo pacman -Syu'
@@ -15,6 +16,7 @@ alias yS='yay -S'
 alias ySs='yay -Ss'
 alias yR='yay -R'
 alias ySyyu='yay -Syyu'
+
 alias bI='brew install'
 alias bcI='brew cask Install'
 alias bR='brew remove'
@@ -22,17 +24,33 @@ alias bcR='brew cask remove'
 alias bS='brew search'
 alias bL='brew list'
 alias bF='brew info'
+function bU
+	sudo brew update
+	sudo brew upgrade
+	sudo brew upgrade --cask
+end
+
 alias aI='sudo apt install'
 alias aS='apt search'
 alias aR='sudo apt remove'
 alias aL='apt list'
 alias aH='apt show'
+function aU
+	sudo apt update
+	sudo apt upgrade
+end
+
 alias ga='git add'
 alias gr='git rm'
 alias gu='git status'
 alias gm='git commit'
-alias gp='git push'
-alias gpa='git push github & git push gitee'
+alias gp='git pull'
+function gpa
+	git push origin
+	git push github
+	git push gitee
+end
+alias gho='git push origin'
 alias gph='git push github'
 alias gpt='git push gitee'
 alias gl='git log'
@@ -42,16 +60,6 @@ alias gd='git diff'
 alias musiclake='/opt/musiclake/musiclake-224.38d4ca5-linux.AppImage > /dev/null 2>&1'
 alias v2ray_desktop='nohup /opt/v2ray-desktop/v2ray-desktop > /dev/null 2>&1 &'
 
-function bU
-	sudo brew update
-	sudo brew upgrade
-	sudo brew upgrade --cask
-end
-
-function aU
-	sudo apt update
-	sudo apt upgrade
-end
 
 function mkcd
     mkdir $argv
