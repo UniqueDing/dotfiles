@@ -58,7 +58,7 @@ noremap <LEADER>fk <C-w>t<C-w>K
 noremap <LEADER>fv <C-w>t<C-w>H
 " Press <SPACE> + q to close the window below the current window
 noremap <LEADER>q <C-w>j:q<CR>
-        
+
 noremap <LEADER>ww <C-w>w
 noremap <LEADER>we <C-w>k
 noremap <LEADER>wn <C-w>j
@@ -68,68 +68,80 @@ noremap <LEADER>wi <C-w>l
 
 " plug
 call plug#begin('~/.vim/plugged')
-	"color"
-    Plug 'arcticicestudio/nord-vim'
-    Plug 'nanotech/jellybeans.vim'
-    Plug 'altercation/vim-colors-solarized'
-    Plug 'morhetz/gruvbox'
+"color"
+Plug 'arcticicestudio/nord-vim'
+Plug 'nanotech/jellybeans.vim'
+Plug 'altercation/vim-colors-solarized'
+Plug 'morhetz/gruvbox'
 
-	Plug 'lambdalisue/suda.vim'
+Plug 'lambdalisue/suda.vim'
 
-    Plug 'vim-airline/vim-airline'
-    " Plug 'scrooloose/nerdtree'
-    Plug 'mhinz/vim-startify'
-	Plug 'tpope/vim-commentary'
-    " Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
-    Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-    " Plug 'octol/vim-cpp-enhanced-highlight'
-    " Plug 'rip-rip/clang_complete'
+Plug 'vim-airline/vim-airline'
+" Plug 'scrooloose/nerdtree'
+Plug 'mhinz/vim-startify'
+Plug 'tpope/vim-commentary'
+" Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+" Plug 'octol/vim-cpp-enhanced-highlight'
+" Plug 'rip-rip/clang_complete'
 
-	"markdown
-    Plug 'godlygeek/tabular'
-    " Plug 'plasticboy/vim-markdown'
-	" Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
-	Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
-	Plug 'cespare/vim-toml'
+"markdown
+Plug 'godlygeek/tabular'
+" Plug 'plasticboy/vim-markdown'
+" Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
+Plug 'cespare/vim-toml'
 
-    Plug 'neoclide/coc.nvim' , {'branch': 'release'}
-    Plug 'tpope/vim-surround'
-	Plug 'gcmt/wildfire.vim'
-    Plug 'Yggdroot/indentLine'
-    Plug 'scrooloose/syntastic'
-    " Plug 'vim-scripts/taglist.vim'
-	Plug 'junegunn/fzf.vim'
-	Plug 'liuchengxu/vista.vim'
-	Plug 'puremourning/vimspector'
-	Plug 'junegunn/vim-easy-align'
+Plug 'neoclide/coc.nvim' , {'branch': 'release'}
+Plug 'tpope/vim-surround'
+Plug 'gcmt/wildfire.vim'
+Plug 'Yggdroot/indentLine'
+Plug 'scrooloose/syntastic'
+" Plug 'vim-scripts/taglist.vim'
+Plug 'junegunn/fzf.vim'
+Plug 'liuchengxu/vista.vim'
+Plug 'puremourning/vimspector'
+Plug 'junegunn/vim-easy-align'
 
-	Plug 'puremourning/vimspector'
+Plug 'puremourning/vimspector'
+Plug 'brooth/far.vim', { 'on': ['F', 'Far', 'Fardo'] }
+
+Plug 'Chiel92/vim-autoformat'
+
+Plug 'mbbill/undotree'
+
+Plug 'luochen1990/rainbow'
+Plug 'mg979/vim-xtabline'
+
+Plug 'RRethy/vim-hexokinase', { 'do': 'make hexokinase' }
+Plug 'RRethy/vim-illuminate'
+
 
 call plug#end()
 
 "coc-extensions
 let g:coc_global_extensions = [
-	\ 'coc-tsserver',
-	\ 'coc-vimlsp',
-	\ 'coc-snippets',
-	\ 'coc-smartf',
-	\ 'coc-pairs',
-	\ 'coc-marketplace',
-	\ 'coc-lists',
-	\ 'coc-git',
-	\ 'coc-explorer',
-	\ 'coc-yaml',
-	\ 'coc-python',
-	\ 'coc-docker',
-	\ 'coc-cmake',
-	\ 'coc-java',
-	\ 'coc-html',
-	\ 'coc-css',
-	\ 'coc-lua',
-	\ 'coc-json',
-    \ 'coc-clangd',
-	\ 'coc-translator'
-  \ ]
+			\ 'coc-tsserver',
+			\ 'coc-vimlsp',
+			\ 'coc-snippets',
+			\ 'coc-smartf',
+			\ 'coc-pairs',
+			\ 'coc-marketplace',
+			\ 'coc-lists',
+			\ 'coc-git',
+			\ 'coc-explorer',
+			\ 'coc-yaml',
+			\ 'coc-python',
+			\ 'coc-docker',
+			\ 'coc-cmake',
+			\ 'coc-java',
+			\ 'coc-html',
+			\ 'coc-css',
+			\ 'coc-lua',
+			\ 'coc-json',
+			\ 'coc-clangd',
+			\ 'coc-translator'
+			\ ]
 
 "color
 "colorscheme nord
@@ -170,8 +182,8 @@ let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 
 " use <tab> for trigger completion and navigate to the next complete item
 function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
+	let col = col('.') - 1
+	return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
 
 inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
@@ -179,14 +191,14 @@ inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 " inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
 inoremap <silent><expr> <TAB>
-      \	pumvisible() ? "\<C-n>"  :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+			\	pumvisible() ? "\<C-n>"  :
+			\ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+			\ <SID>check_back_space() ? "\<TAB>" :
+			\ coc#refresh()
 
 function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+	let col = col('.') - 1
+	return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
 " Highlight the symbol and its references when holding the cursor.
@@ -206,6 +218,7 @@ xmap <silent> <C-d> <Plug>(coc-cursors-range)
 nnoremap <silent><nowait> <LEADER>dd :CocList diagnostics<cr>
 nmap <silent> <LEADER>de <Plug>(coc-diagnostic-prev)
 nmap <silent> <LEADER>dn <Plug>(coc-diagnostic-next)
+nmap <Leader>dj :CocList --input= -I symbols<left><left><left><left><left><left><left><left><left><left><left>
 
 " coc-explorer
 :nmap <LEADER>e :CocCommand explorer<CR>
@@ -220,12 +233,15 @@ nmap <silent> <LEADER>dn <Plug>(coc-diagnostic-next)
 " nmap , <Plug>(coc-smartf-repeat-opposite)
 
 augroup Smartf
-  autocmd User SmartfEnter :hi Conceal ctermfg=220 guifg=#6638F0
-  autocmd User SmartfLeave :hi Conceal ctermfg=239 guifg=#504945
+	autocmd User SmartfEnter :hi Conceal ctermfg=220 guifg=#6638F0
+	autocmd User SmartfLeave :hi Conceal ctermfg=239 guifg=#504945
 augroup end
 
 " coc-python
 " map <LEADER>r :CocCommand python.execInTerminal<CR>
+"
+" coc-clangd
+map <Leader>mcs :CocCommand clangd.switchSourceHeader<CR>
 
 " C Compiler:
 autocmd FileType c nnoremap <LEADER>r :!gcc % && ./a.out <CR>
@@ -252,21 +268,21 @@ let g:fzf_preview_window = 'right:60%'
 let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
 
 function! s:list_buffers()
-  redir => list
-  silent ls
-  redir END
-  return split(list, "\n")
+	redir => list
+	silent ls
+	redir END
+	return split(list, "\n")
 endfunction
 
 function! s:delete_buffers(lines)
-  execute 'bwipeout' join(map(a:lines, {_, line -> split(line)[0]}))
+	execute 'bwipeout' join(map(a:lines, {_, line -> split(line)[0]}))
 endfunction
 
 command! BD call fzf#run(fzf#wrap({
-  \ 'source': s:list_buffers(),
-  \ 'sink*': { lines -> s:delete_buffers(lines) },
-  \ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
-\ }))
+			\ 'source': s:list_buffers(),
+			\ 'sink*': { lines -> s:delete_buffers(lines) },
+			\ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
+			\ }))
 
 noremap <Leader>fd :BD<CR>
 
@@ -299,7 +315,7 @@ nmap ga <Plug>(EasyAlign)
 
 " vista
 function! NearestMethodOrFunction() abort
-  return get(b:, 'vista_nearest_method_or_function', '')
+	return get(b:, 'vista_nearest_method_or_function', '')
 endfunction
 
 set statusline+=%{NearestMethodOrFunction()}
@@ -310,25 +326,53 @@ set statusline+=%{NearestMethodOrFunction()}
 " you can add the following line to your vimrc
 autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
 let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'readonly', 'filename', 'modified', 'method' ] ]
-      \ },
-      \ 'component_function': {
-      \   'method': 'NearestMethodOrFunction'
-      \ },
-      \ }
+			\ 'colorscheme': 'wombat',
+			\ 'active': {
+			\   'left': [ [ 'mode', 'paste' ],
+			\             [ 'readonly', 'filename', 'modified', 'method' ] ]
+			\ },
+			\ 'component_function': {
+			\   'method': 'NearestMethodOrFunction'
+			\ },
+			\ }
 let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
 let g:vista_default_executive = 'coc'
 let g:vista_fzf_preview = ['right:50%']
 let g:vista#renderer#enable_icon = 1
 let g:vista#renderer#icons = {
-\   "function": "\uf794",
-\   "variable": "\uf71b",
-\  }
+			\   "function": "\uf794",
+			\   "variable": "\uf71b",
+			\  }
 nmap <Leader>v :Vista!!<cr>
 
 " suda
 cnoreabbrev sudowrite w suda://%
 cnoreabbrev sw w suda://%
+
+" far
+noremap <Leader>f :F  **/*<left><left><left><left><left>
+let g:far#mapping = {
+			\ "replace_undo" : ["l"],
+			\ }
+
+" hexokinase
+let g:Hexokinase_highlighters = ['sign_column']
+
+" rainbow
+let g:rainbow_active = 1
+
+" vim-illuminate
+let g:Illuminate_delay = 500
+hi illuminatedWord cterm=undercurl gui=undercurl
+
+" autoformat
+noremap <Leader>a :Autoformat<CR>
+
+" undotree
+noremap <Leader>u :UndotreeToggle<CR>
+function g:Undotree_CustomMap()
+	nmap <buffer> n <plug>UndotreeNextState
+	nmap <buffer> e <plug>UndotreePreviousState
+	nmap <buffer> N 5<plug>UndotreeNextState
+	nmap <buffer> E 5<plug>UndotreePreviousState
+endfunc
