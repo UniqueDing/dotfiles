@@ -48,14 +48,14 @@ noremap <A-left> :vertical resize-5<CR>
 noremap <A-right> :vertical resize+5<CR>
 
 " split the screens to up (horizontal), down (horizontal), left (vertical), right (vertical)
-noremap <LEADER>se :set nosplitbelow<CR>:split<CR>:set splitbelow<CR>
-noremap <LEADER>sn :set splitbelow<CR>:split<CR>
-noremap <LEADER>sh :set nosplitright<CR>:vsplit<CR>:set splitright<CR>
-noremap <LEADER>si :set splitright<CR>:vsplit<CR>
+noremap <LEADER>fe :set nosplitbelow<CR>:split<CR>:set splitbelow<CR>
+noremap <LEADER>fn :set splitbelow<CR>:split<CR>
+noremap <LEADER>fh :set nosplitright<CR>:vsplit<CR>:set splitright<CR>
+noremap <LEADER>fi :set splitright<CR>:vsplit<CR>
 " Place the two screens up and down
-noremap <LEADER>sk <C-w>t<C-w>K
+noremap <LEADER>fk <C-w>t<C-w>K
 " Place the two screens side by side
-noremap <LEADER>sv <C-w>t<C-w>H
+noremap <LEADER>fv <C-w>t<C-w>H
 " Press <SPACE> + q to close the window below the current window
 noremap <LEADER>q <C-w>j:q<CR>
         

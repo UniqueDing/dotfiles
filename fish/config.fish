@@ -18,7 +18,7 @@ alias yR='yay -R'
 alias ySyyu='yay -Syyu'
 
 alias bI='brew install'
-alias bcI='brew cask Install'
+alias bcI='brew cask install'
 alias bR='brew remove'
 alias bcR='brew cask remove'
 alias bS='brew search'
