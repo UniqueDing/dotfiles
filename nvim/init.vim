@@ -102,6 +102,9 @@ call plug#begin('~/.vim/plugged')
 	Plug 'liuchengxu/vista.vim'
 	Plug 'puremourning/vimspector'
 	Plug 'junegunn/vim-easy-align'
+
+	Plug 'puremourning/vimspector'
+
 call plug#end()
 
 "coc-extensions
@@ -146,11 +149,16 @@ map <A-t> :NERDTreeToggle<CR>
 " let g:vim_markdown_toml_frontmatter = 1
 " noremap <LEADER>t :Toc<CR>
 
-noremap <LEADER>p :MarkdownPreview<CR>
+" noremap <LEADER>p <Plug>MarkdownPreviewToggle
+nmap <LEADER>p <Plug>MarkdownPreviewToggle
 " let g:mkdp_browser = '"Firefox" --args --new-window'
 
 function! g:Open_browser(url)
-    silent exec "!google-chrome-stable --new-window " . a:url
+	if has("mac")
+		silent exec '!open -na "Google Chrome" --args --new-window ' . a:url
+	else
+		silent exec "!google-chrome-stable --new-window " . a:url
+	endif
 endfunction
 let g:mkdp_browserfunc = 'g:Open_browser'
 
