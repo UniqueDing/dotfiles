@@ -14,7 +14,7 @@ noremap j e
 noremap J E
 noremap ; :
 
-imap jj <ESC>
+" imap jj <ESC>
 set nu
 set relativenumber
 set showcmd
@@ -153,7 +153,7 @@ let g:gruvbox_bold = '1'
 hi Normal ctermfg=252 ctermbg=none
 
 " nerdtree
-map <A-t> :NERDTreeToggle<CR>
+" map <A-t> :NERDTreeToggle<CR>
 
 
 " markdown
@@ -190,7 +190,7 @@ endfunction
 inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
 " inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 inoremap <silent><expr> <TAB>
 			\	pumvisible() ? "\<C-n>"  :
 			\ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
