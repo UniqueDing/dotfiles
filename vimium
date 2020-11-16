@@ -1,0 +1,12 @@
+# Insert your preferred key mappings here.
+map e scrollUp
+map n scrollDown
+map h scrollLeft
+map i scrollRight
+map l enterInsertMode
+map H goBack
+map I goForward
+map N previousTab
+map E nextTab
+map k performFind
+map K performBackwardsFind
