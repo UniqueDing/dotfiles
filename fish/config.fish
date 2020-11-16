@@ -2,6 +2,7 @@ alias l ls
 alias sf screenfetch
 alias s sudo
 alias ra ranger
+alias gdb 'gdb -q'
 
 alias pS='sudo pacman -S'
 alias pSs='pacman -Ss'

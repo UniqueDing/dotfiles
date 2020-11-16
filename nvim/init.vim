@@ -116,6 +116,7 @@ Plug 'mg979/vim-xtabline'
 Plug 'RRethy/vim-hexokinase', { 'do': 'make hexokinase' }
 Plug 'RRethy/vim-illuminate'
 
+Plug 'pechorin/any-jump.vim'
 
 call plug#end()
 
@@ -241,7 +242,7 @@ augroup end
 " map <LEADER>r :CocCommand python.execInTerminal<CR>
 "
 " coc-clangd
-map <Leader>mcs :CocCommand clangd.switchSourceHeader<CR>
+map <Leader>ms :CocCommand clangd.switchSourceHeader<CR>
 
 " C Compiler:
 autocmd FileType c nnoremap <LEADER>r :!gcc % && ./a.out <CR>
@@ -376,3 +377,17 @@ function g:Undotree_CustomMap()
 	nmap <buffer> N 5<plug>UndotreeNextState
 	nmap <buffer> E 5<plug>UndotreePreviousState
 endfunc
+
+" anyjump
+" Normal mode: Jump to definition under cursore
+nnoremap <leader>j :AnyJump<CR>
+
+" Visual mode: jump to selected text in visual mode
+xnoremap <leader>j :AnyJumpVisual<CR>
+
+" Normal mode: open previous opened file (after jump)
+nnoremap <leader>jb :AnyJumpBack<CR>
+
+" Normal mode: open last closed search window again
+nnoremap <leader>jl :AnyJumpLastResults<CR>
+
