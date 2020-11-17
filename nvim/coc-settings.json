@@ -89,5 +89,6 @@
 		"]c": "gitNext",
 		"<<": "gitStage",
 		">>": "gitUnstage"
-	}
+  },
+  "clangd.path": "/home/uniqueding/.config/coc/extensions/coc-clangd-data/install/11.0.0/clangd_11.0.0/bin/clangd"
 }

@@ -77,6 +77,8 @@ Plug 'morhetz/gruvbox'
 Plug 'lambdalisue/suda.vim'
 
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
 " Plug 'scrooloose/nerdtree'
 Plug 'mhinz/vim-startify'
 Plug 'tpope/vim-commentary'
@@ -111,7 +113,7 @@ Plug 'Chiel92/vim-autoformat'
 Plug 'mbbill/undotree'
 
 Plug 'luochen1990/rainbow'
-Plug 'mg979/vim-xtabline'
+" Plug 'mg979/vim-xtabline'
 
 Plug 'RRethy/vim-hexokinase', { 'do': 'make hexokinase' }
 Plug 'RRethy/vim-illuminate'
@@ -151,6 +153,11 @@ colorscheme gruvbox
 let g:gruvbox_bold = '1'
 
 hi Normal ctermfg=252 ctermbg=none
+
+" airline
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_theme="bubblegum"
+let g:airline_powerline_fonts = 1
 
 " nerdtree
 " map <A-t> :NERDTreeToggle<CR>
@@ -228,10 +235,10 @@ nmap <Leader>dj :CocList --input= -I symbols<left><left><left><left><left><left>
 
 " coc-smartf
 " " press <esc> to cancel.
-" nmap f <Plug>(coc-smartf-forward)
-" nmap F <Plug>(coc-smartf-backward)
-" nmap , <Plug>(coc-smartf-repeat)
-" nmap , <Plug>(coc-smartf-repeat-opposite)
+nmap f <Plug>(coc-smartf-forward)
+nmap F <Plug>(coc-smartf-backward)
+nmap , <Plug>(coc-smartf-repeat)
+nmap , <Plug>(coc-smartf-repeat-opposite)
 
 augroup Smartf
 	autocmd User SmartfEnter :hi Conceal ctermfg=220 guifg=#6638F0

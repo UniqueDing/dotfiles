@@ -12,8 +12,11 @@
 /ranger/plugins/__pycache__
 /ranger/*/*.pyo
 /ranger/*.pyo
+/ranger/bookmarks
+/ranger/history
+/ranger/tagged
 !/dunst
-!/fish
+!/fish/config.fish
 !/polybar
 !/i3
 !/vimium
