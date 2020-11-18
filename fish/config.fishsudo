@@ -1,0 +1,16 @@
+function ra
+    ranger $argv
+end
+
+function mkcd
+    mkdir $argv
+    cd $argv
+end
+
+function l
+    ls --color=auto $argv
+end
+
+set EDITOR 'vim'
+set -U fish_key_bindings fish_vi_key_bindings
+$_ZL_ECHO = 1

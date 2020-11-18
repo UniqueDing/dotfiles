@@ -16,7 +16,7 @@
 /ranger/history
 /ranger/tagged
 !/dunst
-!/fish/config.fish
+!/fish
 !/polybar
 !/i3
 !/vimium
