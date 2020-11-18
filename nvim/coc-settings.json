@@ -42,7 +42,6 @@
     "list.previewHighlightGroup": "Statement",
 	"list.nextKeymap": "<C-n>",
     "list.previousKeymap": "<C-e>",
-    "explorer.indent.indentLine": true,
 	"explorer.file.showHiddenFiles": true,
 	"explorer.icon.enableNerdfont": true,
 	"explorer.git.showIgnored": true,

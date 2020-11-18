@@ -48,14 +48,14 @@ noremap <A-left> :vertical resize-5<CR>
 noremap <A-right> :vertical resize+5<CR>
 
 " split the screens to up (horizontal), down (horizontal), left (vertical), right (vertical)
-noremap <LEADER>fe :set nosplitbelow<CR>:split<CR>:set splitbelow<CR>
-noremap <LEADER>fn :set splitbelow<CR>:split<CR>
-noremap <LEADER>fh :set nosplitright<CR>:vsplit<CR>:set splitright<CR>
-noremap <LEADER>fi :set splitright<CR>:vsplit<CR>
+noremap <LEADER>ve :set nosplitbelow<CR>:split<CR>:set splitbelow<CR>
+noremap <LEADER>vn :set splitbelow<CR>:split<CR>
+noremap <LEADER>vh :set nosplitright<CR>:vsplit<CR>:set splitright<CR>
+noremap <LEADER>vi :set splitright<CR>:vsplit<CR>
 " Place the two screens up and down
-noremap <LEADER>fk <C-w>t<C-w>K
+noremap <LEADER>vk <C-w>t<C-w>K
 " Place the two screens side by side
-noremap <LEADER>fv <C-w>t<C-w>H
+noremap <LEADER>vv <C-w>t<C-w>H
 " Press <SPACE> + q to close the window below the current window
 noremap <LEADER>q <C-w>j:q<CR>
 
@@ -195,6 +195,7 @@ function! s:check_back_space() abort
 endfunction
 
 inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+inoremap <silent><expr> <c-space> coc#refresh()
 
 " inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
@@ -212,9 +213,9 @@ endfunction
 " Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
-" Formatting selected code.
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
+" " Formatting selected code.
+" xmap <leader>f  <Plug>(coc-format-selected)
+" nmap <leader>f  <Plug>(coc-format-selected)
 
 let g:coc_snippet_next = '<tab>'
 
@@ -374,7 +375,7 @@ let g:Illuminate_delay = 500
 hi illuminatedWord cterm=undercurl gui=undercurl
 
 " autoformat
-noremap <Leader>a :Autoformat<CR>
+noremap <Leader>mf :Autoformat<CR>
 
 " undotree
 noremap <Leader>u :UndotreeToggle<CR>
