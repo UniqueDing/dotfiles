@@ -256,7 +256,7 @@ map <Leader>ms :CocCommand clangd.switchSourceHeader<CR>
 autocmd FileType c nnoremap <LEADER>r :!gcc % && ./a.out <CR>
 
 " C++ Compiler
-autocmd FileType cpp nnoremap <LEADER>r :!g++ % && ./a.out <CR>
+autocmd FileType cpp nnoremap <LEADER>r :!g++ -pthread % && ./a.out <CR>
 
 " Python Interpreter
 autocmd FileType python nnoremap <LEADER>r :CocCommand python.execInTerminal <CR>
