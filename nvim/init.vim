@@ -26,6 +26,7 @@ set shiftwidth=4
 set scrolloff=4
 set cmdheight=2
 set hidden
+set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312
 
 noremap <LEADER>h :nohlsearch<CR>
 noremap <LEADER>o o<ESC>
@@ -65,7 +66,7 @@ noremap <LEADER>wn <C-w>j
 noremap <LEADER>wh <C-w>h
 noremap <LEADER>wi <C-w>l
 
-
+if filereadable(expand('~/.vim/autoload/plug.vim'))
 " plug
 call plug#begin('~/.vim/plugged')
 "color"
@@ -399,3 +400,4 @@ nnoremap <leader>jb :AnyJumpBack<CR>
 " Normal mode: open last closed search window again
 nnoremap <leader>jl :AnyJumpLastResults<CR>
 
+endif
