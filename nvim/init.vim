@@ -33,20 +33,34 @@ noremap <LEADER>o o<ESC>
 noremap <LEADER>a a <ESC>
 noremap <LEADER>l i <ESC>
 
-noremap <A-n> 5j
-noremap <A-e> 5k
-noremap <A-h> 0
-noremap <A-i> $
+if has('nvim')
+	noremap <A-n> 5j
+	noremap <A-e> 5k
+	noremap <A-h> 0
+	noremap <A-i> $
+
+	" Resize splits with arrow keys
+	noremap <A-up> :res -5<CR>
+	noremap <A-down> :res +5<CR>
+	noremap <A-left> :vertical resize-5<CR>
+	noremap <A-right> :vertical resize+5<CR>
+else
+	noremap n 5j
+	noremap e 5k
+	noremap h 0
+	noremap i $
+
+	" Resize splits with arrow keys
+	" noremap <Up> :res -5<CR>
+	" noremap <Down> :res +5<CR>
+	" noremap <Left> :vertical resize-5<CR>
+	" noremap <Right> :vertical resize+5<CR>
+endif
+
 
 " Press twice to jump to the next '<++>' and edit it
 noremap <LEADER><LEADER> <Esc>/<++><CR>:nohlsearch<CR>c4l
 
-
-" Resize splits with arrow keys
-noremap <A-up> :res -5<CR>
-noremap <A-down> :res +5<CR>
-noremap <A-left> :vertical resize-5<CR>
-noremap <A-right> :vertical resize+5<CR>
 
 " split the screens to up (horizontal), down (horizontal), left (vertical), right (vertical)
 noremap <LEADER>ve :set nosplitbelow<CR>:split<CR>:set splitbelow<CR>
