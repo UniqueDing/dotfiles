@@ -6,6 +6,7 @@
 !/nvim
 /nvim/autoload
 /nvim/plugged
+/nvim/.netrwhist
 !/dwm
 !/ranger
 /ranger/__pycache__
@@ -21,4 +22,4 @@
 !/i3
 !/vimium
 !/zathura
-!/fcitx5
+!/.zshrc
