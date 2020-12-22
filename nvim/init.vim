@@ -192,7 +192,7 @@ function! g:Open_browser(url)
 	if has("mac")
 		silent exec '!open -na "Google Chrome" --args --new-window ' . a:url
 	else
-		silent exec "!google-chrome-stable --new-window " . a:url
+		silent exec "!chromium --new-window " . a:url
 	endif
 endfunction
 let g:mkdp_browserfunc = 'g:Open_browser'

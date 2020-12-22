@@ -43,24 +43,48 @@ zinit light romkatv/powerlevel10k
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 
-zinit ice lucid wait='1'
-zinit light skywind3000/z.lua
-zinit ice lucid wait='0' atinit='zpcompinit'
-zinit light zdharma/fast-syntax-highlighting
-zinit ice lucid wait="0" atload='_zsh_autosuggest_start'
-zinit light zsh-users/zsh-autosuggestions
-zinit ice lucid wait='0'
-zinit light zsh-users/zsh-completions
+## Fast-syntax-highlighting & autosuggestions
+zinit wait lucid for \
+ atinit"ZINIT[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay" \
+    zdharma/fast-syntax-highlighting \
+ atload"!_zsh_autosuggest_start" \
+    zsh-users/zsh-autosuggestions \
+ blockf \
+    zsh-users/zsh-completions 
+
+# zlua
+zinit wait='1' lucid light-mode for \
+	skywind3000/z.lua \
+	wfxr/forgit
+
+# zsh-autopair
+# fzf-marks, at slot 0, for quick Ctrl-G accessibility
+zinit wait lucid for \
+    hlissner/zsh-autopair \
+    urbainvaes/fzf-marks
+    
+# oh-my-zsh
+zinit wait="1" lucid for \
+    OMZ::lib/git.zsh \
+    OMZ::plugins/sudo/sudo.plugin.zsh
+
+# zinit ice lucid wait='0'
+# zinit light Aloxaf/fzf-tab
 zinit ice depth=1; 
 zinit light romkatv/powerlevel10k
 
+# thefuck
 eval $(thefuck --alias)
 
+# default
+export EDITOR=nvim
 
+# alias
 alias ra=ranger
-alias ls="ls --color=auto"
-alias ll="ls -l"
-alias lla="ls -la"
+alias ls="exa --icons"
+alias l=ls
+alias ll="ls -lHg --git"
+alias lla="ll -a"
 alias ...="cd ../.."
 function mkcd(){
 	mkdir $1
@@ -80,3 +104,27 @@ alias yS='yay -S'
 alias ySs='yay -Ss'
 alias yR='yay -R'
 alias ySyyu='yay -Syyu'
+
+alias bI='brew install'
+alias bcI='brew cask install'
+alias bR='brew remove'
+alias bcR='brew cask remove'
+alias bS='brew search'
+alias bL='brew list'
+alias bF='brew info'
+function bU(){
+    sudo brew update
+    sudo brew upgrade
+    sudo brew upgrade --cask
+}
+
+alias aI='sudo apt install'
+alias aS='apt search'
+alias aR='sudo apt remove'
+alias aL='apt list'
+alias aH='apt show'
+function aU(){
+    sudo apt update
+    sudo apt upgrade
+}
+
