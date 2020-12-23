@@ -113,9 +113,9 @@ alias bS='brew search'
 alias bL='brew list'
 alias bF='brew info'
 function bU(){
-	sudo brew update
-	sudo brew upgrade
-	sudo brew upgrade --cask
+	brew update
+	brew upgrade
+	brew upgrade --cask
 }
 
 alias aI='sudo apt install'
