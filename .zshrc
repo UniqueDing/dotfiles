@@ -78,17 +78,34 @@ eval $(thefuck --alias)
 
 # default
 export EDITOR=nvim
+SAVEHIST=10000
+HISTFILE=~/.zsh_history
 
 # alias
+
+alias s=sudo
+alias se=sudoedit
 alias ra=ranger
-alias ls="exa --icons"
+alias ls='exa --icons'
 alias l=ls
-alias ll="ls -lHg --git"
-alias lla="ll -a"
-alias ...="cd ../.."
+alias ll='ls -lHg --git'
+alias lla='ll -a'
+alias ...='cd ../..'
 function mkcd(){
 	mkdir $1
 	cd $1
+}
+
+function fzfh(){
+	cd ~
+	fzf
+	cd - > /dev/null
+}
+
+function fzfr(){
+	cd /
+	sudo fzf
+	cd - > /dev/null
 }
 
 alias pS='sudo pacman -S'

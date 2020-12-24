@@ -70,7 +70,7 @@ noremap <LEADER>vi :set splitright<CR>:vsplit<CR>
 " Place the two screens up and down
 noremap <LEADER>vk <C-w>t<C-w>K
 " Place the two screens side by side
-noremap <LEADER>vv <C-w>t<C-w>H
+noremap <LEADER>vs <C-w>t<C-w>H
 " Press <SPACE> + q to close the window below the current window
 noremap <LEADER>q <C-w>j:q<CR>
 
@@ -367,7 +367,7 @@ let g:vista#renderer#icons = {
 			\   "function": "\uf794",
 			\   "variable": "\uf71b",
 			\  }
-nmap <Leader>v :Vista!!<cr>
+nmap <Leader>vv :Vista!!<cr>
 
 " suda
 cnoreabbrev sudowrite w suda://%
