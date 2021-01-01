@@ -2,9 +2,9 @@
 show(){
 	while :
 	do
-		str=$(printf "C%2s M%2s T%2s F%2s V%2s L%2s B%3s $(date '+%H:%M')" $(cpu) $(memory) $(temperature) $(disk /home) $(volume) $(backlight) $(battery))
+		str=$(printf " %s C%2s M%2s T%2s F%2s V%2s L%2s B%3s $(date '+%m/%d %H:%M')" $(netspeed wlp2s0) $(cpu) $(memory) $(temperature) $(disk /home) $(volume) $(backlight) $(battery))
 		xsetroot -name "$str"
-		sleep 0.1
+		# sleep 0.1
 	done
 }
 
@@ -62,6 +62,36 @@ battery(){
 		batteryStatus="="
 	fi
 	check $batteryRate$batteryStatus
+}
+
+netspeed(){
+	eth=$1
+	RXpre=$(cat /proc/net/dev | grep $eth | tr : " " | awk '{print $2}')
+	TXpre=$(cat /proc/net/dev | grep $eth | tr : " " | awk '{print $10}')
+	sleep 0.5
+	RXnext=$(cat /proc/net/dev | grep $eth | tr : " " | awk '{print $2}')
+	TXnext=$(cat /proc/net/dev | grep $eth | tr : " " | awk '{print $10}')
+	#clear
+	RX=$[(${RXnext}-${RXpre})*2]
+	TX=$[(${TXnext}-${TXpre})*2]
+
+	if [[ $RX -lt 1024 ]];then
+		RX=$(printf "%3.2fB" ${RX})
+	elif [[ $RX -gt 1048576 ]];then
+		RX=$(printf "%3.2fM" $(echo $RX | awk '{print $1/1048576}'))
+	else
+		RX=$(printf "%3.2fK" $(echo $RX | awk '{print $1/1024}'))
+	fi
+
+	if [[ $TX -lt 1024 ]];then
+		TX=$(printf "%3.2fB" ${TX})
+	elif [[ $TX -gt 1048576 ]];then
+		TX=$(printf "%3.2fM" $(echo $TX | awk '{print $1/1048576}'))
+	else
+		TX=$(printf "%3.2fK" $(echo $TX | awk '{print $1/1024}'))
+	fi
+
+	check ${RX}/${TX}
 }
 
 check(){

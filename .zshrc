@@ -78,8 +78,9 @@ eval $(thefuck --alias)
 
 # default
 export EDITOR=nvim
-SAVEHIST=10000
 HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
 
 # alias
 
@@ -90,23 +91,15 @@ alias ls='exa --icons'
 alias l=ls
 alias ll='ls -lHg --git'
 alias lla='ll -a'
+alias ..='cd ..'
 alias ...='cd ../..'
 function mkcd(){
 	mkdir $1
 	cd $1
 }
-
-function fzfh(){
-	cd ~
-	fzf
-	cd - > /dev/null
-}
-
-function fzfr(){
-	cd /
-	sudo fzf
-	cd - > /dev/null
-}
+alias fzfh='cd ~ && { fzf ; cd - > /dev/null }'
+alias fzfr='cd / && { sudo fzf ; cd - > /dev/null }'
+alias cdl='~/.config/dwm/dark-light.sh'
 
 alias pS='sudo pacman -S'
 alias pSs='pacman -Ss'
@@ -129,27 +122,27 @@ alias bcR='brew cask remove'
 alias bS='brew search'
 alias bL='brew list'
 alias bF='brew info'
-function bU(){
-	brew update
-	brew upgrade
-	brew upgrade --cask
-}
+alias bU='brew update && brew upgrade && brew upgrade --cask'
 
 alias aI='sudo apt install'
 alias aS='apt search'
 alias aR='sudo apt remove'
 alias aL='apt list'
 alias aH='apt show'
-function aU(){
-	sudo apt update
-	sudo apt upgrade
-}
+alias aU='sudo apt ugdate && sudo apt upgrade'
 
 alias gu='git status'
 alias gm='git commit'
 alias gmm='git commit -m'
-function gpa(){
-	git push origin
-	git push github
-	git push gitee
+alias gpa='git push origin ; git push github; git push gitee'
+
+# proxy
+function Pon(){
+	export https_proxy=http://127.0.0.1:20171 http_proxy=http://127.0.0.1:20171 all_proxy=socks5://127.0.0.1:20170
+}
+
+function Pdown(){
+	unset http_proxy
+	unset https_proxy
+	unset all_proxy
 }

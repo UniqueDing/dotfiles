@@ -1,6 +1,6 @@
 #! /bin/bash
-sed 's/breeze\b/bloom/' -i /home/uniqueding/.config/gtk-3.0/settings.ini
-sed 's/breeze\b/bloom/' -i /home/uniqueding/.gtkrc-2.0
+# sed 's/breeze\b/bloom/' -i /home/uniqueding/.config/gtk-3.0/settings.ini
+# sed 's/breeze\b/bloom/' -i /home/uniqueding/.gtkrc-2.0
 dunst &
 picom &
 fcitx5 &
@@ -8,6 +8,7 @@ nm-applet &
 variety &
 blueman-applet &
 redshift-gtk &
+xfsettingsd &
 #slstatus &
 xautolock -time 15 -locker slock &
 ~/.config/dwm/status.sh &
