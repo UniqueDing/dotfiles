@@ -68,12 +68,12 @@ netspeed(){
 	eth=$1
 	RXpre=$(cat /proc/net/dev | grep $eth | tr : " " | awk '{print $2}')
 	TXpre=$(cat /proc/net/dev | grep $eth | tr : " " | awk '{print $10}')
-	sleep 0.5
+	sleep 1
 	RXnext=$(cat /proc/net/dev | grep $eth | tr : " " | awk '{print $2}')
 	TXnext=$(cat /proc/net/dev | grep $eth | tr : " " | awk '{print $10}')
 	#clear
-	RX=$[(${RXnext}-${RXpre})*2]
-	TX=$[(${TXnext}-${TXpre})*2]
+	RX=$[(${RXnext}-${RXpre})]
+	TX=$[(${TXnext}-${TXpre})]
 
 	if [[ $RX -lt 1024 ]];then
 		RX=$(printf "%3.2fB" ${RX})

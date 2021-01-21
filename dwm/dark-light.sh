@@ -1,5 +1,5 @@
-ligth_theme_name=Orchis-compact
-dark_theme_name=Orchis-dark-compact
+ligth_theme_name=Materia-compact
+dark_theme_name=Materia-dark-compact
 ligth_icon_name=Tela
 dark_icon_name=Tela-dark
 ligth_cursor_name=Bibata-Modern-Classic

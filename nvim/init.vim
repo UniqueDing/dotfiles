@@ -21,6 +21,7 @@ set showcmd
 set wildmenu
 set hlsearch
 set incsearch
+set expandtab
 set tabstop=4
 set shiftwidth=4
 set scrolloff=4
@@ -60,6 +61,10 @@ endif
 
 " Press twice to jump to the next '<++>' and edit it
 noremap <LEADER><LEADER> <Esc>/<++><CR>:nohlsearch<CR>c4l
+
+" copy
+noremap <LEADER>yy "+y
+noremap <LEADER>yp "+p
 
 
 " split the screens to up (horizontal), down (horizontal), left (vertical), right (vertical)
