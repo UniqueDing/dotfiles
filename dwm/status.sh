@@ -55,6 +55,10 @@ battery(){
 	if [ "$batteryStatus" == "Discharging" ]
 	then 
 		batteryStatus="-"
+        if [ $batteryRate -lt 5 ]
+        then
+            notify-send "low power"
+        fi
 	elif [ "$batteryStatus" == "Charging" ]
 	then
 		batteryStatus="+"

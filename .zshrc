@@ -150,3 +150,4 @@ function Pdown(){
 }
 
 alias frpcc='frpc -c /etc/frp/frpc.ini'
+alias pipU='pip3 freeze --local | grep -v '^-e' | cut -d = -f 1  | xargs -n1 pip install -U'

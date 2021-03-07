@@ -10,12 +10,10 @@ xfsettingsd &
 dunst &
 picom &
 fcitx5 &
-redshift-gtk &
+redshiftgui &
 syncthing &
 #slstatus &
 xautolock -time 15 -locker slock &
-sleep 2
-fcitx5-remote -c
 
 # java
 export _JAVA_AWT_WM_NONREPARENTING=1

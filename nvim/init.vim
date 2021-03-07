@@ -29,10 +29,10 @@ set cmdheight=2
 set hidden
 set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312
 
-noremap <LEADER>h :nohlsearch<CR>
-noremap <LEADER>o o<ESC>
-noremap <LEADER>a a <ESC>
-noremap <LEADER>l i <ESC>
+noremap <leader>h :nohlsearch<CR>
+noremap <leader>o o<ESC>
+noremap <leader>a a <ESC>
+noremap <leader>l i <ESC>
 
 if has('nvim')
 	noremap <A-n> 5j
@@ -60,30 +60,30 @@ endif
 
 
 " Press twice to jump to the next '<++>' and edit it
-noremap <LEADER><LEADER> <Esc>/<++><CR>:nohlsearch<CR>c4l
+noremap <leader><leader> <Esc>/<++><CR>:nohlsearch<CR>c4l
 
 " copy
-noremap <LEADER>yy "+y
-noremap <LEADER>yp "+p
+noremap <leader>yy "+y
+noremap <leader>yp "+p
 
 
 " split the screens to up (horizontal), down (horizontal), left (vertical), right (vertical)
-noremap <LEADER>ve :set nosplitbelow<CR>:split<CR>:set splitbelow<CR>
-noremap <LEADER>vn :set splitbelow<CR>:split<CR>
-noremap <LEADER>vh :set nosplitright<CR>:vsplit<CR>:set splitright<CR>
-noremap <LEADER>vi :set splitright<CR>:vsplit<CR>
+noremap <leader>ve :set nosplitbelow<CR>:split<CR>:set splitbelow<CR>
+noremap <leader>vn :set splitbelow<CR>:split<CR>
+noremap <leader>vh :set nosplitright<CR>:vsplit<CR>:set splitright<CR>
+noremap <leader>vi :set splitright<CR>:vsplit<CR>
 " Place the two screens up and down
-noremap <LEADER>vk <C-w>t<C-w>K
+noremap <leader>vk <C-w>t<C-w>K
 " Place the two screens side by side
-noremap <LEADER>vs <C-w>t<C-w>H
+noremap <leader>vs <C-w>t<C-w>H
 " Press <SPACE> + q to close the window below the current window
-noremap <LEADER>q <C-w>j:q<CR>
+noremap <leader>q <C-w>j:q<CR>
 
-noremap <LEADER>ww <C-w>w
-noremap <LEADER>we <C-w>k
-noremap <LEADER>wn <C-w>j
-noremap <LEADER>wh <C-w>h
-noremap <LEADER>wi <C-w>l
+noremap <leader>ww <C-w>w
+noremap <leader>we <C-w>k
+noremap <leader>wn <C-w>j
+noremap <leader>wh <C-w>h
+noremap <leader>wi <C-w>l
 
 if filereadable(expand('~/.vim/autoload/plug.vim'))
 " plug
@@ -140,6 +140,8 @@ Plug 'RRethy/vim-illuminate'
 
 Plug 'pechorin/any-jump.vim'
 
+Plug 'fruit-in/brainfuck-vim'
+
 call plug#end()
 
 "coc-extensions
@@ -154,7 +156,7 @@ let g:coc_global_extensions = [
 			\ 'coc-git',
 			\ 'coc-explorer',
 			\ 'coc-yaml',
-			\ 'coc-python',
+			\ 'coc-pyright',
 			\ 'coc-docker',
 			\ 'coc-cmake',
 			\ 'coc-java',
@@ -163,7 +165,8 @@ let g:coc_global_extensions = [
 			\ 'coc-lua',
 			\ 'coc-json',
 			\ 'coc-clangd',
-			\ 'coc-translator'
+			\ 'coc-translator',
+            \ 'coc-leetcode'
 			\ ]
 
 "color
@@ -190,7 +193,7 @@ let g:airline_powerline_fonts = 1
 " noremap <LEADER>t :Toc<CR>
 
 " noremap <LEADER>p <Plug>MarkdownPreviewToggle
-nmap <LEADER>p <Plug>MarkdownPreviewToggle
+nmap <leader>p <Plug>MarkdownPreviewToggle
 " let g:mkdp_browser = '"Firefox" --args --new-window'
 
 function! g:Open_browser(url)
@@ -244,54 +247,96 @@ nmap <silent> <C-d> <Plug>(coc-cursors-word)
 xmap <silent> <C-d> <Plug>(coc-cursors-range)
 " use normal command like `<leader>xi(`
 " nmap <leader>x  <Plug>(coc-cursors-operator)
-nnoremap <silent><nowait> <LEADER>dd :CocList diagnostics<cr>
-nmap <silent> <LEADER>de <Plug>(coc-diagnostic-prev)
-nmap <silent> <LEADER>dn <Plug>(coc-diagnostic-next)
-nmap <Leader>dj :CocList --input= -I symbols<left><left><left><left><left><left><left><left><left><left><left>
+" nnoremap <silent><nowait> <leader>dl :CocList diagnostics<cr>
+" nmap <silent> <leader>de <Plug>(coc-diagnostic-prev)
+" nmap <silent> <leader>dn <Plug>(coc-diagnostic-next)
+" nmap <silent> <leader>dd <Plug>(coc-definition)
+" nmap <silent> <leader>dc <Plug>(coc-declaration)
+" nmap <silent> <leader>dt <Plug>(coc-type-definition)
+" nmap <silent> <leader>df <Plug>(coc-references)
+" nmap <silent> <leader>du <Plug>(coc-references-used)
+" nmap <silent> <leader>dr <Plug>(coc-rename)
+
+" nmap <leader>dj :CocList --input= -I symbols<left><left><left><left><left><left><left><left><left><left><left>
+"
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Symbol renaming.
+nmap <tab>r <Plug>(coc-rename)
+
+" Mappings for CoCList
+" Show all diagnostics.
+nnoremap <silent><nowait> <tab>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions.
+nnoremap <silent><nowait> <tab>x  :<C-u>CocList extensions<cr>
+" Show commands.
+nnoremap <silent><nowait> <tab>c  :<C-u>CocList commands<cr>
+" Find symbol of current document.
+nnoremap <silent><nowait> <tab>o  :<C-u>CocList outline<cr>
+" Search workspace symbols.
+nnoremap <silent><nowait> <tab>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent><nowait> <tab>n  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent><nowait> <tab>e  :<C-u>CocPrev<CR>
+" Resume latest coc list.
+nnoremap <silent><nowait> <tab>p  :<C-u>CocListResume<CR>
 
 " coc-explorer
-:nmap <LEADER>e :CocCommand explorer<CR>
+nmap <leader>e :CocCommand explorer<CR>
 
 " coc-snippets
 
 " coc-smartf
 " " press <esc> to cancel.
-nmap f <Plug>(coc-smartf-forward)
-nmap F <Plug>(coc-smartf-backward)
-nmap , <Plug>(coc-smartf-repeat)
-nmap , <Plug>(coc-smartf-repeat-opposite)
+" nmap f <Plug>(coc-smartf-forward)
+" nmap F <Plug>(coc-smartf-backward)
+" nmap , <Plug>(coc-smartf-repeat)
+" nmap , <Plug>(coc-smartf-repeat-opposite)
 
-augroup Smartf
-	autocmd User SmartfEnter :hi Conceal ctermfg=220 guifg=#6638F0
-	autocmd User SmartfLeave :hi Conceal ctermfg=239 guifg=#504945
-augroup end
+" augroup Smartf
+" 	autocmd User SmartfEnter :hi Conceal ctermfg=220 guifg=#6638F0
+" 	autocmd User SmartfLeave :hi Conceal ctermfg=239 guifg=#504945
+" augroup end
 
 " coc-python
 " map <LEADER>r :CocCommand python.execInTerminal<CR>
 "
 " coc-clangd
-map <Leader>ms :CocCommand clangd.switchSourceHeader<CR>
+map <leader>ms :CocCommand clangd.switchSourceHeader<CR>
 
 " C Compiler:
-autocmd FileType c nnoremap <LEADER>r :!gcc % && ./a.out <CR>
+autocmd FileType c nnoremap <leader>r :!gcc % && ./a.out <CR>
 
 " C++ Compiler
-autocmd FileType cpp nnoremap <LEADER>r :!g++ -pthread % && ./a.out <CR>
+autocmd FileType cpp nnoremap <leader>R :!g++ -pthread % && ./a.out <CR>
 
 " Python Interpreter
-autocmd FileType python nnoremap <LEADER>r :CocCommand python.execInTerminal <CR>
+autocmd FileType python nnoremap <leader>r :!python3 % <CR>
 
 " Bash script
-autocmd FileType sh nnoremap <LEADER>r :!sh % <CR>
+autocmd FileType sh nnoremap <leader>r :!sh % <CR>
 
 "fzf
 " nnoremap <c-p> :Leaderf file<CR>
-noremap <silent> <Leader>fp :Files<CR>
-noremap <silent> <Leader>ff :Rg<CR>
-noremap <silent> <Leader>fh :History<CR>
+noremap <silent> <leader>fp :Files<CR>
+noremap <silent> <leader>ff :Rg<CR>
+noremap <silent> <leader>fh :History<CR>
 "noremap <C-t> :BTags<CR>
-noremap <silent> <Leader>fl :Lines<CR>
-noremap <silent> <Leader>fw :Buffers<CR>
+noremap <silent> <leader>fl :Lines<CR>
+noremap <silent> <leader>fw :Buffers<CR>
 
 let g:fzf_preview_window = 'right:60%'
 let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
@@ -313,20 +358,20 @@ command! BD call fzf#run(fzf#wrap({
 			\ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
 			\ }))
 
-noremap <Leader>fd :BD<CR>
+noremap <leader>fd :BD<CR>
 
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.8 } }
 
 "coc-translator
 " popup
-nmap <Leader>tt <Plug>(coc-translator-p)
-vmap <Leader>tt <Plug>(coc-translator-pv)
+nmap <leader>tt <Plug>(coc-translator-p)
+vmap <leader>tt <Plug>(coc-translator-pv)
 " echo
-nmap <Leader>te <Plug>(coc-translator-e)
-vmap <Leader>te <Plug>(coc-translator-ev)
+nmap <leader>te <Plug>(coc-translator-e)
+vmap <leader>te <Plug>(coc-translator-ev)
 " replace
-nmap <Leader>tr <Plug>(coc-translator-r)
-vmap <Leader>tr <Plug>(coc-translator-rv)
+nmap <leader>tr <Plug>(coc-translator-r)
+vmap <leader>tr <Plug>(coc-translator-rv)
 
 " vim-easy-align
 " Start interactive EasyAlign in visual mode (e.g. vipga)
@@ -372,14 +417,14 @@ let g:vista#renderer#icons = {
 			\   "function": "\uf794",
 			\   "variable": "\uf71b",
 			\  }
-nmap <Leader>vv :Vista!!<cr>
+nmap <leader>vv :Vista!!<cr>
 
 " suda
 cnoreabbrev sudowrite w suda://%
 cnoreabbrev sw w suda://%
 
 " far
-noremap <Leader>f :F  **/*<left><left><left><left><left>
+" noremap <leader>f :F  **/*<left><left><left><left><left>
 let g:far#mapping = {
 			\ "replace_undo" : ["l"],
 			\ }
@@ -395,10 +440,10 @@ let g:Illuminate_delay = 500
 hi illuminatedWord cterm=undercurl gui=undercurl
 
 " autoformat
-noremap <Leader>mf :Autoformat<CR>
+noremap <leader>mf :Autoformat<CR>
 
 " undotree
-noremap <Leader>u :UndotreeToggle<CR>
+noremap <leader>u :UndotreeToggle<CR>
 function g:Undotree_CustomMap()
 	nmap <buffer> n <plug>UndotreeNextState
 	nmap <buffer> e <plug>UndotreePreviousState
@@ -414,9 +459,11 @@ nnoremap <leader>j :AnyJump<CR>
 xnoremap <leader>j :AnyJumpVisual<CR>
 
 " Normal mode: open previous opened file (after jump)
-nnoremap <leader>jb :AnyJumpBack<CR>
+nnoremap <leader>ab :AnyJumpBack<CR>
 
 " Normal mode: open last closed search window again
-nnoremap <leader>jl :AnyJumpLastResults<CR>
+nnoremap <leader>al :AnyJumpLastResults<CR>
+
+let g:any_jump_list_numbers = 1
 
 endif

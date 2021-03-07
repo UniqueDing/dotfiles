@@ -40,8 +40,8 @@
 	"diagnostic.infoSign": "\uf129",
     "diagnostic.hintSign": "\uf864",
     "list.previewHighlightGroup": "Statement",
-	"list.nextKeymap": "<C-n>",
-    "list.previousKeymap": "<C-e>",
+    "list.nextKeymap": "<C-n>",
+    "list.previousKeymap": "<C-p>",
 	"explorer.file.showHiddenFiles": true,
 	"explorer.icon.enableNerdfont": true,
 	"explorer.git.showIgnored": true,
@@ -88,5 +88,6 @@
 		"]c": "gitNext",
 		"<<": "gitStage",
 		">>": "gitUnstage"
-  }
+  },
+  "leetcode.language":"cpp"
 }
