@@ -34,6 +34,9 @@ noremap <leader>o o<ESC>
 noremap <leader>a a <ESC>
 noremap <leader>l i <ESC>
 
+noremap <tab>h :<C-u>bp<cr>
+noremap <tab>i :<C-u>bn<cr>
+
 if has('nvim')
 	noremap <A-n> 5j
 	noremap <A-e> 5k
@@ -141,6 +144,8 @@ Plug 'RRethy/vim-illuminate'
 Plug 'pechorin/any-jump.vim'
 
 Plug 'fruit-in/brainfuck-vim'
+
+Plug 'mklabs/vim-cowsay'
 
 call plug#end()
 
@@ -321,7 +326,7 @@ map <leader>ms :CocCommand clangd.switchSourceHeader<CR>
 autocmd FileType c nnoremap <leader>r :!gcc % && ./a.out <CR>
 
 " C++ Compiler
-autocmd FileType cpp nnoremap <leader>R :!g++ -pthread % && ./a.out <CR>
+autocmd FileType cpp nnoremap <leader>r :!g++ -pthread % && ./a.out <CR>
 
 " Python Interpreter
 autocmd FileType python nnoremap <leader>r :!python3 % <CR>

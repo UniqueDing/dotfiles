@@ -136,6 +136,19 @@ alias gm='git commit'
 alias gmm='git commit -m'
 alias gpa='git push origin ; git push github; git push gitee'
 
+alias pipU='pip3 freeze --local | grep -v '^-e' | cut -d = -f 1  | xargs -n1 sudo pip install -U'
+
+# update
+function update(){
+    yes | pSyyu
+    yes | aU
+    yes | bU
+    zi update
+    npm update
+    pipU
+}
+
+
 # proxy
 function Pon(){
 	export https_proxy=http://127.0.0.1:20171 http_proxy=http://127.0.0.1:20171 all_proxy=socks5://127.0.0.1:20170
@@ -148,4 +161,3 @@ function Pdown(){
 }
 
 alias frpcc='frpc -c /etc/frp/frpc.ini'
-alias pipU='pip3 freeze --local | grep -v '^-e' | cut -d = -f 1  | xargs -n1 pip install -U'
