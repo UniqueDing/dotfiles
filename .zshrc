@@ -136,7 +136,7 @@ alias gm='git commit'
 alias gmm='git commit -m'
 alias gpa='git push origin ; git push github; git push gitee'
 
-alias pipU='pip3 freeze --local | grep -v '^-e' | cut -d = -f 1  | xargs -n1 sudo pip install -U'
+alias pipU='pip3 freeze --local | grep -v '^-e' | cut -d = -f 1  | xargs -n1 pip install -U'
 
 # update
 function update(){
@@ -145,7 +145,7 @@ function update(){
     yes | bU
     zi update
     npm update
-    pipU
+    # pipU
 }
 
 
