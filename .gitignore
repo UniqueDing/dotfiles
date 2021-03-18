@@ -24,3 +24,5 @@
 !/zathura
 !/.zshrc
 !/.p10k.zsh
+!/.pam_environment
+!/fcitx5

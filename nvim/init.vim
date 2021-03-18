@@ -31,7 +31,6 @@ set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312
 
 noremap <leader>h :nohlsearch<CR>
 noremap <leader>o o<ESC>
-noremap <leader>a a <ESC>
 noremap <leader>l i <ESC>
 
 noremap <tab>h :<C-u>bp<cr>
@@ -89,6 +88,7 @@ noremap <leader>wh <C-w>h
 noremap <leader>wi <C-w>l
 
 if filereadable(expand('~/.vim/autoload/plug.vim'))
+set rtp +=~/.vim
 " plug
 call plug#begin('~/.vim/plugged')
 "color"
@@ -280,6 +280,9 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Symbol renaming.
 nmap <tab>r <Plug>(coc-rename)
+
+" Apply AutoFix to problem on the current line.
+nmap <silent><nowait> <tab>f  <Plug>(coc-fix-current)
 
 " Mappings for CoCList
 " Show all diagnostics.
