@@ -1,5 +1,5 @@
 #!/bin/bash
-show(){
+exam(){
 	while :
 	do
 		str=$(printf " %s C%2s M%2s T%2s F%2s V%2s L%2s B%3s $(date '+%m/%d %H:%M')" $(netspeed wlp2s0) $(cpu) $(memory) $(temperature) $(disk /home) $(volume) $(backlight) $(battery))
@@ -106,5 +106,3 @@ check(){
 		echo $1
 	fi
 }
-	
-show

@@ -8,6 +8,7 @@
 /nvim/plugged
 /nvim/.netrwhist
 !/dwm
+/dwm/start-status.sh
 !/ranger
 /ranger/__pycache__
 /ranger/plugins/__pycache__
@@ -25,4 +26,4 @@
 !/.zshrc
 !/.p10k.zsh
 !/.pam_environment
-!/fcitx5
+!/xfce4

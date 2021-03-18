@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<channel name="xfce4-panel" version="1.0">
+  <property name="configver" type="int" value="2"/>
+  <property name="panels" type="array">
+    <value type="int" value="1"/>
+    <value type="int" value="2"/>
+    <property name="dark-mode" type="bool" value="true"/>
+    <property name="panel-1" type="empty">
+      <property name="position" type="string" value="p=6;x=960;y=14"/>
+      <property name="length" type="uint" value="100"/>
+      <property name="position-locked" type="bool" value="true"/>
+      <property name="icon-size" type="uint" value="0"/>
+      <property name="size" type="uint" value="26"/>
+      <property name="plugin-ids" type="array">
+        <value type="int" value="30"/>
+        <value type="int" value="1"/>
+        <value type="int" value="3"/>
+        <value type="int" value="35"/>
+        <value type="int" value="6"/>
+        <value type="int" value="15"/>
+        <value type="int" value="48"/>
+        <value type="int" value="2"/>
+        <value type="int" value="24"/>
+        <value type="int" value="4"/>
+        <value type="int" value="55"/>
+        <value type="int" value="11"/>
+        <value type="int" value="12"/>
+        <value type="int" value="42"/>
+      </property>
+      <property name="autohide-behavior" type="uint" value="0"/>
+      <property name="mode" type="uint" value="0"/>
+      <property name="background-style" type="uint" value="0"/>
+      <property name="length-adjust" type="bool" value="true"/>
+      <property name="disable-struts" type="bool" value="false"/>
+      <property name="background-rgba" type="array">
+        <value type="double" value="0.945098"/>
+        <value type="double" value="0.945098"/>
+        <value type="double" value="0.945098"/>
+        <value type="double" value="0.850000"/>
+      </property>
+      <property name="enter-opacity" type="uint" value="80"/>
+      <property name="leave-opacity" type="uint" value="80"/>
+    </property>
+    <property name="panel-2" type="empty">
+      <property name="autohide-behavior" type="uint" value="1"/>
+      <property name="position" type="string" value="p=10;x=0;y=0"/>
+      <property name="position-locked" type="bool" value="true"/>
+      <property name="size" type="uint" value="52"/>
+      <property name="plugin-ids" type="array">
+        <value type="int" value="40"/>
+        <value type="int" value="39"/>
+        <value type="int" value="37"/>
+        <value type="int" value="38"/>
+        <value type="int" value="20"/>
+        <value type="int" value="52"/>
+        <value type="int" value="53"/>
+        <value type="int" value="54"/>
+        <value type="int" value="21"/>
+        <value type="int" value="23"/>
+      </property>
+      <property name="length" type="uint" value="8"/>
+      <property name="length-adjust" type="bool" value="true"/>
+      <property name="enter-opacity" type="uint" value="80"/>
+      <property name="leave-opacity" type="uint" value="80"/>
+    </property>
+  </property>
+  <property name="plugins" type="empty">
+    <property name="plugin-3" type="string" value="separator">
+      <property name="expand" type="bool" value="true"/>
+      <property name="style" type="uint" value="0"/>
+    </property>
+    <property name="plugin-6" type="string" value="systray">
+      <property name="square-icons" type="bool" value="true"/>
+      <property name="known-legacy-items" type="array">
+        <value type="string" value="anydesk"/>
+        <value type="string" value="bluetooth enabled"/>
+        <value type="string" value="task manager"/>
+        <value type="string" value="pamac-tray"/>
+        <value type="string" value="fcitx5 tray window"/>
+        <value type="string" value="nextcloud"/>
+        <value type="string" value="v2ray-desktop"/>
+        <value type="string" value="networkmanager applet"/>
+      </property>
+      <property name="known-items" type="array">
+        <value type="string" value="netease-cloud-music"/>
+        <value type="string" value="Nextcloud"/>
+        <value type="string" value="V2Ray-Desktop"/>
+        <value type="string" value="variety"/>
+        <value type="string" value="Fcitx"/>
+        <value type="string" value="blueman"/>
+      </property>
+      <property name="icon-size" type="int" value="0"/>
+      <property name="hide-new-items" type="bool" value="false"/>
+      <property name="single-row" type="bool" value="false"/>
+      <property name="hidden-items" type="array">
+      </property>
+      <property name="menu-is-primary" type="bool" value="false"/>
+      <property name="symbolic-icons" type="bool" value="false"/>
+    </property>
+    <property name="plugin-11" type="string" value="separator">
+      <property name="style" type="uint" value="0"/>
+    </property>
+    <property name="plugin-12" type="string" value="clock">
+      <property name="mode" type="uint" value="2"/>
+      <property name="tooltip-format" type="string" value="%x"/>
+      <property name="digital-format" type="string" value="%m/%d %_H:%M"/>
+    </property>
+    <property name="plugin-20" type="string" value="launcher">
+      <property name="items" type="array">
+        <value type="string" value="16093983674.desktop"/>
+      </property>
+    </property>
+    <property name="plugin-21" type="string" value="separator"/>
+    <property name="plugin-23" type="string" value="tasklist">
+      <property name="sort-order" type="uint" value="0"/>
+      <property name="include-all-workspaces" type="bool" value="true"/>
+      <property name="show-only-minimized" type="bool" value="false"/>
+      <property name="include-all-monitors" type="bool" value="true"/>
+      <property name="window-scrolling" type="bool" value="true"/>
+      <property name="show-wireframes" type="bool" value="false"/>
+      <property name="switch-workspace-on-unminimize" type="bool" value="false"/>
+      <property name="grouping" type="uint" value="0"/>
+      <property name="show-labels" type="bool" value="false"/>
+      <property name="flat-buttons" type="bool" value="true"/>
+      <property name="show-handle" type="bool" value="false"/>
+      <property name="middle-click" type="uint" value="1"/>
+    </property>
+    <property name="plugin-15" type="string" value="pulseaudio">
+      <property name="enable-keyboard-shortcuts" type="bool" value="true"/>
+      <property name="mpris-players" type="string" value="chromium.instance3290192;chromium.instance3312563;netease-cloud-music;plasma-browser-integration"/>
+    </property>
+    <property name="plugin-24" type="string" value="systemload"/>
+    <property name="plugin-30" type="string" value="actions"/>
+    <property name="plugin-35" type="string" value="netload"/>
+    <property name="plugin-37" type="string" value="launcher">
+      <property name="items" type="array">
+        <value type="string" value="16094802272.desktop"/>
+      </property>
+    </property>
+    <property name="plugin-38" type="string" value="launcher">
+      <property name="items" type="array">
+        <value type="string" value="16094802613.desktop"/>
+      </property>
+    </property>
+    <property name="plugin-39" type="string" value="launcher">
+      <property name="items" type="array">
+        <value type="string" value="16094801861.desktop"/>
+      </property>
+    </property>
+    <property name="plugin-40" type="string" value="whiskermenu"/>
+    <property name="plugin-42" type="string" value="showdesktop"/>
+    <property name="plugin-48" type="string" value="xfce4-clipman-plugin"/>
+    <property name="clipman" type="empty">
+      <property name="settings" type="empty">
+        <property name="add-primary-clipboard" type="bool" value="true"/>
+      </property>
+    </property>
+    <property name="plugin-52" type="string" value="launcher">
+      <property name="items" type="array">
+        <value type="string" value="16094836984.desktop"/>
+      </property>
+    </property>
+    <property name="plugin-53" type="string" value="launcher">
+      <property name="items" type="array">
+        <value type="string" value="16094837065.desktop"/>
+      </property>
+    </property>
+    <property name="plugin-54" type="string" value="launcher">
+      <property name="items" type="array">
+        <value type="string" value="16094837176.desktop"/>
+      </property>
+    </property>
+    <property name="plugin-55" type="string" value="battery"/>
+    <property name="plugin-1" type="string" value="pager"/>
+    <property name="plugin-2" type="string" value="notification-plugin"/>
+    <property name="plugin-4" type="string" value="xfce4-sensors-plugin"/>
+  </property>
+</channel>

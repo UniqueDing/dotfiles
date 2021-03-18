@@ -1,10 +1,10 @@
 #!/bin/bash
 
 if [ $1 == 'up' ];then
-	amixer set Master 3277+
+	amixer set Master 5%+
 	notify-send -t 500 "volume +5"
 elif [ $1 == 'down' ];then
-	amixer set Master 3277-
+	amixer set Master 5%-
 	notify-send -t 500 "volume -5"
 elif [ $1 == 'toggle' ];then
 	amixer set Master toggle
