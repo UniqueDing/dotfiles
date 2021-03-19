@@ -106,7 +106,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'mhinz/vim-startify'
 Plug 'tpope/vim-commentary'
 " Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+" Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " Plug 'octol/vim-cpp-enhanced-highlight'
 " Plug 'rip-rip/clang_complete'
 
@@ -171,6 +171,8 @@ let g:coc_global_extensions = [
 			\ 'coc-json',
 			\ 'coc-clangd',
 			\ 'coc-translator',
+			\ 'coc-go',
+			\ 'coc-rust-analyzer',
             \ 'coc-leetcode'
 			\ ]
 
@@ -323,19 +325,30 @@ nmap <leader>e :CocCommand explorer<CR>
 " map <LEADER>r :CocCommand python.execInTerminal<CR>
 "
 " coc-clangd
-map <leader>ms :CocCommand clangd.switchSourceHeader<CR>
+autocmd FileType c,cpp map <leader>ms :CocCommand clangd.switchSourceHeader<CR>
+
+" coc-go
+" Add missing imports on save
+autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
+autocmd FileType go nmap gtj :CocCommand go.tags.add json<cr>
+autocmd FileType go nmap gty :CocCommand go.tags.add yaml<cr>
+autocmd FileType go nmap gtx :CocCommand go.tags.clear<cr>
+
 
 " C Compiler:
 autocmd FileType c nnoremap <leader>r :!gcc % && ./a.out <CR>
-
 " C++ Compiler
 autocmd FileType cpp nnoremap <leader>r :!g++ -pthread % && ./a.out <CR>
-
+" go Interpreter
+autocmd FileType go nnoremap <leader>r :!go run % <CR>
 " Python Interpreter
 autocmd FileType python nnoremap <leader>r :!python3 % <CR>
-
+" racket Interpreter
+autocmd FileType scheme nnoremap <leader>r :!racket % <CR>
+" rust Interpreter
+autocmd FileType rust nnoremap <leader>r :!rustc -o a.out % && ./a.out <CR>
 " Bash script
-autocmd FileType sh nnoremap <leader>r :!sh % <CR>
+autocmd FileType sh nnoremap <leader>r :!bash % <CR>
 
 "fzf
 " nnoremap <c-p> :Leaderf file<CR>
