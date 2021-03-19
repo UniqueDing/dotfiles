@@ -1,4 +1,4 @@
-ligth_theme_name=Materia-compact
+ligth_theme_name=Materia-light-compact
 dark_theme_name=Materia-dark-compact
 ligth_icon_name=Tela
 dark_icon_name=Tela-dark
