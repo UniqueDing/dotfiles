@@ -76,6 +76,5 @@ function Pdown(){
 
 alias frpcc='frpc -c /etc/frp/frpc.ini'
 
-alias mountnas='sudo mount.cifs -o username=uniqueding,port=44500 //127.0.0.1/main ~/nas'
-alias mountinas='sudo mount.cifs -o username=uniqueding //nas.ding/main ~/nas'
+alias mountnas='sudo mount.nfs nas.ding:/main ~/nas'
 alias umountnas='sudo umount ~/nas'

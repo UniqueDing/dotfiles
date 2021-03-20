@@ -84,4 +84,4 @@ SAVEHIST=10000
 export PATH=$PATH::/home/uniqueding/.local/bin
 bindkey -e
 
-source .config/zsh/alias.sh
+source ~/.config/zsh/alias.sh

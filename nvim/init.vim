@@ -200,14 +200,15 @@ let g:airline_powerline_fonts = 1
 " noremap <LEADER>t :Toc<CR>
 
 " noremap <LEADER>p <Plug>MarkdownPreviewToggle
-nmap <leader>p <Plug>MarkdownPreviewToggle
+au BufNewFile,BufFilePre,BufRead *.md set filetype=markdown
+autocmd FileType markdown nmap <leader>r <Plug>MarkdownPreviewToggle
 " let g:mkdp_browser = '"Firefox" --args --new-window'
 
 function! g:Open_browser(url)
 	if has("mac")
 		silent exec '!open -na "Google Chrome" --args --new-window ' . a:url
 	else
-		silent exec "!chromium --new-window " . a:url
+		silent exec "!google-chrome-stable --new-window " . a:url
 	endif
 endfunction
 let g:mkdp_browserfunc = 'g:Open_browser'
@@ -344,7 +345,8 @@ autocmd FileType go nnoremap <leader>r :!go run % <CR>
 " Python Interpreter
 autocmd FileType python nnoremap <leader>r :!python3 % <CR>
 " racket Interpreter
-autocmd FileType scheme nnoremap <leader>r :!racket % <CR>
+au BufNewFile,BufFilePre,BufRead *.rkt set filetype=racket
+autocmd FileType racket nnoremap <leader>r :!racket % <CR>
 " rust Interpreter
 autocmd FileType rust nnoremap <leader>r :!rustc -o a.out % && ./a.out <CR>
 " Bash script
