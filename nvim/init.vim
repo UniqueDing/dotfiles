@@ -88,6 +88,7 @@ noremap <leader>wh <C-w>h
 noremap <leader>wi <C-w>l
 
 if filereadable(expand('~/.vim/autoload/plug.vim'))
+set rtp +=~/.fzf
 set rtp +=~/.vim
 " plug
 call plug#begin('~/.vim/plugged')

@@ -85,3 +85,5 @@ export PATH=$PATH::/home/uniqueding/.local/bin
 bindkey -e
 
 source ~/.config/zsh/alias.sh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

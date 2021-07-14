@@ -3,6 +3,9 @@
 !/.gitignore
 !/README.md
 !/LICENSE
+!/coc
+/coc/*
+!/coc/ultisnips
 !/nvim
 /nvim/autoload
 /nvim/plugged
