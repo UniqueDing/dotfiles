@@ -29,6 +29,7 @@ alias pQi='pacman -Qi'
 alias yS='yay -S'
 alias ySs='yay -Ss'
 alias yR='yay -R'
+alias ySyu='yay -Syu'
 alias ySyyu='yay -Syyu'
 
 alias bI='brew install'
