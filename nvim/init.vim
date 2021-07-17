@@ -148,6 +148,9 @@ Plug 'fruit-in/brainfuck-vim'
 
 Plug 'mklabs/vim-cowsay'
 
+" fcitx
+Plug 'lilydjwg/fcitx.vim' 
+
 call plug#end()
 
 "coc-extensions
