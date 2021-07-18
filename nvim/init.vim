@@ -140,7 +140,7 @@ Plug 'luochen1990/rainbow'
 " Plug 'mg979/vim-xtabline'
 
 Plug 'RRethy/vim-hexokinase', { 'do': 'make hexokinase' }
-Plug 'RRethy/vim-illuminate'
+" Plug 'RRethy/vim-illuminate'
 
 Plug 'pechorin/any-jump.vim'
 
@@ -181,17 +181,31 @@ let g:coc_global_extensions = [
 			\ ]
 
 "color
-"colorscheme nord
-"colorscheme jellybeans
-colorscheme gruvbox
-let g:gruvbox_bold = '1'
+autocmd vimenter * hi Normal guibg=NONE ctermbg=NONE " transparent bg
+colorscheme nord
+" colorscheme jellybeans
+" colorscheme gruvbox
+" let g:gruvbox_bold = '1'
 
-hi Normal ctermfg=252 ctermbg=none
+" hi Normal ctermfg=252 ctermbg=none
+set termguicolors
+
 
 " airline
 let g:airline#extensions#tabline#enabled = 1
-let g:airline_theme="bubblegum"
+" let g:airline_theme="bubblegum"
+let g:airline_theme="tomorrow"
 let g:airline_powerline_fonts = 1
+
+"hexokinase
+let g:Hexokinase_highlighters = [
+\   'virtual',
+\   'sign_column',
+\   'background',
+\   'backgroundfull',
+\   'foreground',
+\   'foregroundfull'
+\ ]
 
 " nerdtree
 " map <A-t> :NERDTreeToggle<CR>
