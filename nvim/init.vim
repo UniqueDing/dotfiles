@@ -177,7 +177,8 @@ let g:coc_global_extensions = [
 			\ 'coc-translator',
 			\ 'coc-go',
 			\ 'coc-rust-analyzer',
-            \ 'coc-leetcode'
+            \ 'coc-leetcode',
+            \ 'coc-vetur'
 			\ ]
 
 "color
