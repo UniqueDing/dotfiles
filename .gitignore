@@ -24,7 +24,7 @@
 !/fish
 !/polybar
 !/i3
-!/vimium
+!/vimium-options.json
 !/zathura
 !/.zshrc
 !/.p10k.zsh

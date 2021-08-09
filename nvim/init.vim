@@ -232,7 +232,8 @@ function! g:Open_browser(url)
 	if has("mac")
 		silent exec '!open -na "Google Chrome" --args --new-window ' . a:url
 	else
-		silent exec "!google-chrome-stable --new-window " . a:url
+		silent exec "!chromium --new-window " . a:url
+		" silent exec "!google-chrome-stable --new-window " . a:url
 	endif
 endfunction
 let g:mkdp_browserfunc = 'g:Open_browser'
@@ -364,15 +365,17 @@ autocmd FileType go nmap gtx :CocCommand go.tags.clear<cr>
 autocmd FileType c nnoremap <leader>r :!gcc % && ./a.out <CR>
 " C++ Compiler
 autocmd FileType cpp nnoremap <leader>r :!g++ -pthread % && ./a.out <CR>
-" go Interpreter
+" Go Interpreter
 autocmd FileType go nnoremap <leader>r :!go run % <CR>
 " Python Interpreter
 autocmd FileType python nnoremap <leader>r :!python3 % <CR>
-" racket Interpreter
+" Racket Interpreter
 au BufNewFile,BufFilePre,BufRead *.rkt set filetype=racket
 autocmd FileType racket nnoremap <leader>r :!racket % <CR>
-" rust Interpreter
+" Rust Interpreter
 autocmd FileType rust nnoremap <leader>r :!rustc -o a.out % && ./a.out <CR>
+" Java Interpreter
+autocmd FileType java nnoremap <leader>r :!javac % && java % r <CR>
 " Bash script
 autocmd FileType sh nnoremap <leader>r :!bash % <CR>
 
