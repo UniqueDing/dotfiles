@@ -42,9 +42,17 @@ alias bU='brew update && brew upgrade && brew upgrade --cask'
 alias aI='sudo apt install'
 alias aS='apt search'
 alias aR='sudo apt remove'
+alias aP='sudo apt purge'
 alias aL='apt list'
 alias aH='apt show'
 alias aU='sudo apt update && sudo apt upgrade'
+
+alias sI="sudo snap install"
+alias sS="snap find"
+alias sR="sudo snap remove"
+alias sH="snap info"
+alias sL="snap list"
+alias sU="sudo snap refresh"
 
 alias gu='git status'
 alias gm='git commit'
@@ -58,9 +66,8 @@ function update(){
     yes | pSyyu
     yes | aU
     yes | bU
+    yes | sU
     zi update
-    npm update
-    # pipU
 }
 
 
@@ -77,7 +84,7 @@ function Pdown(){
 
 alias frpcc='frpc -c /etc/frp/frpc.ini'
 
-alias mountnas='sudo mount.nfs nas.ding:/main ~/nas'
+alias mountnas='sudo mount.nfs 192.168.100.2:/main ~/nas'
 alias umountnas='sudo umount ~/nas'
 
 # systemd

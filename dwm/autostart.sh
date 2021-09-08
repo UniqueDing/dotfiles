@@ -15,8 +15,9 @@ syncthing &
 #slstatus &
 xautolock -time 15 -locker slock &
 
-# java
-# export _JAVA_AWT_WM_NONREPARENTING=1
-# export AWT_TOOLKIT=MToolkit
-# wmname LG3D &
+java
+export _JAVA_AWT_WM_NONREPARENTING=1
+export AWT_TOOLKIT=MToolkit
+wmname LG3D &
 
+xrandr --output HDMI-1 --right-of DP-1 --rotate right --auto
