@@ -51,7 +51,8 @@ set foldmethod=syntax
 set foldlevel=1
 set foldnestmax=3
 noremap <tab>t za
-noremap <tab>m zR
+noremap <tab>k zR
+noremap <tab>m zM
 
 if has('nvim')
 	noremap <A-n> 5j
