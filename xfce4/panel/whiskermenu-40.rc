@@ -1,5 +1,5 @@
-favorites=xfce4-web-browser.desktop,xfce4-mail-reader.desktop,xfce4-file-manager.desktop,xfce4-terminal-emulator.desktop,com.qq.tim.spark.desktop,com.qq.weixin.spark.desktop,wps-office-prometheus.desktop,telegramdesktop.desktop,thunderbird.desktop
-recent=com.qq.weixin.spark.desktop,anydesk.desktop,xfce4-mail-reader.desktop,variety.desktop,com.qq.tim.spark.desktop,netease-cloud-music.desktop
+favorites=xfce4-web-browser.desktop,xfce4-mail-reader.desktop,xfce4-file-manager.desktop,xfce4-terminal-emulator.desktop,wps-office-prometheus.desktop,telegramdesktop.desktop,thunderbird.desktop
+recent=google-chrome.desktop,com.obsproject.Studio.desktop,anydesk.desktop,xfce4-mail-reader.desktop,variety.desktop,netease-cloud-music.desktop
 button-icon=xfce4-whiskermenu
 button-single-row=true
 show-button-title=false

@@ -70,7 +70,8 @@ colors:
 # Any items in the `env` entry below will be added as
 # environment variables. Some entries may override variables
 # set by alacritty itself.
-#env:
+env:
+  WINIT_X11_SCALE_FACTOR: "1.0"
   # TERM variable
   #
   # This value is used to set the `$TERM` environment variable for
@@ -156,9 +157,6 @@ window:
 
   # Scrolling distance multiplier.
   #multiplier: 3
-# dpi:
-#   x: 96.0
-#   y: 96.0
 # Font configuration
 font:
   font:
@@ -171,7 +169,7 @@ font:
     italic:
       family: DejaVu Sans Mono
       style: Italic
-  size: 14.0
+  size: 15.0
 
 # font:
   # Normal (roman) font face

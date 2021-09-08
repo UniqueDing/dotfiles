@@ -9,7 +9,7 @@ blueman-applet &
 xfsettingsd &
 dunst &
 picom &
-fcitx &
+fcitx5 &
 redshiftgui &
 syncthing &
 #slstatus &

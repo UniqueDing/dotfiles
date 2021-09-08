@@ -20,9 +20,9 @@
         <property name="Y" type="int" value="0"/>
       </property>
     </property>
-    <property name="HDMI2" type="string" value="Samsung Electric Company 24&quot;">
+    <property name="HDMI2" type="string" value="Philips Consumer Electronics Company 27&quot;">
       <property name="Active" type="bool" value="true"/>
-      <property name="EDID" type="string" value="d591d2afb4d3c799bc1d865a0173c88d330bfda3"/>
+      <property name="EDID" type="string" value="ed113effcc6b29bc334d98ee1e393793790cff02"/>
       <property name="Resolution" type="string" value="1920x1080"/>
       <property name="RefreshRate" type="double" value="60.000000"/>
       <property name="Rotation" type="int" value="0"/>
@@ -33,7 +33,7 @@
         <property name="Y" type="double" value="1.000000"/>
       </property>
       <property name="Position" type="empty">
-        <property name="X" type="int" value="1920"/>
+        <property name="X" type="int" value="0"/>
         <property name="Y" type="int" value="0"/>
       </property>
     </property>
@@ -56,9 +56,9 @@
         <property name="Y" type="int" value="0"/>
       </property>
     </property>
-    <property name="HDMI2" type="string" value="Samsung Electric Company 24&quot;">
+    <property name="HDMI2" type="string" value="Philips Consumer Electronics Company 27&quot;">
       <property name="Active" type="bool" value="true"/>
-      <property name="EDID" type="string" value="d591d2afb4d3c799bc1d865a0173c88d330bfda3"/>
+      <property name="EDID" type="string" value="ed113effcc6b29bc334d98ee1e393793790cff02"/>
       <property name="Resolution" type="string" value="1920x1080"/>
       <property name="RefreshRate" type="double" value="60.000000"/>
       <property name="Rotation" type="int" value="0"/>

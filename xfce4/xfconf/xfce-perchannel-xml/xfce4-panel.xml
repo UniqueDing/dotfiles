@@ -83,6 +83,7 @@
         <value type="string" value="networkmanager applet"/>
       </property>
       <property name="known-items" type="array">
+        <value type="string" value="obs"/>
         <value type="string" value="netease-cloud-music"/>
         <value type="string" value="Nextcloud"/>
         <value type="string" value="V2Ray-Desktop"/>
@@ -128,7 +129,7 @@
     </property>
     <property name="plugin-15" type="string" value="pulseaudio">
       <property name="enable-keyboard-shortcuts" type="bool" value="true"/>
-      <property name="mpris-players" type="string" value="chromium.instance3290192;chromium.instance3312563;netease-cloud-music;plasma-browser-integration"/>
+      <property name="mpris-players" type="string" value="chromium.instance2589;chromium.instance3290192;chromium.instance3312563;netease-cloud-music;plasma-browser-integration"/>
     </property>
     <property name="plugin-24" type="string" value="systemload"/>
     <property name="plugin-30" type="string" value="actions"/>
