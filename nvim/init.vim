@@ -47,6 +47,12 @@ noremap <leader>l i <ESC>
 noremap <tab>h :<C-u>bp<cr>
 noremap <tab>i :<C-u>bn<cr>
 
+set foldmethod=syntax
+set foldlevel=1
+set foldnestmax=3
+noremap <tab>t za
+noremap <tab>m zR
+
 if has('nvim')
 	noremap <A-n> 5j
 	noremap <A-e> 5k
@@ -354,6 +360,7 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Symbol renaming.
 nmap <tab>r <Plug>(coc-rename)
+nmap <tab>i <Plug>(coc-refactor)
 
 " Apply AutoFix to problem on the current line.
 nmap <silent><nowait> <tab>f  <Plug>(coc-fix-current)
@@ -370,11 +377,12 @@ nnoremap <silent><nowait> <tab>o  :<C-u>CocList outline<cr>
 " Search workspace symbols.
 nnoremap <silent><nowait> <tab>s  :<C-u>CocList -I symbols<cr>
 " Do default action for next item.
-nnoremap <silent><nowait> <tab>n  :<C-u>CocNext<CR>
+nnoremap <silent><nowait> <tab>ln  :<C-u>CocNext<CR>
 " Do default action for previous item.
-nnoremap <silent><nowait> <tab>e  :<C-u>CocPrev<CR>
+nnoremap <silent><nowait> <tab>le  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <tab>p  :<C-u>CocListResume<CR>
+
 
 " coc-explorer
 nmap <leader>e :CocCommand explorer<CR>
