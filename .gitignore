@@ -1,6 +1,7 @@
 /*
 
 !/.gitignore
+!/alacritty
 !/README.md
 !/LICENSE
 !/coc
