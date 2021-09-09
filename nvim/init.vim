@@ -22,6 +22,7 @@ set wildmenu
 set hlsearch
 set incsearch
 set expandtab
+set smarttab
 set tabstop=4
 set shiftwidth=4
 set scrolloff=4
@@ -29,6 +30,14 @@ set cmdheight=2
 set hidden
 set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312
 set fileformats=unix
+
+set ignorecase
+set smartcase
+
+nnoremap <leader>ss :%s//gcI<left><left><left><left>
+nnoremap <leader>si :%s//gci<left><left><left><left>
+vnoremap <leader>ss :s//gcI<left><left><left><left>
+vnoremap <leader>si :s//gci<left><left><left><left>
 
 set list
 set listchars=tab:>-,trail:-
@@ -116,6 +125,8 @@ Plug 'nanotech/jellybeans.vim'
 Plug 'altercation/vim-colors-solarized'
 Plug 'morhetz/gruvbox'
 Plug 'dracula/vim'
+Plug 'connorholyday/vim-snazzy'
+Plug 'joshdick/onedark.vim'
 
 Plug 'lambdalisue/suda.vim'
 
@@ -203,7 +214,14 @@ let g:coc_global_extensions = [
 			\ ]
 
 "color
-autocmd vimenter * hi Normal guibg=NONE ctermbg=NONE " transparent bg
+if (has("nvim"))
+    "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
+    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+endif
+
+autocmd vimenter * hi Normal guibg=NONE ctermbg=NONE  " transparent bg
+" colorscheme snazzy
+" colorscheme onedark
 colorscheme dracula
 " colorscheme nord
 " colorscheme jellybeans
@@ -216,8 +234,6 @@ set termguicolors
 " highlight RedundantSpaces ctermbg=red guibg=red
 " match RedundantSpaces /\s\+$/
 " " tab | \+\ze\t\|\t/
-
-
 
 " airline
 let g:airline#extensions#tabline#enabled = 1
@@ -328,9 +344,9 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 
 let g:coc_snippet_next = '<tab>'
 
-nmap <silent> <C-c> <Plug>(coc-cursors-position)
-nmap <silent> <C-d> <Plug>(coc-cursors-word)
-xmap <silent> <C-d> <Plug>(coc-cursors-range)
+nmap <silent> <A-c> <Plug>(coc-cursors-position)
+nmap <silent> <A-d> <Plug>(coc-cursors-word)
+xmap <silent> <A-d> <Plug>(coc-cursors-range)
 " use normal command like `<leader>xi(`
 " nmap <leader>x  <Plug>(coc-cursors-operator)
 " nnoremap <silent><nowait> <leader>dl :CocList diagnostics<cr>
@@ -361,7 +377,7 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Symbol renaming.
 nmap <tab>r <Plug>(coc-rename)
-nmap <tab>i <Plug>(coc-refactor)
+nmap <tab>u <Plug>(coc-refactor)
 
 " Apply AutoFix to problem on the current line.
 nmap <silent><nowait> <tab>f  <Plug>(coc-fix-current)
