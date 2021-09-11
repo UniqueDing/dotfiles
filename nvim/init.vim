@@ -136,6 +136,7 @@ Plug 'vim-airline/vim-airline-themes'
 " Plug 'scrooloose/nerdtree'
 Plug 'mhinz/vim-startify'
 Plug 'tpope/vim-commentary'
+Plug 'jackguo380/vim-lsp-cxx-highlight'
 " Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 " Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " Plug 'octol/vim-cpp-enhanced-highlight'
@@ -435,7 +436,7 @@ autocmd FileType go nmap gtx :CocCommand go.tags.clear<cr>
 " C Compiler:
 autocmd FileType c nnoremap <leader>r :!gcc % && ./a.out <CR>
 " C++ Compiler
-autocmd FileType cpp nnoremap <leader>r :!g++ -pthread % && ./a.out <CR>
+autocmd FileType cpp nnoremap <leader>r :!g++ -std=c++2a -pthread % && ./a.out <CR>
 " Go Interpreter
 autocmd FileType go nnoremap <leader>r :!go run % <CR>
 " Python Interpreter

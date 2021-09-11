@@ -11,7 +11,6 @@
             ]
         }
     },
-    "coc.preferences.hoverTarget": "preview",
     "coc.preferences.enableFloatHighlight": true,
     "coc.preferences.snippetStatusText": "Ⓢ ",
     "coc.preferences.extensionUpdateCheck": "daily",
@@ -102,5 +101,7 @@
         ">>": "gitUnstage"
     },
     "leetcode.language":"cpp",
-    "rust-analyzer.server.path":"/usr/bin/rust-analyzer"
+    "rust-analyzer.server.path":"/usr/bin/rust-analyzer",
+    "clangd.semanticHighlighting":true,
+    "clangd.fallbackFlags": ["-std=c++2a"]
 }
