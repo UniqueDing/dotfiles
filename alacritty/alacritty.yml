@@ -159,17 +159,18 @@ window:
   #multiplier: 3
 # Font configuration
 font:
-  font:
     normal:
-      family: DejaVu Sans Mono
-      style: Book
+      # family: DejaVu Sans Mono
+      family: Hack
+      style: Regular
     bold:
-      family: DejaVu Sans Mono
+      family: Hack
       style: Bold
     italic:
-      family: DejaVu Sans Mono
+      # family: DejaVu Sans Mono
+      family: Hack
       style: Italic
-  size: 15.0
+    size: 15.0
 
 # font:
   # Normal (roman) font face

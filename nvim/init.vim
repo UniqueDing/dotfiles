@@ -239,7 +239,7 @@ set termguicolors
 let g:airline#extensions#tabline#enabled = 1
 " let g:airline_theme="bubblegum"
 let g:airline_theme="tomorrow"
-" let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 1
 
 function! CMakeStat()
   let l:cmake_build_dir = get(g:, 'cmake_build_dir', 'build')
