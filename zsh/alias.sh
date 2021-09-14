@@ -61,28 +61,10 @@ alias gpa='git push origin ; git push github; git push gitee'
 
 alias pipU='pip3 freeze --local | grep -v '^-e' | cut -d = -f 1  | xargs -n1 pip install -U'
 
-# update
-function update(){
-    yes | pSyyu
-    yes | aU
-    yes | bU
-    yes | sU
-    zi update
-}
-
-
-# proxy
-function Pon(){
-	export https_proxy=http://127.0.0.1:20171 http_proxy=http://127.0.0.1:20171 all_proxy=socks5://127.0.0.1:20170
-}
-
-function Pdown(){
-	unset http_proxy
-	unset https_proxy
-	unset all_proxy
-}
-
 alias frpcc='frpc -c /etc/frp/frpc.ini'
+
+# fzf
+alias nvimf='nvim `fzf --preview "cat {}"`'
 
 alias mountnas='sudo mount.nfs 192.168.100.2:/main ~/nas'
 alias umountnas='sudo umount ~/nas'
