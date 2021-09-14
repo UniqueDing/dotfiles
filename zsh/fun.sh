@@ -23,8 +23,10 @@ function update(){
 # fzf
 function fzfc(){
     content=`rg -n -t $* . | fzf`
-    file=`echo $content | awk -F: '{printf $1}'`
-    col=`echo $content | awk -F: '{printf $2}'`
-    nvim $file +$col
+    if [ $content ]; then
+        file=`echo $content | awk -F: '{printf $1}'`
+        col=`echo $content | awk -F: '{printf $2}'`
+        nvim $file +$col
+    fi
 }
 

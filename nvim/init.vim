@@ -133,6 +133,7 @@ Plug 'lambdalisue/suda.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
+Plug 'vim-scripts/DoxygenToolkit.vim'
 " Plug 'scrooloose/nerdtree'
 Plug 'mhinz/vim-startify'
 Plug 'tpope/vim-commentary'
@@ -311,6 +312,14 @@ let g:mkdp_browserfunc = 'g:Open_browser'
 " indentLine
 let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 
+" DoxygenToolKit
+let g:doxyge_enhanced_color=1
+" let g:DoxygenToolkit_briefTag_post = " <++>"
+let g:DoxygenToolkit_paramTag_post = " <++>"
+let g:DoxygenToolkit_returnTag = "@return <++>"
+noremap <tab>dd :Dox<cr>
+noremap <tab>da :DoxAuthor<cr>
+noremap <tab>db :DoxBlock<cr>
 
 " coc
 
