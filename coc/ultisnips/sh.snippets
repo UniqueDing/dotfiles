@@ -24,34 +24,11 @@
 #
 # Online reference: https://github.com/SirVer/ultisnips/blob/master/doc/UltiSnips.txt
 
-snippet main "generate main function" b
-int main(int argc, char** argv)
-{
-	${1}
-	return 0;
-}
-endsnippet
-
-snippet test "generate test code" b
-#include <iostream>
-using namespace std;
-int main(int argc, char** argv)
-{
-	${1}
-	return 0;
-}
-endsnippet
-
-snippet cout "cout endl" b
-std::cout << ${0} << std::endl;
-endsnippet
-
-snippet cerr "cerr endl" b
-std::cerr << ${0} << std::endl;
-endsnippet
-
-snippet smart_ptr_free_malloc "deleter for smart_ptr malloc" b
-struct smart_ptr_free_malloc {
-	void operator()(void* x) {free(x);}
-};
+snippet config_manual "generate config manual" b
+# ---
+# key: ${1}
+# note: ${2}
+# code: ${3}
+# pic: ${4}
+# ---
 endsnippet

@@ -180,6 +180,8 @@ Plug 'fruit-in/brainfuck-vim'
 
 Plug 'mklabs/vim-cowsay'
 
+Plug 'wakatime/vim-wakatime'
+
 " fcitx
 Plug 'lilydjwg/fcitx.vim'
 

@@ -6,7 +6,7 @@ killall start-status.sh
 variety &
 nm-applet &
 blueman-applet &
-xfsettingsd &
+# xfsettingsd &
 dunst &
 picom &
 fcitx5 &
