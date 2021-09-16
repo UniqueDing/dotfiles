@@ -9,12 +9,6 @@ alias ll='ls -lHg --git'
 alias lla='ll -a'
 alias ..='cd ..'
 alias ...='cd ../..'
-function mkcd(){
-	mkdir $1
-	cd $1
-}
-alias fzfh='cd ~ && { fzf ; cd - > /dev/null }'
-alias fzfr='cd / && { sudo fzf ; cd - > /dev/null }'
 alias cdl='~/.config/dwm/dark-light.sh'
 
 alias pS='sudo pacman -S'
