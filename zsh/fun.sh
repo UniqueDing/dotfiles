@@ -30,7 +30,7 @@ function fzfp(){
 
 function fzfc(){
     if [ $* ]; then
-        RG_PREFIX="rg --line-number --no-heading --color=always --smart-case -t $* "
+        RG_PREFIX="rg --line-number --no-heading --color=always --smart-case -t $* --hidden"
         content=`FZF_DEFAULT_COMMAND="$RG_PREFIX '$INITIAL_QUERY'" \
           fzf --bind "change:reload:$RG_PREFIX {q} || true" \
               --preview '~/.config/zsh/preview.sh {}' \
@@ -41,7 +41,7 @@ function fzfc(){
             nvim $file +$col
         fi
     else;
-        RG_PREFIX="rg --line-number --no-heading --color=always --smart-case "
+        RG_PREFIX="rg --line-number --no-heading --color=always --smart-case --hidden"
         content=`FZF_DEFAULT_COMMAND="$RG_PREFIX '$INITIAL_QUERY'" \
           fzf --bind "change:reload:$RG_PREFIX {q} || true" \
               --preview '~/.config/zsh/preview.sh {}' \
