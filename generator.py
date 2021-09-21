@@ -57,9 +57,12 @@ def print_md():
                         '| ' + \
                         item['key'] + ' | ' + \
                         item['note'] + ' | ' + \
-                        item['code'] + ' | ' + \
-                        '![pic](' + item['pic'] + ')' + ' |\n'
+                        item['code'] + ' | '
                         )
+
+                if item['pic'] != '':
+                    f.write('![pic](' + item['pic'] + ')')
+                f.write(' |\n')
 
             f.write('\n')
 
