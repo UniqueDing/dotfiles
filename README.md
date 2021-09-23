@@ -1,6 +1,8 @@
-## my linux config files
+# my linux config files
 
-> arch + i3wm + polybar + vim + fish + ranger + dunst
+arch + dwm + alacritty + neovim
+
+[manual](doc/manaul.md)
 
 [dwm](https://github.com/UniqueDing/mydwm)
 [st](https://github.com/UniqueDing/myst)

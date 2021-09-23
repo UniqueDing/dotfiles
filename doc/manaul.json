@@ -1,0 +1,35 @@
+{
+    "zsh/fun.sh":[
+        {
+            "key":"fzfl",
+            "note":"show file list useby fzf",
+            "code":"",
+            "pic":""
+        },
+        {
+            "key":"fzflh",
+            "note":"show home file list useby fzf",
+            "code":"fzfl $HOME",
+            "pic":""
+        },
+        {
+            "key":"fzflr",
+            "note":"show / file list useby fzf",
+            "code":"fzfl /",
+            "pic":""
+        },
+        {
+            "key":"fzfp",
+            "note":"show ps -ef list useby fzf",
+            "code":"",
+            "pic":""
+        },
+        {
+            "key":"fzfc [filetype:optional]",
+            "note":"show current directory file lines use by fzf and jump to nvim",
+            "code":"",
+            "pic":""
+        }
+    ],
+    "zsh/alias.sh":[]
+}

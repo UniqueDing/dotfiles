@@ -32,3 +32,5 @@
 !/.pam_environment
 !/xfce4
 !/zsh
+!/doc
+!generator.py
