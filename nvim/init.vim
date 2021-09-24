@@ -57,7 +57,7 @@ noremap <tab>h :<C-u>bp<cr>
 noremap <tab>i :<C-u>bn<cr>
 
 set foldmethod=syntax
-set foldlevel=1
+set foldlevel=2
 set foldnestmax=3
 noremap <tab>t za
 noremap <tab>k zR
