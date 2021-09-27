@@ -26,16 +26,21 @@ function update(){
 }
 
 # ---
-# key: fzfl
-# note: show file list useby fzf
+# key: fzfl [path:optional]
+# note: show file list useby fzf, default .
 # code: 
 # pic: 
 # ---
 function fzfl(){
-    INITIAL_QUERY=$1
+    if [ $1 ];then
+        INITIAL_QUERY=$1
+    else
+        INITIAL_QUERY='.'
+    fi
+
     RG_PREFIX="rg --no-heading --color=always --smart-case --hidden --files"
     FZF_DEFAULT_COMMAND="$RG_PREFIX '$INITIAL_QUERY'" \
-      fzf --bind "change:reload:$RG_PREFIX || true" \
+      fzf --bind "change:reload:$RG_PREFIX '$INITIAL_QUERY' || true" \
           --preview '~/.config/zsh/preview.sh {}' \
           --ansi
 }

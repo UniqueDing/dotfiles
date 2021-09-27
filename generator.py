@@ -7,6 +7,9 @@ import re
 file_list = [
     'zsh/fun.sh',
     'zsh/alias.sh',
+    'nvim/init.vim',
+    'alacritty/alacritty.yml',
+    'sway/config'
         ]
 
 manual_dic = {}

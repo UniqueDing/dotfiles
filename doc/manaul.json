@@ -1,8 +1,8 @@
 {
     "zsh/fun.sh":[
         {
-            "key":"fzfl",
-            "note":"show file list useby fzf",
+            "key":"fzfl [path:optional]",
+            "note":"show file list useby fzf, default .",
             "code":"",
             "pic":""
         },
@@ -31,5 +31,15 @@
             "pic":""
         }
     ],
-    "zsh/alias.sh":[]
+    "zsh/alias.sh":[],
+    "nvim/init.vim":[],
+    "alacritty/alacritty.yml":[],
+    "sway/config":[
+        {
+            "key":"<S-tab>",
+            "note":"change workspace to last",
+            "code":"bindsym $mod+tab workspace back_and_forth",
+            "pic":""
+        }
+    ]
 }

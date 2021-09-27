@@ -14,25 +14,32 @@ set $down n
 set $up e
 set $right i
 # Your preferred terminal emulator
-set $term alacritty
-set $browser google-chrome-stable
+set $term `WAYLAND_DISPLAY= alacritty`
+set $lock swaylock -c 000000
+
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
 set $menu dmenu_path | dmenu | xargs swaymsg exec --
+
+set $browser google-chrome-stable
+
 
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 
+# delete window title
+default_border none
+
+focus_follows_mouse no
+
+gaps outer 5
+gaps inner 5
+smart_gaps on
+
 #XF86
-# bindsym XF86AudioRaiseVolume exec amixer set Master playback 1000+  
-# bindsym XF86AudioLowerVolume exec amixer set Master playback 1000-  
-# bindsym XF86AudioMute exec amixer set Master toggle
-# bindsym XF86TouchpadOff exec firefox
-# bindsym XF86MonBrightnessUp exec "xbacklight -inc 5"
-# bindsym XF86MonBrightnessDown exec "xbacklight -dec 5"
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
 bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
@@ -50,6 +57,8 @@ bindsym XF86Search exec bemenu-run
 #   output HDMI-A-1 resolution 1920x1080 position 1920,0
 #
 # You can get the names of your outputs by running: swaymsg -t get_outputs
+
+output HDMI-A-1 transform 90
 
 ### Idle configuration
 #
@@ -70,14 +79,14 @@ bindsym XF86Search exec bemenu-run
 #
 
 input * {
-    dwt enabled
-    tap enabled
-    natural_scroll enabled
-    middle_emulation enabled
+    # dwt enabled
+    # tap enabled
+    # natural_scroll enabled
+    # middle_emulation enabled
 
     xkb_layout "us"
     xkb_variant "colemak"
-    xkb_options "grp:win_space_toggle"
+    # xkb_options "grp:win_space_toggle"
 }
 
 #
@@ -100,6 +109,15 @@ input * {
     # Start your launcher
     bindsym $mod+p exec $menu
 
+    # lock
+    bindsym $mod+l exec $lock
+
+    # screenshot
+    bindsym $mod+s exec grim -g "$(slurp)" $(xdg-user-dir PICTURES)/$(date +'%s_grim.png')
+    bindsym $mod+Shift+s exec grim $(xdg-user-dir PICTURES)/$(date +'%s_grim.png')
+    bindsym $mod+ctrl+s exec grim -g "$(swaymsg -t get_tree | jq -j '.. | select(.type?) | select(.focused).rect | "\(.x),\(.y) \(.width)x\(.height)"')" $(xdg-user-dir PICTURES)/$(date +'%s_grim.png')
+
+
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
     # Despite the name, also works for non-floating windows.
@@ -111,7 +129,8 @@ input * {
     bindsym $mod+Shift+c reload
 
     # Exit sway (logs you out of your Wayland session)
-    bindsym $mod+Shift+q exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+    # bindsym $mod+Shift+q exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+    bindsym $mod+Shift+q exec swaymsg exit
 #
 # Moving around:
 #
@@ -163,6 +182,15 @@ input * {
     bindsym $mod+Shift+0 move container to workspace number 10; workspace number 10
     # Note: workspaces can have any name you want, not just numbers.
     # We just use 1-10 as the default.
+
+# ---
+# key: S-tab
+# note: change workspace to last
+# code: bindsym $mod+tab workspace back_and_forth
+# pic: 
+# ---
+    bindsym $mod+tab workspace back_and_forth
+
 #
 # Layout stuff:
 #
@@ -245,3 +273,5 @@ bar {
 }
 
 include /etc/sway/config.d/*
+
+include autostart

@@ -1,0 +1,4 @@
+exec variety
+exec dunst
+exec wlsunset -l 39.9 -L 116.3
+exec `sleep 1 && fcitx && fcitx5`
