@@ -1,3 +1,4 @@
+exec syncthing
 exec nm-applet --indicator
 exec blueman-applet
 exec variety

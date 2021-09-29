@@ -30,7 +30,6 @@
 !/.zshrc
 !/.p10k.zsh
 !/.pam_environment
-!/xfce4
 !/zsh
 !/doc
 !generator.py

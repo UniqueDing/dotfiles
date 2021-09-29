@@ -9,8 +9,9 @@
 }
 
 window#waybar {
-    background-color: rgba(43, 48, 59, 0.5);
-    border-bottom: 3px solid rgba(100, 114, 125, 0.5);
+    /* background-color: rgba(43, 48, 59, 0.5); */
+    /* border-bottom: 3px solid rgba(100, 114, 125, 0.5); */
+    background-color: rgba(40, 42, 54, 0.3);
     color: #ffffff;
     transition-property: background-color;
     transition-duration: .5s;
@@ -30,7 +31,8 @@ window#waybar.solo {
 */
 
 window#waybar.termite {
-    background-color: #3F3F3F;
+    /* background-color: #3F3F3F; */
+    background-color: #44475a;
 }
 
 window#waybar.chromium {
@@ -47,7 +49,8 @@ window#waybar.chromium {
 
 /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
 #workspaces button:hover {
-    background: rgba(0, 0, 0, 0.2);
+    /* background: rgba(0, 0, 0, 0.2); */
+    background: rgba(68, 71, 90, 0.2);
     box-shadow: inherit;
     border-bottom: 3px solid #ffffff;
 }
@@ -58,7 +61,8 @@ window#waybar.chromium {
 }
 
 #workspaces button.urgent {
-    background-color: #eb4d4b;
+    /* background-color: #eb4d4b; */
+    background-color: #ff5555;
 }
 
 #mode {
@@ -84,32 +88,33 @@ window#waybar.chromium {
     color: #ffffff;
 }
 
-#clock {
-    background-color: #64727D;
-}
-
 #battery {
-    background-color: #ffffff;
+    /* background-color: #ffffff; */
+    /* color: #000000; */
+    background-color: #f1fa8c;
     color: #000000;
     border-radius: 10px;
     margin: 2px;
 }
 
 #battery.charging {
-    color: #ffffff;
-    background-color: #26A65B;
+    color: #000000;
+    /* background-color: #26A65B; */
+    background-color: #50fa7b;
 }
 
 @keyframes blink {
     to {
-        background-color: #ffffff;
+        /* background-color: #ffffff; */
+        background-color: #f1fa8c;
         color: #000000;
     }
 }
 
 #battery.critical:not(.charging) {
-    background-color: #f53c3c;
-    color: #ffffff;
+    /* background-color: #f53c3c; */
+    background-color: #ff5555;
+    color: #000000;
     animation-name: blink;
     animation-duration: 0.5s;
     animation-timing-function: linear;
@@ -122,46 +127,57 @@ label:focus {
 }
 
 #cpu {
-    background-color: #2ecc71;
+    /* background-color: #2ecc71; */
+    background-color: #ffb86c;
     color: #000000;
     border-radius: 10px;
     margin: 2px;
 }
 
 #memory {
-    background-color: #9b59b6;
+    background-color: #bd93f9;
+    color: #000000;
     border-radius: 10px;
     margin: 2px;
 }
 
 #backlight {
-    background-color: #90b1b1;
+    /* background-color: #90b1b1; */
+    background-color: #ff79c6;
+    color: #000000;
     border-radius: 10px;
     margin: 2px;
 }
 
 #network {
-    background-color: #2980b9;
+    /* background-color: #2980b9; */
+    background-color: #8be9fd;
+    color: #000000;
     border-radius: 10px;
     margin: 2px;
 }
 
 #network.disconnected {
-    background-color: #f53c3c;
+    /* background-color: #f53c3c; */
+    background-color: #ff5555;
+    color: #000000;
     border-radius: 10px;
     margin: 2px;
 }
 
 #pulseaudio {
-    background-color: #f1c40f;
+    /* background-color: #f1c40f; */
+    background-color: #f1fa8c;
     color: #000000;
     border-radius: 10px;
     margin: 2px;
 }
 
 #pulseaudio.muted {
-    background-color: #90b1b1;
-    color: #2a5c45;
+    /* background-color: #90b1b1; */
+    /* color: #2a5c45; */
+    background-color: #ff79c6;
+    color: #000000;
     border-radius: 10px;
     margin: 2px;
 }
@@ -187,19 +203,25 @@ label:focus {
 }
 
 #temperature {
-    background-color: #f0932b;
+    /* background-color: #f0932b; */
+    background-color: #ffb86c;
+    color: #000000;
     border-radius: 10px;
     margin: 2px;
 }
 
 #temperature.critical {
-    background-color: #eb4d4b;
+    /* background-color: #eb4d4b; */
+    background-color: #ff5555;
+    color: #000000;
     border-radius: 10px;
     margin: 2px;
 }
 
 #tray {
-    background-color: #2980b9;
+    /* background-color: #2980b9; */
+    background-color: #6272a4;
+    color: #000000;
     border-radius: 10px;
     margin: 2px;
 }
@@ -243,13 +265,16 @@ label:focus {
 }
 
 #disk {
-    background-color: #8a9832;
+    /* background-color: #8a9832; */
+    background-color: #50fa7b;
+    color: #000000;
     border-radius: 10px;
     margin: 2px;
 }
 
 #clock {
-    background-color: #ac3c02;
+    background-color: #f8f8f2;
+    color: #000000;
     border-radius: 10px;
     margin: 2px;
 }
