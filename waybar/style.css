@@ -91,6 +91,8 @@ window#waybar.chromium {
 #battery {
     background-color: #ffffff;
     color: #000000;
+    border-radius: 10px;
+    margin: 2px;
 }
 
 #battery.charging {
