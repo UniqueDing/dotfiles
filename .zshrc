@@ -86,5 +86,6 @@ bindkey -e
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+source /etc/profile
 source ~/.config/zsh/alias.sh
 source ~/.config/zsh/fun.sh

@@ -4,5 +4,5 @@ exec blueman-applet
 exec variety
 exec dunst
 exec wlsunset -l 39.9 -L 116.3
-exec sleep 1 && fcitx 
 exec sleep 1 && fcitx5
+exec bash ~/.config/sway/lauch.sh

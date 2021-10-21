@@ -793,10 +793,10 @@ mouse:
 key_bindings:
   - { key: Paste,                                       action: Paste          }
   - { key: Copy,                                        action: Copy           }
-  - { key: E,         mods: Super,                      action: ScrollLineUp   }
-  - { key: N,         mods: Super,                      action: ScrollLineDown }
-  - { key: E,         mods: Super|Shift,                action: ScrollHalfPageUp   }
-  - { key: N,         mods: Super|Shift,                action: ScrollHalfPageDown }
+  - { key: Y,         mods: Super,                      action: ScrollLineUp   }
+  - { key: U,         mods: Super,                      action: ScrollLineDown }
+  - { key: Y,         mods: Super|Shift,                action: ScrollHalfPageUp   }
+  - { key: U,         mods: Super|Shift,                action: ScrollHalfPageDown }
   - { key: L,         mods: Control,                    action: ClearLogNotice }
   - { key: L,         mods: Control, mode: ~Vi|~Search, chars: "\x0c"          }
   - { key: PageUp,    mods: Shift,   mode: ~Alt,        action: ScrollPageUp,  }

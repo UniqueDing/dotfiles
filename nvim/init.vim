@@ -56,9 +56,9 @@ noremap <leader>l i <ESC>
 noremap <tab>h :<C-u>bp<cr>
 noremap <tab>i :<C-u>bn<cr>
 
-set foldmethod=syntax
-set foldlevel=2
-set foldnestmax=3
+" set foldmethod=syntax
+" set foldlevel=2
+" set foldnestmax=3
 noremap <tab>t za
 noremap <tab>k zR
 noremap <tab>m zM
@@ -147,7 +147,8 @@ Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'godlygeek/tabular'
 " Plug 'plasticboy/vim-markdown'
 " Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug'] }
+" Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'cespare/vim-toml'
 
 Plug 'neoclide/coc.nvim' , {'branch': 'release'}
@@ -300,16 +301,17 @@ vmap <Leader>a; :Tabularize /:\zs<CR>
 au BufNewFile,BufFilePre,BufRead *.md set filetype=markdown
 autocmd FileType markdown nmap <leader>r <Plug>MarkdownPreviewToggle
 " let g:mkdp_browser = '"Firefox" --args --new-window'
+let g:mkdp_browser = 'firefox'
 
-function! g:Open_browser(url)
-	if has("mac")
-		silent exec '!open -na "Google Chrome" --args --new-window ' . a:url
-	else
-		silent exec "!chromium --new-window " . a:url
-		" silent exec "!google-chrome-stable --new-window " . a:url
-	endif
-endfunction
-let g:mkdp_browserfunc = 'g:Open_browser'
+" function! g:Open_browser(url)
+" 	if has("mac")
+" 		silent exec '!open -na "Google Chrome" --args --new-window ' . a:url
+" 	else
+" 		silent exec "!chromium --new-window " . a:url
+" 		" silent exec "!google-chrome-stable --new-window " . a:url
+" 	endif
+" endfunction
+" let g:mkdp_browserfunc = 'g:Open_browser'
 
 " indentLine
 let g:indentLine_char_list = ['|', '¦', '┆', '┊']
