@@ -28,6 +28,7 @@
 !/vimium-options.json
 !/zathura
 !/.zshrc
+!/.zimrc
 !/.p10k.zsh
 !/.pam_environment
 !/zsh
