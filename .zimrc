@@ -27,9 +27,10 @@ zmodule git-info
 #
 # theme
 #
-zmodule prompt-pwd
-zmodule gitster
+# zmodule prompt-pwd
+# zmodule gitster
 # zmodule s1ck94
+zmodule romkatv/powerlevel10k
 
 # Additional completion definitions for Zsh.
 zmodule zsh-users/zsh-completions
