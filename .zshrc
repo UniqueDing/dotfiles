@@ -143,6 +143,8 @@ export PATH=$PATH::/home/uniqueding/bin
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-source /etc/profile
+# source /etc/profile
 source ~/.config/zsh/alias.sh
 source ~/.config/zsh/fun.sh
+
+RPS1='%F{white}%*'
