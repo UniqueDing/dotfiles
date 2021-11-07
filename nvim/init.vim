@@ -553,6 +553,12 @@ let g:rainbow_active = 1
 " hi illuminatedWord cterm=undercurl gui=undercurl
 
 " autoformat
+" ---
+" key: L-mf
+" note: Anto Format
+" code: :Autofomat<cr>
+" pic: 
+" ---
 noremap <leader>mf :Autoformat<CR>
 
 " undotree
@@ -565,23 +571,50 @@ noremap <leader>mf :Autoformat<CR>
 " endfunc
 
 " anyjump
+" ---
+" key: L-jj
+" note: AnyJump
+" code: :AnyJump
+" pic: 
+" ---
 " Normal mode: Jump to definition under cursore
-nnoremap <leader>j :AnyJump<CR>
+nnoremap <leader>jj :AnyJump<CR>
 
+" ---
+" key: L-jj
+" note: AnyJumpVisual
+" code: :AnyJumpVisual
+" pic: 
+" ---
 " Visual mode: jump to selected text in visual mode
-xnoremap <leader>j :AnyJumpVisual<CR>
+xnoremap <leader>jj :AnyJumpVisual<CR>
 
+" ---
+" key: L-jb
+" note: AnyJumpBack
+" code: :AnyJumpBack
+" pic: 
+" ---
 " Normal mode: open previous opened file (after jump)
-nnoremap <leader>ab :AnyJumpBack<CR>
+nnoremap <leader>jb :AnyJumpBack<CR>
 
+" ---
+" key: L-jl
+" note: AnyJumpLastResults
+" code: :AnyJumpLastResults
+" pic: 
+" ---
 " Normal mode: open last closed search window again
-nnoremap <leader>al :AnyJumpLastResults<CR>
+nnoremap <leader>jl :AnyJumpLastResults<CR>
 
 let g:any_jump_list_numbers = 1
 
 " vim-android
 let g:android_sdk_path = '$HOME/Android/Sdk'
 let g:gradle_path = '/opt/gradle-7.2'
+
+" vim-cmake
+
 
 
 " airline

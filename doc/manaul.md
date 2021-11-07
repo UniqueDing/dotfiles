@@ -19,6 +19,11 @@
 
 | key | note | code | pic |
 | --- | ---- | ---- | --- |
+| L-mf | Anto Format | :Autofomat<cr> |  |
+| L-jj | AnyJump | :AnyJump |  |
+| L-jj | AnyJumpVisual | :AnyJumpVisual |  |
+| L-jb | AnyJumpBack | :AnyJumpBack |  |
+| L-jl | AnyJumpLastResults | :AnyJumpLastResults |  |
 
 ## alacritty/alacritty.yml
 

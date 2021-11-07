@@ -32,11 +32,42 @@
         }
     ],
     "zsh/alias.sh":[],
-    "nvim/init.vim":[],
+    "nvim/init.vim":[
+        {
+            "key":"L-mf",
+            "note":"Anto Format",
+            "code":":Autofomat<cr>",
+            "pic":""
+        },
+        {
+            "key":"L-jj",
+            "note":"AnyJump",
+            "code":":AnyJump",
+            "pic":""
+        },
+        {
+            "key":"L-jj",
+            "note":"AnyJumpVisual",
+            "code":":AnyJumpVisual",
+            "pic":""
+        },
+        {
+            "key":"L-jb",
+            "note":"AnyJumpBack",
+            "code":":AnyJumpBack",
+            "pic":""
+        },
+        {
+            "key":"L-jl",
+            "note":"AnyJumpLastResults",
+            "code":":AnyJumpLastResults",
+            "pic":""
+        }
+    ],
     "alacritty/alacritty.yml":[],
     "sway/config":[
         {
-            "key":"<S-tab>",
+            "key":"S-tab",
             "note":"change workspace to last",
             "code":"bindsym $mod+tab workspace back_and_forth",
             "pic":""
