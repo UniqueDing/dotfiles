@@ -614,7 +614,14 @@ let g:android_sdk_path = '$HOME/Android/Sdk'
 let g:gradle_path = '/opt/gradle-7.2'
 
 " vim-cmake
-
+let g:cmake_default_config = 'build'
+nnoremap <leader>cg :CMakeGenerate
+nnoremap <leader>cc :CMakeBuild -j16<CR>
+nnoremap <leader>cb :CMakeBuild -j16
+nnoremap <leader>cl :CMakeClean<CR>
+nnoremap <leader>ci :CMakeInstall<CR>
+nnoremap <leader>co :CMakeOpen<CR>
+nnoremap <leader>cq :CMakeClose<CR>
 
 
 " airline
@@ -647,7 +654,7 @@ if !exists('g:airline_symbols')
 endif
 
 " powerline symbols
-let g:airline_symbols.linenr = ' ☰ '
+let g:airline_symbols.linenr = ' '
 let g:airline_symbols.maxlinenr = ''
 
 

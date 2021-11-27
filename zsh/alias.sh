@@ -60,8 +60,8 @@ alias frpcc='frpc -c /etc/frp/frpc.ini'
 # fzf
 alias nvimf='nvim `fzf --preview "cat {}"`'
 
-alias mountnas='sudo mount.nfs 192.168.100.2:/main ~/nas'
-alias umountnas='sudo umount ~/nas'
+alias mountnas='sudo mount.nfs 192.168.100.2:/main ~/extern/nas'
+alias umountnas='sudo umount ~/extern/nas'
 
 # systemd
 alias sysE='systemctl enable'

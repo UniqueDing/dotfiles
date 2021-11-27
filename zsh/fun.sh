@@ -103,3 +103,14 @@ function fzfc(){
     fi
 }
 
+function adbS() {
+    while :
+    do
+        adb shell "echo 'lxc-attach -P /opt/compatible/android/lxc -n androidcompat' > /bin/lxa && chmod +x /bin/lxa" && adb shell
+        if [[ $? -eq 0 ]]; then
+            break
+        fi
+        sleep 1
+    done
+}
+

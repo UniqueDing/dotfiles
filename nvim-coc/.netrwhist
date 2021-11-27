@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =0
+let g:netrw_dirhist_0='/home/uniqueding/.config'
+let g:netrw_dirhist_9='/home/uniqueding/.config/alacritty'
+let g:netrw_dirhist_8='/home/uniqueding/jing/JingSideProxy/CMakeFiles'
+let g:netrw_dirhist_7='/home/uniqueding/data/aosp-manifest/wlmanager'
+let g:netrw_dirhist_6='/usr/share/icons/hicolor/scalable/apps'
+let g:netrw_dirhist_5='/home/uniqueding/test'
+let g:netrw_dirhist_4='/home/uniqueding/jing/JingSideProxy/3rdparty/build'
+let g:netrw_dirhist_3='/home/uniqueding/data/aosp/build_'
+let g:netrw_dirhist_2='/home/uniqueding/data/aosp/build'
+let g:netrw_dirhist_1='/home/uniqueding/test/testaar/libs'
