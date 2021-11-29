@@ -7,6 +7,7 @@
 - clean: ['~']
 
 - link:
+    ~/.config/alacritty: alacritty
     ~/.config/dunst: dunst
     ~/.config/nvim: nvim
     ~/.config/ranger: ranger
