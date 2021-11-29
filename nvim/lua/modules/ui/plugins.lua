@@ -1,8 +1,12 @@
 local ui = {}
 local conf = require('modules.ui.config')
 
+ui['glepnir/zephyr-nvim'] = {
+    config = [[vim.cmd('colorscheme zephyr')]]
+}
+
 ui['dracula/vim'] = {
-    config = [[vim.cmd('colorscheme dracula')]]
+--    config = [[vim.cmd('colorscheme dracula')]]
 }
 ui['glepnir/dashboard-nvim'] = {
     config = conf.dashboard,
