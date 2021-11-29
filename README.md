@@ -1,8 +1,16 @@
 # my linux config files
 
-arch + dwm + alacritty + neovim
+* archlinux 
+* sway
+* alacritty
+* zsh
+* zinit
+* nvim
+* ranger
+* ~~dwm~~
+* ~~st~~
+* ~~fish~~
+* ~~coc.nvim~~
 
-[manual](doc/manaul.md)
+> [manual](doc/manaul.md)
 
-[dwm](https://github.com/UniqueDing/mydwm)
-[st](https://github.com/UniqueDing/myst)

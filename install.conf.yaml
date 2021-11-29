@@ -1,0 +1,22 @@
+- defaults:
+    link:
+      create: true
+      relink: true
+      force: true
+
+- clean: ['~']
+
+- link:
+    ~/.config/dunst: dunst
+    ~/.config/nvim: nvim
+    ~/.config/ranger: ranger
+    ~/.config/sway: sway
+    ~/.config/waybar: waybar
+    ~/.config/zathura: zathura
+    ~/.config/zsh: zsh
+    ~/.p10k.zsh: p10k.zsh
+    ~/.pam_environment: pam_environment
+    ~/.zshrc: zshrc
+
+- shell:
+  - [git submodule update --init --recursive, Installing submodules]

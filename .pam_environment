@@ -1,7 +1,0 @@
-SDL_IM_MODULE           DEFAULT=fcitx
-GLFW_IM_MODULE          DEFAULT=fcitx
-GTK_IM_MODULE           DEFAULT=fcitx
-INPUT_METHOD            DEFAULT=fcitx
-XMODIFIERS              DEFAULT=@im=fcitx
-IMSETTINGS_MODULE       DEFAULT=fcitx
-QT_IM_MODULE            DEFAULT=fcitx
