@@ -1,0 +1,7 @@
+- yay:
+  - zsh
+  - neovim
+  - tldr
+
+- apt:
+  - zsh
