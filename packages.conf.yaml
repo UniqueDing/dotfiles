@@ -3,5 +3,9 @@
   - neovim
   - tldr
 
-- apt:
-  - zsh
+- sudo:
+  - aptget:
+      zsh:
+      screenfetch:
+      neovim:
+          ppa_source: neovim-ppa/unstable

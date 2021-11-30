@@ -1,5 +1,7 @@
 # my linux config files
 
+## list
+
 * archlinux 
 * sway
 * alacritty
@@ -11,6 +13,18 @@
 * ~~st~~
 * ~~fish~~
 * ~~coc.nvim~~
+
+## install
+
+`./install`
+
+> install configs
+
+`./install packages.conf.yaml`
+
+> install packages
+
+## manual
 
 > [manual](doc/manaul.md)
 
