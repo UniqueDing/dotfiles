@@ -2,6 +2,7 @@
 
 set -e
 
+EFAULT_CONFIG_PREFIX="default"
 CONFIG="install.conf.yaml"
 DOTBOT_DIR="dotbot"
 
@@ -21,4 +22,4 @@ for conf in ${DEFAULT_CONFIG_PREFIX} ${@}; do
     "${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${conf}${CONFIG_SUFFIX}" \
         --plugin-dir "$PLUGIN_DIR"
 done
-# "${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${CONFIG}" "${@}"
+"${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${CONFIG}" "${@}"

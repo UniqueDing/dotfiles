@@ -50,7 +50,7 @@ local function custom_attach()
     require("lsp_signature").on_attach(
         {
             bind = true,
-            use_lspsaga = false,
+            use_lspsaga = true,
             floating_window = true,
             fix_pos = true,
             hint_enable = true,
