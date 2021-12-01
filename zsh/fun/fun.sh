@@ -41,7 +41,7 @@ function fzfl(){
     RG_PREFIX="rg --no-heading --color=always --smart-case --hidden --files"
     FZF_DEFAULT_COMMAND="$RG_PREFIX '$INITIAL_QUERY'" \
       fzf --bind "change:reload:$RG_PREFIX '$INITIAL_QUERY' || true" \
-          --preview '~/.config/zsh/preview.sh {}' \
+          --preview '~/.config/zsh/fzfpreview.sh {}' \
           --ansi
 }
 
@@ -94,7 +94,7 @@ function fzfc(){
     fi
     content=`FZF_DEFAULT_COMMAND="$RG_PREFIX '$INITIAL_QUERY'" \
       fzf --bind "change:reload:$RG_PREFIX {q} || true" \
-          --preview '~/.config/zsh/preview.sh {}' \
+          --preview '~/.config/zsh/fzfpreview.sh {}' \
           --delimiter : --preview-window '+{2}-20' --ansi `
     if [ -n "$content" ]; then
         file=`echo $content | awk -F: '{printf $1}'`

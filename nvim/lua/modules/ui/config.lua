@@ -129,6 +129,7 @@ function config.gitsigns()
         interval = 1000,
         follow_files = true
       },
+      keymaps = {},
       attach_to_untracked = true,
       current_line_blame = true, -- Toggle with `:Gitsigns toggle_current_line_blame`
       current_line_blame_opts = {

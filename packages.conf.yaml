@@ -87,6 +87,7 @@
   - wqy-microhei-lite
   - wqy-zenhei
   - zathura
+  - zoxide
 
 - sudo:
   - aptget:
