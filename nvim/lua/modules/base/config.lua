@@ -8,7 +8,7 @@ function config.nest()
     vim.g.mapleader = ' '
 
     nest.applyKeymaps {
-        { mode = 'nv', {
+        { mode = 'nvx', {
             -- colemak
             { ';', ':' , options = { silent = false } },
             { 'n', 'j' },
@@ -30,76 +30,121 @@ function config.nest()
                 { 'e>', '5k'},
                 { 'h>', '0'},
                 { 'i>', '$'},
+
+                -- buffer
+                { '1>', ':BufferLineGoToBuffer 1<cr>' },
+                { '2>', ':BufferLineGoToBuffer 2<cr>' },
+                { '3>', ':BufferLineGoToBuffer 3<cr>' },
+                { '4>', ':BufferLineGoToBuffer 4<cr>' },
+                { '5>', ':BufferLineGoToBuffer 5<cr>' },
+                { '6>', ':BufferLineGoToBuffer 6<cr>' },
+                { '7>', ':BufferLineGoToBuffer 7<cr>' },
+                { '8>', ':BufferLineGoToBuffer 8<cr>' },
+                { '9>', ':BufferLineGoToBuffer 9<cr>' },
+            } },
+            { '<tab>', {
+                -- buffer
+                { 'n', ':BufferLineCycleNext<cr>' },
+                { 'e', ':BufferLineCyclePrev<cr>' },
+                { 'h', ':BufferLineMoveNext<cr>' },
+                { 'i', ':BufferLineMovePrev<cr>' },
+                { 'qq', ':bdelete<cr>' },
+                { 'qh', ':BufferLineCloseLeft<cr>' },
+                { 'qi', ':BufferLineCloseLeft<cr>' },
+
+                -- nvim-tree
+                { '<tab>', ':NvimTreeToggle<cr>' },
             } },
 
             -- Lspsaga
             { 'ga', ':Lspsaga code_action<cr>', options = { silent = true } },
+
+            { '<leader>', {
+                -- base
+                { 'h', '<cmd>nohlsearch<cr>', options = { silent = true } },
+            } },
         } },
 
         { mode = 'n', {
             { 'gd', '<cmd>lua vim.lsp.buf.implementation()<cr>' },
+
             -- Lspsaga
             { 'gp', ':Lspsaga preview_definition<cr>' },
             { 'gr', ':Lspsaga rename<cr>' },
             { 'gh', ':Lspsaga lsp_finder<cr>' },
             { 'gk', ':Lspsaga hover_doc<cr>', options = { silent = true } },
             { 'gs', ':Lspsaga signature_help<cr>', options = { silent = true } },
+
+            --{ '<leader>', {
+            --} },
         } },
 
-        { '<leader>', {
-            -- base
-            { 'h', '<cmd>nohlsearch<cr>', options = { silent = true } },
-        } },
+
+        -- { mode = 'v', {
+            --{ '<leader>', {
+            --} },
+        -- } },
     }
 end
 
-function config.indent_guides()
-  vim.g.indent_blankline_char = "│"
-  vim.g.indent_blankline_show_first_indent_level = true
-  vim.g.indent_blankline_filetype_exclude = {
-    "startify",
-    "dashboard",
-    "dotooagenda",
-    "log",
-    "fugitive",
-    "gitcommit",
-    "packer",
-    "vimwiki",
-    "markdown",
-    "json",
-    "txt",
-    "vista",
-    "help",
-    "todoist",
-    "NvimTree",
-    "peekaboo",
-    "git",
-    "TelescopePrompt",
-    "undotree",
-    "flutterToolsOutline",
-    "" -- for all buffers without a file type
-  }
-  vim.g.indent_blankline_buftype_exclude = {"terminal", "nofile"}
-  vim.g.indent_blankline_show_trailing_blankline_indent = false
-  vim.g.indent_blankline_show_current_context = true
-  vim.g.indent_blankline_context_patterns = {
-    "class",
-    "function",
-    "method",
-    "block",
-    "list_literal",
-    "selector",
-    "^if",
-    "^table",
-    "if_statement",
-    "while",
-    "for"
-  }
-  -- because lazy load indent-blankline so need readd this autocmd
-  -- vim.cmd('autocmd CursorMoved * IndentBlanklineRefresh')
-end
-
 function config.comment()
+    require('Comment').setup({
+        ---Add a space b/w comment and the line
+        ---@type boolean
+        padding = true,
+
+        ---Whether the cursor should stay at its position
+        ---NOTE: This only affects NORMAL mode mappings and doesn't work with dot-repeat
+        ---@type boolean
+        sticky = true,
+
+        ---Lines to be ignored while comment/uncomment.
+        ---Could be a regex string or a function that returns a regex string.
+        ---Example: Use '^$' to ignore empty lines
+        ---@type string|function
+        ignore = nil,
+
+        ---LHS of toggle mappings in NORMAL + VISUAL mode
+        ---@type table
+        toggler = {
+            ---line-comment keymap
+            line = 'gcc',
+            ---block-comment keymap
+            block = 'gbc',
+        },
+
+        ---LHS of operator-pending mappings in NORMAL + VISUAL mode
+        ---@type table
+        opleader = {
+            ---line-comment keymap
+            line = 'gc',
+            ---block-comment keymap
+            block = 'gb',
+        },
+
+        ---Create basic (operator-pending) and extended mappings for NORMAL + VISUAL mode
+        ---@type table
+        mappings = {
+            ---operator-pending mapping
+            ---Includes `gcc`, `gcb`, `gc[count]{motion}` and `gb[count]{motion}`
+            ---NOTE: These mappings can be changed individually by `opleader` and `toggler` config
+            basic = true,
+            ---extra mapping
+            ---Includes `gco`, `gcO`, `gcA`
+            extra = true,
+            ---extended mapping
+            ---Includes `g>`, `g<`, `g>[count]{motion}` and `g<[count]{motion}`
+            extended = false,
+        },
+
+        ---Pre-hook, called before commenting the line
+        ---@type fun(ctx: Ctx):string
+        pre_hook = nil,
+
+        ---Post-hook, called after commenting is done
+        ---@type fun(ctx: Ctx)
+        post_hook = nil,
+    })
 end
 
 return config

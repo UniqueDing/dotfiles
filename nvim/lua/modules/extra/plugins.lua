@@ -13,9 +13,4 @@ extra['wakatime/vim-wakatime']  = {
 extra['lilydjwg/fcitx.vim']  = {
 }
 
-extra['lewis6991/gitsigns.nvim']  = {
-    requires = {'nvim-lua/plenary.nvim'},
-    config = conf.gitsigns
-}
-
 return extra

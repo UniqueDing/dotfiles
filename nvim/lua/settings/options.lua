@@ -1,4 +1,4 @@
-options = {
+local options = {
     nu = true;
     relativenumber = true;
     showcmd = true;
@@ -13,7 +13,7 @@ options = {
     cmdheight = 2;
     hidden = true;
     fileencodings = "utf-8,ucs-bom,gb18030,gbk,gb2312";
-    fileformats = unix;
+    --fileformats = unix;
     ignorecase = true;
     smartcase = true;
 }
