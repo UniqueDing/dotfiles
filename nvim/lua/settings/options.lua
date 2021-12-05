@@ -16,6 +16,7 @@ local options = {
     --fileformats = unix;
     ignorecase = true;
     smartcase = true;
+    termguicolors = true;
 }
 
 for o,v in pairs(options) do
