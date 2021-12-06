@@ -14,9 +14,9 @@ fuction mR() {
     if command -v yay >/dev/null 2>&1; then
        yay -R $*
     elif command -v pacman >/dev/null 2>&1; then
-       pacman -R $*
+       sudo pacman -R $*
     elif command -v apt >/dev/null 2>&1; then
-       apt remove $*
+       sudo apt remove $*
     elif command -v brew >/dev/null 2>&1; then
        brew remove $*
     fi

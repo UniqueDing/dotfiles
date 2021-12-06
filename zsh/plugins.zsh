@@ -32,23 +32,20 @@ zinit wait lucid for \
 	atload"!_zsh_autosuggest_start" \
 	zsh-users/zsh-autosuggestions
 
-#zsh notify
-zstyle ':notify:*' error-title "Command failed (in #{time_elapsed} seconds)"
-zstyle ':notify:*' success-title "Command finished (in #{time_elapsed} seconds)"
-
 
 zinit wait lucid light-mode for \
-    ajeetdsouza/zoxide \
 	wfxr/forgit \
 	hlissner/zsh-autopair \
     marzocchi/zsh-notify \
-    Aloxaf/fzf-tab \
-    laggardkernel/zsh-thefuck
+    Aloxaf/fzf-tab
 
-zstyle ':notify:*' error-icon "https://media3.giphy.com/media/10ECejNtM1GyRy/200_s.gif"
-zstyle ':notify:*' error-title "wow such #fail"
-zstyle ':notify:*' success-icon "https://s-media-cache-ak0.pinimg.com/564x/b5/5a/18/b55a1805f5650495a74202279036ecd2.jpg"
-zstyle ':notify:*' success-title "very #success. wow"zunit
+zinit atinit'Z_A_USECOMP=1' light-mode for NICHOLAS85/z-a-eval
+
+# zsh notify
+# install xdotool and wmctrl
+zstyle ':notify:*' error-title "Command failed (in #{time_elapsed} seconds)"
+zstyle ':notify:*' success-title "Command finished (in #{time_elapsed} seconds)"
+
 
 # oh-my-zsh
 zinit wait lucid for \
@@ -70,10 +67,12 @@ $ZL ogham/exa
 $ZIGP mv"bat* -> bat" pick"bat/bat"
 $ZL sharkdp/bat
 
-$ZIDP pick"ranger.py" atload"alias ranger=ranger.py" atpull'%atclone'
+$ZIDP pick"ranger.py" atload"alias ranger=ranger.py"
 $ZL ranger/ranger
 
-$ZIDP atclone"python3 setup.py install --user" atpull'%atclone'
+$ZIDP atclone"python3 setup.py install --user" \
+    atpull"%atclone" \
+    eval"./thefuck init zsh"
 $ZL nvbn/thefuck
 
 $ZIGP mv"ripgrep* -> rg" \
@@ -84,7 +83,7 @@ $ZL BurntSushi/ripgrep
 $ZIGP pick"diff-so-fancy"
 $ZL so-fancy/diff-so-fancy
 
-$ZIDP atclone"python3 setup.py install --user" atpull'%atclone'
+$ZIDP atclone"python3 setup.py install --user" atpull"%atclone"
 $ZL httpie/httpie
 
 $ZIGP mv"htop* -> htop" \
@@ -93,7 +92,7 @@ $ZIGP mv"htop* -> htop" \
     pick"htop/htop"
 $ZL htop-dev/htop
 
-$ZIDP atclone"python3 setup.py install --user" atpull'%atclone'
+$ZIDP atclone"python3 setup.py install --user" atpull"%atclone"
 $ZL nicolargo/glances
 
 $ZIGP bpick"*Linux_x86_64*" \
@@ -111,13 +110,25 @@ $ZIGP ver"nightly" \
 $ZL neovim/neovim
 
 if [ $(uname -m) = "x86_64" ]; then
-    $ZIGP bpick"tldr-linux-x86_64-musl" \
+    $ZIGC bpick"*x86_64*linux*" \
+        pick"zoxide" \
+        eval"./zoxide init zsh"
+    $ZL ajeetdsouza/zoxide
+elif [ $(uname -m) = "aarch64" ]; then
+    $ZIGC bpick"*aarch64*linux" \
+        pick"zoxide" \
+        eval"./zoxide init zsh"
+    $ZL ajeetdsouza/zoxide
+fi
+
+if [ $(uname -m) = "x86_64" ]; then
+    $ZIGC bpick"*linux*x86_64*" \
         mv"tldr* -> tldr" \
         pick"tldr" \
         atload"nohup tldr --update -1 > /dev/null 2>&1"
     $ZL dbrgn/tealdeer
 elif [ $(uname -m) = "aarch64" ]; then
-    $ZIGP bpick"tldr-linux-arm-musleabi"
+    $ZIGP bpick"*linux*arm*"
         mv"tldr* -> tldr" \
         pick"tldr" \
         atload"nohup tldr --update -1 > /dev/null 2>&1"
