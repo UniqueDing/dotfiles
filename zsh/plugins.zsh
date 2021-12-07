@@ -37,7 +37,8 @@ zinit wait lucid light-mode for \
 	wfxr/forgit \
 	hlissner/zsh-autopair \
     marzocchi/zsh-notify \
-    Aloxaf/fzf-tab
+    Aloxaf/fzf-tab \
+    laggardkernel/zsh-thefuck
 
 zinit atinit'Z_A_USECOMP=1' light-mode for NICHOLAS85/z-a-eval
 
@@ -72,7 +73,6 @@ $ZL ranger/ranger
 
 $ZIDP atclone"python3 setup.py install --user" \
     atpull"%atclone" \
-    eval"./thefuck init zsh"
 $ZL nvbn/thefuck
 
 $ZIGP mv"ripgrep* -> rg" \

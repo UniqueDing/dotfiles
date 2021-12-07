@@ -8,14 +8,14 @@
 
 - link:
     ~/.config/alacritty: alacritty
-    ~/.config/dunst: dunst
     ~/.config/nvim: nvim
     ~/.config/ranger: ranger
     ~/.config/sway: sway
     ~/.config/waybar: waybar
     ~/.config/zathura: zathura
     ~/.config/zsh: zsh
-    ~/.p10k.zsh: p10k.zsh
+    ~/.config/fcitx5: fcitx5
+    ~/.config/mako: mako
     ~/.pam_environment: pam_environment
     ~/.zshrc: zshrc
 
