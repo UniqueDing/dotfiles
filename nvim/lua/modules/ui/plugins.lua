@@ -5,8 +5,12 @@ ui['glepnir/zephyr-nvim'] = {
     -- config = [[vim.cmd('colorscheme zephyr')]]
 }
 
+ui['shaunsingh/nord.nvim'] = {
+    config = [[vim.cmd('colorscheme nord')]]
+}
+
 ui['Mofiqul/dracula.nvim'] = {
-    config = [[vim.cmd('colorscheme dracula')]]
+    -- config = [[vim.cmd('colorscheme dracula')]]
 }
 ui['glepnir/dashboard-nvim'] = {
     config = conf.dashboard,

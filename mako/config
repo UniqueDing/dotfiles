@@ -1,6 +1,6 @@
 sort=-time
 layer=overlay
-background-color=#3B4252
+background-color=#3B4252AA
 width=300
 height=150
 border-size=0
@@ -11,13 +11,13 @@ ignore-timeout=1
 font=hack 12
 
 [urgency=low]
-background-color=#cccccc
+background-color=#5E81AC33
 
 [urgency=normal]
-background-color=#3B4252
+background-color=#3B4252BB
 
 [urgency=high]
-background-color=#D08770
+background-color=#D08770BB
 default-timeout=0
 
 [category=mpd]

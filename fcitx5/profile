@@ -38,6 +38,12 @@ Name=wbx
 # Layout
 Layout=us-symbolic
 
+[Groups/1/Items/2]
+# Name
+Name=mozc
+# Layout
+Layout=
+
 [GroupOrder]
 0="Group 1"
 1="Group 2"

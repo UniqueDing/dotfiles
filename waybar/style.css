@@ -1,3 +1,5 @@
+@import "nord.scss";
+
 * {
     border: 0;
     border-radius: 0;
@@ -21,14 +23,12 @@ window#waybar.hidden {
     opacity: 0.2;
 }
 
-/*
 window#waybar.empty {
     background-color: transparent;
 }
-window#waybar.solo {
-    background-color: #FFFFFF;
-}
-*/
+/* window#waybar.solo { */
+/*     background-color: #FFFFFF; */
+/* } */
 
 window#waybar.termite {
     /* background-color: #3F3F3F; */
@@ -86,34 +86,28 @@ window#waybar.chromium {
 #mpd {
     padding: 0 10px;
     margin: 0 4px;
-    /* color: #ffffff; */
     color: #000000;
 }
 
 #battery {
-    /* background-color: #ffffff; */
-    /* color: #000000; */
-    background-color: #f1fa8c;
+    background-color: @color7;
     color: #000000;
 }
 
 #battery.charging {
+    background-color: @color14;
     color: #000000;
-    /* background-color: #26A65B; */
-    background-color: #50fa7b;
 }
 
 @keyframes blink {
     to {
-        /* background-color: #ffffff; */
-        background-color: #f1fa8c;
+        background-color: @color13;
         color: #000000;
     }
 }
 
 #battery.critical:not(.charging) {
-    /* background-color: #f53c3c; */
-    background-color: #ff5555;
+    background-color: @color11;
     color: #000000;
     animation-name: blink;
     animation-duration: 0.5s;
@@ -127,38 +121,31 @@ label:focus {
 }
 
 #cpu {
-    /* background-color: #2ecc71; */
-    background-color: #ffb86c;
+    background-color: @color4;
 }
 
 #memory {
-    background-color: #bd93f9;
+    background-color: @color7;
 }
 
 #backlight {
-    /* background-color: #90b1b1; */
-    background-color: #ff79c6;
+    background-color: @color5;
 }
 
 #network {
-    /* background-color: #2980b9; */
-    background-color: #8be9fd;
+    background-color: @color8;
 }
 
 #network.disconnected {
-    /* background-color: #f53c3c; */
-    background-color: #ff5555;
+    background-color: @color11;
 }
 
 #pulseaudio {
-    /* background-color: #f1c40f; */
-    background-color: #f1fa8c;
+    background-color: @color6;
 }
 
 #pulseaudio.muted {
-    /* background-color: #90b1b1; */
-    /* color: #2a5c45; */
-    background-color: #ff79c6;
+    background-color: @color2;
 }
 
 #custom-media {
@@ -175,19 +162,16 @@ label:focus {
 }
 
 #temperature {
-    /* background-color: #f0932b; */
-    background-color: #ffb86c;
+    background-color: @color4;
     color: #000000;
 }
 
 #temperature.critical {
-    /* background-color: #eb4d4b; */
-    background-color: #ff5555;
+    background-color: @color11;
 }
 
 #tray {
-    /* background-color: #2980b9; */
-    background-color: #6272a4;
+    background-color: @color9;
 }
 
 #idle_inhibitor {
@@ -217,11 +201,10 @@ label:focus {
 }
 
 #disk {
-    /* background-color: #8a9832; */
-    background-color: #50fa7b;
+    background-color: @color4;
 }
 
 #clock {
-    background-color: #f8f8f2;
+    background-color: @color5;
     color: #000000;
 }
