@@ -53,7 +53,7 @@ PreeditEnabledByDefault=True
 # Show Input Method Information when switch input method
 ShowInputMethodInformation=True
 # Show Input Method Information when changing focus
-showInputMethodInformationWhenFocusIn=True
+showInputMethodInformationWhenFocusIn=False
 # Show compact input method information
 CompactInputMethodInformation=True
 # Show first input method information
@@ -61,7 +61,7 @@ ShowFirstInputMethodInformation=True
 # Default page size
 DefaultPageSize=5
 # Force Enabled Addons
-EnabledAddons=True
+EnabledAddons=
 # Force Disabled Addons
 DisabledAddons=
 # Preload input method to be used by default

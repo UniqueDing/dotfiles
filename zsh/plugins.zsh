@@ -53,10 +53,6 @@ zinit wait lucid for \
 	OMZ::lib/git.zsh \
 	OMZ::plugins/sudo/sudo.plugin.zsh
 
-# fzf
-$ZI pack for fzf
-$ZL junegunn/fzf
-
 $ZIGP mv"fd* -> fd" \
       pick"fd/fd" \
       nocompletions
@@ -134,3 +130,15 @@ elif [ $(uname -m) = "aarch64" ]; then
         atload"nohup tldr --update -1 > /dev/null 2>&1"
     $ZL dbrgn/tealdeer
 fi
+
+
+if [ $(uname -m) = "x86_64" ]; then
+    $ZIGP bpick"*linux*amd64*" \
+        pick"fzf"
+    $ZL junegunn/fzf
+elif [ $(uname -m) = "aarch64" ]; then
+    $ZIGP bpick"*linux*arm64*" \
+        pick"fzf"
+    $ZL junegunn/fzf
+fi
+

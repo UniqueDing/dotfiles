@@ -18,20 +18,24 @@
   - doxygen
   - dunst
   - emacs
+  - feh
   - fcitx5
   - fcitx5-chinese-addons
   - fcitx5-configtool
   - fcitx5-mozc
+  - fcitx5-nord
+  - fcitx5-gtk
   - firefox
   - gcc
   - gdb
   - go
-  - google-chrome
   - imv
+  - interception-caps2esc
   - jdk-openjdk
   - lolcat
   - lua
   - materia-gtk-theme
+  - mako
   - n2n
   - nerd-fonts-hack
   - net-tools
@@ -62,6 +66,7 @@
   - thunderbird
   - tree
   - ttf-hack
+  - unzip
   - v2raya
   - variety
   - vim
