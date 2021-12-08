@@ -62,6 +62,7 @@
   - sway
   - swaybg
   - swaylock
+  - sway-launcher-desktop
   - syncthing
   - thunderbird
   - tree
@@ -77,6 +78,8 @@
   - wqy-microhei
   - wqy-microhei-lite
   - wqy-zenhei
+  - wmctrl
+  - xdotool
   - zathura
 
 - sudo:
