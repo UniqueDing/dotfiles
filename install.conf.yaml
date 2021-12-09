@@ -16,6 +16,7 @@
     ~/.config/zsh: zsh
     ~/.config/fcitx5: fcitx5
     ~/.config/mako: mako
+    ~/.config/rofi: rofi
     ~/.config/gtk-3.0: gtk-3.0
     ~/.gtkrc-2.0: gtkrc-2.0
     ~/.pam_environment: pam_environment

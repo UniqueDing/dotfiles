@@ -1,8 +1,10 @@
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec syncthing
 exec nm-applet --indicator
 exec blueman-applet
 exec variety
 exec mako
+exec mailspring -b
 exec wlsunset -l 39.9 -L 116.3
 exec sleep 1 && fcitx5
 exec bash ~/.config/sway/lauch.sh

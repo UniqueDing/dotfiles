@@ -1,0 +1,8 @@
+configuration {
+    modi: "combi";
+    font: "hack 16";
+    combi-modi: "drun,run";
+    show-icons: true;
+}
+@theme "nord"
+

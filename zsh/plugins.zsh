@@ -36,6 +36,9 @@ zinit wait lucid for \
 zinit wait lucid light-mode for \
 	wfxr/forgit \
 	hlissner/zsh-autopair \
+    atload" zstyle ':notify:*' error-title 'Command failed (in #{time_elapsed} seconds)' \
+        zstyle ':notify:*' success-title 'Command finished (in #{time_elapsed} seconds)' \
+        zstyle ':notify:*' error-log /dev/null" \
     marzocchi/zsh-notify \
     Aloxaf/fzf-tab \
     laggardkernel/zsh-thefuck
@@ -44,8 +47,6 @@ zinit atinit'Z_A_USECOMP=1' light-mode for NICHOLAS85/z-a-eval
 
 # zsh notify
 # install xdotool and wmctrl
-zstyle ':notify:*' error-title "Command failed (in #{time_elapsed} seconds)"
-zstyle ':notify:*' success-title "Command finished (in #{time_elapsed} seconds)"
 
 
 # oh-my-zsh

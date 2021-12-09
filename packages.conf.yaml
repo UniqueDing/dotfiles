@@ -4,6 +4,7 @@
   - adobe-source-han-sans-cn-fonts
   - alacritty
   - atool
+  - base-devel
   - bitwarden
   - blueman
   - borg
@@ -29,6 +30,7 @@
   - gcc
   - gdb
   - go
+  - grim
   - imv
   - interception-caps2esc
   - jdk-openjdk
@@ -81,6 +83,9 @@
   - wmctrl
   - xdotool
   - zathura
+  - mailspring
+  - gnome-keyring
+  - polkit-gnome
 
 - sudo:
   - aptget:
