@@ -75,8 +75,13 @@ function config.nest()
             { 'gk', ':Lspsaga hover_doc<cr>', options = { silent = true } },
             { 'gs', ':Lspsaga signature_help<cr>', options = { silent = true } },
 
-            --{ '<leader>', {
-            --} },
+            { '<leader>', {
+                { 'ms', ':ClangdSwitchSourceHeader<cr>' },
+
+                -- Lspsaga
+                { 'ml', 'Lspsaga show_line_diagnostics<cr>' },
+                { 'mc', 'Lspsaga show_cursor_diagnostics<cr>' },
+            } },
         } },
 
 

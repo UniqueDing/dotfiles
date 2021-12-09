@@ -59,6 +59,7 @@
   - python2-pip
   - racket
   - rust
+  - rofi
   - screenfetch
   - sudo
   - sway
