@@ -10,7 +10,7 @@ extra['edluffy/specs.nvim']  = {
 extra['wakatime/vim-wakatime']  = {
 }
 
-extra['lilydjwg/fcitx.vim']  = {
+extra['h-hg/fcitx.nvim']  = {
 }
 
 return extra

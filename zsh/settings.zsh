@@ -1,4 +1,5 @@
 # default
+export BROWSER=firefox
 export EDITOR=nvim
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
