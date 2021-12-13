@@ -10,19 +10,19 @@ function config.nest()
     nest.applyKeymaps {
         { mode = 'nvx', {
             -- colemak
-            { ';', ':' , options = { silent = false } },
-            { 'n', 'j' },
-            { 'N', 'J' },
-            { 'e', 'k' },
-            { 'E', 'K' },
-            { 'i', 'l' },
-            { 'I', 'L' },
-            { 'l', 'i' },
-            { 'L', 'I' },
+            { ';', ':' , options = { silent = false, noremap = true } },
+            { 'n', 'j' , options = { noremap = true } },
+            { 'N', 'J' , options = { noremap = true } },
+            { 'e', 'k' , options = { noremap = true } },
+            { 'E', 'K' , options = { noremap = true } },
+            { 'i', 'l' , options = { noremap = true } },
+            { 'I', 'L' , options = { noremap = true } },
+            { 'l', 'i' , options = { noremap = true } },
+            { 'L', 'I' , options = { noremap = true } },
+            { 'j', 'e' , options = { noremap = true } },
+            { 'J', 'E' , options = { noremap = true } },
             { 'k', 'nzz' },
             { 'K', 'Nzz' },
-            { 'j', 'e' },
-            { 'J', 'E' },
 
             -- base
             { '<M-', {
@@ -61,7 +61,8 @@ function config.nest()
 
             { '<leader>', {
                 -- base
-                { 'h', '<cmd>nohlsearch<cr>', options = { silent = true } },
+                { 'h', ':nohlsearch<cr>', options = { silent = true } },
+                { 'r', ":lua require'tools.run'.run_command()<cr>", options = { silent = false }}
             } },
         } },
 
@@ -81,6 +82,13 @@ function config.nest()
                 -- Lspsaga
                 { 'ml', 'Lspsaga show_line_diagnostics<cr>' },
                 { 'mc', 'Lspsaga show_cursor_diagnostics<cr>' },
+
+                -- code_runner
+                { 'rr', ':RunCode<cr>', options = { silent = false } },
+                { 'rf', ':RunFile<cr>', options = { silent = false } },
+                { 'rp', ':RunProject<cr>', options = { silent = false } },
+                { 'rcf', ':CRFiletype<cr>', options = { silent = false } },
+                { 'rcp', ':CRProjects<cr>', options = { silent = false } },
             } },
         } },
 
