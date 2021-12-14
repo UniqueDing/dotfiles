@@ -2,8 +2,8 @@ local config = {}
 
 function config.code_runner()
     require('code_runner').setup{
-        filetype_path = "~/.config/nvim/lua/modules/tools/code_runner_filetype.json",
-        project_path = "~/.config/nvim/lua/modules/tools/code_runner_project.json",
+        filetype_path = "/home/uniqueding/.config/nvim/lua/modules/tools/code_runner.json",
+        -- project_path = "~/.config/nvim/lua/modules/tools/projects.json",
     }
 end
 

@@ -3,7 +3,7 @@ local conf = require('modules.tools.config')
 
 tools['CRAG666/code_runner.nvim'] = {
     requires = 'nvim-lua/plenary.nvim',
-    -- after = 'filetype.nvim',
+    after = 'filetype.nvim',
     config = conf.code_runner,
 }
 
