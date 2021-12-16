@@ -22,3 +22,8 @@ local options = {
 for o,v in pairs(options) do
     vim.opt[o] = v
 end
+
+vim.cmd([[
+    au FileType markdown nmap <leader>rr :MarkdownPreviewToggle<CR>
+]])
+

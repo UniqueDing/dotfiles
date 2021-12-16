@@ -2,6 +2,7 @@
 FUNPATH=$(dirname "$0")
 source $FUNPATH/packagemanager.zsh
 source $FUNPATH/myfzf.zsh
+source $FUNPATH/fzf-key-bindings.zsh
 
 function mkcd(){
 	mkdir $1

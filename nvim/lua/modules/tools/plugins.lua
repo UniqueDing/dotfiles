@@ -11,4 +11,9 @@ tools['nathom/filetype.nvim'] = {
     config = conf.filetype,
 }
 
+tools['nvim-telescope/telescope.nvim'] = {
+    requires = 'nvim-lua/plenary.nvim',
+    config = conf.telescope,
+}
+
 return tools

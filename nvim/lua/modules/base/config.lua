@@ -11,16 +11,17 @@ function config.nest()
         { mode = 'nvx', {
             -- colemak
             { ';', ':' , options = { silent = false, noremap = true } },
-            { 'n', 'j' , options = { noremap = true } },
-            { 'N', 'J' , options = { noremap = true } },
-            { 'e', 'k' , options = { noremap = true } },
-            { 'E', 'K' , options = { noremap = true } },
-            { 'i', 'l' , options = { noremap = true } },
-            { 'I', 'L' , options = { noremap = true } },
-            { 'l', 'i' , options = { noremap = true } },
-            { 'L', 'I' , options = { noremap = true } },
-            { 'j', 'e' , options = { noremap = true } },
-            { 'J', 'E' , options = { noremap = true } },
+            { 'n', 'j' },
+            { 'N', 'J' },
+            { 'e', 'k' },
+            { 'E', 'K' },
+            { 'i', 'l' },
+            { 'I', 'L' },
+            { 'l', 'i' },
+            { 'L', 'I' },
+            { 'j', 'e' },
+            { 'J', 'E' },
+            { 'cl', 'ci' }, -- don't know reason
             { 'k', 'nzz' },
             { 'K', 'Nzz' },
 
@@ -62,7 +63,6 @@ function config.nest()
             { '<leader>', {
                 -- base
                 { 'h', ':nohlsearch<cr>', options = { silent = true } },
-                { 'r', ":lua require'tools.run'.run_command()<cr>", options = { silent = false }}
             } },
         } },
 
@@ -89,6 +89,14 @@ function config.nest()
                 { 'rp', ':RunProject<cr>', options = { silent = false } },
                 { 'rcf', ':CRFiletype<cr>', options = { silent = false } },
                 { 'rcp', ':CRProjects<cr>', options = { silent = false } },
+
+                -- telescope
+                { 'ff', ':Telescope find_files<cr>' },
+                { 'fl', ':Telescope live_grep<cr>' },
+                { 'fb', ':Telescope buffers<cr>' },
+                { 'fs', ':Telescope grep_string<cr>' },
+                { 'fh', ':Telescope help_tags<cr>' },
+                { 'fg', ':Telescope git_status<cr>' },
             } },
         } },
 

@@ -3,5 +3,7 @@
     "python": "python",
     "racket": "racket",
     "typescript": "deno run",
-    "rust": "cd $dir && rustc $fileName && $dir/$fileNameWithoutExt"
+    "rust": "cd $dir && rustc $fileName && $dir/$fileNameWithoutExt",
+    "cpp": "cd $dir && g++ -pthread $fileName && $dir/a.out",
+    "c": "cd $dir && gcc $fileName && $dir/a.out"
 }
