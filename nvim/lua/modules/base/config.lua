@@ -43,6 +43,13 @@ function config.nest()
                 { '8>', ':BufferLineGoToBuffer 8<cr>' },
                 { '9>', ':BufferLineGoToBuffer 9<cr>' },
             } },
+            { '<M-S-', {
+                -- window
+                { 'n>', ':res +5<cr>' },
+                { 'e>', ':res -5<cr>' },
+                { 'h>', ':vertical resize-5<cr>' },
+                { 'i>', ':vertical resize+5<cr>' },
+            } },
             { '<tab>', {
                 -- buffer
                 { 'n', ':BufferLineCycleNext<cr>' },
@@ -63,6 +70,29 @@ function config.nest()
             { '<leader>', {
                 -- base
                 { 'h', ':nohlsearch<cr>', options = { silent = true } },
+
+                -- copy paste
+                { 'yy', '"+y' },
+                { 'yp', '"+p' },
+
+                -- window
+                { 've', ':set nosplitbelow<cr>:split<cr>:set splitbelow<cr>' },
+                { 'vn', ':set splitbelow<cr>:split<cr>' },
+                { 'vh', ':set nosplitright<cr>:split<cr>:set splitright<cr>' },
+                { 'vi', ':set splitright<cr>:vsplit<cr>' },
+                -- Place the two screens up and down  You, 2020-11-15 - coc vista
+                { 'vk', '<C-w>t<C-w>K' },
+                -- Place the two screens side by side
+                { 'vs', '<C-w>t<C-w>H' },
+                -- close the window below the current window
+                { 'q', '<C-w>j:q<cr>' },
+
+                { 'ww', '<C-w>w' },
+                { 'we', '<C-w>k' },
+                { 'wn', '<C-w>j' },
+                { 'wh', '<C-w>h' },
+                { 'wi', '<C-w>l' },
+
             } },
         } },
 
@@ -77,6 +107,9 @@ function config.nest()
             { 'gs', ':Lspsaga signature_help<cr>', options = { silent = true } },
 
             { '<leader>', {
+                { '<leader>', '<esc>/<++><cr>:nohlsearch<cr>c4l' },
+
+                -- Lsp
                 { 'ms', ':ClangdSwitchSourceHeader<cr>' },
 
                 -- Lspsaga
@@ -97,6 +130,7 @@ function config.nest()
                 { 'fs', ':Telescope grep_string<cr>' },
                 { 'fh', ':Telescope help_tags<cr>' },
                 { 'fg', ':Telescope git_status<cr>' },
+
             } },
         } },
 
