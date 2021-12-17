@@ -19,18 +19,18 @@ function config.nest()
             { 'I', 'L' },
             { 'l', 'i' },
             { 'L', 'I' },
-            { 'j', 'e' },
+            { 'j', 'e:lua require("specs").show_specs()<cr>' },
             { 'J', 'E' },
             { 'cl', 'ci' }, -- don't know reason
-            { 'k', 'nzz' },
-            { 'K', 'Nzz' },
+            { 'k', 'nzz:lua require("specs").show_specs()<cr>' },
+            { 'K', 'Nzz:lua require("specs").show_specs()<cr>' },
 
             -- base
             { '<M-', {
-                { 'n>', '5j'},
-                { 'e>', '5k'},
-                { 'h>', '0'},
-                { 'i>', '$'},
+                { 'n>', '5j:lua require("specs").show_specs()<cr>'},
+                { 'e>', '5k:lua require("specs").show_specs()<cr>'},
+                { 'h>', '0:lua require("specs").show_specs()<cr>'},
+                { 'i>', '$:lua require("specs").show_specs()<cr>'},
 
                 -- buffer
                 { '1>', ':BufferLineGoToBuffer 1<cr>' },
@@ -56,9 +56,9 @@ function config.nest()
                 { 'e', ':BufferLineCyclePrev<cr>' },
                 { 'h', ':BufferLineMoveNext<cr>' },
                 { 'i', ':BufferLineMovePrev<cr>' },
-                { 'qq', ':bdelete<cr>' },
-                { 'qh', ':BufferLineCloseLeft<cr>' },
-                { 'qi', ':BufferLineCloseLeft<cr>' },
+                { 'q', ':bdelete<cr>' },
+                -- { 'qh', ':BufferLineCloseLeft<cr>' },
+                -- { 'qi', ':BufferLineCloseRight<cr>' },
 
                 -- nvim-tree
                 { '<tab>', ':NvimTreeToggle<cr>' },
@@ -130,6 +130,12 @@ function config.nest()
                 { 'fs', ':Telescope grep_string<cr>' },
                 { 'fh', ':Telescope help_tags<cr>' },
                 { 'fg', ':Telescope git_status<cr>' },
+
+                -- vista
+                { 'vv', ':Vista!!<cr>' },
+
+                -- gitsigns
+                { 'gh', ':Gitsigns toggle_current_line_blame<cr>'}
 
             } },
         } },

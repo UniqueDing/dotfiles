@@ -1,20 +1,22 @@
 local ui = {}
 local conf = require('modules.ui.config')
 
-ui['glepnir/zephyr-nvim'] = {
-    -- config = [[vim.cmd('colorscheme zephyr')]]
-}
+-- ui['glepnir/zephyr-nvim'] = {
+--     -- config = [[vim.cmd('colorscheme zephyr')]]
+-- }
 
 ui['shaunsingh/nord.nvim'] = {
     config = [[vim.cmd('colorscheme nord')]]
 }
 
-ui['Mofiqul/dracula.nvim'] = {
-    -- config = [[vim.cmd('colorscheme dracula')]]
-}
+-- ui['Mofiqul/dracula.nvim'] = {
+--     -- config = [[vim.cmd('colorscheme dracula')]]
+-- }
+--
 ui['glepnir/dashboard-nvim'] = {
     config = conf.dashboard,
 }
+
 ui['glepnir/galaxyline.nvim'] = {
     config = conf.galaxyline,
     requires = {
@@ -22,12 +24,19 @@ ui['glepnir/galaxyline.nvim'] = {
         opt = true
     }
 }
+
+ui['edluffy/specs.nvim']  = {
+    config = conf.specs,
+}
+
+
 ui['akinsho/nvim-bufferline.lua'] = {
     config = conf.bufferline,
     requires = {
         'kyazdani42/nvim-web-devicons',
     }
 }
+
 ui['kyazdani42/nvim-tree.lua'] = {
     config = conf.tree,
     requires = {

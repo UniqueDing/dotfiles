@@ -28,4 +28,8 @@ function config.treesitter()
     }
 end
 
+function config.vista()
+    vim.g.vista_default_executive = 'nvim_lsp'
+end
+
 return config

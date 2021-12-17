@@ -18,9 +18,9 @@ function config.bufferline()
             left_trunc_marker = '',
             right_trunc_marker = '',
             diagnostic = "nvim_lsp",
-            numbers = function(opts)
-                return string.format('%s·%s', opts.raise(opts.id), opts.lower(opts.original))
-            end
+            -- numbers = function(opts)
+                -- return string.format('%s·%s', opts.raise(opts.id), opts.lower(opts.original))
+            -- end
         }
     }
 end
@@ -89,6 +89,26 @@ end
 function config.indent_blankline()
 end
 
+function config.specs()
+    require('specs').setup{
+    show_jumps  = true,
+    min_jump = 30,
+    popup = {
+        delay_ms = 0, -- delay before popup displays
+        inc_ms = 10, -- time increments used for fade/resize effects
+        blend = 10, -- starting blend, between 0-100 (fully transparent), see :h winblend
+        width = 10,
+        winhl = "PMenu",
+        fader = require('specs').linear_fader,
+        resizer = require('specs').shrink_resizer
+    },
+    ignore_filetypes = {},
+    ignore_buftypes = {
+        nofile = true,
+    },
+}
+end
+
 function config.transparent()
     require("transparent").setup{
         enable = true, -- boolean: enable transparent
@@ -131,7 +151,7 @@ function config.gitsigns()
       },
       keymaps = {},
       attach_to_untracked = true,
-      current_line_blame = true, -- Toggle with `:Gitsigns toggle_current_line_blame`
+      current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
       current_line_blame_opts = {
         virt_text = true,
         virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'

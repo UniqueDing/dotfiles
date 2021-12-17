@@ -109,7 +109,7 @@ gls.mid[1] = {
       end
       return true
     end,
-    icon = ' LSP:',
+    icon = ' ',
     highlight = {colors.yellow,colors.bg,'bold'}
   }
 }
@@ -144,13 +144,13 @@ gls.right[3] = {
   }
 }
 
-gls.right[4] = {
-  GitBranch = {
-    provider = 'GitBranch',
-    condition = condition.check_git_workspace,
-    highlight = {colors.violet,colors.bg,'bold'},
-  }
-}
+-- gls.right[4] = {
+--   GitBranch = {
+--     provider = 'GitBranch',
+--     condition = condition.check_git_workspace,
+--     highlight = {colors.violet,colors.bg,'bold'},
+--   }
+-- }
 
 gls.right[5] = {
   DiffAdd = {

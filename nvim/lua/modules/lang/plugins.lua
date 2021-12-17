@@ -13,4 +13,8 @@ lang['nvim-treesitter/nvim-treesitter'] = {
     config = conf.treesitter,
 }
 
+lang['liuchengxu/vista.vim'] = {
+    config = conf.vista,
+}
+
 return lang
