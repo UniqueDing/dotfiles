@@ -29,8 +29,10 @@ function config.nest()
             { '<M-', {
                 { 'n>', '5j:lua require("specs").show_specs()<cr>'},
                 { 'e>', '5k:lua require("specs").show_specs()<cr>'},
-                { 'h>', '0:lua require("specs").show_specs()<cr>'},
-                { 'i>', '$:lua require("specs").show_specs()<cr>'},
+                { 'i>', ':BufferLineCycleNext<cr>' },
+                { 'h>', ':BufferLineCyclePrev<cr>' },
+                { 't>', ':b#<cr>' },
+
 
                 -- buffer
                 { '1>', ':BufferLineGoToBuffer 1<cr>' },
@@ -52,8 +54,6 @@ function config.nest()
             } },
             { '<tab>', {
                 -- buffer
-                { 'n', ':BufferLineCycleNext<cr>' },
-                { 'e', ':BufferLineCyclePrev<cr>' },
                 { 'h', ':BufferLineMoveNext<cr>' },
                 { 'i', ':BufferLineMovePrev<cr>' },
                 { 'q', ':bdelete<cr>' },
