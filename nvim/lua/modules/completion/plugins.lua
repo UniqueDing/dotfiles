@@ -11,29 +11,23 @@ completion["williamboman/nvim-lsp-installer"] = {
     after = "nvim-lspconfig"
 }
 completion["tami5/lspsaga.nvim"] = {opt = true, after = "nvim-lspconfig"}
-completion["kosayoda/nvim-lightbulb"] = {
-    opt = true,
-    after = "nvim-lspconfig",
-    config = conf.lightbulb
-}
 completion["ray-x/lsp_signature.nvim"] = {opt = true, after = "nvim-lspconfig"}
 completion["hrsh7th/nvim-cmp"] = {
     config = conf.cmp,
-    event = "InsertEnter",
+    -- event = "InsertEnter",
     requires = {
         {"saadparwaiz1/cmp_luasnip", after = "LuaSnip"},
         {"hrsh7th/cmp-buffer", after = "cmp_luasnip"},
         {"hrsh7th/cmp-nvim-lsp", after = "cmp-buffer"},
         {"hrsh7th/cmp-nvim-lua", after = "cmp-nvim-lsp"},
-        {"andersevenrud/compe-tmux", branch = "cmp", after = "cmp-nvim-lua"},
-        {"hrsh7th/cmp-path", after = "compe-tmux"},
+        {"hrsh7th/cmp-path", after = "cmp-nvim-lua"},
         {"f3fora/cmp-spell", after = "cmp-path"}
-        -- {
-        --     'tzachar/cmp-tabnine',
-        --     run = './install.sh',
-        --     after = 'cmp-spell',
-        --     config = conf.tabnine
-        -- }
+    --     -- {
+    --     --     'tzachar/cmp-tabnine',
+    --     --     run = './install.sh',
+    --     --     after = 'cmp-spell',
+    --     --     config = conf.tabnine
+    --     -- }
     }
 }
 completion["ojroques/nvim-lspfuzzy"] = {
@@ -43,14 +37,14 @@ completion["ojroques/nvim-lspfuzzy"] = {
       },
 }
 completion["L3MON4D3/LuaSnip"] = {
-    after = "nvim-cmp",
+    -- after = "nvim-cmp",
     config = conf.luasnip,
-    requires = "rafamadriz/friendly-snippets"
+    -- requires = "rafamadriz/friendly-snippets"
 }
 completion["windwp/nvim-autopairs"] = {
     after = "nvim-cmp",
     config = conf.autopairs
 }
-completion["github/copilot.vim"] = {opt = true, cmd = "Copilot"}
+-- completion["github/copilot.vim"] = {opt = true, cmd = "Copilot"}
 
 return completion

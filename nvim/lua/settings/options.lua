@@ -27,6 +27,6 @@ vim.cmd([[
     au FileType markdown nmap <leader>rr :MarkdownPreviewToggle<CR>
 ]])
 
-vim.cmd([[
-    au CursorMoved * call vista#RunForNearestMethodOrFunction()
-]])
+-- vim.cmd([[
+--     au CursorMoved * call vista#RunForNearestMethodOrFunction()
+-- ]])
