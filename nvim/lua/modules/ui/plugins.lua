@@ -13,8 +13,13 @@ ui['shaunsingh/nord.nvim'] = {
 --     -- config = [[vim.cmd('colorscheme dracula')]]
 -- }
 --
-ui['glepnir/dashboard-nvim'] = {
-    config = conf.dashboard,
+-- ui['glepnir/dashboard-nvim'] = {
+--     config = conf.dashboard,
+-- }
+ui['goolord/alpha-nvim'] = {
+    config = function ()
+        require'alpha'.setup(require'alpha.themes.dashboard'.opts)
+    end
 }
 
 ui['glepnir/galaxyline.nvim'] = {
