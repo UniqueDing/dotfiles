@@ -11,6 +11,10 @@ tools['nathom/filetype.nvim'] = {
     config = conf.filetype,
 }
 
+tools['kevinhwang91/rnvimr'] = {
+    config = conf.rnvimr,
+}
+
 tools['nvim-telescope/telescope.nvim'] = {
     requires = 'nvim-lua/plenary.nvim',
     config = conf.telescope,

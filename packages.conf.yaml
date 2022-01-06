@@ -57,6 +57,7 @@
   - python-pip
   - python2
   - python2-pip
+  - python-pynvim
   - racket
   - rust
   - rofi

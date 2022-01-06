@@ -37,12 +37,12 @@ ui['akinsho/nvim-bufferline.lua'] = {
     }
 }
 
-ui['kyazdani42/nvim-tree.lua'] = {
-    config = conf.tree,
-    requires = {
-        'kyazdani42/nvim-web-devicons'
-    }
-}
+-- ui['kyazdani42/nvim-tree.lua'] = {
+--     config = conf.tree,
+--     requires = {
+--         'kyazdani42/nvim-web-devicons'
+--     }
+-- }
 
 ui['lukas-reineke/indent-blankline.nvim'] = {
     config = conf.indent_blankline,

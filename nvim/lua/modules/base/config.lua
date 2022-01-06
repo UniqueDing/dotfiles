@@ -61,7 +61,10 @@ function config.nest()
                 -- { 'qi', ':BufferLineCloseRight<cr>' },
 
                 -- nvim-tree
-                { '<tab>', ':NvimTreeToggle<cr>' },
+                -- { '<tab>', ':NvimTreeToggle<cr>' },
+
+                -- rnvimr
+                { '<tab>', ':RnvimrToggle<cr>' },
             } },
 
             -- Lspsaga
