@@ -7,10 +7,8 @@
   - base-devel
   - bitwarden
   - blueman
-  - borg
   - clang
   - cmake
-  - cowsay
   - curl
   - dhcpcd
   - docker
@@ -34,7 +32,6 @@
   - imv
   - interception-caps2esc
   - jdk-openjdk
-  - lolcat
   - lua
   - materia-gtk-theme
   - mako

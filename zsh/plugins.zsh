@@ -84,7 +84,7 @@ $ZIDP atclone"python3 setup.py install --user" atpull"%atclone"
 $ZL httpie/httpie
 
 $ZIGP mv"htop* -> htop" \
-    atclone"cd htop && ./autogen.sh && ./configure && make" \
+    atclone"cd htop && ./autogen.sh && ./configure && make -j12" \
     atpull'%atclone' \
     pick"htop/htop"
 $ZL htop-dev/htop
@@ -92,19 +92,31 @@ $ZL htop-dev/htop
 $ZIDP atclone"python3 setup.py install --user" atpull"%atclone"
 $ZL nicolargo/glances
 
-$ZIGP bpick"*Linux_x86_64*" \
-    pick"lazygit"
-$ZL jesseduffield/lazygit
-
-$ZIGP bpick"*Linux_x86_64*" \
-    pick"lazydocker"
-$ZL jesseduffield/lazydocker
-
 $ZIGP ver"nightly" \
     mv"nvim-* -> nvim" \
     bpick"*linux*" \
     pick"nvim/bin/nvim"
 $ZL neovim/neovim
+
+if [ $(uname -m) = "x86_64" ]; then
+    $ZIGP bpick"*Linux_x86_64*" \
+        pick"lazygit"
+    $ZL jesseduffield/lazygit
+elif [ $(uname -m) = "aarch64" ]; then
+    $ZIGP bpick"*Linux_arm64*" \
+        pick"lazygit"
+    $ZL jesseduffield/lazygit
+fi
+
+if [ $(uname -m) = "x86_64" ]; then
+    $ZIGP bpick"*Linux_x86_64*" \
+        pick"lazydocker"
+    $ZL jesseduffield/lazydocker
+elif [ $(uname -m) = "aarch64" ]; then
+    $ZIGP bpick"*Linux_arm64*" \
+        pick"lazydocker"
+    $ZL jesseduffield/lazydocker
+fi
 
 if [ $(uname -m) = "x86_64" ]; then
     $ZIGC bpick"*x86_64*linux*" \
@@ -125,7 +137,7 @@ if [ $(uname -m) = "x86_64" ]; then
         atload"nohup tldr --update -1 > /dev/null 2>&1"
     $ZL dbrgn/tealdeer
 elif [ $(uname -m) = "aarch64" ]; then
-    $ZIGP bpick"*linux*arm*"
+    $ZIGC bpick"*linux*arm*"
         mv"tldr* -> tldr" \
         pick"tldr" \
         atload"nohup tldr --update -1 > /dev/null 2>&1"
@@ -142,4 +154,44 @@ elif [ $(uname -m) = "aarch64" ]; then
         pick"fzf"
     $ZL junegunn/fzf
 fi
+
+if [ $(uname -m) = "x86_64" ]; then
+    $ZIGP bpick"*linux*amd64*" \
+        mv"gdu* -> gdu" \
+        pick"gdu"
+    $ZL dundee/gdu
+elif [ $(uname -m) = "aarch64" ]; then
+    $ZIGP bpick"*linux*arm64*" \
+        mv"gdu* -> gdu" \
+        pick"gdu"
+    $ZL dundee/gdu
+fi
+
+if [ $(uname -m) = "x86_64" ]; then
+    $ZIGP bpick"*linux*x86_64*tar.gz" \
+        mv"duf* -> duf" \
+        pick"duf"
+    $ZL muesli/duf
+elif [ $(uname -m) = "aarch64" ]; then
+    $ZIGP bpick"*linux*arm64*tar.gz" \
+        mv"duf* -> duf" \
+        pick"duf"
+    $ZL muesli/duf
+fi
+
+if [ $(uname -m) = "x86_64" ]; then
+    $ZIGP bpick"*Linux*x86_64*" \
+        pick"cowsay" \
+        pick"cowthick"
+    $ZL Code-Hex/Neo-cowsay
+elif [ $(uname -m) = "aarch64" ]; then
+    $ZIGP bpick"*Linux*arm64*" \
+        pick"cowsay" \
+        pick"cowthick"
+    $ZL Code-Hex/Neo-cowsay
+fi
+
+$ZIDP atclone"make -j12" atpull"%atclone" \
+    pick"lolcat"
+$ZL jaseg/lolcat
 
