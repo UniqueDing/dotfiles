@@ -1,6 +1,6 @@
 local gl = require('galaxyline')
 local gls = gl.section
-local extension = require('galaxyline.provider_extensions')
+local extension = require('galaxyline.providers.extensions')
 
 -- This is Denstiny write
 -- My home page https://github.com/denstiny
@@ -21,8 +21,8 @@ gl.short_line_list = {
 VistaPlugin = extension.vista_nearest
 
 local colors = {
-    bg = '282c34',
-    line_bg = '7D0AB2',
+    -- bg = '#282c34',
+    -- line_bg = '#7D0AB2',
     fg = '#8FBCBB',
     NameColor = '#5B4B70',
     fg_green = '#65a380',
@@ -146,14 +146,14 @@ gls.left[5] = {
 gls.left[6] = {
   GitIcon = {
     provider = function() return ' ' end,
-    condition = require('galaxyline.provider_vcs').check_git_workspace,
+    condition = require('galaxyline.providers.vcs').check_git_workspace,
     highlight = {colors.orange,colors.line_bg},
   }
 }
 gls.left[7] = {
   GitBranch = {
     provider = 'GitBranch',
-    condition = require('galaxyline.provider_vcs').check_git_workspace,
+    condition = require('galaxyline.providers.vcs').check_git_workspace,
     separator = ' ',
     highlight = {colors.line_bg,'bold'},
   }

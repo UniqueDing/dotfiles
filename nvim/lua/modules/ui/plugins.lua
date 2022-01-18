@@ -16,13 +16,14 @@ ui['shaunsingh/nord.nvim'] = {
 -- ui['glepnir/dashboard-nvim'] = {
 --     config = conf.dashboard,
 -- }
+
 ui['goolord/alpha-nvim'] = {
     config = function ()
         require'alpha'.setup(require'alpha.themes.dashboard'.opts)
     end
 }
 
-ui['glepnir/galaxyline.nvim'] = {
+ui['NTBBloodbath/galaxyline.nvim'] = {
     config = conf.galaxyline,
     requires = {
         'kyazdani42/nvim-web-devicons',
@@ -68,6 +69,10 @@ ui['yamatsum/nvim-cursorline'] = {
 
 ui['norcalli/nvim-colorizer.lua'] = {
     config = conf.colorizer,
+}
+
+ui['petertriho/nvim-scrollbar'] = {
+    config = conf.scrollbar,
 }
 
 return ui

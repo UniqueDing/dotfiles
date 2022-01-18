@@ -1,7 +1,7 @@
-if not packer_plugins["nvim-lspconfig"].loaded then
-    vim.cmd [[packadd nvim-lspconfig]]
-end
-
+-- if not packer_plugins["nvim-lspconfig"].loaded then
+--     vim.cmd [[packadd nvim-lspconfig]]
+-- end
+--
 if not packer_plugins["nvim-lsp-installer"].loaded then
     vim.cmd [[packadd nvim-lsp-installer]]
 end
@@ -26,6 +26,26 @@ lsp_installer.settings {
         }
     }
 }
+
+local servers = {
+    "clangd",
+    "bashls",
+    "pyright",
+    "vuels",
+    "yamlls",
+    "sumneko_lua"
+}
+
+for _, name in pairs(servers) do
+  local server_is_found, server = lsp_installer.get_server(name)
+  if server_is_found then
+    if not server:is_installed() then
+      print("Installing " .. name)
+      server:install()
+    end
+  end
+end
+
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
@@ -80,47 +100,55 @@ local function switch_source_header_splitcmd(bufnr, splitcmd)
     )
 end
 
+local server_opts = {
+    ["sumneko_lua"] = function (opts)
+        opts.settings = {
+            Lua = {
+                diagnostics = {globals = {"vim", "packer_plugins"}},
+                workspace = {
+                    library = {
+                        [vim.fn.expand "$VIMRUNTIME/lua"] = true,
+                        [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true
+                    },
+                    maxPreload = 100000,
+                    preloadFileSize = 10000
+                },
+                telemetry = {enable = false}
+            }
+        }
+    end,
+    ["clangd"] = function (opts)
+        opts.commands = {
+            ClangdSwitchSourceHeader = {
+                function()
+                    switch_source_header_splitcmd(0, "edit")
+                end,
+                description = "Open source/header in current buffer"
+            },
+            ClangdSwitchSourceHeaderVSplit = {
+                function()
+                    switch_source_header_splitcmd(0, "vsplit")
+                end,
+                description = "Open source/header in a new vsplit"
+            },
+            ClangdSwitchSourceHeaderSplit = {
+                function()
+                    switch_source_header_splitcmd(0, "split")
+                end,
+                description = "Open source/header in a new split"
+            }
+        }
+    end,
+}
+
 lsp_installer.on_server_ready(
     function(server)
         local opts = {}
 
-        if (server.name == "sumneko_lua") then
-            opts.settings = {
-                Lua = {
-                    diagnostics = {globals = {"vim", "packer_plugins"}},
-                    workspace = {
-                        library = {
-                            [vim.fn.expand "$VIMRUNTIME/lua"] = true,
-                            [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true
-                        },
-                        maxPreload = 100000,
-                        preloadFileSize = 10000
-                    },
-                    telemetry = {enable = false}
-                }
-            }
-        elseif (server.name == "clangd") then
-            opts.commands = {
-                ClangdSwitchSourceHeader = {
-                    function()
-                        switch_source_header_splitcmd(0, "edit")
-                    end,
-                    description = "Open source/header in current buffer"
-                },
-                ClangdSwitchSourceHeaderVSplit = {
-                    function()
-                        switch_source_header_splitcmd(0, "vsplit")
-                    end,
-                    description = "Open source/header in a new vsplit"
-                },
-                ClangdSwitchSourceHeaderSplit = {
-                    function()
-                        switch_source_header_splitcmd(0, "split")
-                    end,
-                    description = "Open source/header in a new split"
-                }
-            }
+        if server_opts[server.name] then
+            server_opts[server.name](opts)
         end
+
         opts.capabilities = capabilities
         opts.flags = {debounce_text_changes = 500}
         opts.on_attach = custom_attach

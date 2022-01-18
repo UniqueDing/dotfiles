@@ -12,7 +12,9 @@ function config.rnvimr()
     vim.g.rnvimr_enable_picker = 1
     vim.g.rnvimr_enable_bw = 1
     vim.g.rnvimr_hide_gitignore = 0
-    vim.g.rnvimr_ranger_cmd = 'ranger.py --cmd="set draw_borders both"'
+    vim.g.rnvimr_ranger_cmd = 'ranger.py'
+    vim.g.rnvimr_edit_cmd = 'drop'
+    -- vim.g.rnvimr_ranger_cmd = 'ranger.py --cmd="set draw_borders both"'
 end
 
 function config.filetype()

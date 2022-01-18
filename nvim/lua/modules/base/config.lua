@@ -27,8 +27,8 @@ function config.nest()
 
             -- base
             { '<M-', {
-                { 'n>', '5j:lua require("specs").show_specs()<cr>'},
-                { 'e>', '5k:lua require("specs").show_specs()<cr>'},
+                { 'n>', '5j'},
+                { 'e>', '5k'},
                 { 'i>', ':BufferLineCycleNext<cr>' },
                 { 'h>', ':BufferLineCyclePrev<cr>' },
                 { 't>', ':b#<cr>' },

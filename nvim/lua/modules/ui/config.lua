@@ -189,4 +189,21 @@ function config.colorizer()
     require('colorizer').setup()
 end
 
+function config.scrollbar()
+    local colors = require("nord.colors")
+    require("scrollbar").setup({
+        handle = {
+            color = colors.nord2_gui,
+        },
+        marks = {
+            Search = { color = colors.nord12_gui },
+            Error = { color = colors.nord11_gui },
+            Warn = { color = colors.nord13_gui },
+            Info = { color = colors.nord6_gui },
+            Hint = { color = colors.nord9_gui },
+            Misc = { color = colors.nord10_gui },
+        }
+    })
+end
+
 return config
