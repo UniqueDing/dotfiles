@@ -14,14 +14,15 @@ set $down n
 set $up e
 set $right i
 # Your preferred terminal emulator
-set $term `WAYLAND_DISPLAY= alacritty`
+# set $term `WAYLAND_DISPLAY= alacritty`
+set $term kitty
 set $lock swaylock -c 000000
 
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
 # set $menu dmenu_path | dmenu | xargs swaymsg exec --
-set $menu rofi -show
+set $menu wofi --show drun,run
 set $browser firefox
 
 
@@ -49,7 +50,7 @@ bindsym XF86MonBrightnessUp exec brightnessctl set +5%
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
-bindsym XF86Search exec bemenu-run
+bindsym XF86Search exec $term
 
 #
 # Example configuration:
@@ -275,6 +276,20 @@ bar {
         inactive_workspace #32323200 #32323200 #5c5c5c
     }
 }
+
+set $bgcolor    #00000033
+set $ibgcolor   #4c7899
+set $fws        #00000080
+set $barcolor   #0000000D
+set $textcolor  #ffffff
+set $itextcolor #969696
+set $ubgcolor   #ff0000
+
+#                         border      backgroud   text         indicate
+client.focused            $bgcolor    $bgcolor    $textcolor   $bgcolor
+client.unfocused          $ibgcolor   $ibgcolor   $itextcolor  $ibgcolor
+client.focused_inactive   $ibgcolor   $ibgcolor   $itextcolor  $ibgcolor
+client.urgent             $ubgcolor   $ubgcolor   $textcolor   $ubgcolor
 
 include /etc/sway/config.d/*
 

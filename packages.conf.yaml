@@ -57,7 +57,7 @@
   - python-pynvim
   - racket
   - rust
-  - rofi
+  - wofi
   - screenfetch
   - sudo
   - sway
@@ -87,6 +87,7 @@
   - mailspring
   - gnome-keyring
   - polkit-gnome
+  - ttf-hack-ligatured
 
 - sudo:
   - aptget:

@@ -12,11 +12,12 @@
     ~/.config/ranger: ranger
     ~/.config/sway: sway
     ~/.config/waybar: waybar
+    ~/.config/kitty: kitty
     ~/.config/zathura: zathura
     ~/.config/zsh: zsh
     ~/.config/fcitx5: fcitx5
     ~/.config/mako: mako
-    ~/.config/rofi: rofi
+    ~/.config/wofi: wofi
     ~/.config/gtk-3.0: gtk-3.0
     ~/.gtkrc-2.0: gtkrc-2.0
     ~/.pam_environment: pam_environment

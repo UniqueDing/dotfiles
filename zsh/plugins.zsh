@@ -33,13 +33,13 @@ zinit wait lucid for \
 	zsh-users/zsh-autosuggestions
 
 
+    # atload" zstyle ':notify:*' error-title 'Command failed (in #{time_elapsed} seconds)' \
+    #     zstyle ':notify:*' success-title 'Command finished (in #{time_elapsed} seconds)' \
+    #     zstyle ':notify:*' error-log /dev/null" \
+    # marzocchi/zsh-notify \
 zinit wait lucid light-mode for \
 	wfxr/forgit \
 	hlissner/zsh-autopair \
-    atload" zstyle ':notify:*' error-title 'Command failed (in #{time_elapsed} seconds)' \
-        zstyle ':notify:*' success-title 'Command finished (in #{time_elapsed} seconds)' \
-        zstyle ':notify:*' error-log /dev/null" \
-    marzocchi/zsh-notify \
     Aloxaf/fzf-tab \
     laggardkernel/zsh-thefuck
 
