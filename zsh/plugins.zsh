@@ -18,6 +18,42 @@ local ZIGP=(${ZIG} as'program')
 local ZIGC=(${ZIG} as'command')
 local ZL=(zinit light)
 
+GETOP()
+{
+case $(uname -s) in
+Linux)
+    case $(uname -m) in
+    x86_64)
+        echo $1
+        ;;
+    aarch64)
+        echo $2
+        ;;
+    esac
+    ;;
+Darwin)
+    case $(uname -m) in
+    x86_64)
+        echo $3
+        ;;
+    aarch64)
+        echo $4
+        ;;
+    esac
+    ;;
+FreeBSD)
+    case $(uname -m) in
+    x86_64)
+        echo $5
+        ;;
+    aarch64)
+        echo $6
+        ;;
+    esac
+    ;;
+esac
+}
+
 zinit light romkatv/powerlevel10k
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.config/zsh/fun/p10k.zsh ]] || source ~/.config/zsh/fun/p10k.zsh
@@ -55,8 +91,8 @@ zinit wait lucid for \
 	OMZ::plugins/sudo/sudo.plugin.zsh
 
 $ZIGP mv"fd* -> fd" \
-      pick"fd/fd" \
-      nocompletions
+    pick"fd/fd" \
+    nocompletions
 $ZL sharkdp/fd
 
 $ZIGP pick"bin/exa"
@@ -73,8 +109,8 @@ $ZIDP atclone"python3 setup.py install --user" \
 $ZL nvbn/thefuck
 
 $ZIGP mv"ripgrep* -> rg" \
-        pick"rg/rg" \
-        nocompletions
+    pick"rg/rg" \
+    nocompletions
 $ZL BurntSushi/ripgrep
 
 $ZIGP pick"diff-so-fancy"
@@ -92,106 +128,70 @@ $ZL htop-dev/htop
 $ZIDP atclone"python3 setup.py install --user" atpull"%atclone"
 $ZL nicolargo/glances
 
-$ZIGP ver"nightly" \
+BP=$(GETOP "*linux*" "*linux*" "*macos*" "*macos*" "" "")
+$ZIGP bpick$BP \
+    ver"nightly" \
     mv"nvim-* -> nvim" \
-    bpick"*linux*" \
     pick"nvim/bin/nvim"
 $ZL neovim/neovim
 
-if [ $(uname -m) = "x86_64" ]; then
-    $ZIGP bpick"*Linux_x86_64*" \
-        pick"lazygit"
-    $ZL jesseduffield/lazygit
-elif [ $(uname -m) = "aarch64" ]; then
-    $ZIGP bpick"*Linux_arm64*" \
-        pick"lazygit"
-    $ZL jesseduffield/lazygit
-fi
+BP=$(GETOP "*Linux*x86_64*" "*Linux*arm64*" "*Darwin*x86_64*" "" "" "")
+$ZIGP bpick$BP \
+    pick"lazygit"
+$ZL jesseduffield/lazygit
 
-if [ $(uname -m) = "x86_64" ]; then
-    $ZIGP bpick"*Linux_x86_64*" \
-        pick"lazydocker"
-    $ZL jesseduffield/lazydocker
-elif [ $(uname -m) = "aarch64" ]; then
-    $ZIGP bpick"*Linux_arm64*" \
-        pick"lazydocker"
-    $ZL jesseduffield/lazydocker
-fi
+BP=$(GETOP "*Linux*x86_64*" "*Linux*arm64*" "*Darwin*x86_64*" "" "" "")
+$ZIGP bpick$BP \
+    pick"lazydocker"
+$ZL jesseduffield/lazydocker
 
-if [ $(uname -m) = "x86_64" ]; then
-    $ZIGC bpick"*x86_64*linux*" \
-        pick"zoxide" \
-        eval"./zoxide init zsh"
-    $ZL ajeetdsouza/zoxide
-elif [ $(uname -m) = "aarch64" ]; then
-    $ZIGC bpick"*aarch64*linux" \
-        pick"zoxide" \
-        eval"./zoxide init zsh"
-    $ZL ajeetdsouza/zoxide
-fi
+BP=$(GETOP "*x86_64*linux*" "*aarch64*linux*" "*x86_64*darwin*" "*aarch64*darwin*" "" "")
+$ZIGP bpick$BP \
+    pick"zoxide" \
+    eval"./zoxide init zsh"
+$ZL ajeetdsouza/zoxide
 
-if [ $(uname -m) = "x86_64" ]; then
-    $ZIGC bpick"*linux*x86_64*" \
-        mv"tldr* -> tldr" \
-        pick"tldr" \
-        atload"nohup tldr --update -1 > /dev/null 2>&1"
-    $ZL dbrgn/tealdeer
-elif [ $(uname -m) = "aarch64" ]; then
-    $ZIGC bpick"*linux*arm*"
-        mv"tldr* -> tldr" \
-        pick"tldr" \
-        atload"nohup tldr --update -1 > /dev/null 2>&1"
-    $ZL dbrgn/tealdeer
-fi
+BP=$(GETOP "*linux*x86_64*" "*linux*arm64*" "*macos*x86_64*" "" "" "")
+$ZIGP bpick$BP \
+    mv"tealdeer* -> tldr" \
+    pick"tldr" \
+    atload"nohup tldr --update -1 > /dev/null 2>&1"
+$ZL dbrgn/tealdeer
 
+BP=$(GETOP "*linux*amd64*" "*linux*arm64*" "*darwin*amd64*" "*darwin*arm64*" "*freebsd*amd64*" "")
+$ZIGP bpick$BP \
+    pick"fzf"
+$ZL junegunn/fzf
 
-if [ $(uname -m) = "x86_64" ]; then
-    $ZIGP bpick"*linux*amd64*" \
-        pick"fzf"
-    $ZL junegunn/fzf
-elif [ $(uname -m) = "aarch64" ]; then
-    $ZIGP bpick"*linux*arm64*" \
-        pick"fzf"
-    $ZL junegunn/fzf
-fi
+BP=$(GETOP "*linux*amd64*" "*linux*arm64*" "*darwin*amd64*" "" "*freebsd*amd64*" "*freebsd*arm*")
+$ZIGP bpick$BP \
+    mv"gdu* -> gdu" \
+    pick"gdu"
+$ZL dundee/gdu
 
-if [ $(uname -m) = "x86_64" ]; then
-    $ZIGP bpick"*linux*amd64*" \
-        mv"gdu* -> gdu" \
-        pick"gdu"
-    $ZL dundee/gdu
-elif [ $(uname -m) = "aarch64" ]; then
-    $ZIGP bpick"*linux*arm64*" \
-        mv"gdu* -> gdu" \
-        pick"gdu"
-    $ZL dundee/gdu
-fi
+BP=$(GETOP "*linux*x86_64*tar.gz" "*linux*arm64*tar.gz" "*Darwin*x84_64*tar.gz" "*Darwin*arm64*tar.gz" "*freebsd*x86_64*.tar.gz" "*freebsd*arm64*.tar.gz")
+$ZIGP bpick$BP \
+    mv"duf* -> duf" \
+    pick"duf"
+$ZL muesli/duf
 
-if [ $(uname -m) = "x86_64" ]; then
-    $ZIGP bpick"*linux*x86_64*tar.gz" \
-        mv"duf* -> duf" \
-        pick"duf"
-    $ZL muesli/duf
-elif [ $(uname -m) = "aarch64" ]; then
-    $ZIGP bpick"*linux*arm64*tar.gz" \
-        mv"duf* -> duf" \
-        pick"duf"
-    $ZL muesli/duf
-fi
-
-if [ $(uname -m) = "x86_64" ]; then
-    $ZIGP bpick"*Linux*x86_64*" \
-        pick"cowsay" \
-        pick"cowthick"
-    $ZL Code-Hex/Neo-cowsay
-elif [ $(uname -m) = "aarch64" ]; then
-    $ZIGP bpick"*Linux*arm64*" \
-        pick"cowsay" \
-        pick"cowthick"
-    $ZL Code-Hex/Neo-cowsay
-fi
+BP=$(GETOP "*Linux*x86_64*" "*Linux*x86_64*" "*macOS*x84_64*" "*macOS*arm64*" "" "")
+$ZIGP bpick$BP \
+    pick"cowsay" \
+    pick"cowthick"
+$ZL Code-Hex/Neo-cowsay
 
 $ZIDP atclone"make -j12" atpull"%atclone" \
     pick"lolcat"
 $ZL jaseg/lolcat
 
+$ZIDP atclone"make -j12" atpull"%atclone" \
+    pick"neofetch"
+$ZL dylanaraps/neofetch
+
+$ZIDP pick"asciiquarium"
+$ZL cmatsuoka/asciiquarium
+
+$ZIDP atclone"autoreconf -i&&./configure&&make -j12" atpull"%atclone" \
+    pick"cmatrix$"
+$ZL abishekvashok/cmatrix
