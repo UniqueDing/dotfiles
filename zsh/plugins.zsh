@@ -128,7 +128,7 @@ $ZL htop-dev/htop
 $ZIDP atclone"python3 setup.py install --user" atpull"%atclone"
 $ZL nicolargo/glances
 
-BP=$(GETOP "*linux*" "*linux*" "*macos*" "*macos*" "" "")
+BP=$(GETOP "*linux64*tar.gz" "*linux*" "*macos*" "*macos*" "" "")
 $ZIGP bpick$BP \
     ver"nightly" \
     mv"nvim-* -> nvim" \

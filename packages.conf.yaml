@@ -5,6 +5,7 @@
   - alacritty
   - atool
   - base-devel
+  - brightnessctl
   - bitwarden
   - blueman
   - clang
@@ -27,6 +28,7 @@
   - firefox
   - gcc
   - gdb
+  - gdm
   - go
   - grim
   - imv
@@ -35,6 +37,7 @@
   - lua
   - materia-gtk-theme
   - mako
+  - man
   - n2n
   - nerd-fonts-hack
   - net-tools
@@ -43,9 +46,11 @@
   - ninja
   - nodejs
   - npm
+  - nwg-launchers
   - openssh
   - openssl
   - pavucontrol
+  - playerctl
   - proxychains-ng
   - pulseaudio   
   - pulseaudio-alsa
@@ -56,6 +61,7 @@
   - python-pynvim
   - racket
   - rust
+  - rot8
   - wofi
   - screenfetch
   - sudo
@@ -63,6 +69,7 @@
   - swaybg
   - swaylock
   - syncthing
+  - slurp
   - thunderbird
   - tree
   - ttf-hack
@@ -74,6 +81,7 @@
   - vlc
   - waybar
   - wget
+  - wlogout
   - wqy-bitmapfont
   - wqy-microhei
   - wqy-microhei-lite
@@ -82,7 +90,6 @@
   - xdotool
   - xdg-user-dirs
   - zathura
-  - mailspring
   - gnome-keyring
   - polkit-gnome
   - ttf-hack-ligatured

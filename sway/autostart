@@ -4,7 +4,7 @@ exec nm-applet --indicator
 exec blueman-applet
 exec variety
 exec mako
-exec mailspring -b
 exec wlsunset -l 39.9 -L 116.3
-exec sleep 1 && fcitx5
+# exec sleep 1 && fcitx5
+exec --no-startup-id fcitx5 -d
 exec bash ~/.config/sway/lauch.sh

@@ -14,7 +14,7 @@ window#waybar {
     /* background-color: rgba(43, 48, 59, 0.5); */
     /* border-bottom: 3px solid rgba(100, 114, 125, 0.5); */
     background-color: rgba(40, 42, 54, 0.8);
-    color: #ffffff;
+    /* color: #ffffff; */
     transition-property: background-color;
     transition-duration: .5s;
 }
@@ -32,7 +32,7 @@ window#waybar.empty {
 
 window#waybar.termite {
     /* background-color: #3F3F3F; */
-    background-color: #44475a;
+    /* background-color: #44475a; */
 }
 
 window#waybar.chromium {
@@ -70,6 +70,8 @@ window#waybar.chromium {
     border-bottom: 3px solid #ffffff;
 }
 
+@define-color bg-font #fff;
+
 #clock,
 #battery,
 #cpu,
@@ -84,31 +86,64 @@ window#waybar.chromium {
 #mode,
 #idle_inhibitor,
 #mpd {
-    padding: 0 10px;
-    margin: 0 4px;
-    color: #000000;
+    padding: 0 5px;
+    margin: 0 1px;
+    color: @bg-font;
+}
+
+#custom-terminal,
+#custom-steam,
+#custom-browser,
+#custom-wechat,
+#custom-telegram,
+#custom-netease,
+#custom-search,
+#custom-volumemute,
+#custom-volumeup,
+#custom-volumedown,
+#custom-backlightup,
+#custom-backlightdown,
+#custom-keyboard,
+#custom-kill,
+#custom-rotate,
+#custom-moveleft,
+#custom-moveright,
+#custom-moveup,
+#custom-movedown,
+#custom-layouttabbed,
+#custom-layoutfloating,
+#custom-layoutstacking,
+#custom-layoutsplittoggle,
+#custom-move1,
+#custom-move2,
+#custom-move3,
+#custom-move4,
+#custom-move5,
+#custom-move6,
+#custom-move7,
+#custom-move8,
+#custom-move9,
+#custom-move9,
+#custom-move10 {
+    font-size: 30;
 }
 
 #battery {
-    background-color: @color7;
-    color: #000000;
+    /* background-color: @color7; */
 }
 
 #battery.charging {
-    background-color: @color14;
-    color: #000000;
+    /* background-color: @color14; */
 }
 
 @keyframes blink {
     to {
-        background-color: @color13;
-        color: #000000;
+        /* background-color: @color13; */
     }
 }
 
 #battery.critical:not(.charging) {
-    background-color: @color11;
-    color: #000000;
+    /* background-color: @color11; */
     animation-name: blink;
     animation-duration: 0.5s;
     animation-timing-function: linear;
@@ -117,35 +152,35 @@ window#waybar.chromium {
 }
 
 label:focus {
-    background-color: #000000;
+    background-color: @bg-font;
 }
 
 #cpu {
-    background-color: @color4;
+    /* background-color: @color4; */
 }
 
 #memory {
-    background-color: @color7;
+    /* background-color: @color7; */
 }
 
 #backlight {
-    background-color: @color5;
+    /* background-color: @color5; */
 }
 
 #network {
-    background-color: @color8;
+    /* background-color: @color8; */
 }
 
 #network.disconnected {
-    background-color: @color11;
+    /* background-color: @color11; */
 }
 
 #pulseaudio {
-    background-color: @color6;
+    /* background-color: @color6; */
 }
 
 #pulseaudio.muted {
-    background-color: @color2;
+    /* background-color: @color2; */
 }
 
 #custom-media {
@@ -162,16 +197,15 @@ label:focus {
 }
 
 #temperature {
-    background-color: @color4;
-    color: #000000;
+    /* background-color: @color4; */
 }
 
 #temperature.critical {
-    background-color: @color11;
+    /* background-color: @color11; */
 }
 
 #tray {
-    background-color: @color9;
+    /* background-color: @color9; */
 }
 
 #idle_inhibitor {
@@ -201,10 +235,9 @@ label:focus {
 }
 
 #disk {
-    background-color: @color4;
+    /* background-color: @color4; */
 }
 
 #clock {
-    background-color: @color5;
-    color: #000000;
+    /* background-color: @color5; */
 }

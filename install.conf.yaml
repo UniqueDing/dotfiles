@@ -23,6 +23,8 @@
     ~/.pam_environment: pam_environment
     ~/.zshrc: zshrc
     ~/.vimrc: vimrc
+    ~/.config/.wlogout: wlogout
+    ~/.local/share/squeekboard: squeekboard
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]

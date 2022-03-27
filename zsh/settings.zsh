@@ -1,6 +1,7 @@
 # default
 export BROWSER=firefox
 export EDITOR=nvim
+export TERM=kitty
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
