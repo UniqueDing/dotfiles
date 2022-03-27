@@ -89,6 +89,7 @@
   - wmctrl
   - xdotool
   - xdg-user-dirs
+  - xournalpp
   - zathura
   - gnome-keyring
   - polkit-gnome
