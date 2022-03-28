@@ -4,8 +4,8 @@
     "height": 30, // Waybar height (to be removed for auto height)
     // "width": 1280, // Waybar width
     // Choose the order of the modules
-    "modules-left": ["sway/mode", "sway/workspaces", "sway/window"],
-    // "modules-center": ["sway/window"],
+    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-center": ["sway/window"],
     // "modules-center": ["wlr/taskbar"],
     "modules-right": ["network", "tray", "cpu", "memory", "disk", "temperature", "pulseaudio", "backlight", "battery", "clock", "custom/touch", "custom/wlogout"],
     // Modules configuration
