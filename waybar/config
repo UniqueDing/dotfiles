@@ -26,7 +26,7 @@
     },
     "sway/window": {
         "format": "{}",
-        "max-length": 50,
+        "max-length": 200,
         "rewrite": {
            "(.*) - Mozilla Firefox": "🌎 $1",
            "(.*) - nvim": " $1",
@@ -194,7 +194,7 @@
     "height": 40, // Waybar height (to be removed for auto height)
     "modules-left": ["custom/place", "custom/kill", "custom/moveleft", "custom/movedown", "custom/moveup", "custom/moveright", "custom/layoutfloating", "custom/layouttabbed", "custom/layoutstacking", "custom/layoutsplittoggle"],
     "modules-right": ["custom/move1", "custom/move2", "custom/move3", "custom/move4", "custom/move5", "custom/move6", "custom/move7", "custom/move8", "custom/move9", "custom/move10", "custom/place"],
-    "mode": "dock",
+    "mode": "invisible",
     "custom/place": {
         "format": "       "
     },
@@ -281,7 +281,7 @@
     "height": 40, // Waybar height (to be removed for auto height)
     "modules-left": ["custom/place", "custom/search", "custom/terminal", "custom/browser", "custom/note", "custom/netease", "custom/steam", "custom/wechat", "custom/telegram"],
     "modules-right": ["custom/volumemute", "custom/volumedown", "custom/volumeup", "custom/backlightdown", "custom/backlightup", "custom/rotate", "custom/keyboard", "custom/place"],
-    "mode": "dock",
+    "mode": "invisible",
     "custom/place": {
         "format": "       "
     },
