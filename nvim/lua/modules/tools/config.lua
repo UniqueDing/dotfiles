@@ -2,8 +2,22 @@ local config = {}
 
 function config.code_runner()
     require('code_runner').setup{
-        filetype_path = "/home/uniqueding/.config/nvim/lua/modules/tools/code_runner.json",
-        -- project_path = "~/.config/nvim/lua/modules/tools/projects.json",
+        term = {
+            position = "belowright",
+            tab = false,
+            mode = ""
+        },
+        filetype = {
+            java = "cd $dir && javac $fileName && java $fileNameWithoutExt",
+            python = "python",
+            racket = "racket",
+            typescript = "deno run",
+            rust = "cd $dir && rustc $fileName && $dir/$fileNameWithoutExt",
+            cpp = "cd $dir && g++ -pthread $fileName && $dir/a.out",
+            c = "cd $dir && gcc $fileName && $dir/a.out",
+            sh = "cd $dir && bash $fileName",
+            zsh = "cd $dir && zsh $fileName"
+        }
     }
 end
 
