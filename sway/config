@@ -123,9 +123,9 @@ input 1118:31:IPTS_Touch map_to_output eDP-1
     bindsym $mod+l exec $lock
 
     # screenshot
-    bindsym $mod+s exec grim -g "$(slurp)" $HOME/Pictures/$(date +'%s_grim.png')
-    bindsym $mod+Shift+s exec grim $HOME/Pictures/$(date +'%s_grim.png')
-    bindsym $mod+ctrl+s exec grim -g "$(swaymsg -t get_tree | jq -j '.. | select(.type?) | select(.focused).rect | "\(.x),\(.y) \(.width)x\(.height)"')" $HOME/Pictures/$(date +'%s_grim.png')
+    bindsym $mod+s exec $HOME/.config/waybar/script/screenshot.sh rect
+    bindsym $mod+Shift+s exec $HOME/.config/waybar/script/screenshot.sh full
+    # bindsym $mod+ctrl+s exec grim -g "$(swaymsg -t get_tree | jq -j '.. | select(.type?) | select(.focused).rect | "\(.x),\(.y) \(.width)x\(.height)"')" $HOME/Pictures/$(date +'%s_grim.png')
 
 
     # Drag floating windows by holding down $mod and left mouse button.

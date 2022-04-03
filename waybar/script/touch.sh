@@ -16,8 +16,10 @@ elif [[ $1 == "toggle" ]];then
     if [[ $MODE == "dock" ]];then
         sed "s/dock/invisible/g" -i $HOME/.config/waybar/config
         swaymsg "reload"
+        sh "$HOME/.config/sway/lauch.sh"
     else
         sed "s/invisible/dock/g" -i $HOME/.config/waybar/config
         swaymsg "reload"
+        sh "$HOME/.config/sway/lauch.sh"
     fi
 fi

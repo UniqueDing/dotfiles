@@ -83,8 +83,8 @@
             "deactivated": " ﰭ ",
             "activated": " ﰶ "
         },
-        "exec": "$HOME/.config/waybar/touch.sh status",
-        "on-click": "$HOME/.config/waybar/touch.sh toggle"
+        "exec": "$HOME/.config/waybar/script/touch.sh status",
+        "on-click": "$HOME/.config/waybar/script/touch.sh toggle"
     },
     "idle_inhibitor": {
         "format": "{icon}",
@@ -184,8 +184,8 @@
             "default": "🎜"
         },
         "escape": true,
-        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
-        // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
+        "exec": "$HOME/.config/waybar/script/mediaplayer.py 2> /dev/null" // Script in resources folder
+        // "exec": "$HOME/.config/waybar/script/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
     }
 },
 {
@@ -194,7 +194,7 @@
     "height": 40, // Waybar height (to be removed for auto height)
     "modules-left": ["custom/place", "custom/kill", "custom/moveleft", "custom/movedown", "custom/moveup", "custom/moveright", "custom/layoutfloating", "custom/layouttabbed", "custom/layoutstacking", "custom/layoutsplittoggle"],
     "modules-right": ["custom/move1", "custom/move2", "custom/move3", "custom/move4", "custom/move5", "custom/move6", "custom/move7", "custom/move8", "custom/move9", "custom/move10", "custom/place"],
-    "mode": "invisible",
+    "mode": "dock",
     "custom/place": {
         "format": "       "
     },
@@ -280,8 +280,8 @@
     "position": "bottom",
     "height": 40, // Waybar height (to be removed for auto height)
     "modules-left": ["custom/place", "custom/search", "custom/terminal", "custom/browser", "custom/note", "custom/netease", "custom/steam", "custom/wechat", "custom/telegram"],
-    "modules-right": ["custom/volumemute", "custom/volumedown", "custom/volumeup", "custom/backlightdown", "custom/backlightup", "custom/rotate", "custom/keyboard", "custom/place"],
-    "mode": "invisible",
+    "modules-right": ["custom/screenshot", "custom/screenshotfull", "custom/volumemute", "custom/volumedown", "custom/volumeup", "custom/backlightdown", "custom/backlightup", "custom/rotate", "custom/keyboard", "custom/place"],
+    "mode": "dock",
     "custom/place": {
         "format": "       "
     },
@@ -344,8 +344,8 @@
             "deactivated": "  ",
             "activated": "  "
         },
-        "exec": "$HOME/.config/waybar/rotate.sh status",
-        "on-click": "$HOME/.config/waybar/rotate.sh toggle"
+        "exec": "$HOME/.config/waybar/script/rotate.sh status",
+        "on-click": "$HOME/.config/waybar/script/rotate.sh toggle"
     },
     "custom/keyboard": {
         "format": "{icon}",
@@ -354,7 +354,15 @@
             "deactivated": "  ",
             "activated": "  "
         },
-        "exec": "$HOME/.config/waybar/keyboard.sh status",
-        "on-click": "$HOME/.config/waybar/keyboard.sh toggle"
+        "exec": "$HOME/.config/waybar/script/keyboard.sh status",
+        "on-click": "$HOME/.config/waybar/script/keyboard.sh toggle"
     },
+    "custom/screenshot": {
+        "format": "  ",
+        "on-click": "$HOME/.config/waybar/script/screenshot.sh rect"
+    },
+    "custom/screenshotfull": {
+        "format": "  ",
+        "on-click": "$HOME/.config/waybar/script/screenshot.sh full"
+    }
 }]

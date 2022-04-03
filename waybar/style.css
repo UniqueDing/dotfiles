@@ -91,6 +91,8 @@ window#waybar.chromium {
     color: @bg-font;
 }
 
+#custom-screenshot,
+#custom-screenshotfull,
 #custom-note,
 #custom-terminal,
 #custom-steam,
