@@ -60,7 +60,8 @@ alias frpcc='frpc -c /etc/frp/frpc.ini'
 # fzf
 alias nvimf='nvim `fzf --preview "cat {}"`'
 
-alias mountnas='sudo mount.nfs 192.168.100.2:/main ~/extern/nas'
+alias mountnas='sudo mount.cifs //192.168.100.2/main ~/extern/nas -o credentials=/etc/nas.cre,uid=1000,gid=1000'
+alias mountinas='sudo mount.cifs //192.168.2.1/main ~/extern/nas -o credentials=/etc/nas.cre,uid=1000,gid=1000'
 alias umountnas='sudo umount ~/extern/nas'
 
 # systemd

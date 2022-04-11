@@ -4,11 +4,12 @@
 
 * archlinux 
 * sway
-* alacritty
 * zsh
 * zinit
 * nvim
 * ranger
+* kitty
+* ~~alacritty~~
 * ~~dwm~~
 * ~~st~~
 * ~~fish~~

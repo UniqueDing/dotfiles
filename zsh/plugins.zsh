@@ -195,3 +195,9 @@ $ZL cmatsuoka/asciiquarium
 $ZIDP atclone"autoreconf -i&&./configure&&make -j12" atpull"%atclone" \
     pick"cmatrix$"
 $ZL abishekvashok/cmatrix
+
+BP=$(GETOP "*linux64*" "" "*osx-amd64*" "" "" "")
+$ZIGP bpick$BP \
+    mv"jq* -> jq"\
+    pick"jq"
+$ZL stedolan/jq
