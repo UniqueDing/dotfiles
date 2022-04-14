@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # 0 * * * * ~/.config/sway/bg.sh
+set -e
 
 BASE_URL="https://bing.biturl.top/?resolution=3840&format=json&index=0&mkt=zh-CN"
 PIC_DIR="$HOME/Pictures/Bing"

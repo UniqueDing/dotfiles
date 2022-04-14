@@ -21,13 +21,17 @@ completion["hrsh7th/nvim-cmp"] = {
         {"hrsh7th/cmp-nvim-lsp", after = "cmp-buffer"},
         {"hrsh7th/cmp-nvim-lua", after = "cmp-nvim-lsp"},
         {"hrsh7th/cmp-path", after = "cmp-nvim-lua"},
-        {"f3fora/cmp-spell", after = "cmp-path"}
-    --     -- {
-    --     --     'tzachar/cmp-tabnine',
-    --     --     run = './install.sh',
-    --     --     after = 'cmp-spell',
-    --     --     config = conf.tabnine
-    --     -- }
+        {"f3fora/cmp-spell", after = "cmp-path"},
+        {"onsails/lspkind-nvim", after = "cmp-spell"},
+        {"hrsh7th/cmp-emoji", after = "lspkind-nvim"},
+        {"octaltree/cmp-look", after = "cmp-emoji"},
+        {"petertriho/cmp-git", after = "cmp-look", requires = "nvim-lua/plenary.nvim"},
+        {
+            'tzachar/cmp-tabnine',
+            run = './install.sh',
+            after = 'cmp-git',
+            config = conf.tabnine
+        }
     }
 }
 completion["ojroques/nvim-lspfuzzy"] = {
@@ -37,9 +41,9 @@ completion["ojroques/nvim-lspfuzzy"] = {
       },
 }
 completion["L3MON4D3/LuaSnip"] = {
-    -- after = "nvim-cmp",
+    before = "nvim-cmp",
     config = conf.luasnip,
-    -- requires = "rafamadriz/friendly-snippets"
+    requires = "rafamadriz/friendly-snippets"
 }
 completion["windwp/nvim-autopairs"] = {
     after = "nvim-cmp",

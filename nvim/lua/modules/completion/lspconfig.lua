@@ -1,7 +1,7 @@
--- if not packer_plugins["nvim-lspconfig"].loaded then
---     vim.cmd [[packadd nvim-lspconfig]]
--- end
---
+if not packer_plugins["nvim-lspconfig"].loaded then
+    vim.cmd [[packadd nvim-lspconfig]]
+end
+
 if not packer_plugins["nvim-lsp-installer"].loaded then
     vim.cmd [[packadd nvim-lsp-installer]]
 end

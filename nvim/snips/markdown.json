@@ -1,0 +1,17 @@
+{
+    "nodemeta": {
+        "prefix": "nodemeta",
+        "body": [
+            "---",
+            "title: ${1}",
+            "author: ${2}",
+            "date: ${3}",
+            "tag:",
+            "  - ${4}",
+            "public: ${5}",
+            "cover: ${6}",
+            "summary: ${7}",
+            "---"
+        ]
+    }
+}

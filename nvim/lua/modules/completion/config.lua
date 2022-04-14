@@ -4,14 +4,7 @@ function config.nvim_lsp()
     require("modules.completion.lspconfig")
 end
 
--- function config.lightbulb()
---     vim.cmd [[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]]
--- end
-
 function config.cmp()
-    -- local t = function(str)
-    --     return vim.api.nvim_replace_termcodes(str, true, true, true)
-    -- end
     local has_words_before = function()
         local line, col = unpack(vim.api.nvim_win_get_cursor(0))
         return col ~= 0 and
@@ -23,59 +16,62 @@ function config.cmp()
     local luasnip = require("luasnip")
     local cmp = require("cmp")
     cmp.setup {
-        -- formatting = {
-            -- format = function(entry, vim_item)
-            --     local lspkind_icons = {
-            --         Text = "",
-            --         Method = "",
-            --         Function = "",
-            --         Constructor = "",
-            --         Field = "ﰠ",
-            --         Variable = "",
-            --         Class = "ﴯ",
-            --         Interface = "",
-            --         Module = "",
-            --         Property = "ﰠ",
-            --         Unit = "塞",
-            --         Value = "",
-            --         Enum = "",
-            --         Keyword = "",
-            --         Snippet = "",
-            --         Color = "",
-            --         File = "",
-            --         Reference = "",
-            --         Folder = "",
-            --         EnumMember = "",
-            --         Constant = "",
-            --         Struct = "פּ",
-            --         Event = "",
-            --         Operator = "",
-            --         TypeParameter = ""
-            --     }
-            --     -- load lspkind icons
-            --     vim_item.kind =
-            --         string.format(
-            --         "%s %s",
-            --         lspkind_icons[vim_item.kind],
-            --         vim_item.kind
-            --     )
-            --
-            --     vim_item.menu =
-            --         ({
-            --         -- cmp_tabnine = "[TN]",
-            --         orgmode = "[ORG]",
-            --         nvim_lsp = "[LSP]",
-            --         nvim_lua = "[Lua]",
-            --         buffer = "[BUF]",
-            --         path = "[PATH]",
-            --         tmux = "[TMUX]",
-            --         luasnip = "[SNIP]",
-            --         spell = "[SPELL]"
-            --     })[entry.source.name]
-            --
-            --     return vim_item
-            -- end
-        -- },
+        formatting = {
+            format = function(entry, vim_item)
+                local lspkind_icons = {
+                    Text = "",
+                    Method = "",
+                    Function = "",
+                    Constructor = "",
+                    Field = "ﰠ",
+                    Variable = "",
+                    Class = "ﴯ",
+                    Interface = "",
+                    Module = "",
+                    Property = "ﰠ",
+                    Unit = "塞",
+                    Value = "",
+                    Enum = "",
+                    Keyword = "",
+                    Snippet = "",
+                    Color = "",
+                    File = "",
+                    Reference = "",
+                    Folder = "",
+                    EnumMember = "",
+                    Constant = "",
+                    Struct = "פּ",
+                    Event = "",
+                    Operator = "",
+                    TypeParameter = ""
+                }
+                -- load lspkind icons
+                vim_item.kind =
+                    string.format(
+                    "%s %s",
+                    lspkind_icons[vim_item.kind],
+                    vim_item.kind
+                )
+
+                vim_item.menu =
+                    ({
+                    cmp_tabnine = "[TN]",
+                    -- orgmode = "[ORG]",
+                    nvim_lsp = "[LSP]",
+                    nvim_lua = "[Lua]",
+                    buffer = "[BUF]",
+                    path = "[PATH]",
+                    tmux = "[TMUX]",
+                    luasnip = "[SNIP]",
+                    spell = "[SPELL]",
+                    look = "[LOOK]",
+                    calc = "[CALC]",
+                    emoji = "[EMOJI]"
+                })[entry.source.name]
+
+                return vim_item
+            end
+        },
         -- You can set mappings if you want
         mapping = {
             ["<CR>"] = cmp.mapping.confirm({select = true}),
@@ -83,7 +79,10 @@ function config.cmp()
             ["<C-n>"] = cmp.mapping.select_next_item(),
             ["<C-d>"] = cmp.mapping.scroll_docs(-4),
             ["<C-f>"] = cmp.mapping.scroll_docs(4),
-            ["<C-e>"] = cmp.mapping.close(),
+            ['<C-e>'] = cmp.mapping({
+                i = cmp.mapping.abort(),
+                c = cmp.mapping.close(),
+            }),
 
             ["<Tab>"] = cmp.mapping(function(fallback)
                 if cmp.visible() then
@@ -120,19 +119,21 @@ function config.cmp()
             {name = "buffer"},
             {name = "path"},
             {name = "spell"},
+            {name = "cmp_git"},
             -- {name = "tmux"},
             -- {name = "orgmode"}
-            -- {name = 'cmp_tabnine'},
+            {name = 'cmp_tabnine'},
         }
     }
 end
 
 function config.luasnip()
-    -- require("luasnip").config.set_config {
-    --     history = true,
-    --     updateevents = "TextChanged,TextChangedI"
-    -- }
-    -- require("luasnip/loaders/from_vscode").load()
+    require("luasnip").config.set_config {
+        history = true,
+        updateevents = "TextChanged,TextChangedI"
+    }
+    -- require("luasnip.loaders.from_vscode").lazy_load()
+    require("luasnip.loaders.from_vscode").load({paths = {"~/.config/nvim/snips/"} })
 end
 
 -- function config.tabnine()
