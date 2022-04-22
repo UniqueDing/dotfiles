@@ -146,7 +146,7 @@
         "bat": "BAT2"
     },
     "network": {
-        // "interface": "wlp2*", // (Optional) To force the use of this interface
+        // "interface": "w*", // (Optional) To force the use of this interface
         "interval": 1,
         "format-wifi": "{bandwidthDownOctets} ",
         "format-ethernet": "{bandwidthDownOctets}  ",
@@ -192,31 +192,15 @@
     "layer": "top",
     "position": "bottom",
     "height": 40, // Waybar height (to be removed for auto height)
-    "modules-left": ["custom/place", "custom/kill", "custom/moveleft", "custom/movedown", "custom/moveup", "custom/moveright", "custom/layoutfloating", "custom/layouttabbed", "custom/layoutstacking", "custom/layoutsplittoggle"],
-    "modules-right": ["custom/move1", "custom/move2", "custom/move3", "custom/move4", "custom/move5", "custom/move6", "custom/move7", "custom/move8", "custom/move9", "custom/move10", "custom/place"],
-    "mode": "invisible",
+    "modules-left": ["custom/place", "custom/kill", "custom/search", "custom/terminal", "custom/browser", "custom/note", "custom/netease", "custom/steam", "custom/wechat", "custom/telegram"],
+    "modules-right": ["custom/layoutsplittoggle", "custom/layoutfloating", "custom/volumemute", "custom/volumedown", "custom/volumeup", "custom/backlightdown", "custom/backlightup", "custom/rotate", "custom/keyboard", "custom/place"],
+    "mode": "dock",
     "custom/place": {
-        "format": "       "
+        "format": "     "
     },
     "custom/kill": {
         "format": "  ",
         "on-click": "swaymsg 'kill'"
-    },
-    "custom/moveleft": {
-        "format": "  ",
-        "on-click": "swaymsg 'move left'"
-    },
-    "custom/moveright": {
-        "format": "  ",
-        "on-click": "swaymsg 'move right'"
-    },
-    "custom/moveup": {
-        "format": "  ",
-        "on-click": "swaymsg 'move up'"
-    },
-    "custom/movedown": {
-        "format": "  ",
-        "on-click": "swaymsg 'move down'"
     },
     "custom/layoutsplittoggle": {
         "format": "   ",
@@ -233,57 +217,6 @@
     "custom/layoutfloating": {
         "format": "  ",
         "on-click": "swaymsg 'floating toggle'"
-    },
-    "custom/move1": {
-        "format": " 1 ",
-        "on-click": "swaymsg 'move container to workspace number 1; workspace number 1'"
-    },
-    "custom/move2": {
-        "format": " 2 ",
-        "on-click": "swaymsg 'move container to workspace number 2; workspace number 2'"
-    },
-    "custom/move3": {
-        "format": " 3 ",
-        "on-click": "swaymsg 'move container to workspace number 3; workspace number 3'"
-    },
-    "custom/move4": {
-        "format": " 4 ",
-        "on-click": "swaymsg 'move container to workspace number 4; workspace number 4'"
-    },
-    "custom/move5": {
-        "format": " 5 ",
-        "on-click": "swaymsg 'move container to workspace number 5; workspace number 5'"
-    },
-    "custom/move6": {
-        "format": " 6 ",
-        "on-click": "swaymsg 'move container to workspace number 6; workspace number 6'"
-    },
-    "custom/move7": {
-        "format": " 7 ",
-        "on-click": "swaymsg 'move container to workspace number 7; workspace number 7'"
-    },
-    "custom/move8": {
-        "format": " 8 ",
-        "on-click": "swaymsg 'move container to workspace number 8; workspace number 8'"
-    },
-    "custom/move9": {
-        "format": " 9 ",
-        "on-click": "swaymsg 'move container to workspace number 9; workspace number 9'"
-    },
-    "custom/move10": {
-        "format": " 10 ",
-        "on-click": "swaymsg 'move container to workspace number 10; workspace number 10'"
-    }
-},
-{
-    "layer": "top",
-    "position": "bottom",
-    "height": 40, // Waybar height (to be removed for auto height)
-    "modules-left": ["custom/place", "custom/search", "custom/terminal", "custom/browser", "custom/note", "custom/netease", "custom/steam", "custom/wechat", "custom/telegram"],
-    "modules-right": ["custom/screenshot", "custom/screenshotfull", "custom/volumemute", "custom/volumedown", "custom/volumeup", "custom/backlightdown", "custom/backlightup", "custom/rotate", "custom/keyboard", "custom/place"],
-    "mode": "invisible",
-    "custom/place": {
-        "format": "       "
     },
     "custom/search": {
         "format": "  ",
@@ -319,23 +252,23 @@
     },
     "custom/volumemute": {
         "format": "  ",
-        "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+        "on-click": "$HOME/.config/sway/script/volume.sh mute"
     },
     "custom/volumeup": {
         "format": " ﱛ ",
-        "on-click": "pactl set-sink-volume @DEFAULT_SINK@ +5%"
+        "on-click": "$HOME/.config/sway/script/volume.sh up"
     },
     "custom/volumedown": {
         "format": " ﱜ ",
-        "on-click": "pactl set-sink-volume @DEFAULT_SINK@ -5%"
+        "on-click": "$HOME/.config/sway/script/volume.sh down"
     },
     "custom/backlightup": {
         "format": "  ",
-        "on-click": "brightnessctl set +5%"
+        "on-click": "$HOME/.config/sway/script/backlight.sh up"
     },
     "custom/backlightdown": {
         "format": "  ",
-        "on-click": "brightnessctl set 5%-"
+        "on-click": "$HOME/.config/sway/script/backlight.sh down"
     },
     "custom/rotate": {
         "format": "{icon}",

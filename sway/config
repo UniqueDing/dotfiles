@@ -16,7 +16,8 @@ set $right i
 # Your preferred terminal emulator
 # set $term `WAYLAND_DISPLAY= alacritty`
 set $term kitty
-set $lock swaylock -c 000000
+# set $lock swaylock -c 000000
+set $lock gdmflexiserver
 
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
@@ -25,6 +26,9 @@ set $lock swaylock -c 000000
 set $menu wofi --show drun\,run
 set $browser firefox
 
+set $WOBSOCK $XDG_RUNTIME_DIR/wob.sock
+exec rm -f $WOBSOCK && mkfifo $WOBSOCK && tail -f $WOBSOCK | wob -a top -a right
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
 
 ### Output configuration
 #
@@ -42,12 +46,12 @@ gaps inner 5
 smart_gaps on
 
 #XF86
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
-bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
-bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
-bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
-bindsym XF86MonBrightnessUp exec brightnessctl set +5%
+bindsym XF86AudioRaiseVolume exec $HOME/.config/sway/script/volume.sh up
+bindsym XF86AudioLowerVolume exec $HOME/.config/sway/script/volume.sh down
+bindsym XF86AudioMute exec $HOME/.config/sway/script/volume.sh mute
+# bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+bindsym XF86MonBrightnessDown exec $HOME/.config/sway/script/backlight.sh down
+bindsym XF86MonBrightnessUp exec $HOME/.config/sway/script/backlight.sh up
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
@@ -79,6 +83,11 @@ for_window [app_id="Waydroid"] floating enable
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
 # resumed. It will also lock your screen before your computer goes to sleep.
+
+exec swayidle -w \
+         timeout 600 $lock \
+         timeout 900 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+         before-sleep $lock
 
 ### Input configuration
 #

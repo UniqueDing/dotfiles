@@ -35,7 +35,9 @@
   - imv
   - interception-caps2esc
   - jdk-openjdk
+  - kitty
   - lua
+  - lisgd
   - materia-gtk-theme
   - mako
   - man
@@ -62,16 +64,14 @@
   - python-pynvim
   - racket
   - rust
-  - rot8
-  - wofi
   - screenfetch
   - sudo
   - sway
   - swaybg
   - swaylock
+  - swayidle
   - syncthing
   - slurp
-  - thunderbird
   - tree
   - ttf-hack
   - zip
@@ -83,12 +83,16 @@
   - waybar
   - wget
   - wlogout
+  - wlsunset
   - wqy-bitmapfont
   - wqy-microhei
   - wqy-microhei-lite
   - wqy-zenhei
+  - wofi
+  - wob
+  - wshowkeys-git
+  - wtype
   - wmctrl
-  - xdotool
   - xdg-user-dirs
   - xournalpp
   - zathura
