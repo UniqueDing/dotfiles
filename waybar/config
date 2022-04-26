@@ -192,9 +192,9 @@
     "layer": "top",
     "position": "bottom",
     "height": 40, // Waybar height (to be removed for auto height)
-    "modules-left": ["custom/place", "custom/kill", "custom/search", "custom/terminal", "custom/browser", "custom/note", "custom/netease", "custom/steam", "custom/wechat", "custom/telegram"],
+    "modules-left": ["custom/place", "custom/kill", "custom/search", "custom/terminal", "custom/browser", "custom/note", "custom/netease", "custom/steam", "custom/wechat", "custom/telegram", "custom/waydroid"],
     "modules-right": ["custom/layoutsplittoggle", "custom/layoutfloating", "custom/volumemute", "custom/volumedown", "custom/volumeup", "custom/backlightdown", "custom/backlightup", "custom/rotate", "custom/keyboard", "custom/place"],
-    "mode": "dock",
+    "mode": "invisible",
     "custom/place": {
         "format": "     "
     },
@@ -297,5 +297,15 @@
     "custom/screenshotfull": {
         "format": "  ",
         "on-click": "$HOME/.config/waybar/script/screenshot.sh full"
+    },
+    "custom/waydroid": {
+        "format": "{icon}",
+        "return-type": "json",
+        "format-icons": {
+            "deactivated": " ﲎ ",
+            "activated": "  "
+        },
+        "exec": "$HOME/.config/waybar/script/waydroid.sh status",
+        "on-click": "$HOME/.config/waybar/script/waydroid.sh toggle"
     }
 }]

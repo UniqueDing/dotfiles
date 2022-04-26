@@ -57,9 +57,6 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 bindsym XF86Search exec $term
 
-bindsym $mod+z exec waydroid show-full-ui
-for_window [app_id="Waydroid"] floating enable
-
 #
 # Example configuration:
 #
@@ -70,6 +67,8 @@ for_window [app_id="Waydroid"] floating enable
 # output HDMI-A-1 transform 90
 # workspace 1  output DP-1
 # workspace 10  output HDMI-A-1
+
+for_window [app_id="Waydroid"] fullscreen enable, move to workspace number 0
 
 ### Idle configuration
 #
