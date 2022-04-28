@@ -13,8 +13,8 @@ function config.code_runner()
             racket = "racket",
             typescript = "deno run",
             rust = "cd $dir && rustc $fileName && $dir/$fileNameWithoutExt",
-            cpp = "cd $dir && g++ -pthread $fileName && $dir/a.out",
-            c = "cd $dir && gcc $fileName && $dir/a.out",
+            cpp = "cd $dir && g++ -g -pthread $fileName && $dir/a.out",
+            c = "cd $dir && gcc -g $fileName && $dir/a.out",
             sh = "cd $dir && bash $fileName",
             zsh = "cd $dir && zsh $fileName"
         }
@@ -39,6 +39,10 @@ function config.filetype()
             }
         }
     })
+end
+
+function config.telescope_dap()
+    require('telescope').load_extension('dap')
 end
 
 return config

@@ -100,7 +100,7 @@ function config.nest()
         } },
 
         { mode = 'n', {
-            { 'gd', '<cmd>lua vim.lsp.buf.implementation()<cr>' },
+            { 'gd', ':lua vim.lsp.buf.implementation()<cr>' },
 
             -- Lspsaga
             { 'gp', ':Lspsaga preview_definition<cr>' },
@@ -134,11 +134,29 @@ function config.nest()
                 { 'fh', ':Telescope help_tags<cr>' },
                 { 'fg', ':Telescope git_status<cr>' },
 
+                { 'fdm', ':Telescope dap commands<cr>' },
+                { 'fdc', ':Telescope dap configurations<cr>' },
+                { 'fdl', ':Telescope dap list_breakpoints<cr>' },
+                { 'fdv', ':Telescope dap variables<cr>' },
+                { 'fdf', ':Telescope dap frames<cr>' },
+
                 -- vista
                 { 'vv', ':Vista!!<cr>' },
 
                 -- gitsigns
-                { 'gh', ':Gitsigns toggle_current_line_blame<cr>'}
+                -- { 'gh', ':Gitsigns toggle_current_line_blame<cr>'},
+
+                -- dap
+                { 'dd', ':lua require("dap").continue()<cr>'},
+                { 'dn', ':lua require("dap").step_over()<cr>'},
+                { 'di', ':lua require("dap").step_into()<cr>'},
+                { 'do', ':lua require("dap").step_out()<cr>'},
+                { 'db', ':lua require("dap").toggle_breakpoint()<cr>'},
+                { 'dB', ':lua require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))<cr>'},
+                { 'dp', ':lua require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))<cr>'},
+                { 'dr', ':lua require("dap").repl.open()<cr>'},
+                { 'dl', ':lua require("dap").run_last()<cr>'},
+
 
             } },
         } },

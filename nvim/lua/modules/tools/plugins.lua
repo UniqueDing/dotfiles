@@ -16,8 +16,15 @@ tools['kevinhwang91/rnvimr'] = {
 }
 
 tools['nvim-telescope/telescope.nvim'] = {
-    requires = 'nvim-lua/plenary.nvim',
+    requires = {
+        'nvim-lua/plenary.nvim',
+    },
     config = conf.telescope,
+}
+
+tools['nvim-telescope/telescope-dap.nvim'] = {
+    requires = 'nvim-telescope/telescope.nvim',
+    config = conf.telescope_dap,
 }
 
 return tools
