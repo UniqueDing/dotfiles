@@ -11,8 +11,8 @@ lisgd \
     -g "1,UD,T,S,R, nwggrid &" \
     -g "2,LR,*,*,R, swaymsg workspace prev" \
     -g "2,RL,*,*,R, swaymsg workspace next" \
-    -g "2,DU,*,*,R, $HOME/.config/waybar/script/workspace.sh prev &" \
-    -g "2,UD,*,*,R, $HOME/.config/waybar/script/workspace.sh next &" \
+    -g "3,LR,*,*,R, $HOME/.config/waybar/script/workspace.sh prev &" \
+    -g "3,RL,*,*,R, $HOME/.config/waybar/script/workspace.sh next &" \
     -g "3,UD,*,*,R, $HOME/.config/waybar/script/screenshot.sh full &" \
     -g "3,DU,*,*,R, $HOME/.config/waybar/script/screenshot.sh rect &" \
     -m 1200 \

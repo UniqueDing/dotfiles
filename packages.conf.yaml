@@ -16,10 +16,7 @@
   - docker
   - docker-compose
   - dos2unix
-  - doxygen
-  - dunst
   - emacs
-  - feh
   - fcitx5
   - fcitx5-chinese-addons
   - fcitx5-configtool
@@ -29,7 +26,6 @@
   - firefox
   - gcc
   - gdb
-  - gdm
   - go
   - grim
   - imv
@@ -37,11 +33,9 @@
   - jdk-openjdk
   - kitty
   - lua
-  - lisgd
   - materia-gtk-theme
   - mako
   - man
-  - n2n
   - nerd-fonts-hack
   - net-tools
   - network-manager-applet
@@ -49,12 +43,10 @@
   - ninja
   - nodejs
   - npm
-  - nwg-launchers
   - openssh
   - openssl
   - pavucontrol
   - playerctl
-  - proxychains-ng
   - pulseaudio   
   - pulseaudio-alsa
   - pulseaudio-bluetooth
@@ -76,10 +68,7 @@
   - ttf-hack
   - zip
   - unzip
-  - v2raya
-  - variety
   - vim
-  - vlc
   - waybar
   - wget
   - wlogout
@@ -90,12 +79,11 @@
   - wqy-zenhei
   - wofi
   - wob
-  - wshowkeys-git
   - wtype
   - wmctrl
   - xdg-user-dirs
-  - xournalpp
-  - zathura
+  - xdg-desktop-portal
+  - xdg-desktop-portal-gtk
   - gnome-keyring
   - polkit-gnome
   - ttf-hack-ligatured
