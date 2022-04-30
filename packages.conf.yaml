@@ -30,6 +30,7 @@
   - grim
   - imv
   - interception-caps2esc
+  - interception-ralt2hyper
   - jdk-openjdk
   - kitty
   - lua
