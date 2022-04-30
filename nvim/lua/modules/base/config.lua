@@ -62,7 +62,7 @@ function config.nest()
                 -- { 'qi', ':BufferLineCloseRight<cr>' },
 
                 -- nvim-tree
-                -- { '<tab>', ':NvimTreeToggle<cr>' },
+                { 't', ':NvimTreeToggle<cr>' },
 
                 -- rnvimr
                 { '<tab>', ':RnvimrToggle<cr>' },
