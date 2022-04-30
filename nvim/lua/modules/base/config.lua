@@ -19,7 +19,7 @@ function config.nest()
             { 'I', 'L' },
             { 'l', 'i' },
             { 'L', 'I' },
-            { 'j', 'e:lua require("specs").show_specs()<cr>' },
+            { 'j', 'e' },
             { 'J', 'E' },
             { 'cl', 'ci' }, -- don't know reason
             { 'vl', 'vi' }, -- don't know reason

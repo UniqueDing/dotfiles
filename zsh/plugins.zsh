@@ -95,8 +95,20 @@ $ZIGP mv"fd* -> fd" \
     nocompletions
 $ZL sharkdp/fd
 
-$ZIGP pick"bin/exa"
-$ZL ogham/exa
+# $ZIGP pick"bin/exa"
+# $ZL ogham/exa
+
+#temp for hyperlink
+$ZIDP atclone"cargo build --release -j12" atpull"%atclone" \
+    pick"target/release/lsd"
+$ZL Peltoche/lsd
+
+# BP=$(GETOP "*x86_64*linux-gnu*" "*aarch64*linux-gnu*" "*darwin*" "" "" "")
+# $ZIGP bpick$BP \
+#     mv"lsd* -> lsd" \
+#     pick"lsd/lsd"
+# $ZL Peltoche/lsd
+
 
 $ZIGP mv"bat* -> bat" pick"bat/bat"
 $ZL sharkdp/bat

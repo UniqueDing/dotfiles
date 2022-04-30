@@ -3,13 +3,14 @@
 alias s=sudo
 alias se=sudoedit
 alias ra=ranger
-alias ls='exa --icons'
+alias ls='lsd --hyperlink=auto'
 alias l=ls
-alias ll='ls -lHg --git'
+alias ll='ls -l'
 alias lla='ll -a'
 alias ..='cd ..'
 alias ...='cd ../..'
-alias cdl='~/.config/dwm/dark-light.sh'
+# alias cdl='~/.config/dwm/dark-light.sh'
+alias icat="kitty +kitten icat"
 
 alias pS='sudo pacman -S'
 alias pSs='pacman -Ss'
