@@ -22,6 +22,7 @@ function config.nest()
             { 'j', 'e:lua require("specs").show_specs()<cr>' },
             { 'J', 'E' },
             { 'cl', 'ci' }, -- don't know reason
+            { 'vl', 'vi' }, -- don't know reason
             { 'k', 'nzz:lua require("specs").show_specs()<cr>' },
             { 'K', 'Nzz:lua require("specs").show_specs()<cr>' },
 
