@@ -7,24 +7,24 @@
 - clean: ['~']
 
 - link:
-    ~/.config/alacritty: alacritty
-    ~/.config/nvim: nvim
-    ~/.config/ranger: ranger
-    ~/.config/sway: sway
-    ~/.config/waybar: waybar
-    ~/.config/kitty: kitty
-    ~/.config/zathura: zathura
-    ~/.config/zsh: zsh
-    ~/.config/fcitx5: fcitx5
-    ~/.config/mako: mako
-    ~/.config/wofi: wofi
-    ~/.config/gtk-3.0: gtk-3.0
-    ~/.gtkrc-2.0: gtkrc-2.0
-    ~/.pam_environment: pam_environment
-    ~/.zshrc: zshrc
-    ~/.vimrc: vimrc
-    ~/.config/.wlogout: wlogout
-    ~/.local/share/squeekboard: squeekboard
+    ~/.config/alacritty: homemanager/uniqueding/alacritty
+    ~/.config/nvim: homemanager/uniqueding/nvim
+    ~/.config/ranger: homemanager/uniqueding/ranger
+    ~/.config/sway: homemanager/uniqueding/sway
+    ~/.config/waybar: homemanager/uniqueding/waybar
+    ~/.config/kitty: homemanager/uniqueding/kitty
+    ~/.config/zathura: homemanager/uniqueding/zathura
+    ~/.config/zsh: homemanager/uniqueding/zsh
+    ~/.config/fcitx5: homemanager/uniqueding/fcitx5
+    ~/.config/mako: homemanager/uniqueding/mako
+    ~/.config/wofi: homemanager/uniqueding/wofi
+    ~/.config/foot: homemanager/uniqueding/foot
+    ~/.config/lf: homemanager/uniqueding/lf
+    ~/.pam_environment: homemanager/uniqueding/pam_environment
+    ~/.zshrc: homemanager/uniqueding/zshrc
+    ~/.vimrc: homemanager/uniqueding/vimrc
+    ~/.config/.wlogout: homemanager/uniqueding/wlogout
+    ~/.local/share/squeekboard: homemanager/uniqueding/squeekboard
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]

@@ -1,0 +1,11 @@
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec syncthing
+exec nm-applet --indicator
+exec blueman-applet
+exec_always $HOME/.config/sway/script/lightdark.sh mako
+exec_always $HOME/.config/sway/script/lightdark.sh waybar
+exec wlsunset -l 39.9 -L 116.3
+# exec sleep 1 && fcitx5
+exec --no-startup-id fcitx5 -d
+exec_always bash ~/.config/sway/lauch.sh
+exec_always bash ~/.config/sway/bg.sh

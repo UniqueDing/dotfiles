@@ -1,0 +1,131 @@
+@import "nord.scss";
+
+#custom-waydroid,
+#custom-screenshot,
+#custom-screenshotfull,
+#custom-note,
+#custom-terminal,
+#custom-steam,
+#custom-browser,
+#custom-wechat,
+#custom-telegram,
+#custom-netease,
+#custom-search,
+#custom-volumemute,
+#custom-volumeup,
+#custom-volumedown,
+#custom-backlightup,
+#custom-backlightdown,
+#custom-keyboard,
+#custom-kill,
+#custom-rotate,
+#custom-moveleft,
+#custom-moveright,
+#custom-moveup,
+#custom-movedown,
+#custom-layouttabbed,
+#custom-layoutfloating,
+#custom-layoutstacking,
+#custom-layoutsplittoggle,
+#custom-placeleft,
+#custom-placeright,
+#custom-splitline
+{
+    font-size: 30;
+    background: rgba(238, 238, 238, 90);
+    color: rgb(97, 97, 97);
+    padding: 5px 0;
+    border-radius: 0;
+    margin: 0 0 10px 0;
+}
+
+#custom-placeleft
+{
+    border-radius: 15px 0 0 15px;
+}
+
+#custom-placeright
+{
+    border-radius: 0 15px 15px 0;
+}
+
+
+* {
+    border-radius: 5;
+    /* padding: 0 5px; */
+    font-family: Hack;
+    font-size: 13px;
+    /* margin: 3px 0 0 0; */
+}
+
+window#waybar {
+    background-color: rgba(255, 255, 255, 0.3);
+    transition-property: background-color;
+    transition-duration: .5s;
+}
+
+window#waybar.empty {
+    background-color: transparent;
+}
+
+/* Colors */
+/* Base */
+#workspaces button,
+#mode,
+#tray,
+#pulseaudio,
+#network,
+#memory,
+#cpu,
+#backlight,
+#battery,
+#disk,
+#temperature,
+#custom-touch,
+#custom-wlogout,
+#custom-lightdark,
+#window,
+#modules-center,
+#clock
+{
+    background: rgba(238, 238, 238, 90);
+    color: rgb(97, 97, 97);
+    padding: 0 8px;
+    margin: 0 3px;
+}
+/* Effects */
+#workspaces button:hover {
+    background: rgba(238, 238, 238, 40);
+}
+#workspaces button.focused {
+    background: @color8;
+    color: white;
+}
+#workspaces button.urgent {
+    background-color: @color11;
+    color: white;
+}
+#battery.charging {
+    background-color: @color14;
+}
+
+#battery.critical:not(.charging) {
+    background-color: @color11;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+#temperature.critical {
+    background-color: @color11;
+}
+/* Disabled */
+#network.disconnected,
+#pulseaudio.muted
+{
+  background: rgba(238, 238, 238, 50);
+  color: rgb(189, 189, 189);
+}
+
+

@@ -1,0 +1,25 @@
+sort=-time
+layer=overlay
+background-color=#808080BB
+width=300
+height=150
+border-size=0
+border-radius=10
+max-icon-size=64
+default-timeout=5000
+ignore-timeout=1
+font=hack 12
+
+[urgency=low]
+background-color=#80808033
+
+[urgency=normal]
+background-color=#808080BB
+
+[urgency=high]
+background-color=#BF616ABB
+default-timeout=0
+
+[category=mpd]
+default-timeout=2000
+group-by=category

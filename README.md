@@ -3,19 +3,26 @@
 ## list
 
 * archlinux 
+* nixos
 * sway
 * zsh
 * zinit
 * nvim
 * ranger
-* kitty
+* lf
+* foot
+* ~~kitty~~
 * ~~alacritty~~
 * ~~dwm~~
 * ~~st~~
 * ~~fish~~
 * ~~coc.nvim~~
 
-## install
+## nixos
+    
+nixos-rebuild switch --flake --#HOSTNAME
+
+## ~~install~~
 
 `./install`
 

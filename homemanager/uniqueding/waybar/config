@@ -1,0 +1,322 @@
+[{
+    "layer": "top", // Waybar at top layer
+    // "position": "bottom", // Waybar position (top|bottom|left|right)
+    "height": 30, // Waybar height (to be removed for auto height)
+    "modules-left": ["sway/workspaces", "sway/mode", "sway/window"],
+    "modules-right": ["network", "tray", "cpu", "memory", "disk", "temperature", "pulseaudio", "backlight", "battery", "clock", "custom/lightdark", "custom/touch", "custom/wlogout"],
+    // Modules configuration
+    "sway/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": false,
+        "format": "{name}",
+        "format-icons": {
+            // "1": "",
+            // "2": "",
+            // "3": "",
+            // "4": "",
+            // "5": "",
+            "urgent": "",
+            "focused": "",
+            "default": ""
+        }
+    },
+    "sway/window": {
+        "format": "{}",
+        "max-length": 200,
+        "rewrite": {
+           "(.*) - Mozilla Firefox": "🌎 $1",
+           "(.*) - nvim": " $1",
+           "(.*) - zsh": " [$1]",
+           "(.*) - ranger": " [$1]"
+        }
+    },
+    "sway/mode": {
+        "format": " {}",
+        "max-length": 50
+    },
+    "wlr/taskbar": {
+        "format": "{icon}",
+        "icon-size": 14,
+        "icon-theme": "Numix-Circle",
+        "tooltip-format": "{title}",
+        "on-click": "activate",
+        "on-click-middle": "close"
+    },
+    "mpd": {
+        "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ",
+        "format-disconnected": "Disconnected ",
+        "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ",
+        "unknown-tag": "N/A",
+        "interval": 2,
+        "consume-icons": {
+            "on": " "
+        },
+        "random-icons": {
+            "off": "<span color=\"#f53c3c\"></span> ",
+            "on": " "
+        },
+        "repeat-icons": {
+            "on": " "
+        },
+        "single-icons": {
+            "on": "1 "
+        },
+        "state-icons": {
+            "paused": "",
+            "playing": ""
+        },
+        "tooltip-format": "MPD (connected)",
+        "tooltip-format-disconnected": "MPD (disconnected)"
+    },
+    "custom/lightdark": {
+        "format": "{icon}",
+        "return-type": "json",
+        "format-icons": {
+            "light": "  ",
+            "dark": "  "
+        },
+        "exec": "$HOME/.config/sway/script/lightdark.sh status",
+        "on-click": "$HOME/.config/sway/script/lightdark.sh toggle"
+    },
+    "custom/wlogout": {
+        "format": "  ",
+        "on-click": "wlogout -l $HOME/.config/.wlogout"
+    },
+    "custom/touch": {
+        "format": "{icon}",
+        "return-type": "json",
+        "format-icons": {
+            "deactivated": " ﰭ ",
+            "activated": " ﰶ "
+        },
+        "exec": "$HOME/.config/waybar/script/touch.sh status",
+        "on-click": "$HOME/.config/waybar/script/touch.sh toggle"
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "",
+            "deactivated": ""
+        }
+    },
+    "tray": {
+        // "icon-size": 21,
+        "spacing": 10
+    },
+    "clock": {
+        "tooltip-format": "{:%Y-%m-%d | %H:%M}",
+        // "format-alt": "{:%Y-%m-%d}"
+        "format": "{:%m-%d|%H:%M}"
+    },
+    "cpu": {
+        "format": "{usage} ",
+        "tooltip": false
+    },
+    "memory": {
+        "format": "{} "
+    },
+    "disk": {
+        "format": "{percentage_used} ",
+        "path": "/home"
+    },
+    "temperature": {
+        // "thermal-zone": 2,
+        "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+        "critical-threshold": 80,
+        // "format-critical": "{temperatureC}°C {icon}",
+        "format": "{temperatureC} {icon}",
+        "format-icons": ["", "", ""]
+    },
+    "backlight": {
+        // "device": "acpi_video1",
+        "format": "{percent} {icon}",
+        "format-icons": ["", ""],
+        "on-scroll-up": "brightnessctl set 1%-",
+        "on-scroll-down": "brightnessctl set +1%"
+    },
+    "battery": {
+        "states": {
+            // "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{capacity} {icon} ",
+        "format-charging": "{capacity} ",
+        "format-plugged": "{capacity} ",
+        "format-alt": "{time} {icon} ",
+        // "format-good": "", // An empty format will hide the module
+        // "format-full": "",
+        "format-icons": ["", "", "", "", ""]
+    },
+    "battery#bat2": {
+        "bat": "BAT2"
+    },
+    "network": {
+        // "interface": "w*", // (Optional) To force the use of this interface
+        "interval": 1,
+        "format-wifi": "{bandwidthDownOctets} ",
+        "format-ethernet": "{bandwidthDownOctets}  ",
+        "format-linked": "{ifname} ",
+        "format-disconnected": "⚠",
+        "format-alt": "{ifname}: {ipaddr}/{cidr}"
+    },
+    "pulseaudio": {
+        // "scroll-step": 1, // %, can be a float
+        // "format": "{volume} {icon} {format_source}",
+        "format": "{volume} {icon}",
+        "format-bluetooth": "{volume} {icon} {format_source}",
+        "format-bluetooth-muted": " {icon} {format_source}",
+        // "format-muted": " {format_source}",
+        "format-muted": "  ",
+        "format-source": "{volume} ",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphones": "",
+            "handsfree": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "on-click": "pavucontrol"
+    },
+    "custom/media": {
+        "format": "{icon} {}",
+        "return-type": "json",
+        "max-length": 40,
+        "format-icons": {
+            "spotify": "",
+            "default": "🎜"
+        },
+        "escape": true,
+        "exec": "$HOME/.config/waybar/script/mediaplayer.py 2> /dev/null" // Script in resources folder
+        // "exec": "$HOME/.config/waybar/script/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
+    }
+},
+{
+    "layer": "top",
+    "position": "bottom",
+    "height": 40, // Waybar height (to be removed for auto height)
+    "modules-center": ["custom/placeleft", "custom/kill", "custom/search", "custom/terminal", "custom/browser", "custom/note", "custom/netease", "custom/steam", "custom/wechat", "custom/telegram", "custom/waydroid", "custom/splitline", "custom/layoutsplittoggle", "custom/layoutfloating", "custom/volumemute", "custom/volumedown", "custom/volumeup", "custom/backlightdown", "custom/backlightup", "custom/rotate", "custom/keyboard", "custom/placeright"],
+    "mode": "invisible",
+    "custom/placeleft": {
+        "format": " "
+    },
+    "custom/placeright": {
+        "format": " "
+    },
+    "custom/splitline": {
+        "format": "|"
+    },
+    "custom/kill": {
+        "format": "  ",
+        "on-click": "swaymsg 'kill'"
+    },
+    "custom/layoutsplittoggle": {
+        "format": "  ",
+        "on-click": "swaymsg 'layout toggle split'"
+    },
+    "custom/layouttabbed": {
+        "format": " ﴴ ",
+        "on-click": "swaymsg 'layout tabbed'"
+    },
+    "custom/layoutstacking": {
+        "format": "  ",
+        "on-click": "swaymsg 'layout stacking'"
+    },
+    "custom/layoutfloating": {
+        "format": "  ",
+        "on-click": "swaymsg 'floating toggle'"
+    },
+    "custom/search": {
+        "format": "  ",
+        "on-click": "nwggrid"
+    },
+    "custom/terminal": {
+        "format": "  ",
+        "on-click": "kitty"
+    },
+    "custom/browser": {
+        "format": "  ",
+        "on-click": "firefox"
+    },
+    "custom/steam": {
+        "format": "  ",
+        "on-click": "steam"
+    },
+    "custom/wechat": {
+        "format": "  ",
+        "on-click": "wechat-uos"
+    },
+    "custom/telegram": {
+        "format": "  ",
+        "on-click": "telegram-desktop"
+    },
+    "custom/netease": {
+        "format": "  ",
+        "on-click": "netease-cloud-music-gtk"
+    },
+    "custom/note": {
+        "format": "  ",
+        "on-click": "xournalpp"
+    },
+    "custom/volumemute": {
+        "format": "  ",
+        "on-click": "$HOME/.config/sway/script/volume.sh mute"
+    },
+    "custom/volumeup": {
+        "format": " ﱛ ",
+        "on-click": "$HOME/.config/sway/script/volume.sh up"
+    },
+    "custom/volumedown": {
+        "format": " ﱜ ",
+        "on-click": "$HOME/.config/sway/script/volume.sh down"
+    },
+    "custom/backlightup": {
+        "format": "  ",
+        "on-click": "$HOME/.config/sway/script/backlight.sh up"
+    },
+    "custom/backlightdown": {
+        "format": "  ",
+        "on-click": "$HOME/.config/sway/script/backlight.sh down"
+    },
+    "custom/rotate": {
+        "format": "{icon}",
+        "return-type": "json",
+        "format-icons": {
+            "deactivated": "  ",
+            "activated": "  "
+        },
+        "exec": "$HOME/.config/waybar/script/rotate.sh status",
+        "on-click": "$HOME/.config/waybar/script/rotate.sh toggle"
+    },
+    "custom/keyboard": {
+        "format": "{icon}",
+        "return-type": "json",
+        "format-icons": {
+            "deactivated": "  ",
+            "activated": "  "
+        },
+        "exec": "$HOME/.config/waybar/script/keyboard.sh status",
+        "on-click": "$HOME/.config/waybar/script/keyboard.sh toggle"
+    },
+    "custom/screenshot": {
+        "format": "  ",
+        "on-click": "$HOME/.config/waybar/script/screenshot.sh rect"
+    },
+    "custom/screenshotfull": {
+        "format": "  ",
+        "on-click": "$HOME/.config/waybar/script/screenshot.sh full"
+    },
+    "custom/waydroid": {
+        "format": "{icon}",
+        "return-type": "json",
+        "format-icons": {
+            "deactivated": " ﲎ ",
+            "activated": "  "
+        },
+        "exec": "$HOME/.config/waybar/script/waydroid.sh status",
+        "on-click": "$HOME/.config/waybar/script/waydroid.sh toggle"
+    }
+}]

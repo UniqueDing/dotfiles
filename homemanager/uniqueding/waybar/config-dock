@@ -1,0 +1,126 @@
+[{
+    "layer": "top",
+    "position": "bottom",
+    "height": 40, // Waybar height (to be removed for auto height)
+    "modules-center": ["custom/placeleft", "custom/kill", "custom/search", "custom/terminal", "custom/browser", "custom/note", "custom/netease", "custom/steam", "custom/wechat", "custom/telegram", "custom/waydroid", "custom/splitline", "custom/layoutsplittoggle", "custom/layoutfloating", "custom/volumemute", "custom/volumedown", "custom/volumeup", "custom/backlightdown", "custom/backlightup", "custom/rotate", "custom/keyboard", "custom/placeright"],
+    "mode": "dock",
+    "custom/placeleft": {
+        "format": " "
+    },
+    "custom/placeright": {
+        "format": " "
+    },
+    "custom/splitline": {
+        "format": "|"
+    },
+    "custom/kill": {
+        "format": "  ",
+        "on-click": "swaymsg 'kill'"
+    },
+    "custom/layoutsplittoggle": {
+        "format": "  ",
+        "on-click": "swaymsg 'layout toggle split'"
+    },
+    "custom/layouttabbed": {
+        "format": " ﴴ ",
+        "on-click": "swaymsg 'layout tabbed'"
+    },
+    "custom/layoutstacking": {
+        "format": "  ",
+        "on-click": "swaymsg 'layout stacking'"
+    },
+    "custom/layoutfloating": {
+        "format": "  ",
+        "on-click": "swaymsg 'floating toggle'"
+    },
+    "custom/search": {
+        "format": "  ",
+        "on-click": "nwggrid"
+    },
+    "custom/terminal": {
+        "format": "  ",
+        "on-click": "kitty"
+    },
+    "custom/browser": {
+        "format": "  ",
+        "on-click": "firefox"
+    },
+    "custom/steam": {
+        "format": "  ",
+        "on-click": "steam"
+    },
+    "custom/wechat": {
+        "format": "  ",
+        "on-click": "wechat-uos"
+    },
+    "custom/telegram": {
+        "format": "  ",
+        "on-click": "telegram-desktop"
+    },
+    "custom/netease": {
+        "format": "  ",
+        "on-click": "netease-cloud-music-gtk"
+    },
+    "custom/note": {
+        "format": "  ",
+        "on-click": "xournalpp"
+    },
+    "custom/volumemute": {
+        "format": "  ",
+        "on-click": "$HOME/.config/sway/script/volume.sh mute"
+    },
+    "custom/volumeup": {
+        "format": " ﱛ ",
+        "on-click": "$HOME/.config/sway/script/volume.sh up"
+    },
+    "custom/volumedown": {
+        "format": " ﱜ ",
+        "on-click": "$HOME/.config/sway/script/volume.sh down"
+    },
+    "custom/backlightup": {
+        "format": "  ",
+        "on-click": "$HOME/.config/sway/script/backlight.sh up"
+    },
+    "custom/backlightdown": {
+        "format": "  ",
+        "on-click": "$HOME/.config/sway/script/backlight.sh down"
+    },
+    "custom/rotate": {
+        "format": "{icon}",
+        "return-type": "json",
+        "format-icons": {
+            "deactivated": "  ",
+            "activated": "  "
+        },
+        "exec": "$HOME/.config/waybar/script/rotate.sh status",
+        "on-click": "$HOME/.config/waybar/script/rotate.sh toggle"
+    },
+    "custom/keyboard": {
+        "format": "{icon}",
+        "return-type": "json",
+        "format-icons": {
+            "deactivated": "  ",
+            "activated": "  "
+        },
+        "exec": "$HOME/.config/waybar/script/keyboard.sh status",
+        "on-click": "$HOME/.config/waybar/script/keyboard.sh toggle"
+    },
+    "custom/screenshot": {
+        "format": "  ",
+        "on-click": "$HOME/.config/waybar/script/screenshot.sh rect"
+    },
+    "custom/screenshotfull": {
+        "format": "  ",
+        "on-click": "$HOME/.config/waybar/script/screenshot.sh full"
+    },
+    "custom/waydroid": {
+        "format": "{icon}",
+        "return-type": "json",
+        "format-icons": {
+            "deactivated": " ﲎ ",
+            "activated": "  "
+        },
+        "exec": "$HOME/.config/waybar/script/waydroid.sh status",
+        "on-click": "$HOME/.config/waybar/script/waydroid.sh toggle"
+    }
+}]
