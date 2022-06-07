@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 LIGHT_GTK=Qogir-Light
 LIGHT_ICON=Qogir

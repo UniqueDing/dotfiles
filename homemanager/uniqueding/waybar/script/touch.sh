@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 WAYBAR="$HOME/.config/waybar/config-dock"
 

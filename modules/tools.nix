@@ -26,6 +26,7 @@
     glances
     lazygit
     lazydocker
+    lsb-release
     zoxide
     tealdeer
     fzf

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 CURRENT=$(swaymsg -t get_workspaces | jq '.[] | select(.focused).num')
 if [[ $1 == "next" ]];then

@@ -90,6 +90,8 @@ zinit wait lucid for \
 	OMZ::lib/git.zsh \
 	OMZ::plugins/sudo/sudo.plugin.zsh
 
+
+if [[ "$(lsb_release -si)" != "NixOS" ]];then
 $ZIGP mv"fd* -> fd" \
     pick"fd/fd" \
     nocompletions
@@ -99,15 +101,15 @@ $ZL sharkdp/fd
 # $ZL ogham/exa
 
 #temp for hyperlink
-$ZIDP atclone"cargo build --release -j12" atpull"%atclone" \
-    pick"target/release/lsd"
-$ZL Peltoche/lsd
+#$ZIDP atclone"cargo build --release -j12" atpull"%atclone" \
+#    pick"target/release/lsd"
+#$ZL Peltoche/lsd
 
-# BP=$(GETOP "*x86_64*linux-gnu*" "*aarch64*linux-gnu*" "*darwin*" "" "" "")
-# $ZIGP bpick$BP \
-#     mv"lsd* -> lsd" \
-#     pick"lsd/lsd"
-# $ZL Peltoche/lsd
+BP=$(GETOP "*x86_64*linux-gnu*" "*aarch64*linux-gnu*" "*darwin*" "" "" "")
+$ZIGP bpick$BP \
+    mv"lsd* -> lsd" \
+    pick"lsd/lsd"
+$ZL Peltoche/lsd
 
 
 $ZIGP mv"bat* -> bat" pick"bat/bat"
@@ -213,3 +215,4 @@ $ZIGP bpick$BP \
     mv"jq* -> jq"\
     pick"jq"
 $ZL stedolan/jq
+fi

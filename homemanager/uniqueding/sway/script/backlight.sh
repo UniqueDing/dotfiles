@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 WOBSOCK=$XDG_RUNTIME_DIR/wob.sock
 

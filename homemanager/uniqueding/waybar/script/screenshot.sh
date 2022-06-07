@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [[ $1 == "full" ]];then
     NAME=$(date +'%s_grim.png')

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # This script handles rotation of the screen and related input devices automatically
 # using the output of the monitor-sensor command (part of the iio-sensor-proxy package)

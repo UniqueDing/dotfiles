@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # 0 * * * * ~/.config/sway/bg.sh
 set -e

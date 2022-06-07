@@ -2,8 +2,8 @@
 
 set -xe
 
-NIXADDR=192.168.175.131;
-NIXPORT=22
+NIXADDR=127.0.0.1;
+NIXPORT=2222
 NIXBLOCKDEVICE=sda
 NIXUSER=uniqueding
 NIXHOST=uniqueding-vm
@@ -43,12 +43,18 @@ _start()
 	echo $NIXUSER
 	_cp
 	_switch
-    reboot
 }
 
 _cp()
 {
+	ssh -p$NIXPORT $NIXUSER@$NIXADDR << EOF
+        sudo mkdir -p /opt/dotfiles
+EOF
 	scp -r -P$NIXPORT * $NIXUSER@$NIXADDR:/opt/dotfiles
+	ssh -p$NIXPORT $NIXUSER@$NIXADDR << EOF
+        sudo mkdir -p /opt/dotfiles/hosts/$NIXHOST
+        sudo cp /etc/nixos/hardware-configuration.nix /opt/dotfiles/hosts/$NIXHOST/
+EOF
 }
 
 _switch()

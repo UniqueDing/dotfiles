@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [ $HOSTNAME == "uniqueding-pad" ];then
     swaymsg "output eDP-1 scale 1.75"

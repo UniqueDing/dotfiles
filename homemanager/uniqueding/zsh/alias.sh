@@ -3,7 +3,8 @@
 alias s=sudo
 alias se=sudoedit
 alias ra=ranger
-alias ls='lsd --hyperlink=auto'
+# alias ls='lsd --hyperlink=auto'
+alias ls='lsd'
 alias l=ls
 alias ll='ls -l'
 alias lla='ll -a'
