@@ -11,7 +11,7 @@
       mako # notification daemon
       waybar
       wlsunset
-      convertall
+      imagemagick
       grim
       brightnessctl
       # playctl

@@ -27,6 +27,8 @@ map h updir
 map i open
 map k search-next
 map K search-prev
+map <a-n> push 5n
+map <a-e> push 5e
 
 map S $$SHELL
 

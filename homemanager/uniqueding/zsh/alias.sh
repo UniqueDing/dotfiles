@@ -3,6 +3,7 @@
 alias s=sudo
 alias se=sudoedit
 alias ra=ranger
+alias vsway='WLR_NO_HARDWARE_CURSORS=1 sway'
 # alias ls='lsd --hyperlink=auto'
 alias ls='lsd'
 alias l=ls

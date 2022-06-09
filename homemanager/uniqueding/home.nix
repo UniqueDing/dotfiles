@@ -24,8 +24,8 @@
   home.file.".config/.wlogout".source = ./wlogout;
   home.file.".local/share/.squeekboard".source = ./squeekboard;
 
-  home.activation.linkDotfiles = config.lib.dag.entryAfter ["writeBoundary"]
-  ''
-    ln -sf /opt/dotfiles/homemanager/uniqueding/ranger $HOME/.config/ranger
-  '';
+ # home.activation.linkDotfiles = config.lib.dag.entryAfter ["writeBoundary"]
+ # ''
+ #   ln -sf /opt/dotfiles/homemanager/uniqueding/ranger $HOME/.config/ranger
+ # '';
 }

@@ -44,6 +44,11 @@ vnoremap <leader>si :s//gci<left><left><left><left>
 set list
 set listchars=tab:>-,trail:-
 
+noremap ^[n 5n
+noremap ^[e 5e
+noremap ^[h :bp<cr>
+noremap ^[e :hn<cr>
+
 " delete
 noremap <leader>xh :%s/^\s*//g<cr>
 noremap <leader>xi :%s/\s*$//g<cr>
@@ -54,16 +59,6 @@ noremap <leader>xn :g/^$/d<cr>
 noremap <leader>h :nohlsearch<CR>
 noremap <leader>o o<ESC>
 noremap <leader>l i <ESC>
-
-noremap <tab>h :<C-u>bp<cr>
-noremap <tab>i :<C-u>bn<cr>
-
-" set foldmethod=syntax
-" set foldlevel=2
-" set foldnestmax=3
-noremap <tab>t za
-noremap <tab>k zR
-noremap <tab>m zM
 
 " Press twice to jump to the next '<++>' and edit it
 noremap <leader><leader> <Esc>/<++><CR>:nohlsearch<CR>c4l

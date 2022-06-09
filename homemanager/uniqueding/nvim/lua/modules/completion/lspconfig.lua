@@ -33,7 +33,10 @@ local servers = {
     "pyright",
     "vuels",
     "yamlls",
-    "sumneko_lua"
+    "sumneko_lua",
+    "cmake",
+    "jsonls",
+    "eslint"
 }
 
 for _, name in pairs(servers) do

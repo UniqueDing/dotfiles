@@ -31,3 +31,10 @@ function adbS() {
     done
 }
 
+# $1 ssh connect
+function copyvim() {
+    ssh $1 << EOF
+        mv ~/.vimrc ~/.vimrc_bak
+EOF
+    scp ~/.vimrc $1:~/.vimrc
+}
