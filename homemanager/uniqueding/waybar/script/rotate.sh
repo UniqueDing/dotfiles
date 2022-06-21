@@ -16,6 +16,6 @@ elif [[ $1 == "toggle" ]];then
     if [[ $STATUS == 0 ]];then
         $HOME/.config/sway/script/autorotate.sh &
     else
-        killall autorotate.sh
+        kill `pidof autorotate.sh`
     fi
 fi

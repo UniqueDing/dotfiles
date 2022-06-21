@@ -14,7 +14,7 @@ CURRENT_THEME=`gsettings get $gnome_schema gtk-theme | tr -d "'"`
 
 _mako()
 {
-    killall mako
+    kill `pidof mako`
     if [[ $1 == "light" ]];then
         nohup mako -c $HOME/.config/mako/config-light > /dev/null 2>&1 &
     elif [[ $1 == "dark" ]];then
@@ -27,7 +27,7 @@ _wob()
     WOBSOCK=$XDG_RUNTIME_DIR/wob.sock
     WOBLIGHT="--bar-color #EEEEEEF5 --background-color #333333F5 --overflow-bar-color #BF616AF5 --overflow-background-color #EEEEEEF5"
     WOBDARK="--bar-color #808080F5 --background-color #333333F5 --overflow-bar-color #BF616AF5 --overflow-background-color #808080F5"
-    killall wob
+    kill `pidof wob`
     if [[ $1 == "light" ]];then
         rm -f $WOBSOCK && mkfifo $WOBSOCK
         tail -f $WOBSOCK | nohup wob -a top -a right -b 0 -M 10 -p 0 $WOBLIGHT > /dev/null 2>&1 &
@@ -51,7 +51,7 @@ _waybar()
 {
     DOCK="$HOME/.config/waybar/config-dock"
     STATUS=$(ps -ef | grep "$DOCK" | grep -v grep | wc -l)
-    killall waybar
+    kill `pidof waybar`
     if [[ $STATUS == 0 ]];then
         if [[ $1 == "light" ]];then
             nohup waybar -s $HOME/.config/waybar/style-light.css > /dev/null 2>&1 &

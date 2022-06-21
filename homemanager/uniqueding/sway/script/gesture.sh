@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-killall lisgd
+kill `pidof lisgd`
 
 ROTATE=$(( $1 / 90 ))
 

@@ -13,5 +13,6 @@
     emacs
     alacritty
     neovim
+    n2n
   ];
 }

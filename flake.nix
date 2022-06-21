@@ -48,6 +48,7 @@
         ./modules/ime.nix
         ./modules/interception.nix
         ./modules/vm.nix
+        ./modules/gapp.nix
 
         home-manager.nixosModules.home-manager
         {

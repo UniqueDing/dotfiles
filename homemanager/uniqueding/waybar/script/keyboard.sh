@@ -20,6 +20,6 @@ elif [[ $1 == "toggle" ]];then
     else
         fcitx5-remote -g "colemak"
         busctl call --user sm.puri.OSK0 /sm/puri/OSK0 sm.puri.OSK0 SetVisible b false
-        killall squeekboard
+        kill `pidof squeekboard`
     fi
 fi

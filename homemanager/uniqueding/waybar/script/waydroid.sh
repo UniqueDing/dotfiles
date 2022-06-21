@@ -23,7 +23,7 @@ elif [[ $1 == "toggle" ]];then
         swaymsg workspace 0
         waydroid show-full-ui &
 
-        killall lisgd
+        kill `pidof lisgd`
 
         lisgd \
             -g "3,UD,*,*,R, swaymsg fullscreen" \
