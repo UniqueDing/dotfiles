@@ -48,7 +48,64 @@
         ./modules/ime.nix
         ./modules/interception.nix
         ./modules/vm.nix
+
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.users.uniqueding = import ./homemanager/uniqueding/home.nix;
+        }
+      ];
+    };
+    nixosConfigurations.uniqueding-pad = nixpkgs.lib.nixosSystem {
+      specialArgs = {inherit inputs;};
+      system = "x86_64-linux";
+      modules = [
+        {
+          nixpkgs.overlays = [
+            nur.overlay
+            neovim-nightly-overlay.overlay
+          ];
+          networking.hostName = "uniqueding-pad";
+        }
+
+        ./hosts/uniqueding-pad/hardware-configuration.nix
+        ./hosts/uniqueding-pad/surface/default.nix
+
+        ./modules/configuration.nix
+        ./modules/lib.nix
+        ./modules/lang.nix
+        ./modules/font.nix
+        ./modules/sway.nix
+        ./modules/tools.nix
+        ./modules/app.nix
+        ./modules/ime.nix
+        ./modules/interception.nix
         ./modules/gapp.nix
+
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.users.uniqueding = import ./homemanager/uniqueding/home.nix;
+        }
+      ];
+    };
+    nixosConfigurations.uniqueding-nas = nixpkgs.lib.nixosSystem {
+      specialArgs = {inherit inputs;};
+      system = "x86_64-linux";
+      modules = [
+        {
+          networking.hostName = "uniqueding-nas";
+        }
+
+        ./hosts/uniqueding-nas/hardware-configuration.nix
+
+        ./modules/configuration.nix
+        ./modules/lib.nix
+        ./modules/tools.nix
+        ./modules/app.nix
+        ./modules/nas.nix
 
         home-manager.nixosModules.home-manager
         {

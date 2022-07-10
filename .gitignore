@@ -1,9 +1,10 @@
 dwm/start-status.sh
-ranger/__pycache__
-ranger/plugins/__pycache__
-ranger/*/*.pyo
-ranger/*.pyo
-ranger/bookmarks
-ranger/history
-ranger/tagged
+/homemanager/*/ranger/__pycache__
+/homemanager/*/ranger/plugins/__pycache__
+/homemanager/*/ranger/*/*.pyo
+/homemanager/*/ranger/*.pyo
+/homemanager/*/ranger/*.pyc
+/homemanager/*/ranger/bookmarks
+/homemanager/*/ranger/history
+/homemanager/*/ranger/tagged
 fcitx5/conf/cached_layouts

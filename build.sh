@@ -65,6 +65,24 @@ _switch()
 EOF
 }
 
+_install()
+{
+	nixos-generate-config --root /mnt
+	sed --in-place '/system\.stateVersion = .*/a \
+nix.package = pkgs.nixUnstable;\n \
+nix.extraOptions = \"experimental-features = nix-command flakes\";\n \
+services.openssh.enable = true;\n \
+services.openssh.passwordAuthentication = true;\n \
+services.openssh.permitRootLogin = \"yes\";\n \
+users.users.root.initialPassword = \"root\";\n \
+' /mnt/etc/nixos/configuration.nix
+    nixos-install --no-root-passwd
+    mkdir -p /mnt/opt/dotfiles
+    cp -r * /mnt/opt/dotfiles
+    mkdir -p /mnt/opt/dotfiles/hosts/$NIXHOST
+    cp /mnt/etc/nixos/hardware-configuration.nix /mnt/opt/dotfiles/hosts/$NIXHOST/
+}
+
 if [[ $1 == "init" ]];then
 	$(_init)
 elif [[ $1 == "start" ]];then
@@ -73,4 +91,6 @@ elif [[ $1 == "cp" ]];then
 	$(_cp)
 elif [[ $1 == "switch" ]];then
 	$(_switch)
+elif [[ $1 == "install" ]];then
+	$(_install)
 fi

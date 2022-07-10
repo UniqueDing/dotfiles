@@ -37,10 +37,10 @@ map ; read
 map <backspace> set hidden!
 map <backspace2> set hidden!
 
-set previewer stpv
-set cleaner stpvimgclr
-&stpvimg --listen $id
-cmd on-quit $stpvimg --end $id
+# set previewer stpv
+# set cleaner stpvimgclr
+# &stpvimg --listen $id
+# cmd on-quit $stpvimg --end $id
 
 set icons true
 
