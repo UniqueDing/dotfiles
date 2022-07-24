@@ -100,12 +100,18 @@
         }
 
         ./hosts/uniqueding-nas/hardware-configuration.nix
+        ./hosts/uniqueding-nas/network.nix
+        ./hosts/uniqueding-nas/mount-bind.nix
+        ./hosts/uniqueding-nas/samba.nix
+        ./hosts/uniqueding-nas/container.nix
 
         ./modules/configuration.nix
         ./modules/lib.nix
         ./modules/tools.nix
         ./modules/app.nix
         ./modules/nas.nix
+        ./modules/podman.nix
+        ./modules/n2n.nix
 
         home-manager.nixosModules.home-manager
         {

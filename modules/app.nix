@@ -13,7 +13,6 @@
     emacs
     alacritty
     neovim
-    n2n
     msr-tools
   ];
 }

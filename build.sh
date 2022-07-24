@@ -6,7 +6,7 @@ NIXADDR=172.16.55.128
 NIXPORT=22
 NIXBLOCKDEVICE=sda
 NIXUSER=uniqueding
-NIXHOST=uniqueding-vm
+NIXHOST=uniqueding-nas
 
 _init()
 {

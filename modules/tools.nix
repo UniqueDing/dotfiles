@@ -15,6 +15,7 @@
     wget
     vim
     fd
+    file
     lsd
     bat
     ranger
