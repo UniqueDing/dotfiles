@@ -71,6 +71,7 @@
 
         ./hosts/uniqueding-pad/hardware-configuration.nix
         ./hosts/uniqueding-pad/surface/default.nix
+        ./hosts/uniqueding-pad/wrmsr.nix
 
         ./modules/configuration.nix
         ./modules/lib.nix
@@ -82,6 +83,8 @@
         ./modules/ime.nix
         ./modules/interception.nix
         ./modules/gapp.nix
+        ./modules/n2n.nix
+        ./modules/virtualbox.nix
 
         home-manager.nixosModules.home-manager
         {

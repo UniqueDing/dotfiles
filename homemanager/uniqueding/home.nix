@@ -4,10 +4,7 @@
   home.username = "uniqueding";
   home.homeDirectory = "/home/uniqueding";
 
-  # Packages that should be installed to the user profile.
-  home.stateVersion = "22.05";
-
-  # Let Home Manager install and manage itself.
+  home.stateVersion = "22.11";
   programs.home-manager.enable = true;
 
   home.file.".config/sway".source = ./sway;
@@ -28,4 +25,7 @@
  # ''
  #   ln -sf /opt/dotfiles/homemanager/uniqueding/ranger $HOME/.config/ranger
  # '';
+  imports = [
+    ./home-sway.nix
+  ];
 }
