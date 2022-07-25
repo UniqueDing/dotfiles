@@ -6,6 +6,7 @@
     cron
     vim
     networkmanager
+    blueman
     wget
     file
     zip
@@ -21,4 +22,6 @@
       networkmanager-openvpn
     ];
   };
+
+  services.blueman.enable=true;
 }

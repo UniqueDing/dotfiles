@@ -17,5 +17,6 @@
     ./modules/ime.nix
     ./modules/font.nix
     ./modules/gapp.nix
+    ./modules/sway.nix
   ];
 }

@@ -39,13 +39,9 @@
         ./hosts/uniqueding-vm/hardware-configuration.nix
 
         ./modules/configuration.nix
+        ./modules/base.nix
         ./modules/lib.nix
         ./modules/lang.nix
-        ./modules/font.nix
-        ./modules/sway.nix
-        ./modules/tools.nix
-        ./modules/app.nix
-        ./modules/ime.nix
         ./modules/interception.nix
         ./modules/vm.nix
 
@@ -53,7 +49,7 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.uniqueding = import ./homemanager/uniqueding/home.nix;
+          home-manager.users.uniqueding = import ./homemanager/uniqueding/home-sway-light.nix;
         }
       ];
     };
@@ -74,15 +70,10 @@
         ./hosts/uniqueding-pad/wrmsr.nix
 
         ./modules/configuration.nix
+        ./modules/base.nix
         ./modules/lib.nix
         ./modules/lang.nix
-        ./modules/font.nix
-        ./modules/sway.nix
-        ./modules/tools.nix
-        ./modules/app.nix
-        ./modules/ime.nix
         ./modules/interception.nix
-        ./modules/gapp.nix
         ./modules/n2n.nix
         ./modules/virtualbox.nix
 
@@ -90,7 +81,7 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.uniqueding = import ./homemanager/uniqueding/home.nix;
+          home-manager.users.uniqueding = import ./homemanager/uniqueding/home-sway.nix;
         }
       ];
     };
@@ -109,9 +100,8 @@
         ./hosts/uniqueding-nas/container.nix
 
         ./modules/configuration.nix
+        ./modules/base.nix
         ./modules/lib.nix
-        ./modules/tools.nix
-        ./modules/app.nix
         ./modules/nas.nix
         ./modules/podman.nix
         ./modules/n2n.nix

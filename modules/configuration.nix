@@ -35,7 +35,7 @@
   # services.xserver.enable = true;
   # services.xserver.desktopManager.plasma5.enable=true;
 
-  nix.binaryCaches = [ "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store" ];
+  nix.settings.substituters = [ "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store" ];
 
   # Configure keymap in X11
   # services.xserver.layout = "us";
