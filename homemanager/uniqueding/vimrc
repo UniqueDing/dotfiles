@@ -44,10 +44,11 @@ vnoremap <leader>si :s//gci<left><left><left><left>
 set list
 set listchars=tab:>-,trail:-
 
-noremap ^[n 5n
-noremap ^[e 5e
-noremap ^[h :bp<cr>
-noremap ^[e :hn<cr>
+set ttimeout ttimeoutlen=50
+noremap <ESC>n 5j
+noremap <ESC>e 5k
+noremap <ESC>h :bp<cr>
+noremap <ESC>i :bn<cr>
 
 " delete
 noremap <leader>xh :%s/^\s*//g<cr>

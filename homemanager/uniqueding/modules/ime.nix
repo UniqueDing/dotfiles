@@ -8,8 +8,4 @@
     fcitx5-mozc
     fcitx5-lua
   ];
- # environment.systemPackages = with pkgs; [
- #   fcitx5
- #   fcitx5-configtool
- # ];
 }

@@ -150,4 +150,10 @@ function config.scrollbar()
     })
 end
 
+function config.notify()
+    require("notify").setup({
+        background_colour = "#000000",
+    })
+end
+
 return config

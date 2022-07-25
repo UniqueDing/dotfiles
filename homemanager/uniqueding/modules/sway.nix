@@ -24,9 +24,7 @@
       wob
       wtype
       wmctrl
-      networkmanager
       networkmanagerapplet
-      blueman
       pavucontrol
       materia-theme
       material-icons
@@ -34,5 +32,12 @@
       qogir-theme
       qogir-icon-theme
   ];
-  services.blueman.enable=true;
+
+  home.file = {
+    ".config/sway".source = ../sway;
+    ".config/waybar".source = ../waybar;
+    ".config/.wlogout".source = ../wlogout;
+    ".local/share/.squeekboard".source = ../squeekboard;
+    ".config/mako".source = ../mako;
+  };
 }

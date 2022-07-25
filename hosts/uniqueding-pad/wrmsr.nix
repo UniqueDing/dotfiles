@@ -1,6 +1,10 @@
 { config, pkgs, ... }:
 
 {
+  environment.systemPackages = with pkgs; [
+    msr-tools
+  ];
+
   systemd.services.turnoff-bd-prochot = {
     enable = true;
     description = "turnoff BD PROCHOT";

@@ -13,5 +13,9 @@
   imports = [
     ./modules/editor.nix
     ./modules/tools.nix
+    ./modules/app.nix
+    ./modules/ime.nix
+    ./modules/sway.nix
+    ./modules/font.nix
   ];
 }

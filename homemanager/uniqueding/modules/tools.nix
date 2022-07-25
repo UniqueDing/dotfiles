@@ -1,21 +1,13 @@
 { config, pkgs, ... }:
 
 {
-  environment.systemPackages = with pkgs; [
+  home.packages = with pkgs; [
     zsh
     psmisc
     atool
-    curl
     dos2unix
-    man
-    nettools
     tree
-    zip
-    unzip
-    wget
-    vim
     fd
-    file
     lsd
     bat
     ranger
@@ -41,4 +33,15 @@
     jq
     pciutils
   ];
+
+  home.file = {
+    ".config/zsh".source = ../zsh;
+    ".zshrc".source = ../zshrc;
+    ".config/lf".source = ../lf;
+    ".vimrc".source = ../vimrc;
+  };
+ # home.activation.linkDotfiles = config.lib.dag.entryAfter ["writeBoundary"]
+ # ''
+ #   ln -sf /opt/dotfiles/homemanager/uniqueding/ranger $HOME/.config/ranger
+ # '';
 }

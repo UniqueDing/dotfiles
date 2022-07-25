@@ -22,7 +22,6 @@
       wob
       wtype
       wmctrl
-      networkmanager
       networkmanagerapplet
       blueman
       pavucontrol
@@ -34,12 +33,6 @@
     ];
   };
 
-  networking.networkmanager = {
-    enable = true;
-    plugins  = with pkgs; [
-      networkmanager-openvpn
-    ];
-  };
   services.blueman.enable=true;
 
   services.xserver.enable = true;

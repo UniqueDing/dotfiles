@@ -1,10 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  environment.systemPackages = with pkgs; [
-    git
-    cron
-    vim
+  home.packages = with pkgs; [
     foot
     firefox
     chromium
@@ -12,7 +9,5 @@
     imv
     emacs
     alacritty
-    neovim
-    msr-tools
   ];
 }
