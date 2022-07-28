@@ -43,6 +43,7 @@
         ./modules/lib.nix
         ./modules/lang.nix
         ./modules/interception.nix
+        ./modules/sway.nix
         ./modules/vm.nix
 
         home-manager.nixosModules.home-manager
@@ -76,6 +77,7 @@
         ./modules/interception.nix
         ./modules/n2n.nix
         ./modules/virtualbox.nix
+        ./modules/sway.nix
 
         home-manager.nixosModules.home-manager
         {
