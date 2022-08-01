@@ -16,8 +16,8 @@ set $right i
 # Your preferred terminal emulator
 # set $term `WAYLAND_DISPLAY= alacritty`
 set $term footclient
-# set $lock swaylock -c 000000
-set $lock gdmflexiserver
+set $lock swaylock --effect-blur 7x5 --clock --screenshots --grace 2 --fade-in 0.2
+# set $lock gdmflexiserver
 
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened

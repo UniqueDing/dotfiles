@@ -15,7 +15,7 @@ function fzfl(){
     RG_PREFIX="rg --no-heading --color=always --smart-case --hidden --files"
     FZF_DEFAULT_COMMAND="$RG_PREFIX '$INITIAL_QUERY'" \
       fzf --bind "change:reload:$RG_PREFIX '$INITIAL_QUERY' || true" \
-          --preview '~/.config/zsh/fzfpreview.sh {}' \
+          --preview ${FUNPATH}'/fzfpreview.sh {}' \
           --ansi
 }
 

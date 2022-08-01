@@ -22,6 +22,7 @@ in
 {
   environment.systemPackages = with pkgs; [
     dbus-sway-environment
+    gnome.gdm
   ];
   programs.sway.enable = true;
 
@@ -38,5 +39,21 @@ in
     enable = true;
     alsa.enable = true;
     pulse.enable = true;
+  };
+
+  services.greetd = {
+    enable = true;
+    settings = {
+      default_session = {
+        command = "${pkgs.sway}/bin/sway";
+        user = "uniqueding";
+      };
+    };
+  };
+
+
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
   };
 }

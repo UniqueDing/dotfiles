@@ -78,6 +78,8 @@
         ./modules/n2n.nix
         ./modules/virtualbox.nix
         ./modules/sway.nix
+        ./modules/waydroid.nix
+        ./modules/build-wlroots.nix
 
         home-manager.nixosModules.home-manager
         {

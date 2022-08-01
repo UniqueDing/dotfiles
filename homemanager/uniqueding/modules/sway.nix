@@ -18,7 +18,7 @@
   };
 
   home.packages = with pkgs; [
-      swaylock
+      swaylock-effects
       swayidle
       wl-clipboard
       mako # notification daemon
@@ -35,6 +35,7 @@
       wob
       wtype
       wmctrl
+      squeekboard
       networkmanagerapplet
       pavucontrol
       materia-theme
