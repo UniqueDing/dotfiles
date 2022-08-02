@@ -91,7 +91,8 @@ zinit wait lucid for \
 	OMZ::plugins/sudo/sudo.plugin.zsh
 
 
-if [[ $(lsb_release -si | tr -d "\"") != "NixOS" ]];then
+# if [[ $(lsb_release -si | tr -d "\"") != "NixOS" ]];then
+if false; then
 $ZIGP mv"fd* -> fd" \
     pick"fd/fd" \
     nocompletions

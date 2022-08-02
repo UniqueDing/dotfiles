@@ -17,8 +17,9 @@ PIC_COPYRIGHT=`echo $CONTEXT | jq ".copyright" --raw-output`
 curl -o ${PIC_DIR}/${PIC_NAME} $PIC_URL
 
 C_PIC_NAME=${PIC_NAME%.*}_.${PIC_NAME##*.}
-convert ${PIC_DIR}/${PIC_NAME} -gravity southeast -fill white -pointsize 48 -font /usr/share/fonts/wenquanyi/wqy-zenhei/wqy-zenhei.ttc -draw "text 100,30 '$PIC_COPYRIGHT'" ${PIC_DIR}/${C_PIC_NAME}
+# convert ${PIC_DIR}/${PIC_NAME} -gravity southeast -fill white -pointsize 48 -font /usr/share/fonts/wenquanyi/wqy-zenhei/wqy-zenhei.ttc -draw "text 100,30 '$PIC_COPYRIGHT'" ${PIC_DIR}/${C_PIC_NAME}
 
-cp -f ${PIC_DIR}/${C_PIC_NAME} ${PIC_DIR}/now
+# cp -f ${PIC_DIR}/${C_PIC_NAME} ${PIC_DIR}/now
+cp -f ${PIC_DIR}/${PIC_NAME} ${PIC_DIR}/now
 
 swaymsg "output * bg ${PIC_DIR}/now fill"

@@ -8,4 +8,3 @@ function load_core()
 end
 
 load_core()
-
