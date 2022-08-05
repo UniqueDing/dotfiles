@@ -17,6 +17,7 @@ local options = {
     ignorecase = true;
     smartcase = true;
     termguicolors = true;
+    mouse = '';
 }
 
 for o,v in pairs(options) do
