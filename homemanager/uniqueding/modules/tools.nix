@@ -32,6 +32,12 @@
     cmatrix
     jq
     pciutils
+    joshuto
+    bottom
+    diskonaut
+    gping
+    termscp
+    gitui
   ];
 
   home.file = {
