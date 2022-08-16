@@ -2,7 +2,7 @@
     "layer": "top",
     "position": "bottom",
     "height": 40, // Waybar height (to be removed for auto height)
-    "modules-center": ["custom/placeleft", "custom/kill", "custom/search", "custom/terminal", "custom/browser", "custom/note", "custom/netease", "custom/steam", "custom/wechat", "custom/telegram", "custom/waydroid", "custom/splitline", "custom/layoutsplittoggle", "custom/layoutfloating", "custom/volumemute", "custom/volumedown", "custom/volumeup", "custom/backlightdown", "custom/backlightup", "custom/rotate", "custom/keyboard", "custom/placeright"],
+    "modules-center": ["custom/placeleft", "custom/kill", "custom/search", "custom/terminal", "custom/browser", "custom/note", "custom/netease", "custom/bilibili", "custom/steam", "custom/wechat", "custom/telegram", "custom/waydroid", "custom/splitline", "custom/layoutsplittoggle", "custom/layoutfloating", "custom/volumemute", "custom/volumedown", "custom/volumeup", "custom/backlightdown", "custom/backlightup", "custom/rotate", "custom/keyboard", "custom/placeright"],
     "mode": "dock",
     "custom/placeleft": {
         "format": " "
@@ -39,11 +39,15 @@
     },
     "custom/terminal": {
         "format": "  ",
-        "on-click": "kitty"
+        "on-click": "foot-client"
     },
     "custom/browser": {
         "format": "  ",
         "on-click": "firefox"
+    },
+    "custom/bilibili": {
+        "format": "  ",
+        "on-click": "bilibili"
     },
     "custom/steam": {
         "format": "  ",

@@ -24,4 +24,14 @@
   };
 
   services.blueman.enable = true;
+
+  services.logind.lidSwitch = "ignore";
+  services.logind.extraConfig = ''
+    HandlePowerKey=suspend
+    HandleRebootKey=suspend
+    HandleSuspendKey=suspend
+    HandleHibernateKey=suspend
+  '';
+
+  sound.mediaKeys.enable = true;
 }

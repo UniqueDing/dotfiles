@@ -18,6 +18,7 @@
   };
 
   home.packages = with pkgs; [
+    #(pkgs.callPackage ./nwg-dock.nix { })
       swaylock-effects
       swayidle
       wl-clipboard
@@ -28,6 +29,7 @@
       grim
       brightnessctl
       # playctl
+      pulseaudio
       swaybg
       slurp
       wlogout

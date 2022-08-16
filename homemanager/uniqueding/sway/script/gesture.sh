@@ -17,4 +17,4 @@ lisgd \
     -g "3,DU,*,*,R, $HOME/.config/waybar/script/screenshot.sh rect &" \
     -m 1200 \
     -o $ROTATE \
-    -d /dev/input/event30 &
+    -d /dev/input/event27 &

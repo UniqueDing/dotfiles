@@ -91,6 +91,7 @@ window#waybar.chromium {
     color: @bg-font;
 }
 
+#custom-bilibili,
 #custom-waydroid,
 #custom-screenshot,
 #custom-screenshotfull,
