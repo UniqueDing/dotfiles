@@ -8,10 +8,6 @@
     networkmanager
     blueman
     wget
-    file
-    zip
-    unzip
-    nettools
     man
     curl
   ];

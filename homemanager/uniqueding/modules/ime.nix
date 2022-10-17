@@ -8,4 +8,6 @@
     fcitx5-mozc
     fcitx5-lua
   ];
+
+  home.file.".config/fcitx5".source = ../fcitx5;
 }

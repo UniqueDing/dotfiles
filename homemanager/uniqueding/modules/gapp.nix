@@ -1,31 +1,38 @@
-{ config, pkgs, ... }:
+{ lib, config, pkgs, ... }:
 
 {
-  nixpkgs.overlays = [
-    ( import (builtins.fetchTarball {
-      url = "https://github.com/nix-community/NUR/archive/master.tar.gz";
-    }))
-  ];
+  nixpkgs.config.packageOverrides = pkgs: {
+    nur = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") {
+      inherit pkgs;
+    };
+  };
+  nixpkgs.config.allowUnfree = true;
 
-  home.packages = with pkgs; [
-    gimp
-    krita
-    nwg-launchers
-    openshot-qt
-    obs-studio
-    vlc
-    wshowkeys
-    xournalpp
-    zathura
-    wpsoffice
-    lisgd
-    tdesktop
-    steam
-    netease-cloud-music-gtk
+ # nixpkgs.overlays = [
+ #   ( import (builtins.fetchTarball {
+ #     url = "https://github.com/nix-community/NUR/archive/master.tar.gz";
+ #   }))
+ # ];
 
-    nur.repos.xddxdd.wechat-uos
-    nur.repos.xddxdd.qq
-    nur.repos.xddxdd.bilibili
-    nur.repos.linyinfeng.wemeet
-  ];
+ home.packages = with pkgs; [
+   gimp
+   krita
+   nwg-launchers
+   openshot-qt
+   obs-studio
+   vlc
+   wshowkeys
+   xournalpp
+   zathura
+   wpsoffice
+   lisgd
+   tdesktop
+   steam
+   netease-cloud-music-gtk
+
+   nur.repos.xddxdd.wechat-uos
+   nur.repos.xddxdd.qq
+   nur.repos.xddxdd.bilibili
+   nur.repos.linyinfeng.wemeet
+ ];
 }

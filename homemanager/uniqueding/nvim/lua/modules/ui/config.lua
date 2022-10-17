@@ -8,7 +8,10 @@ end
 function config.bufferline()
     require('bufferline').setup{
         options = {
-            indicator_icon = '▎',
+            indicator = {
+                icon = '▎',
+                style = 'icon',
+            },
             buffer_close_icon = '',
             modified_icon = '●',
             close_icon = '',

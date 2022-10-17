@@ -9,4 +9,4 @@ exec wlsunset -l 39.9 -L 116.3
 exec --no-startup-id fcitx5 -d
 exec_always bash ~/.config/sway/lauch.sh
 exec_always bash ~/.config/sway/bg.sh
-exec_always foot --server
+exec_always env LANG=C.UTF-8 foot --server

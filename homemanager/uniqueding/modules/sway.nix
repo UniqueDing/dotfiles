@@ -3,7 +3,11 @@
 {
   wayland.windowManager.sway = {
     enable = true;
-    wrapperFeatures = { gtk = true; };
+    wrapperFeatures = {
+      base = true;
+      gtk = true;
+    };
+    xwayland = true;
     extraSessionCommands = ''
       export XDG_SESSION_TYPE=wayland
       export XDG_CURRENT_DESKTOP=sway
@@ -39,6 +43,8 @@
       wmctrl
       squeekboard
       networkmanagerapplet
+      openvpn
+      networkmanager-openvpn
       pavucontrol
       materia-theme
       material-icons

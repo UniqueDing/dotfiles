@@ -9,6 +9,9 @@
 
   home.packages = with pkgs; [
     neovim-nightly
+    gcc
+    nodejs
+    tabnine
   ];
 
   home.file = {

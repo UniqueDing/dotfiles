@@ -38,6 +38,12 @@
     gping
     termscp
     gitui
+    todo-txt-cli
+    proxychains-ng
+    file
+    zip
+    unzip
+    nettools
   ];
 
   home.file = {

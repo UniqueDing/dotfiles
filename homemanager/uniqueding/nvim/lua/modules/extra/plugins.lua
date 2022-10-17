@@ -4,8 +4,8 @@ local conf = require('modules.extra.config')
 extra['lambdalisue/suda.vim']  = {
 }
 
--- extra['wakatime/vim-wakatime']  = {
--- }
+extra['wakatime/vim-wakatime']  = {
+}
 
 extra['h-hg/fcitx.nvim']  = {
 }

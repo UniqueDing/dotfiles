@@ -49,6 +49,7 @@ _waybar_dock()
 
 _waybar()
 {
+    env LANG=C.UTF-8
     DOCK="$HOME/.config/waybar/config-dock"
     STATUS=$(ps -ef | grep "$DOCK" | grep -v grep | wc -l)
     kill `pidof waybar`

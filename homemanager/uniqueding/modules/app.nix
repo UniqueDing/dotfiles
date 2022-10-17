@@ -10,4 +10,6 @@
     emacs
     alacritty
   ];
+
+  home.file.".config/foot".source = ../foot;
 }
