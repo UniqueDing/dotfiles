@@ -51,7 +51,7 @@
       material-design-icons
       qogir-theme
       qogir-icon-theme
-      gnome3.adwaita-icon-theme
+      gnome.adwaita-icon-theme
       glib # gsettings
   ];
 

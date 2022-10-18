@@ -11,7 +11,7 @@
     neovim-nightly
     gcc
     nodejs
-    tabnine
+    chromium
   ];
 
   home.file = {

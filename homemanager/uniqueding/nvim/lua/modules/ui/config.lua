@@ -19,7 +19,7 @@ function config.bufferline()
             right_trunc_marker = '',
             diagnostic = "nvim_lsp",
             -- numbers = function(opts)
-                -- return string.format('%s·%s', opts.raise(opts.id), opts.lower(opts.original))
+            -- return string.format('%s·%s', opts.raise(opts.id), opts.lower(opts.original))
             -- end
         }
     }

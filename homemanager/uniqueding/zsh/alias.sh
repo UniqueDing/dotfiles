@@ -1,7 +1,6 @@
 # alias
 
 alias s=sudo
-alias se=sudoedit
 alias ra=ranger
 alias vsway='WLR_NO_HARDWARE_CURSORS=1 sway'
 # alias ls='lsd --hyperlink=auto'
@@ -18,7 +17,10 @@ alias showkey="wshowkeys -a bottom -b 00000033 -m100 -F 'Hack 44'"
 alias tssh="TERM=xterm ssh"
 alias scpr="rsync -P --rsh=ssh"
 
+alias pc="proxychains -q"
+
 alias nhome-manager="NIX_PATH=${NIX_PATH:+$NIX_PATH:}$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels home-manager"
+
 alias pS='sudo pacman -S'
 alias pSs='pacman -Ss'
 alias pSyu='sudo pacman -Syu'
