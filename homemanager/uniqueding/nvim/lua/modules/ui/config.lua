@@ -26,8 +26,7 @@ function config.bufferline()
 end
 
 function config.tree()
-    require'nvim-tree'.setup {
-    }
+    require("nvim-tree").setup()
 end
 
 function config.indent_blankline()

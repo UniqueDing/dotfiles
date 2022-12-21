@@ -58,4 +58,14 @@ install_nixgl)
 	nix-channel --add https://github.com/guibou/nixGL/archive/main.tar.gz nixgl && nix-channel --update
 	nix-env -iA nixgl.auto.nixGLDefault   # or replace `nixGLDefault` with your desired wrapper
 	;;
+install_theme)
+    cd /tmp
+    git clone https://github.com/vinceliuice/Qogir-theme.git
+    cd Qogir-theme
+    ./install.sh
+    cd /tmp
+    git clone https://github.com/vinceliuice/Qogir-icon-theme.git
+    cd Qogir-icon-theme
+    ./install.sh
+    ;;
 esac

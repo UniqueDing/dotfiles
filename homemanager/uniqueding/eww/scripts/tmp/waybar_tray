@@ -1,13 +1,16 @@
 {
-    "layer": "left", // Waybar at top layer
-    // "position": "bottom", // Waybar position (top|bottom|left|right)
-    "height": 30, // Waybar height (to be removed for auto height)
-    "width" : 100,
+    "layer": "top", // Waybar at top layer
+    "position": "right", // Waybar position (top|bottom|left|right)
+    // "height": 40, // Waybar height (to be removed for auto height)
+    "width" : 70,
+    "mode" : "dock",
+    //"margin-left" : 300,
+    "spacing" : 10,
     "modules-center": ["tray"],
     "wlr/taskbar": {
         "format": "{icon}",
-        "icon-size": 14,
-        "icon-theme": "Numix-Circle",
+        "icon-size": 70,
+        // "icon-theme": "Numix-Circle",
         "tooltip-format": "{title}",
         "on-click": "activate",
         "on-click-middle": "close"

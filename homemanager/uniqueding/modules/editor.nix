@@ -13,6 +13,7 @@
     lua
     nodejs
     chromium
+    translate-shell
   ];
 
   # home.activation.linkDotfiles = config.lib.dag.entryAfter ["writeBoundary"]

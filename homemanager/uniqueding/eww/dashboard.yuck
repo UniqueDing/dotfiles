@@ -27,7 +27,7 @@
     (box :orientation "v" :space-evenly false
         (box :class "slider_box" :orientation "v" :vexpand false :hexpand false
             (control_bar_item :class "brightness_slider" :icon "" :change "./scripts/backlight.sh set {}" :var brightness_var)
-            (control_bar_item :class "volume_slider" :icon "墳" :change "./scripts/volume.sh sinkset {}" :var volume_var)
+            (control_bar_item :class "volume_slider" :icon "" :change "./scripts/volume.sh sinkset {}" :var volume_var)
             (control_bar_item :class "micvolume_slider" :icon "" :change "./scripts/volume.sh sourceset {}" :var micvolume_var)
         )
     )
@@ -44,6 +44,7 @@
 
 
 (defvar close_bar "eww close dashboard")
+;;(defvar close_bar "~/.config/eww/scripts/dashboard.sh toggle")
 
 (defpoll volume_status :interval ".5s" "./scripts/volume.sh ewwstatus")
 
@@ -51,7 +52,7 @@
     (box :class "control_buttons" :orientation "v"
         (box :orientation "h" :space-evenly true
             (control_button :bgcolor "" 
-                :app "~/.config/eww/scripts/lightdark.sh toggle"
+                :app "~/.config/eww/scripts/lightdark.sh toggle &"
                 :icon ""
                 :tooltip "lightdark")
             (control_button :bgcolor ""
@@ -88,9 +89,9 @@
 
         (box :orientation "h" :space-evenly true
             (control_button :bgcolor ""
-                :app "wofi --show drun,run & ${close_bar}"
-                :icon ""
-                :tooltip "search")
+                :app "hyprctl dispatch killactive '' & ${close_bar}"
+                :icon ""
+                :tooltip "close")
             (control_button :bgcolor "gray"
                 :app "footclient & ${close_bar}"
                 :icon ""
@@ -105,7 +106,7 @@
                 :tooltip "filemanager")
             (control_button :bgcolor "#ffa800"
                 :app "vlc & ${close_bar}"
-                :icon "嗢"
+                :icon ""
                 :tooltip "vlc")
         )
 

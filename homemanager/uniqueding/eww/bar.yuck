@@ -34,10 +34,6 @@
     )
 )
 
-(defwidget dashbutton []
-  (button :class "reg-btn dashbutton" :onclick "eww open dashboard --toggle" "&")
-)
-
 (defpoll netspeed :interval "1s" "./scripts/net.sh")
 (defwidget netspeed []
     (box :class "netspeed info-label"
@@ -52,7 +48,7 @@
     (progress :value {backlight_value}
               :orientation "h"
               :class "backlight-pg"
-              :tooltip "backlight"
+              :tooltip "backlight ${backlight_value}"
     )
   )
 )
@@ -63,7 +59,7 @@
     (progress :value {volume_value}
               :orientation "h"
               :class "volume-pg" 
-              :tooltip "volume"
+              :tooltip "volume ${volume_value}"
     )
   )
 )
@@ -73,7 +69,7 @@
     (progress :value {EWW_RAM.used_mem_perc}
               :orientation "h"
               :class "mem-pg"
-              :tooltip "mem"
+              :tooltip "mem ${EWW_RAM.used_mem_perc}"
     )
   )
 )
@@ -83,17 +79,17 @@
     (progress :value {EWW_CPU.avg}
               :orientation "h"
               :class "cpu-pg"
-              :tooltip "cpu"
+              :tooltip "cpu ${EWW_CPU.avg}"
     )
   )
 )
 
 (defwidget disk []
   (box :vexpand "false" :hexpand "false" :class "icon-pg"
-    (progress :value {EWW_DISK["/home"].used_perc}
+    (progress :value {EWW_DISK["/"].used_perc}
               :orientation "h"
               :class "disk-pg"
-              :tooltip "disk"
+              :tooltip "disk ${EWW_DISK["/"].used_perc}"
     )
   )
 )
@@ -103,7 +99,7 @@
     (progress  :value {EWW_BATTERY.BAT1.capacity}
                :class "battery-${EWW_BATTERY.BAT1.status}-pg"
                :orientation "h"
-               :tooltip "battery"
+               :tooltip "battery ${EWW_BATTERY.BAT1.capacity}"
     )
   )
 )
@@ -111,13 +107,10 @@
 
 (defwidget time []
   (eventbox :cursor "hand"  :hexpand false :vexpand false
-                :tooltip "${dateVar}"
+            :onclick "${script_path}/keyboard.sh toggle &" :tooltip "${dateVar}"
     (box :orientation "v" :hexpand false :vexpand false :space-evenly false :class "clock info"
-    (button		:class "date"
-                :onclick "${script_path}/keyboard.sh toggle"	"${hour}")
-
-    (button		:class "date"
-                :onclick "${script_path}/keyboard.sh toggle"	"${minute}")
+    (label :text "${hour}")
+    (label :text "${minute}")
     )
   )
 )
@@ -125,7 +118,8 @@
 (defwidget launch []
     (eventbox :cursor "hand"
         (button	:class "launchbutton"
-                :onclick "eww open dashboard --toggle"
+                :onclick "eww open dashboard --toggle &"
+                ;;:onclick "${script_path}/dashboard.sh toggle &"
                 :onrightclick "hyprctl dispatch killactive ''"
                 "")
     )

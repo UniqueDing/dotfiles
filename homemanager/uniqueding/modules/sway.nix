@@ -59,7 +59,6 @@
     ".config/sway".source = ../sway;
     ".config/waybar".source = ../waybar;
     ".config/.wlogout".source = ../wlogout;
-    ".local/share/.squeekboard".source = ../squeekboard;
     ".config/mako".source = ../mako;
   };
 }

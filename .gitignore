@@ -19,3 +19,4 @@ dwm/start-status.sh
 /homemanager/*/fcitx5/share/rime/installation.yaml
 /homemanager/*/fcitx5/share/rime/*.userdb
 /homemanager/*/fcitx5/share/rime/sync
+/homemanager/*/hypr/hyprland.conf

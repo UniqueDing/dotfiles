@@ -4,7 +4,6 @@ start() {
     fcitx5-remote -g "squeekboard"
     squeekboard & sleep 0.3
     busctl call --user sm.puri.OSK0 /sm/puri/OSK0 sm.puri.OSK0 SetVisible b true
-
 }
 
 stop() {

@@ -9,6 +9,7 @@
     imv
     emacs
     alacritty
+    v2raya
   ];
 
   home.file.".config/foot".source = ../foot;

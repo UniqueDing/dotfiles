@@ -27,4 +27,16 @@ tools['nvim-telescope/telescope-dap.nvim'] = {
     config = conf.telescope_dap,
 }
 
+tools['sindrets/diffview.nvim'] = {
+    requires = 'nvim-lua/plenary.nvim',
+}
+
+tools['folke/trouble.nvim'] = {
+    requires = "kyazdani42/nvim-web-devicons",
+}
+
+tools['uga-rosa/translate.nvim'] = {
+    config = conf.translation,
+}
+
 return tools

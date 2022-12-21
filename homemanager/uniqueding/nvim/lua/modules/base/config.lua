@@ -11,20 +11,20 @@ function config.nest()
         { mode = 'nvx', {
             -- colemak
             { ';', ':' , options = { silent = false, noremap = true } },
-            { 'n', 'j' },
-            { 'N', 'J' },
-            { 'e', 'k' },
-            { 'E', 'K' },
-            { 'i', 'l' },
-            { 'I', 'L' },
-            { 'l', 'i' },
-            { 'L', 'I' },
-            { 'j', 'e' },
-            { 'J', 'E' },
-            { 'cl', 'ci' }, -- don't know reason
-            { 'vl', 'vi' }, -- don't know reason
-            { 'k', 'nzz:lua require("specs").show_specs()<cr>' },
-            { 'K', 'Nzz:lua require("specs").show_specs()<cr>' },
+            { 'n', 'j' , options = { silent = false, noremap = true }  },
+            { 'N', 'J' , options = { silent = false, noremap = true }  },
+            { 'e', 'k' , options = { silent = false, noremap = true }  },
+            { 'E', 'K' , options = { silent = false, noremap = true }  },
+            { 'i', 'l' , options = { silent = false, noremap = true }  },
+            { 'I', 'L' , options = { silent = false, noremap = true }  },
+            { 'l', 'i' , options = { silent = false, noremap = true }  },
+            { 'L', 'I' , options = { silent = false, noremap = true }  },
+            { 'j', 'e' , options = { silent = false, noremap = true }  },
+            { 'J', 'E' , options = { silent = false, noremap = true }  },
+            -- { 'cl', 'ci' }, -- don't know reason
+            -- { 'vl', 'vi' }, -- don't know reason
+            { 'k', 'nzz:lua require("specs").show_specs()<cr>' , options = { silent = false, noremap = true }   },
+            { 'K', 'Nzz:lua require("specs").show_specs()<cr>' , options = { silent = false, noremap = true }   },
 
             -- base
             { '<M-', {
@@ -163,10 +163,12 @@ function config.nest()
         } },
 
 
-        -- { mode = 'v', {
-            --{ '<leader>', {
-            --} },
-        -- } },
+        { mode = 'v', {
+            { '<leader>', {
+                -- translate
+                { 'vt', ':Translate ZH<cr>' },
+            } },
+        } },
     }
 end
 

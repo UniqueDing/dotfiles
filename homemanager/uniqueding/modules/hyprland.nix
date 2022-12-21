@@ -14,22 +14,37 @@ in {
         source = ~/.config/hypr/hyprland-core.conf
     '';
   };
-  home.sessionVariables = {
-    XDG_SESSION_TYPE = "wayland";
-    XDG_CURRENT_DESKTOP = "Hyprland";
-    QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
-    QT_AUTO_SCREEN_SCALE_FACTOR = "0";
-    QT_SCALE_FACTOR = "1";
-    GDK_SCALE = "1";
-    GDK_DPI_SCALE = "1";
-    MOZ_ENABLE_WAYLAND = "1";
-    _JAVA_AWT_WM_NONREPARENTING = "1";
-  };
+
+  programs.zsh.enable = true;
+  programs.zsh.envExtra = ''
+    export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
+    export QT_AUTO_SCREEN_SCALE_FACTOR="0"
+    export QT_SCALE_FACTOR="2"
+    export GDK_SCALE="2"
+    export GDK_DPI_SCALE="2"
+    export GIO_EXTRA_MODULES="${pkgs.dconf.lib}/lib/gio/modules"
+  '';
+  # home.sessionVariables = {
+  #   XDG_SESSION_TYPE = "wayland";
+  #   XDG_CURRENT_DESKTOP = "Hyprland";
+  #   QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
+  #   QT_AUTO_SCREEN_SCALE_FACTOR = "0";
+  #   QT_SCALE_FACTOR = "1";
+  #   GDK_SCALE = "1";
+  #   GDK_DPI_SCALE = "1";
+  #   MOZ_ENABLE_WAYLAND = "1";
+  #   _JAVA_AWT_WM_NONREPARENTING = "1";
+  #   UNIQUEDING = "1";
+  #   GIO_EXTRA_MODULES = "${pkgs.dconf.lib}/lib/gio/modules";
+  #   GIO_EXTRA_MODULES_A = "1";
+  # };
 
   home.packages = with pkgs; [
     hyprpaper
     fuzzel
     eww-wayland
+    socat
+    dconf
     lua
     swaylock-effects
     swayidle
@@ -57,6 +72,7 @@ in {
     qogir-icon-theme
     gnome.adwaita-icon-theme
     glib # gsettings
+    kanshi
   ];
 
   # home.activation.linkDotfiles = config.lib.dag.entryAfter ["writeBoundary"]

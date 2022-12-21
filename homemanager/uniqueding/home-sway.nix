@@ -5,7 +5,7 @@
   home.homeDirectory = "/home/uniqueding";
 
   home.stateVersion = "22.05";
-  #programs.home-manager.enable = true;
+  programs.home-manager.enable = true;
 
   imports = [
     ./modules/editor.nix
@@ -14,6 +14,8 @@
     ./modules/ime.nix
     ./modules/font.nix
     ./modules/gapp.nix
-    ./modules/sway.nix
+    # ./modules/sway.nix
+    ./modules/hyprland.nix
+    ./modules/lang.nix
   ];
 }

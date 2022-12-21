@@ -45,4 +45,30 @@ function config.telescope_dap()
     require('telescope').load_extension('dap')
 end
 
+function config.translation()
+    require("translate").setup({
+        default = {
+            command = "translate_shell",
+            output = "floating",
+            parse_after = "no_handle",
+            parse_before = "trim",
+        },
+        preset = {
+            output = {
+                split = {
+                    min_size = 8
+                },
+                floating = {
+                    zindex = 9999, -- a large number
+                },
+            },
+            command = {
+                translate_shell = {
+                    args = { "-e", "bing" },
+                },
+            }
+        }
+    })
+end
+
 return config
