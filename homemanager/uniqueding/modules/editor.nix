@@ -10,11 +10,13 @@
   home.packages = with pkgs; [
     neovim-nightly
     gcc
+    lua
     nodejs
     chromium
   ];
 
-  home.file = {
-    ".config/nvim".source = ../nvim;
-  };
+  # home.activation.linkDotfiles = config.lib.dag.entryAfter ["writeBoundary"]
+  # ''
+  #   ln -sfn /opt/dotfiles/homemanager/uniqueding/nvim $HOME/.config/nvim
+  # '';
 }

@@ -1,0 +1,30 @@
+;; lock
+
+
+(defpoll lock_status :interval "1s" `./scripts/lock.sh status`)
+(defwidget lock []
+    (box :orientation "v" :class "lock ${theme}" :space-evenly false
+        (label :class "time" :text "${hour}:${minute}")
+        (label :class "date" :text dateVar)
+        (box :orientation "h" :space-evenly false :class "input-box"
+            (input :class "input info"
+                :width 1000
+                :password true
+                :onaccept "${script_path}/lock.sh auth {}"
+                )
+            (label :class "status" :text lock_status)
+        )
+    )
+)
+
+(defwindow lock
+    :monitor 0
+    :geometry (geometry 
+        :height "100%" 
+        :width "100%"
+        :x "0px" 
+        :y "0px" 
+        :anchor "left top")
+    :stacking "fg"
+    :focusable true
+(lock))

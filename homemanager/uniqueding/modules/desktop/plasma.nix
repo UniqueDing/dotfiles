@@ -1,0 +1,56 @@
+{ config, pkgs, ... }:
+
+{
+  home.packages = with pkgs; [
+    bluedevil
+    breeze-gtk
+    breeze-qt5
+    #breeze-grub
+    #breeze-plymouth
+    #discover
+    kactivitymanagerd
+    kde-cli-tools
+    kde-gtk-config
+    #plasma5Packages.kdecoration
+    kdeplasma-addons
+    #kgamma5
+    #plasma5Packages.khotkeys
+    kinfocenter
+    konsole
+    kmenuedit
+    #kscreen
+    #kscreenlocker
+    #ksshaskpass
+    #plasma5Packages.ksystemstats
+    #kwallet-pam
+    kwayland-integration
+    #kwayland-server
+    kwin
+    #kwrited
+    plasma5Packages.layer-shell-qt
+    plasma5Packages.libkscreen
+    plasma5Packages.libksysguard
+    #milou
+    #oxygen
+    plasma-browser-integration
+    plasma-desktop
+    #plasma5Packages.plasma-disks
+    plasma-integration
+    #plasma-mobile
+    #plasma-nano
+    #plasma-nm
+    #plasma-pa
+    plasma5Packages.plasma-sdk
+    #plasma-systemmonitor
+    #plasma-thunderbolt
+    #plasma-vault
+    plasma-workspace
+    plasma-workspace-wallpapers
+    polkit-kde-agent
+    #powerdevil
+    qqc2-breeze-style
+    #sddm-kcm
+    systemsettings
+    #xdg-desktop-portal-kde
+  ];
+}

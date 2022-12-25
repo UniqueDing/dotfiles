@@ -1,0 +1,10 @@
+#exec nixGL Hyprland
+exec Hyprland
+for_window [app_id="wlroots"] fullscreen enable
+
+input type:touchpad {
+    dwt enabled
+    tap enabled
+    natural_scroll enabled
+    middle_emulation enabled
+}

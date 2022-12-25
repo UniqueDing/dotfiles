@@ -14,5 +14,6 @@
     ./modules/ime.nix
     ./modules/sway.nix
     ./modules/font.nix
+    ./modules/hyprland.nix
   ];
 }

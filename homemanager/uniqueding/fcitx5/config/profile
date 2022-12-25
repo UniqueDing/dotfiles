@@ -1,0 +1,86 @@
+[Groups/0]
+# Group Name
+Name=rime
+# Layout
+Default Layout=us-colemak
+# Default Input Method
+DefaultIM=rime
+
+[Groups/0/Items/0]
+# Name
+Name=keyboard-us-colemak
+# Layout
+Layout=
+
+[Groups/0/Items/1]
+# Name
+Name=rime
+# Layout
+Layout=us
+
+[Groups/1]
+# Group Name
+Name=qwert
+# Layout
+Default Layout=us
+# Default Input Method
+DefaultIM=pinyin
+
+[Groups/1/Items/0]
+# Name
+Name=keyboard-us
+# Layout
+Layout=
+
+[Groups/1/Items/1]
+# Name
+Name=pinyin
+# Layout
+Layout=
+
+[Groups/2]
+# Group Name
+Name=colemak
+# Layout
+Default Layout=us-colemak
+# Default Input Method
+DefaultIM=rime
+
+[Groups/2/Items/0]
+# Name
+Name=keyboard-us-colemak
+# Layout
+Layout=
+
+[Groups/2/Items/1]
+# Name
+Name=rime
+# Layout
+Layout=
+
+[Groups/3]
+# Group Name
+Name=squeekboard
+# Layout
+Default Layout=us
+# Default Input Method
+DefaultIM=rime
+
+[Groups/3/Items/0]
+# Name
+Name=keyboard-us
+# Layout
+Layout=
+
+[Groups/3/Items/1]
+# Name
+Name=rime
+# Layout
+Layout=
+
+[GroupOrder]
+0=colemak
+1=squeekboard
+2=rime
+3=qwert
+

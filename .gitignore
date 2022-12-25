@@ -7,4 +7,15 @@ dwm/start-status.sh
 /homemanager/*/ranger/bookmarks
 /homemanager/*/ranger/history
 /homemanager/*/ranger/tagged
-fcitx5/conf/cached_layouts
+/homemanager/*/fcitx5/config/*
+!/homemanager/*/fcitx5/config/conf/classicui.conf
+!/homemanager/*/fcitx5/config/config
+!/homemanager/*/fcitx5/config/profile
+/homemanager/*/fcitx5/share/*
+!/homemanager/*/fcitx5/share/themes
+!/homemanager/*/fcitx5/share/rime
+/homemanager/*/fcitx5/share/rime/build
+/homemanager/*/fcitx5/share/rime/user.yaml
+/homemanager/*/fcitx5/share/rime/installation.yaml
+/homemanager/*/fcitx5/share/rime/*.userdb
+/homemanager/*/fcitx5/share/rime/sync

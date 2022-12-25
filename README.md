@@ -4,7 +4,10 @@
 
 * archlinux 
 * nixos
+* hyprland
+* eww
 * sway
+* rime
 * zsh
 * zinit
 * nvim

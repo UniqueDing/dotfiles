@@ -1,0 +1,402 @@
+@import "nord.scss";
+
+$color0  : #2E3440;
+$color1  : #3B4252;
+$color2  : #434C5E;
+$color3  : #4C566A;
+$color4  : #D8DEE9;
+$color5  : #E5E9F0;
+$color6  : #ECEFF4;
+$color7  : #8FBCBB;
+$color8  : #88C0D0;
+$color9  : #81A1C1;
+$color10 : #5E81AC;
+$color11 : #BF616A;
+$color12 : #D08770;
+$color13 : #EBCB8B;
+$color14 : #A3BE8C;
+$color15 : #B48EAD;
+
+$text: $color6;
+$overlay: $color2;
+$back: $color1;
+$base: $color0;
+
+$textl: $color0;
+// $overlayl: $color4;
+// $backl: #C0C7D2;
+$backl: $color4;
+$overlayl: #C0C7D2;
+$basel: $color6;
+
+$black: $color0;
+$grass: $color7;
+$blue: $color8;
+$blue2: $color9;
+$red: $color11;
+$peach: $color12;
+$yellow:$color13;
+$mauve: $color10;
+$green: $color14;
+$pink: $color15;
+$gray: $color3;
+$gray1: $color1;
+$gray2: $color2;
+$white: $color6;
+$white1: $color4;
+$white2: $color5;
+
+* {
+    all: unset; //Unsets everything so you can style everything from scratch
+    font-family: "JetBrainsMono"
+}
+
+.icon {
+    font-family: monospace;
+    font-size: 1.4rem;
+}
+
+.dark {
+    color: $text;
+    background-color: $base;
+    .lock {
+        background-color: $base;
+    }
+
+    .control_buttons {
+        button {
+            background-color: $back;
+        }
+        button:hover {
+            background-color: $overlay;
+        }
+    }
+    progressbar > trough,
+    .info
+    {
+        background-color: $back;
+    }
+    .workspaces {
+        .inactive {
+            background-color: $mauve;
+        }
+        .inactive:hover {
+            background-color: $blue2;
+        }
+        .active {
+            background-color: $green;
+        }
+        .active:hover {
+            background-color: $grass;
+        }
+        .disable {
+            background-color: $back;
+        }
+        .disable:hover {
+            background-color: $overlay;
+        }
+    }
+    .graph_item {
+        background-color: $overlay;
+    }
+}
+
+.light {
+    color: $textl;
+    background-color: $basel;
+    .lock {
+        background-color: $basel;
+    }
+
+    .control_buttons {
+        button {
+            background-color: $backl;
+        }
+        button:hover {
+            background-color: $overlayl;
+        }
+    }
+    progressbar > trough,
+    .info
+    {
+        background-color: $backl;
+    }
+    .workspaces {
+        .active {
+            background-color: $mauve;
+        }
+        .active:hover {
+            background-color: $blue2;
+        }
+        .inactive {
+            background-color: $green;
+        }
+        .inactive:hover {
+            background-color: $grass;
+        }
+        .disable {
+            background-color: $backl;
+        }
+        .disable:hover {
+            background-color: $overlayl;
+        }
+    }
+    .graph_item {
+        background-color: $overlayl;
+    }
+}
+
+tooltip {
+    border-radius: .5rem;
+    background-color: rgba(0,0,0,0.4);
+}
+
+button {
+    transition: background-color 500ms, color 500ms;
+}
+
+// === bar ===
+
+.bar {
+    border-left: 4px dotted $red;
+    padding: .3rem;
+}
+
+.launchbutton { 
+    background-color: $blue; 
+    color: $gray;
+    padding: .3rem 0;
+    border-radius: .5rem;
+    font-size: 1.7rem;
+    // margin: .5rem;
+    &:hover {
+        background-color: $mauve;
+    }
+    &:active {
+        background-color: $gray2;
+    }
+}
+
+.workspaces {
+    box {
+        padding: .2rem 0;
+    }
+    button {
+        // margin: .2rem .5rem;
+        padding: .2rem 0;
+        border-radius: .5rem;
+        font-size: 1.7rem;
+    }
+}
+
+
+.info-label {
+    padding: .3rem 0;
+    button,
+    label {
+        padding: .2rem;
+        border-radius: .5rem;
+    }
+}
+
+.netspeed {
+    font-size: .8rem;
+}
+
+.fcitx {
+    font-size: 2rem;
+}
+
+
+.bar progressbar > trough {
+    border-radius: .5rem;
+    progress {
+        border-radius: .5rem;
+    }
+}
+
+.bar .icon-pg {
+    border-radius: .5rem;
+    padding: .3rem 0;
+    trough {
+        padding: 1rem 0;
+        min-width: 1rem;
+        progress {
+            padding: 1rem 0;
+        }
+    }
+}
+
+.volume-pg progress {
+    background-color: $blue;
+}
+
+.backlight-pg progress {
+    background-color: $green;
+}
+
+.battery-Charging-pg progress {
+    background-color: $green;
+}
+
+.battery-Full-pg progress {
+    background-color: $grass;
+}
+
+.battery-Unknown-pg progress,
+.battery-Discharging-pg progress {
+    background-color: $yellow;
+}
+
+.disk-pg progress {
+    background-color: $pink;
+}
+
+.mem-pg progress {
+    background-color: $peach;
+}
+
+.cpu-pg progress {
+    background-color: $red;
+}
+
+.clock {
+  font-weight: bold;
+  font-size: 1.7rem;
+  border-radius: .5rem;
+  padding: 0.2rem;
+}
+
+
+.icons {
+    .icons_wrapper {
+        padding-bottom: 6rem;
+        label {
+            margin: .4rem 0;
+            font-size: 1.7rem;
+        }
+    }
+}
+
+
+// === dashboard ===
+.dashboard {
+    padding: 1rem;
+}
+
+.dash-title {
+    font-size: 1.5rem;
+}
+
+
+.slider_box {
+    .brightness_slider highlight {
+        background-color: $yellow;
+    }
+
+    .volume_slider highlight {
+        background-color: $blue;
+    }
+
+    .micvolume_slider highlight {
+        background-color: $green;
+    }
+
+    scale highlight {
+        padding: 1.0rem;
+        border-radius: 2rem;
+    }
+
+    .slider_box_item {
+        padding: .3rem 0;
+    }
+    
+    .slider_item {
+        border-radius: 2rem;
+        padding: 0 1rem 0 1rem;
+    }
+    
+    .slider_icon {
+        font-size: 2.0rem;
+        padding-right: .5rem;
+    }
+}
+
+.control_buttons {
+    .control_box {
+        padding: .5rem;
+    }
+    button {
+        border-radius: 1rem;
+        font-size: 2.5rem;
+        padding: .2rem;
+    }
+}
+
+.graph_item_box {
+    border-radius: 1rem;
+    margin: 0 .2rem;
+    .graph_item {
+        border-radius: 1rem;
+    }
+}
+
+
+.cal-box {
+    padding: 1rem 1rem .2rem;
+}
+
+.cal {
+    padding: 0;
+    border-radius: 8px;
+}
+
+.calendar_box {
+    padding: 1rem 0;
+    calendar:selected {
+        font-weight: bold;
+        background-color: $pink;
+    }
+
+    calendar.header {
+        color: $blue;
+        font-weight: bold;
+    }
+
+    calendar.button {
+        color: $blue;
+    }
+
+    calendar.highlight {
+        background-color: $grass;
+        font-weight: bold;
+    }
+
+    calendar:indeterminate {
+        color: rgba(205, 219, 249, 0.3);
+    }
+}
+
+// === lock ===
+.lock {
+    padding-top: 5rem;
+    .time {
+        font-size: 5rem;
+    }
+    .date {
+        font-size: 3rem;
+    }
+
+    .input-box {
+        padding: 8rem 30rem;
+        .status {
+            margin-left: 2rem;
+            font-size: 7rem;
+        }
+        .input {
+            padding: 2rem;
+            border-radius: 3rem;
+            font-size: 5rem;
+        }
+    }
+}

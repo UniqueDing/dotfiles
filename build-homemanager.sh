@@ -6,8 +6,14 @@ echo $1
 
 case $1 in
 install_nixpkgs)
+    set +e
+    sudo mv /etc/profile.d/nix.sh.backup-before-nix /etc/profile.d/nix.sh
+    sudo mv /etc/bashrc.backup-before-nix /etc/bashrc
+    sudo mv /etc/bash.bashrc.backup-before-nix /etc/bash.bashrc
+    sudo mv /etc/zshrc.backup-before-nix /etc/zshrc
+    set -e
 	#sh <(curl -L https://nixos.org/nix/install) --daemon
-	sh <(curl https://mirrors.tuna.tsinghua.edu.cn/nix/latest/install) --daemon
+	yes | sh <(curl https://mirrors.tuna.tsinghua.edu.cn/nix/latest/install) --daemon
 	;;
 install_homemanager)
 	nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager

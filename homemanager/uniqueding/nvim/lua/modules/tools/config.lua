@@ -31,15 +31,15 @@ function config.rnvimr()
     -- vim.g.rnvimr_ranger_cmd = 'ranger.py --cmd="set draw_borders both"'
 end
 
-function config.filetype()
-    require('filetype').setup ({
-        overrides = {
-            extensions = {
-                rkt = "racket",
-            }
-        }
-    })
-end
+-- function config.filetype()
+--     require('filetype').setup ({
+--         overrides = {
+--             extensions = {
+--                 rkt = "racket",
+--             }
+--         }
+--     })
+-- end
 
 function config.telescope_dap()
     require('telescope').load_extension('dap')

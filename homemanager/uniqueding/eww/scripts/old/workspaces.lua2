@@ -1,0 +1,71 @@
+#!/usr/bin/env lua
+
+
+local dkjson = require("dkjson")
+
+local hypr_log_path = os.getenv("HYPRLAND_INSTANCE_SIGNATURE")
+
+local function display_bar()
+    local p_monitors = io.popen("hyprctl monitors -j")
+    local monitors, pos, err = dkjson.decode(p_monitors:read("*all"))
+    if p_monitors then
+        p_monitors:close()
+    end
+    local active_workspace = monitors[1].activeWorkspace.id
+    -- print(active_workspace)
+
+
+    local p_workspaces = io.popen("hyprctl workspaces -j")
+    local workspaces, pos, err = dkjson.decode(p_workspaces:read("*all"))
+    if p_workspaces then
+        p_workspaces:close()
+    end
+
+    local function comp(e1, e2)
+        return e1.id < e2.id
+    end
+
+    table.sort(workspaces, comp)
+    -- print(workspaces)
+    --
+    local dis = {}
+    local ac = function(id)
+        if tonumber(id) == tonumber(active_workspace) then
+            return "active"
+        else
+            return "inactive"
+        end
+    end
+
+    for i=1, #workspaces do
+        item = workspaces[i]
+        dis[i]= {
+            id = item.id,
+            active = ac(item.id),
+            title = item.lastwindowtitle
+        }
+    end
+
+    print(dkjson.encode(dis))
+end
+
+
+local function main()
+    display_bar()
+    -- local f = io.open("socat - UNIX-CONNECT:/tmp/hypr/"..hypr_log_path..".socket2.sock", "r")
+    -- f:seek("end")
+    --
+    -- while true do
+    --     sleep(0.01)
+    --     str = f:read()
+    --     if str then
+    --         if str.find(str,"Changed to workspace") then
+    --             print(str)
+    --             display_bar()
+    --         end
+    --     end
+    -- end
+    -- io.close(f)
+end
+
+main()

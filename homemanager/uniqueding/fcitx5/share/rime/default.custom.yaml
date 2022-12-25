@@ -1,0 +1,11 @@
+patch:
+  schema_list:
+    - schema: wubi86
+    - schema: colemak
+    - schema: numbers # 大写数字
+
+  switcher:
+    caption: 〔方案選單〕
+    hotkeys:
+      - Control+grave
+  menu/page_size: 9 # 候选词个数

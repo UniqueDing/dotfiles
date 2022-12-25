@@ -1,0 +1,26 @@
+patch:
+  speller/max_code_length: 4                      # 最长 4 码
+  speller/auto_select: true                       # 顶字上屏
+  speller/auto_select_unique_candidate: true      # 无重码自动上屏
+  switches:
+    - name: ascii_mode
+      reset: 0
+      states: [ 中, 西 ]
+    - name: zh_simp
+      states: [ 简, 繁 ]
+    - name: mars
+      states: [ 地, 火 ]
+    - name: extended_charset
+      states: [ 常, 增 ]
+    - name: full_shape
+      states: [ 半, 全 ]
+    - name: ascii_punct
+      states: [ 。, ． ]
+  engine/filters:
+    - simplifier@st
+    - simplifier@mars
+    - uniquifier
+  st/option_name: zh_simp
+  st/opencc_config: s2t.json
+  mars/option_name: mars
+  mars/opencc_config: mars.json

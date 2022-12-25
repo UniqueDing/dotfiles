@@ -19,6 +19,8 @@ alias scpr="rsync -P --rsh=ssh"
 
 alias pc="proxychains -q"
 
+alias nvim="env CC=gcc nvim"
+
 alias nhome-manager="NIX_PATH=${NIX_PATH:+$NIX_PATH:}$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels home-manager"
 
 alias pS='sudo pacman -S'

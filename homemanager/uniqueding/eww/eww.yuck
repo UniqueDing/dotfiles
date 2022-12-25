@@ -1,0 +1,15 @@
+;; todo:
+;; wayland tmp tray
+
+(defvar script_path "~/.config/eww/scripts")
+
+(defpoll hour :interval "10s" "date +%H")
+(defpoll minute :interval "10s" "date +%M")
+(defpoll dateVar :interval "600s" "date '+%A %y.%d.%m'")
+
+(defpoll theme :interval "1s" :run-while false :initial "dark" 'cat /tmp/EWW_THEME')
+
+(include "./bar.yuck")
+(include "./dashboard.yuck")
+(include "./lock.yuck")
+

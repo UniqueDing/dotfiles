@@ -1,0 +1,224 @@
+(defwidget bar []
+  (box :orientation "v" :hexpand false :class "${theme} bar"
+    (box :valign "start" :hexpand false :vexpand true :orientation "v" :space-evenly false
+      (launch)
+      (workspaces)
+    )
+
+    (box :valign "end" :hexpand false :vexpand true :orientation "v" :space-evenly false
+      (netspeed)
+      (fcitx)
+      (backlight_icon)
+      (volume_icon)
+      (cpu)
+      (mem)
+      (disk)
+      (battery)
+      (time)
+    )
+  )
+)
+
+;; Variables
+(defvar time false)
+(defvar cal false)
+
+;; ━━━ WIDGETS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+(defpoll fctix_status :interval ".3s" "./scripts/fcitx5.sh status")
+(defwidget fcitx []
+    (eventbox :cursor "hand" 
+        (box :class "fcitx info-label"
+            (button :class "info" :onclick "./scripts/fcitx5.sh toggle" "${fctix_status}")
+        )
+    )
+)
+
+(defwidget dashbutton []
+  (button :class "reg-btn dashbutton" :onclick "eww open dashboard --toggle" "&")
+)
+
+(defpoll netspeed :interval "1s" "./scripts/net.sh")
+(defwidget netspeed []
+    (box :class "netspeed info-label"
+        (label :class "info" :text "${netspeed}")
+    )
+)
+
+
+(defpoll backlight_value :interval "1s" "./scripts/backlight.sh status")
+(defwidget backlight_icon []
+  (box :vexpand "false" :hexpand "false" :class "icon-pg"
+    (progress :value {backlight_value}
+              :orientation "h"
+              :class "backlight-pg"
+              :tooltip "backlight"
+    )
+  )
+)
+
+(defpoll volume_value :interval "1s" "./scripts/volume.sh sinkvalue")
+(defwidget volume_icon []
+  (box :vexpand "false" :hexpand "false" :class "icon-pg"
+    (progress :value {volume_value}
+              :orientation "h"
+              :class "volume-pg" 
+              :tooltip "volume"
+    )
+  )
+)
+
+(defwidget mem []
+  (box :vexpand "false" :hexpand "false" :class "icon-pg"
+    (progress :value {EWW_RAM.used_mem_perc}
+              :orientation "h"
+              :class "mem-pg"
+              :tooltip "mem"
+    )
+  )
+)
+
+(defwidget cpu []
+  (box :vexpand "false" :hexpand "false" :class "icon-pg"
+    (progress :value {EWW_CPU.avg}
+              :orientation "h"
+              :class "cpu-pg"
+              :tooltip "cpu"
+    )
+  )
+)
+
+(defwidget disk []
+  (box :vexpand "false" :hexpand "false" :class "icon-pg"
+    (progress :value {EWW_DISK["/home"].used_perc}
+              :orientation "h"
+              :class "disk-pg"
+              :tooltip "disk"
+    )
+  )
+)
+
+(defwidget battery []
+  (box :vexpand "false" :hexpand "false" :class "icon-pg"
+    (progress  :value {EWW_BATTERY.BAT1.capacity}
+               :class "battery-${EWW_BATTERY.BAT1.status}-pg"
+               :orientation "h"
+               :tooltip "battery"
+    )
+  )
+)
+
+
+(defwidget time []
+  (eventbox :cursor "hand"  :hexpand false :vexpand false
+                :tooltip "${dateVar}"
+    (box :orientation "v" :hexpand false :vexpand false :space-evenly false :class "clock info"
+    (button		:class "date"
+                :onclick "${script_path}/keyboard.sh toggle"	"${hour}")
+
+    (button		:class "date"
+                :onclick "${script_path}/keyboard.sh toggle"	"${minute}")
+    )
+  )
+)
+
+(defwidget launch []
+    (eventbox :cursor "hand"
+        (button	:class "launchbutton"
+                :onclick "eww open dashboard --toggle"
+                :onrightclick "hyprctl dispatch killactive ''"
+                "")
+    )
+)
+
+(defwidget powerbutton []
+  (eventbox :cursor "hand"
+  (button		:class "reg-btn powerbutton"
+            ;;    :onclick "eww open powermenu --toggle &"
+            ;;    :onclick "notify-send ${EWW_BATTERY.BAT1.status}"
+                :onclick "~/.config/eww/scripts/fcitx5.sh status"
+                "")
+  )
+)
+                                                  (defwidget powermenucontent []
+                                                  (box :orientation "h"
+  :class "powermenu-container"
+  (box :class "shutdown-btn-box"
+       :orientation "h"
+    (button :class "btn"
+            :tooltip "Shutdown"
+            :onclick "eww close powermenu && shutdown now"
+      "⏻")
+    )
+  (box :class "reboot-btn-box"
+       :orientation "h"
+    (button :class "btn"
+            :tooltip "Reboot"
+            :onclick "eww close powermenu && reboot"
+      "")
+    )
+  (box :class "exit-btn-box"
+       :orientation "h"
+    (button :class "btn"
+            :tooltip "Suspend"
+            :onclick "systemctl suspend"
+      "")
+    )
+  )
+)
+
+(deflisten workspaces_listen "scripts/workspaces.sh status")
+(defwidget workspaces []
+    (box :orientation "v" :spacing 1 :space-evenly "true" :class "workspaces"
+        (for item in workspaces_listen
+            (box :orientation "v"
+                (button 
+                    :onclick "hyprctl dispatch workspace ${item.id}" 
+                    :onrightclick "hyprctl dispatch movetoworkspace ${item.id}" 
+                    :class "${item.active}" 
+                    "${item.id}")
+            )
+        )
+    )
+)
+
+(defwidget icons []
+    (box :valign "end" :orientation "v" :class "icons_wrapper"
+        (icon_item :icon "")
+        (icon_item :icon "墳")
+        (icon_item :icon "")
+        (icon_item :icon "")
+        (icon_item :icon "")
+        (icon_item :icon "ﲯ")
+    )
+)
+
+(defwidget icon_item [icon]
+    (box :orientation "v"
+        (label :text "${icon}")
+    )
+)
+
+(defwindow icons
+    :monitor 0
+    :exclusive true
+    :geometry (geometry 
+        :height "100px" 
+        :width "10px"
+        :x "-35px" 
+        :y "0px" 
+        :anchor "left bottom")
+    :stacking "fg"
+(icons))
+
+(defwindow bar
+    :monitor 0
+    :exclusive true
+    :geometry (geometry 
+        :height "100%" 
+        :width "70px"
+        :x "-4px" 
+        :y "0px" 
+        :anchor "left center")
+    :stacking "fg"
+(bar))

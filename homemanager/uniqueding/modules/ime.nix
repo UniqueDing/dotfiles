@@ -7,7 +7,13 @@
     fcitx5-chinese-addons
     fcitx5-mozc
     fcitx5-lua
+    fcitx5-rime
+    rime-data
   ];
 
-  home.file.".config/fcitx5".source = ../fcitx5;
+  # home.activation.linkDotfiles = config.lib.dag.entryAfter ["writeBoundary"]
+  # ''
+  #   ln -sfn /opt/dotfiles/homemanager/uniqueding/fcitx5/config $HOME/.config/fcitx5
+  #   ln -sfn /opt/dotfiles/homemanager/uniqueding/fcitx5/share $HOME/.local/share/fcitx5
+  # '';
 }

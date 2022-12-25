@@ -1,0 +1,237 @@
+(defwidget dashboard []
+    (box :orientation "v" :hexpand false :class "${theme} dashboard"
+        (box :orientation "v" :hexpand false :vexpand true :valign "start" :space-evenly false
+            (title)
+            (control_bars)
+            (control_buttons)
+        )
+
+        (box :orientation "v" :hexpand false :vexpand true :valign "end" :space-evenly false
+            (monitor)
+            (cal)
+            (power_buttons)
+        )
+    )
+)
+
+(defwidget title []
+    (box :class "dash-title"
+        (label :text "${dateVar}")
+    )
+)
+
+(defpoll brightness_var :interval "999h" :initial 0 `./scripts/backlight.sh status`)
+(defpoll volume_var :interval "999h" :initial 0 `./scripts/volume.sh sinkvalue`)
+(defpoll micvolume_var :interval "999h" :initial 0 `./scripts/volume.sh sourcevalue`)
+(defwidget control_bars []
+    (box :orientation "v" :space-evenly false
+        (box :class "slider_box" :orientation "v" :vexpand false :hexpand false
+            (control_bar_item :class "brightness_slider" :icon "" :change "./scripts/backlight.sh set {}" :var brightness_var)
+            (control_bar_item :class "volume_slider" :icon "墳" :change "./scripts/volume.sh sinkset {}" :var volume_var)
+            (control_bar_item :class "micvolume_slider" :icon "" :change "./scripts/volume.sh sourceset {}" :var micvolume_var)
+        )
+    )
+)
+
+(defwidget control_bar_item [class icon change var]
+    (box :class "slider_box_item"
+        (box :space-evenly false :class "slider_item info"
+            (label :class "slider_icon" :text icon)
+            (scale :min 1 :max 101 :width 300 :class class :value var :onchange change)
+        )
+    )
+)
+
+
+(defvar close_bar "eww close dashboard")
+
+(defpoll volume_status :interval ".5s" "./scripts/volume.sh ewwstatus")
+
+(defwidget control_buttons []
+    (box :class "control_buttons" :orientation "v"
+        (box :orientation "h" :space-evenly true
+            (control_button :bgcolor "" 
+                :app "~/.config/eww/scripts/lightdark.sh toggle"
+                :icon ""
+                :tooltip "lightdark")
+            (control_button :bgcolor ""
+                :app "${script_path}/volume.sh sinkmute"
+                :icon volume_status
+                :tooltip "volume mute")
+            (control_button :bgcolor ""
+                :app "${close_bar} & ${script_path}/screenshot.sh full"
+                :icon ""
+                :tooltip "screenshot full")
+            (control_button :bgcolor ""
+                :app "${close_bar} & nohup ${script_path}/screenshot.sh rect &"
+                :icon ""
+                :tooltip "screenshot rect")
+        )
+        (box :orientation "h" :space-evenly true
+            (control_button :bgcolor ""
+                :app "hyprctl dispatch splitratio -0.05"
+                :icon ""
+                :tooltip "left resize")
+            (control_button :bgcolor ""
+                :app "hyprctl dispatch splitratio +0.05"
+                :icon ""
+                :tooltip "right resize")
+            (control_button :bgcolor ""
+                :app "hyprctl dispatch togglefloating '' && hyprctl dispatch pin '' & ${close_bar}"
+                :icon ""
+                :tooltip "float")
+            (control_button :bgcolor ""
+                :app "hyprctl dispatch swapnext '' & ${close_bar}"
+                :icon ""
+                :tooltip "swap")
+        )
+
+        (box :orientation "h" :space-evenly true
+            (control_button :bgcolor ""
+                :app "wofi --show drun,run & ${close_bar}"
+                :icon ""
+                :tooltip "search")
+            (control_button :bgcolor "gray"
+                :app "footclient & ${close_bar}"
+                :icon ""
+                :tooltip "foot")
+            (control_button :bgcolor "#E68128"
+                :app "firefox & ${close_bar}"
+                :icon ""
+                :tooltip "firefox")
+            (control_button :bgcolor "#57c2ec"
+                :app "filemanager & ${close_bar}"
+                :icon ""
+                :tooltip "filemanager")
+            (control_button :bgcolor "#ffa800"
+                :app "vlc & ${close_bar}"
+                :icon "嗢"
+                :tooltip "vlc")
+        )
+
+        (box :orientation "h" :space-evenly true
+            (control_button :bgcolor "#7EA2C5"
+                :app "xournalpp & ${close_bar}"
+                :icon ""
+                :tooltip "xournalpp")
+            (control_button :bgcolor "#ff4fde"
+                :app "krita & ${close_bar}"
+                :icon ""
+                :tooltip "krita")
+            (control_button :bgcolor "#746955"
+                :app "gimp & ${close_bar}"
+                :icon ""
+                :tooltip "gimp")
+            (control_button :bgcolor "#ee4353"
+                :app "wps & ${close_bar}"
+                :icon ""
+                :tooltip "wps")
+            (control_button :bgcolor "#3871C8"
+                :app "steam & ${close_bar}"
+                :icon ""
+                :tooltip "steam")
+        )
+
+        (box :orientation "h" :space-evenly true
+            (control_button :bgcolor "#faab08"
+                :app "qq & ${close_bar}"
+                :icon ""
+                :tooltip "qq")
+            (control_button :bgcolor "#23DA70"
+                :app "wechat & ${close_bar}"
+                :icon ""
+                :tooltip "wechat")
+            (control_button :bgcolor "#30A8DC"
+                :app "telegram-desktop & ${close_bar}"
+                :icon ""
+                :tooltip "telegram")
+            (control_button :bgcolor "#FF6597"
+                :app "bilibili & ${close_bar}"
+                :icon "ﳲ"
+                :tooltip "bilibili")
+            (control_button :bgcolor "#D40000"
+                :app "netease-cloud-music-gtk & ${close_bar}"
+                :icon ""
+                :tooltip "netease-cloud-music")
+        )
+    )
+)
+
+(defwidget power_buttons []
+    (box :class "control_buttons" :orientation "v"
+        (box :orientation "h" :space-evenly true
+            (control_button :bgcolor "" :app "${script_path}/lock.sh lock" :icon "" :tooltip "lock")
+            (control_button :bgcolor "" :app "systemctl suspend" :icon "⏾" :tooltip "suspend")
+            (control_button :bgcolor "" :app "systemctl hibernate" :icon "⏼" :tooltip "hibernate")
+            (control_button :bgcolor "" :app "systemctl reboot" :icon "" :tooltip "reboot")
+            (control_button :bgcolor "" :app "poweroff" :icon "" :tooltip "poweroff")
+        )
+    )
+)
+
+(defwidget control_button [bgcolor app icon tooltip]
+    (box :class "control_box"
+        (eventbox :cursor "hand" 
+            (button 
+                :style "background-color: ${bgcolor}" 
+                :onclick app 
+                :tooltip tooltip
+                icon)
+        )
+    )
+)
+
+(defwidget cal []
+    (box :class "calendar_box" :valign "end"
+      (calendar :width 200 :class "cal info")
+    )
+)
+
+(defwidget monitor []
+    (box :orientation "h" :spacing 1 :space-evenly true 
+        (graph_item :color "red" :tooltip "cpu" :var {EWW_CPU.avg})
+        (graph_item :color "green" :tooltip "mem" :var {EWW_RAM.used_mem_perc})
+    )
+)
+
+(defwidget graph_item [color tooltip var]
+    (box :class "graph_item_box info"
+         :tooltip tooltip
+        (graph 
+            :class "graph_item"
+            :style "color: ${color}"
+            :orientation "v"
+            :height 100
+            ;;:width 100
+            :value var
+            :dynamic true
+            :thickness 2
+            :time-range "60s"
+            :max 101
+            :min 1
+        )
+    )
+)
+
+(defwindow exitfull
+    :monitor 0
+    :geometry (geometry
+        :height "30px"
+        :width "30px"
+        :x "0px"
+        :y "0px"
+        :anchor "right bottom")
+    :stacking "fg"
+(netspeed))
+
+(defwindow dashboard
+    :monitor 0
+    :geometry (geometry 
+        :height "100%" 
+        :width "350px"
+        :x "0px"
+        :y "0px"
+        :anchor "left top")
+    :stacking "fg"
+    :class "dashboard"
+(dashboard))
