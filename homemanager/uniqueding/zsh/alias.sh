@@ -8,6 +8,7 @@ alias ls='lsd'
 alias l=ls
 alias ll='ls -l'
 alias lla='ll -a'
+alias lst='ls --tree'
 alias ..='cd ..'
 alias ...='cd ../..'
 # alias cdl='~/.config/dwm/dark-light.sh'

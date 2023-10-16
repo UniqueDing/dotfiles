@@ -8,3 +8,5 @@ export PATH=$PATH::/home/uniqueding/.local/bin
 export MANPAGER='nvim +Man!'
 bindkey -e
 
+eval "$(starship init zsh)"
+eval "$(zoxide init zsh)"

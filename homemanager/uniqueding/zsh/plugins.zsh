@@ -54,10 +54,10 @@ FreeBSD)
 esac
 }
 
-zinit light romkatv/powerlevel10k
+# zinit light romkatv/powerlevel10k
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.config/zsh/fun/p10k.zsh ]] || source ~/.config/zsh/fun/p10k.zsh
-typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+# [[ ! -f ~/.config/zsh/fun/p10k.zsh ]] || source ~/.config/zsh/fun/p10k.zsh
+# typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 
 
 zinit wait lucid for \

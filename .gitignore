@@ -1,4 +1,4 @@
-dwm/start-status.sh
+/homemanager/*/dwm/start-status.sh
 /homemanager/*/ranger/__pycache__
 /homemanager/*/ranger/plugins/__pycache__
 /homemanager/*/ranger/*/*.pyo
@@ -20,3 +20,4 @@ dwm/start-status.sh
 /homemanager/*/fcitx5/share/rime/*.userdb
 /homemanager/*/fcitx5/share/rime/sync
 /homemanager/*/hypr/hyprland.conf
+/homemanager/*/tmux/plugins

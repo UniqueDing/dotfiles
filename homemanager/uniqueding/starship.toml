@@ -1,0 +1,76 @@
+# "$schema" = 'https://starship.rs/config-schema.json'
+
+add_newline = false
+format = '''
+$directory$character'''
+right_format = '''
+$status$cmd_duration$git_commit$git_state$git_status$git_branch$jobs$sudo$username$localip$time'''
+
+[directory]
+format = '[$read_only]($read_only_style)[$path]($style) '
+truncation_length = 8
+truncation_symbol = '…/'
+read_only = ' '
+read_only_style = 'yellow'
+
+[time]
+disabled = false
+format = '[$time]($style)'
+style = 'fg:243'
+
+[sudo]
+disabled = false
+format = '[$symbol]($style)'
+symbol = '󰊠 '
+style = 'blue'
+
+[character]
+success_symbol = '[➜](bold green)'
+error_symbol = '[✗](bold red)'
+
+[git_branch]
+format = '[$symbol$branch(:$remote_branch)]($style) '
+symbol = ''
+
+[git_state]
+format = '[$state( $progress_current of $progress_total)]($style) '
+style = 'green'
+rebase = 'rebase'
+merge = 'merge'
+revert = 'revert'
+cherry_pick = 'cherry'
+bisect = 'bisect'
+am = 'am'
+am_or_rebase = 'am/rebase'
+
+[git_commit]
+format = '[@$hash$tag]($style) '
+style = 'yellow'
+
+[git_status]
+format = '[$all_status$ahead_behind]($style) '
+conflicted = '~${count}'
+ahead = '⇡${count}'
+behind = '⇣${count}'
+diverged = '⇕${count}'
+untracked = '?${count}'
+stashed = '*${count}'
+modified = '!${count}'
+staged = '+${count}'
+renamed = '»${count}'
+deleted = '✘${count}'
+style = 'red'
+
+[status]
+disabled = false
+style = 'red'
+
+[username]
+disabled = false
+format = '[$user]($style)'
+style_user = 'yellow'
+
+[localip]
+disabled = false
+format = '@[$localipv4]($style) '
+style = 'yellow'
