@@ -22,7 +22,6 @@
   };
 
   home.packages = with pkgs; [
-    #(pkgs.callPackage ./nwg-dock.nix { })
       swaylock-effects
       swayidle
       wl-clipboard
@@ -53,12 +52,6 @@
       qogir-icon-theme
       gnome.adwaita-icon-theme
       glib # gsettings
+      foot
   ];
-
-  home.file = {
-    ".config/sway".source = ../sway;
-    ".config/waybar".source = ../waybar;
-    ".config/.wlogout".source = ../wlogout;
-    ".config/mako".source = ../mako;
-  };
 }

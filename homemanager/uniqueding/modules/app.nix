@@ -2,7 +2,6 @@
 
 {
   home.packages = with pkgs; [
-    foot
     firefox
     chromium
     syncthing
@@ -10,7 +9,6 @@
     emacs
     alacritty
     v2raya
+    wezterm
   ];
-
-  home.file.".config/foot".source = ../foot;
 }

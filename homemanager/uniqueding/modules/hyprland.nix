@@ -15,15 +15,15 @@ in {
     '';
   };
 
-  programs.zsh.enable = true;
-  programs.zsh.envExtra = ''
-    export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
-    export QT_AUTO_SCREEN_SCALE_FACTOR="0"
-    export QT_SCALE_FACTOR="2"
-    export GDK_SCALE="2"
-    export GDK_DPI_SCALE="2"
-    export GIO_EXTRA_MODULES="${pkgs.dconf.lib}/lib/gio/modules"
-  '';
+  # programs.zsh.enable = true;
+  # programs.zsh.envExtra = ''
+  #   export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
+  #   export QT_AUTO_SCREEN_SCALE_FACTOR="0"
+  #   export QT_SCALE_FACTOR="2"
+  #   export GDK_SCALE="2"
+  #   export GDK_DPI_SCALE="2"
+  #   export GIO_EXTRA_MODULES="${pkgs.dconf.lib}/lib/gio/modules"
+  # '';
   # home.sessionVariables = {
   #   XDG_SESSION_TYPE = "wayland";
   #   XDG_CURRENT_DESKTOP = "Hyprland";
@@ -73,14 +73,6 @@ in {
     gnome.adwaita-icon-theme
     glib # gsettings
     kanshi
+    foot
   ];
-
-  # home.activation.linkDotfiles = config.lib.dag.entryAfter ["writeBoundary"]
-  # ''
-  #  ln -sfn /opt/dotfiles/homemanager/uniqueding/hypr $HOME/.config/hypr
-  #  ln -sfn /opt/dotfiles/homemanager/uniqueding/eww $HOME/.config/eww
-  # '';
-  home.file = {
-    ".config/mako".source = ../mako;
-  };
 }

@@ -10,10 +10,4 @@
     fcitx5-rime
     rime-data
   ];
-
-  # home.activation.linkDotfiles = config.lib.dag.entryAfter ["writeBoundary"]
-  # ''
-  #   ln -sfn /opt/dotfiles/homemanager/uniqueding/fcitx5/config $HOME/.config/fcitx5
-  #   ln -sfn /opt/dotfiles/homemanager/uniqueding/fcitx5/share $HOME/.local/share/fcitx5
-  # '';
 }
