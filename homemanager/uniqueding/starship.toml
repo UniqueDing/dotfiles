@@ -62,6 +62,7 @@ deleted = '✘${count}'
 style = 'red'
 
 [status]
+format = '[✗$int]($style) '
 disabled = false
 style = 'red'
 

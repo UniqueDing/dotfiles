@@ -24,6 +24,7 @@ set incsearch
 set expandtab
 set smarttab
 set tabstop=4
+set backspace="indent,eol,start"
 set shiftwidth=4
 set scrolloff=4
 set cmdheight=2

@@ -63,10 +63,10 @@ esac
 zinit wait lucid for \
 	atinit"ZINIT[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay" \
 	zdharma-continuum/fast-syntax-highlighting \
-	blockf \
 	zsh-users/zsh-completions \
 	atload"!_zsh_autosuggest_start" \
 	zsh-users/zsh-autosuggestions
+	#blockf \
 
 
     # atload" zstyle ':notify:*' error-title 'Command failed (in #{time_elapsed} seconds)' \
@@ -79,7 +79,7 @@ zinit wait lucid light-mode for \
     Aloxaf/fzf-tab \
     laggardkernel/zsh-thefuck
 
-zinit atinit'Z_A_USECOMP=1' light-mode for NICHOLAS85/z-a-eval
+#zinit atinit'Z_A_USECOMP=1' light-mode for NICHOLAS85/z-a-eval
 
 # zsh notify
 # install xdotool and wmctrl

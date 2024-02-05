@@ -11,7 +11,6 @@
     ./modules/editor.nix
     ./modules/tools.nix
     ./modules/app.nix
-    ./modules/font.nix
   ];
 
   home.activation.linkDotfiles = config.lib.dag.entryAfter ["writeBoundary"]

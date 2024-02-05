@@ -2,7 +2,6 @@
 
 alias s=sudo
 alias ra=ranger
-alias vsway='WLR_NO_HARDWARE_CURSORS=1 sway'
 # alias ls='lsd --hyperlink=auto'
 alias ls='lsd'
 alias l=ls
@@ -90,3 +89,6 @@ alias sysuS='systemctl --user start'
 alias sysuT='systemctl --user stop'
 alias sysuU='systemctl --user status'
 alias sysuR='systemctl --user restart'
+
+alias vsway='WLR_NO_HARDWARE_CURSORS=1 sway'
+alias penv='env LD_LIBRARY_PATH= PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/sbin:/usr/sbin::$HOME/.local/bin '
