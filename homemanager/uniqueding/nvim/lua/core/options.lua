@@ -92,7 +92,7 @@ local function load_options()
 		termguicolors = true,
 		timeout = true,
 		-- You will feel delay when you input <Space> at lazygit interface if you set it a positive value like 300(ms).
-		timeoutlen = 300,
+		timeoutlen = 800,
 		ttimeout = true,
 		ttimeoutlen = 0,
 		undodir = global.cache_dir .. "undo/",

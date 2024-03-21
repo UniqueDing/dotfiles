@@ -89,10 +89,10 @@ ui["dstein64/nvim-scrollview"] = {
 }
 
 -- Show where your cursor moves when jumping large distances
-ui["edluffy/specs.nvim"] = {
-	lazy = true,
-	event = "CursorMoved",
-	config = require("ui.specs"),
-}
+-- ui["edluffy/specs.nvim"] = {
+-- 	lazy = true,
+-- 	event = "CursorMoved",
+-- 	config = require("ui.specs"),
+-- }
 
 return ui
