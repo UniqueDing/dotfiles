@@ -10,6 +10,7 @@
     lsd
     bat
     ranger
+    yazi
     lf
     ripgrep
     diff-so-fancy

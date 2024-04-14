@@ -76,7 +76,7 @@ editor["nvim-treesitter/nvim-treesitter"] = {
 		-- { "mrjones2014/nvim-ts-rainbow" },
 		-- { "JoosepAlviste/nvim-ts-context-commentstring" },
 		{ "mfussenegger/nvim-treehopper" },
-		{ "andymass/vim-matchup" },
+		-- { "andymass/vim-matchup" },
 		-- {
 			"windwp/nvim-ts-autotag",
 			config = require("editor.autotag"),
