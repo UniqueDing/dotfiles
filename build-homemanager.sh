@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+source /etc/lsb-release
+
 set -xe
 
 echo $1
@@ -25,31 +27,38 @@ homemanager)
 	nix-shell '<home-manager>' -A install
 	;;
 interception)
-	sudo apt install -y cmake libevdev-dev libudev-dev libyaml-cpp-dev libboost-dev g++ git
-	cd /tmp
-	git clone https://gitlab.com/interception/linux/tools.git interception-tools
-	cd interception-tools
-	cp udevmon.service /lib/systemd/system
-	cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
-	cmake --build build
-	cd build && sudo make install
-        
-	cd /tmp
-	git clone https://github.com/UniqueDing/interception-vimproved.git
-	cd interception-vimproved
-	cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
-	cmake --build build
-	cd build && sudo make install
+    case "$DISTRIB_ID" in
+    "Arch")
+        yay -S meson interception-tools yaml-cpp cmake
+        ;;
+    *)
+        sudo apt install -y cmake libevdev-dev libudev-dev libyaml-cpp-dev libboost-dev g++ git
+        cd /tmp
+        git clone https://gitlab.com/interception/linux/tools.git interception-tools
+        cd interception-tools
+        cp udevmon.service /lib/systemd/system
+        cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
+        cmake --build build
+        cd build && sudo make install
+        ;;
+
+    esac
+    cd /tmp
+    git clone https://github.com/UniqueDing/interception-vimproved.git
+    cd interception-vimproved
+    cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
+    cmake --build build
+    cd build && sudo make install && cd -
     sudo mkdir -p /etc/interception-vimproved && sudo cp config.yaml /etc/interception-vimproved
-        
-	mkdir -p /etc/interception
-	touch /etc/interception/udevmon.yaml
-	cat > /etc/interception/udevmon.yaml << EOF
+
+	sudo mkdir -p /etc/interception
+	sudo touch /etc/interception/udevmon.yaml
+	sudo tee /etc/interception/udevmon.yaml > /dev/null << EOF
 - JOB: intercept -g \$DEVNODE | interception-vimproved /etc/interception-vimproved/config.yaml  | uinput -d \$DEVNODE
   DEVICE:
     NAME: ".*((k|K)(eyboard|EYBOARD)|TADA68|kb).*"
 EOF
-	systemctl enable --now udevmon
+	sudo systemctl enable --now udevmon
 	;;
 dotfiles)
 	export NIX_PATH=$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels${NIX_PATH:+:$NIX_PATH}
@@ -68,5 +77,11 @@ theme)
     git clone https://github.com/vinceliuice/Qogir-icon-theme.git
     cd Qogir-icon-theme
     ./install.sh
+    ;;
+channel)
+    sudo tee -a /etc/nix/nix.conf > /dev/null << EOF
+substituters = https://mirrors.ustc.edu.cn/nix-channels/store https://mirror.sjtu.edu.cn/nix-channels/store https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store https://cache.nixos.org/
+EOF
+    sudo systemctl restart nix-daemon
     ;;
 esac

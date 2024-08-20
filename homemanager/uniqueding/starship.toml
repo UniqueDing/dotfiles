@@ -4,7 +4,7 @@ add_newline = false
 format = '''
 $directory$character'''
 right_format = '''
-$status$cmd_duration$git_commit$git_state$git_status$git_branch$jobs$sudo$username$localip$time'''
+$status$cmd_duration$git_commit$git_state$git_status$git_branch$jobs$sudo$username$nix_shell$localip$time'''
 
 [directory]
 format = '[$read_only]($read_only_style)[$path]($style) '
@@ -75,3 +75,10 @@ style_user = 'yellow'
 disabled = false
 format = '@[$localipv4]($style) '
 style = 'yellow'
+
+[nix_shell]
+disabled = false
+impure_msg = '[i](bold red)'
+pure_msg = '[p](bold green)'
+unknown_msg = '[u(bold yellow)'
+format = '[❄️ $state](bold blue) '
