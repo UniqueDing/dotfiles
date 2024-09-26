@@ -50,7 +50,7 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.uniqueding = import ./homemanager/uniqueding/home-sway-light.nix;
+          home-manager.users.uniqueding = import ./home/home-sway-light.nix;
         }
       ];
     };
@@ -85,7 +85,7 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.uniqueding = import ./homemanager/uniqueding/home-sway.nix;
+          home-manager.users.uniqueding = import ./home/home-sway.nix;
         }
       ];
     };
@@ -114,7 +114,7 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.uniqueding = import ./homemanager/uniqueding/home.nix;
+          home-manager.users.uniqueding = import ./home/home.nix;
         }
       ];
     };

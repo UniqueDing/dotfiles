@@ -18,14 +18,14 @@ nixpkgs)
 	yes | sh <(curl https://mirrors.tuna.tsinghua.edu.cn/nix/latest/install) --daemon
 	;;
 homemanager)
-	nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-	# nix-channel --add https://github.com/nix-community/home-manager/archive/release-23.05.tar.gz home-manager
-	nix-channel --update
-	nix-channel --add https://mirrors.tuna.tsinghua.edu.cn/nix-channels/nixpkgs-unstable nixpkgs
-	nix-channel --update
-	export NIX_PATH=$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels${NIX_PATH:+:$NIX_PATH}
-	nix-shell '<home-manager>' -A install
-	;;
+    nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+    # nix-channel --add https://github.com/nix-community/home-manager/archive/release-23.05.tar.gz home-manager
+    nix-channel --update
+    nix-channel --add https://mirrors.tuna.tsinghua.edu.cn/nix-channels/nixpkgs-unstable nixpkgs
+    nix-channel --update
+    export NIX_PATH=$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels${NIX_PATH:+:$NIX_PATH}
+    nix-shell '<home-manager>' -A install
+    ;;
 interception)
     case "$DISTRIB_ID" in
     "Arch")
@@ -36,7 +36,7 @@ interception)
         cd /tmp
         git clone https://gitlab.com/interception/linux/tools.git interception-tools
         cd interception-tools
-        cp udevmon.service /lib/systemd/system
+        sudo cp udevmon.service /lib/systemd/system
         cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
         cmake --build build
         cd build && sudo make install
@@ -51,23 +51,23 @@ interception)
     cd build && sudo make install && cd -
     sudo mkdir -p /etc/interception-vimproved && sudo cp config.yaml /etc/interception-vimproved
 
-	sudo mkdir -p /etc/interception
-	sudo touch /etc/interception/udevmon.yaml
-	sudo tee /etc/interception/udevmon.yaml > /dev/null << EOF
+    sudo mkdir -p /etc/interception
+    sudo touch /etc/interception/udevmon.yaml
+    sudo tee /etc/interception/udevmon.yaml > /dev/null << EOF
 - JOB: intercept -g \$DEVNODE | interception-vimproved /etc/interception-vimproved/config.yaml  | uinput -d \$DEVNODE
   DEVICE:
     NAME: ".*((k|K)(eyboard|EYBOARD)|TADA68|kb).*"
 EOF
-	sudo systemctl enable --now udevmon
-	;;
+    sudo systemctl enable --now udevmon
+    ;;
 dotfiles)
-	export NIX_PATH=$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels${NIX_PATH:+:$NIX_PATH}
-	home-manager switch -f homemanager/uniqueding/home-light.nix
-	;;
+    export NIX_PATH=$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels${NIX_PATH:+:$NIX_PATH}
+    home-manager switch -f home/home-light.nix
+    ;;
 nixgl)
-	nix-channel --add https://github.com/guibou/nixGL/archive/main.tar.gz nixgl && nix-channel --update
-	nix-env -iA nixgl.auto.nixGLDefault   # or replace `nixGLDefault` with your desired wrapper
-	;;
+    nix-channel --add https://github.com/guibou/nixGL/archive/main.tar.gz nixgl && nix-channel --update
+    nix-env -iA nixgl.auto.nixGLDefault   # or replace `nixGLDefault` with your desired wrapper
+    ;;
 theme)
     cd /tmp
     git clone https://github.com/vinceliuice/Qogir-theme.git
@@ -84,4 +84,11 @@ substituters = https://mirrors.ustc.edu.cn/nix-channels/store https://mirror.sjt
 EOF
     sudo systemctl restart nix-daemon
     ;;
+update)
+    nix-channel --update
+    home-manager switch -f home/home-light.nix
+    ;;
+font)
+    ;;
+
 esac
