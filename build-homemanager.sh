@@ -14,12 +14,11 @@ nixpkgs)
     sudo mv /etc/bash.bashrc.backup-before-nix /etc/bash.bashrc
     sudo mv /etc/zshrc.backup-before-nix /etc/zshrc
     set -e
-	#sh <(curl -L https://nixos.org/nix/install) --daemon
-	yes | sh <(curl https://mirrors.tuna.tsinghua.edu.cn/nix/latest/install) --daemon
-	;;
+    #sh <(curl -L https://nixos.org/nix/install) --daemon
+    yes | sh <(curl https://mirrors.tuna.tsinghua.edu.cn/nix/latest/install)
+    ;;
 homemanager)
     nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-    # nix-channel --add https://github.com/nix-community/home-manager/archive/release-23.05.tar.gz home-manager
     nix-channel --update
     nix-channel --add https://mirrors.tuna.tsinghua.edu.cn/nix-channels/nixpkgs-unstable nixpkgs
     nix-channel --update
@@ -79,6 +78,7 @@ theme)
     ./install.sh
     ;;
 channel)
+    sudo mkdir /etc/nix
     sudo tee -a /etc/nix/nix.conf > /dev/null << EOF
 substituters = https://mirrors.ustc.edu.cn/nix-channels/store https://mirror.sjtu.edu.cn/nix-channels/store https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store https://cache.nixos.org/
 EOF

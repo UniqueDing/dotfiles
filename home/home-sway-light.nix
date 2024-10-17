@@ -19,22 +19,22 @@
 
   home.activation.linkDotfiles = config.lib.dag.entryAfter ["writeBoundary"]
   ''
-    ln -sfn /opt/dotfiles/home/ranger $HOME/.config/ranger
-    ln -sfn /opt/dotfiles/home/zsh $HOME/.config/zsh
-    ln -sfn /opt/dotfiles/home/zshrc $HOME/.zshrc
-    ln -sfn /opt/dotfiles/home/vimrc $HOME/.vimrc
-    ln -sfn /opt/dotfiles/home/nvim $HOME/.config/nvim
-    ln -sfn /opt/dotfiles/home/starship.toml $HOME/.config/starship.toml
-    ln -sfn /opt/dotfiles/home/tmux $HOME/.config/tmux
-    ln -sfn /opt/dotfiles/home/fcitx5/config $HOME/.config/fcitx5
-    ln -sfn /opt/dotfiles/home/fcitx5/share $HOME/.local/share/fcitx5
-    ln -sfn /opt/dotfiles/home/hypr $HOME/.config/hypr
-    ln -sfn /opt/dotfiles/home/foot $HOME/.config/foot
-    ln -sfn /opt/dotfiles/home/eww $HOME/.config/eww
-    ln -sfn /opt/dotfiles/home/squeekboard $HOME/.local/share/squeekboard
-    ln -sfn /opt/dotfiles/home/mako $HOME/.config/mako
-    ln -sfn /opt/dotfiles/home/sway $HOME/.config/sway
-    ln -sfn /opt/dotfiles/home/waybar $HOME/.config/waybar
-    ln -sfn /opt/dotfiles/home/wlogout $HOME/.config/wlogout
+    ln -sfn $HOME/dotfiles/home/ranger $HOME/.config/ranger
+    ln -sfn $HOME/dotfiles/home/zsh $HOME/.config/zsh
+    ln -sfn $HOME/dotfiles/home/zshrc $HOME/.zshrc
+    ln -sfn $HOME/dotfiles/home/vimrc $HOME/.vimrc
+    ln -sfn $HOME/dotfiles/home/nvim $HOME/.config/nvim
+    ln -sfn $HOME/dotfiles/home/starship $HOME/.config/starship
+    ln -sfn $HOME/dotfiles/home/tmux $HOME/.config/tmux
+    ln -sfn $HOME/dotfiles/home/fcitx5/config $HOME/.config/fcitx5
+    ln -sfn $HOME/dotfiles/home/fcitx5/share $HOME/.local/share/fcitx5
+    ln -sfn $HOME/dotfiles/home/hypr $HOME/.config/hypr
+    ln -sfn $HOME/dotfiles/home/foot $HOME/.config/foot
+    ln -sfn $HOME/dotfiles/home/eww $HOME/.config/eww
+    ln -sfn $HOME/dotfiles/home/squeekboard $HOME/.local/share/squeekboard
+    ln -sfn $HOME/dotfiles/home/mako $HOME/.config/mako
+    ln -sfn $HOME/dotfiles/home/sway $HOME/.config/sway
+    ln -sfn $HOME/dotfiles/home/waybar $HOME/.config/waybar
+    ln -sfn $HOME/dotfiles/home/wlogout $HOME/.config/wlogout
   '';
 }

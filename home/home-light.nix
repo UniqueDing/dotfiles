@@ -20,7 +20,7 @@
     ln -sfn $HOME/dotfiles/home/zshrc $HOME/.zshrc
     ln -sfn $HOME/dotfiles/home/vimrc $HOME/.vimrc
     ln -sfn $HOME/dotfiles/home/nvim $HOME/.config/nvim
-    ln -sfn $HOME/dotfiles/home/starship.toml $HOME/.config/starship.toml
+    ln -sfn $HOME/dotfiles/home/starship $HOME/.config/starship
     ln -sfn $HOME/dotfiles/home/tmux $HOME/.config/tmux
     ln -sfn $HOME/dotfiles/home/yazi $HOME/.config/yazi
   '';

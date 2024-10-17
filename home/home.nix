@@ -14,12 +14,12 @@
 
   home.activation.linkDotfiles = config.lib.dag.entryAfter ["writeBoundary"]
   ''
-    ln -sfn /opt/dotfiles/home/ranger $HOME/.config/ranger
-    ln -sfn /opt/dotfiles/home/zsh $HOME/.config/zsh
-    ln -sfn /opt/dotfiles/home/zshrc $HOME/.zshrc
-    ln -sfn /opt/dotfiles/home/vimrc $HOME/.vimrc
-    ln -sfn /opt/dotfiles/home/starship.toml $HOME/.config/starship.toml
-    ln -sfn /opt/dotfiles/home/tmux $HOME/.config/tmux
-    ln -sfn /opt/dotfiles/home/yazi $HOME/.config/yazi
+    ln -sfn $HOME/dotfiles/home/ranger $HOME/.config/ranger
+    ln -sfn $HOME/dotfiles/home/zsh $HOME/.config/zsh
+    ln -sfn $HOME/dotfiles/home/zshrc $HOME/.zshrc
+    ln -sfn $HOME/dotfiles/home/vimrc $HOME/.vimrc
+    ln -sfn $HOME/dotfiles/home/starship $HOME/.config/starship
+    ln -sfn $HOME/dotfiles/home/tmux $HOME/.config/tmux
+    ln -sfn $HOME/dotfiles/home/yazi $HOME/.config/yazi
   '';
 }

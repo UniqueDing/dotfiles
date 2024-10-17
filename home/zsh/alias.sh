@@ -3,9 +3,9 @@
 alias s=sudo
 alias ra='yazi'
 # alias ls='lsd --hyperlink=auto'
-alias ls='lsd'
+alias ls='eza --icons=auto'
 alias l=ls
-alias ll='ls -l'
+alias ll='ls -l --git -g'
 alias lla='ll -a'
 alias lst='ls --tree'
 alias ..='cd ..'
@@ -91,4 +91,4 @@ alias sysuU='systemctl --user status'
 alias sysuR='systemctl --user restart'
 
 alias vsway='WLR_NO_HARDWARE_CURSORS=1 sway'
-alias penv='env LD_LIBRARY_PATH= PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/sbin:/usr/sbin::$HOME/.local/bin '
+alias penv='env LD_LIBRARY_PATH= PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/sbin:/usr/sbin:$HOME/.local/bin '

@@ -8,6 +8,8 @@
     tree
     fd
     lsd
+    eza
+    vivid
     bat
     ranger
     yazi
@@ -52,4 +54,19 @@
     nushell
     fish
   ];
+
+  systemd.user.services.glances_server = {
+    Unit = {
+        Description = "Glance server";
+    };
+    Install = {
+        WantedBy = [ "default.target" ];
+    };
+    Service = {
+      Type = "simple";
+      ExecStart = "${pkgs.glances}/bin/glances -w --disable-webui";
+      Restart = "always";
+      RestartSec = "10";
+    };
+  };
 }

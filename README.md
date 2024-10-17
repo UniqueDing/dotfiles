@@ -2,6 +2,7 @@
 
 ## list
 
+* deepin
 * archlinux 
 * nixos
 * hyprland
@@ -11,8 +12,10 @@
 * zsh
 * zinit
 * nvim
-* ranger
-* lf
+* ~~ranger~~
+* tmux
+* yazi
+* ~~lf~~
 * foot
 * ~~kitty~~
 * ~~alacritty~~
@@ -24,16 +27,6 @@
 ## nixos
     
 nixos-rebuild switch --flake --#HOSTNAME
-
-## ~~install~~
-
-`./install`
-
-> install configs
-
-`./install packages.conf.yaml`
-
-> install packages
 
 ## manual
 

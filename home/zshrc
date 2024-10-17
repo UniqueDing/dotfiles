@@ -1,3 +1,5 @@
 CONFIG_PATH=~/.config/zsh
 
 source $CONFIG_PATH/init.zsh
+
+if [ -e /home/uniqueding/.nix-profile/etc/profile.d/nix.sh ]; then . /home/uniqueding/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
