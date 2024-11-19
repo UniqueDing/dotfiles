@@ -1,0 +1,16 @@
+[plugin]
+deps = [
+    { use = "yazi-rs/plugins:git", rev = "ad52adf" },
+    { use = "sharklasers996/eza-preview", rev = "7ca4c25" },
+    { use = "yazi-rs/plugins:chmod", rev = "ad52adf" },
+    { use = "Ape/open-with-cmd", rev = "8d7abc8" },
+    { use = "KKV9/compress", rev = "60b24af" },
+    { use = "Ape/reflink", rev = "34902d3" },
+    { use = "Rolv-Apneseth/starship", rev = "77a65f5" },
+    { use = "pirafrank/what-size", rev = "f08f7f2" },
+    { use = "yazi-rs/plugins:diff", rev = "ad52adf" },
+    { use = "dawsers/fuse-archive", rev = "21363ce" }, { use = "yazi-rs/plugins:max-preview", rev = "fb3ae90" }, { use = "ourongxing/fast-enter", rev = "dd49812" },
+]
+
+[flavor]
+deps = []
