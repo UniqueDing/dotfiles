@@ -6,15 +6,8 @@
     atool
     dos2unix
     tree
-    fd
-    lsd
-    eza
     vivid
     bat
-    ranger
-    yazi
-    lf
-    ripgrep
     diff-so-fancy
     httpie
     htop
@@ -38,11 +31,10 @@
     bottom
     diskonaut
     gping
-    termscp
+    # termscp
     gitui
     todo-txt-cli
     proxychains-ng
-    file
     zip
     unzip
     nettools
@@ -64,7 +56,7 @@
     };
     Service = {
       Type = "simple";
-      ExecStart = "${pkgs.glances}/bin/glances -w --disable-webui";
+      ExecStart = "${pkgs.glances}/bin/glances -w --disable-webui --disable-plugins all --enable-plugins cpu,gpu,network,sensors,mem,network,fs";
       Restart = "always";
       RestartSec = "10";
     };

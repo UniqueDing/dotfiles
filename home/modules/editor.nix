@@ -10,6 +10,9 @@
   home.packages = with pkgs; [
  #   neovim-nightly
     neovim
+    tree-sitter
+    cargo
+    go
     gcc
     lua
     nodejs

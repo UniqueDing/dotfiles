@@ -4,7 +4,7 @@
   home.username = "uniqueding";
   home.homeDirectory = "/home/uniqueding";
 
-  home.stateVersion = "23.11";
+  home.stateVersion = "25.05";
   programs.home-manager.enable = true;
 
   imports = [
@@ -17,6 +17,7 @@
     ./modules/sway.nix
     ./modules/hyprland.nix
     ./modules/lang.nix
+    ./modules/filemanager.nix
   ];
 
   home.activation.linkDotfiles = config.lib.dag.entryAfter ["writeBoundary"]
