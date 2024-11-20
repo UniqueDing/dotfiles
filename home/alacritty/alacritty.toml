@@ -1,11 +1,3 @@
-import = [
-  # uncomment the flavour you want below:
-  # "~/.config/alacritty/catppuccin-latte.toml"
-  # "~/.config/alacritty/catppuccin-frappe.toml"
-  # "~/.config/alacritty/catppuccin-macchiato.toml"
-  "~/.config/alacritty/catppuccin-mocha.toml"
-]
-
 [window]
 opacity = 0.8
 blur = true
@@ -24,3 +16,18 @@ hide_when_typing = true
 
 [env]
 TERM = "xterm-256color"
+
+[general]
+import = [
+  # uncomment the flavour you want below:
+  # "~/.config/alacritty/catppuccin-latte.toml"
+  # "~/.config/alacritty/catppuccin-frappe.toml"
+  # "~/.config/alacritty/catppuccin-macchiato.toml"
+  "~/.config/alacritty/catppuccin-mocha.toml"
+]
+
+[keyboard]
+bindings = [
+{ key = "C", mods = "Alt", action = "Copy" },
+{ key = "V", mods = "Alt", action = "Paste" },
+]
