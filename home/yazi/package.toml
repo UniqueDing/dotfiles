@@ -1,15 +1,15 @@
 [plugin]
 deps = [
-    { use = "yazi-rs/plugins:git", rev = "ad52adf" },
+    { use = "yazi-rs/plugins:git", rev = "600614a" },
     { use = "sharklasers996/eza-preview", rev = "7ca4c25" },
-    { use = "yazi-rs/plugins:chmod", rev = "ad52adf" },
-    { use = "Ape/open-with-cmd", rev = "8d7abc8" },
+    { use = "yazi-rs/plugins:chmod", rev = "600614a" },
+    { use = "Ape/open-with-cmd", rev = "a80d1cf" },
     { use = "KKV9/compress", rev = "60b24af" },
     { use = "Ape/reflink", rev = "34902d3" },
-    { use = "Rolv-Apneseth/starship", rev = "77a65f5" },
-    { use = "pirafrank/what-size", rev = "f08f7f2" },
-    { use = "yazi-rs/plugins:diff", rev = "ad52adf" },
-    { use = "dawsers/fuse-archive", rev = "21363ce" }, { use = "yazi-rs/plugins:max-preview", rev = "fb3ae90" }, { use = "ourongxing/fast-enter", rev = "dd49812" },
+    { use = "Rolv-Apneseth/starship", rev = "9c37d37" },
+    { use = "pirafrank/what-size", rev = "b23e3a4" },
+    { use = "yazi-rs/plugins:diff", rev = "600614a" },
+    { use = "dawsers/fuse-archive", rev = "62d30df" }, { use = "yazi-rs/plugins:max-preview", rev = "600614a" }, { use = "ourongxing/fast-enter", rev = "1c4caeb" },
 ]
 
 [flavor]

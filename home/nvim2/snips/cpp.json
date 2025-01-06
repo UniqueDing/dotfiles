@@ -1,0 +1,46 @@
+{
+    "mainfun": {
+        "prefix": "mainfun",
+        "body": [
+            "# ---",
+            "int main(int argc, char** argv)",
+            "{",
+            "    ${1}",
+            "    return 0;",
+            "}"
+        ]
+    },
+    "testmain": {
+        "prefix": "testmain",
+        "body": [
+            "#include <iostream>",
+            "using namespace std;",
+            "int main(int argc, char** argv)",
+            "{",
+            "    ${1}",
+            "    return 0;",
+            "}"
+        ]
+    },
+    "coutendl": {
+        "prefix": "coutendl",
+        "body": [
+            "std::cout << ${0} << std::endl;"
+        ]
+    },
+    "cerrendl": {
+        "prefix": "cerrendl",
+        "body": [
+            "std::cerr << ${0} << std::endl;"
+        ]
+    },
+    "smart_ptr_free_malloc": {
+        "prefix": "smart_ptr_free_malloc",
+        "body": [
+            "struct smart_ptr_free_malloc {",
+            "    void operator()(void* x) {free(x);}",
+            "};"
+        ]
+    }
+}
+

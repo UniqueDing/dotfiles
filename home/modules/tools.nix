@@ -12,6 +12,7 @@
     httpie
     htop
     glances
+    git
     lazygit
     lazydocker
     lsb-release

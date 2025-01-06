@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 source /etc/lsb-release
+bash /home/uniqueding/.nix-profile/etc/profile.d/nix.sh
 
 set -xe
 
@@ -18,12 +19,13 @@ nixpkgs)
     yes | sh <(curl https://mirrors.tuna.tsinghua.edu.cn/nix/latest/install)
     ;;
 homemanager)
-    nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-    nix-channel --update
+    #nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+    #nix-channel --update
     nix-channel --add https://mirrors.tuna.tsinghua.edu.cn/nix-channels/nixpkgs-unstable nixpkgs
     nix-channel --update
-    export NIX_PATH=$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels${NIX_PATH:+:$NIX_PATH}
-    nix-shell '<home-manager>' -A install
+    #export NIX_PATH=$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels${NIX_PATH:+:$NIX_PATH}
+    #nix-shell '<home-manager>' -A install
+    nix-env -iA nixpkgs.home-manager
     ;;
 interception)
     case "$DISTRIB_ID" in
@@ -82,7 +84,7 @@ channel)
     sudo tee -a /etc/nix/nix.conf > /dev/null << EOF
 substituters = https://mirrors.ustc.edu.cn/nix-channels/store https://mirror.sjtu.edu.cn/nix-channels/store https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store https://cache.nixos.org/
 EOF
-    sudo systemctl restart nix-daemon
+    #sudo systemctl restart nix-daemon
     ;;
 update)
     nix-channel --update

@@ -1,0 +1,36 @@
+{
+    "name": "uniqueding-snippets",
+    "engines": {
+        "vscode": "^1.11.0"
+    },
+    "contributes": {
+        "snippets": [
+            {
+                "language": [
+                    "global",
+                    "sh",
+                    "python"
+                ],
+                "path": "./global.json"
+            },
+            {
+                "language": [
+                    "vimscript"
+                ],
+                "path": "./vim.json"
+            },
+            {
+                "language": [
+                    "cpp"
+                ],
+                "path": "./cpp.json"
+            },
+            {
+                "language": [
+                    "markdown"
+                ],
+                "path": "./markdown.json"
+            }
+        ]
+    }
+}
