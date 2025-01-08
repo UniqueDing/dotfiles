@@ -32,7 +32,9 @@ jobs:
 
       - name: downcase REPO
         run: |
-          echo "REPO=${github.repository,,}" >>${GITHUB_ENV}
+          echo "REPO=${REPO,,}" >>${GITHUB_ENV}
+        env:
+          REPO: ${{github.repository}}
 
       # Set up BuildKit Docker container builder to be able to build
       # multi-platform images and export cache
