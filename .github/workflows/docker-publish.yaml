@@ -33,6 +33,7 @@ jobs:
       - name: downcase REPO
         run: |
           echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
+
       # Set up BuildKit Docker container builder to be able to build
       # multi-platform images and export cache
       # https://github.com/docker/setup-buildx-action
@@ -56,7 +57,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.REGISTRY }}/$REPO:latest
+          tags: ${{ env.REGISTRY }}/${{ github.REPO }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
