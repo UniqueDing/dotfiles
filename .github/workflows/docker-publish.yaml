@@ -32,9 +32,7 @@ jobs:
 
       - name: downcase REPO
         run: |
-          echo "REPO=${REPO,,}" >>${GITHUB_ENV}
-        env:
-          REPO: ${{github.repository}}
+          echo "REPO=${GITHUB_REPOSITORY@L}" >>${GITHUB_ENV}
 
       # Set up BuildKit Docker container builder to be able to build
       # multi-platform images and export cache
@@ -59,7 +57,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.REPO }}:latest
+          tags: ${{ env.REGISTRY }}/${REPO}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
