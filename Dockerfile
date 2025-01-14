@@ -24,7 +24,7 @@ RUN nix-env -iA nixpkgs.home-manager
 RUN home-manager switch -f home/home-light.nix
 
 
-ENV TMUX_PLUGIN_MANAGER_PATH=/home/uniqueding/.tmux/plugins/tpm
+ENV TMUX_PLUGIN_MANAGER_PATH /home/uniqueding/.tmux/plugins/tpm
 RUN git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 RUN ~/.tmux/plugins/tpm/bin/install_plugins
 RUN ya pack -u
