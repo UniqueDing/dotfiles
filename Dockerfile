@@ -1,4 +1,4 @@
-From debian
+FROM debian
 
 RUN apt-get update -y && apt-get install -y curl xz-utils sudo openssh-server
 RUN apt-get install -y locales && rm -rf /var/lib/apt/lists/* \
@@ -17,8 +17,8 @@ COPY nix.conf /etc/nix/
 USER uniqueding
 
 RUN mkdir -p /home/uniqueding/.config /home/uniqueding/.local/share /home/uniqueding/.cache
-ENV USER="uniqueding"
-ENV PATH="/home/uniqueding/.nix-profile/bin:/home/uniqueding/.local/bin:${PATH}"
+ENV USER "uniqueding"
+ENV PATH "/home/uniqueding/.nix-profile/bin:/home/uniqueding/.local/bin:${PATH}"
 RUN curl https://mirrors.tuna.tsinghua.edu.cn/nix/latest/install | sh
 RUN nix-env -iA nixpkgs.home-manager
 RUN home-manager switch -f home/home-light.nix
