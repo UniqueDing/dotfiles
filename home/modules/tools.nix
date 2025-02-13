@@ -30,9 +30,9 @@
     pciutils
     joshuto
     bottom
-    diskonaut
+    # diskonaut
     gping
-    # termscp
+    termscp
     gitui
     todo-txt-cli
     proxychains-ng
