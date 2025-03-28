@@ -4,7 +4,7 @@ USER root
 RUN apt-get update -y && apt-get install -y curl xz-utils sudo openssh-server
 RUN apt-get install -y locales && rm -rf /var/lib/apt/lists/* \
 	&& localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
-ENV LANG en_US.utf8
+ENV LANG "en_US.UTF-8"
 RUN useradd -m uniqueding
 RUN echo " uniqueding      ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers
 
@@ -19,6 +19,8 @@ USER uniqueding
 
 RUN mkdir -p /home/uniqueding/.config /home/uniqueding/.local/share /home/uniqueding/.cache
 ENV USER "uniqueding"
+ENV LC_ALL "en_US.UTF-8"
+ENV LANG "en_US.UTF-8"
 ENV PATH "/home/uniqueding/.nix-profile/bin:/home/uniqueding/.local/bin:${PATH}"
 RUN curl https://mirrors.tuna.tsinghua.edu.cn/nix/latest/install | sh
 RUN nix-env -iA nixpkgs.home-manager
