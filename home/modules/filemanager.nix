@@ -15,5 +15,6 @@
     zoxide
     lsd
     eza
+    ouch
   ];
 }

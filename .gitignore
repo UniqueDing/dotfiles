@@ -13,12 +13,11 @@
 !/home/fcitx5/config/profile
 /home/fcitx5/share/*
 !/home/fcitx5/share/themes
-!/home/fcitx5/share/rime
-/home/fcitx5/share/rime/build
-/home/fcitx5/share/rime/user.yaml
-/home/fcitx5/share/rime/installation.yaml
-/home/fcitx5/share/rime/*.userdb
-/home/fcitx5/share/rime/sync
+/home/rime/build
+/home/rime/user.yaml
+/home/rime/installation.yaml
+/home/rime/*.userdb
+/home/rime/sync
 /home/hypr/hyprland.conf
 /home/tmux/plugins
 /home/yazi/plugins

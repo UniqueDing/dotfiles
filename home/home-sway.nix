@@ -32,6 +32,7 @@
     ln -sfn $HOME/dotfiles/home/tmux $HOME/.config/tmux
     ln -sfn $HOME/dotfiles/home/fcitx5/config $HOME/.config/fcitx5
     ln -sfn $HOME/dotfiles/home/fcitx5/share $HOME/.local/share/fcitx5
+    ln -sfn $HOME/dotfiles/home/rime $HOME/.local/share/fcitx5/rime
     ln -sfn $HOME/dotfiles/home/hypr $HOME/.config/hypr
     ln -sfn $HOME/dotfiles/home/foot $HOME/.config/foot
     ln -sfn $HOME/dotfiles/home/eww $HOME/.config/eww

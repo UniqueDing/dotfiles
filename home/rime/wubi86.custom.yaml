@@ -24,3 +24,5 @@ patch:
   st/opencc_config: s2t.json
   mars/option_name: mars
   mars/opencc_config: mars.json
+  schema:
+    icon: icon/wubi.ico

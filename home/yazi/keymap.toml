@@ -4,7 +4,7 @@
 
 [manager]
 
-keymap = [
+prepend_keymap = [
     { on = "<Esc>", run = "escape", desc = "Exit visual mode, clear selected, or cancel search" },
     { on = "<C-[>", run = "escape", desc = "Exit visual mode, clear selected, or cancel search" },
     { on = "q", run = "quit", desc = "Exit the process" },
@@ -53,15 +53,15 @@ keymap = [
     { on = "E", run = "seek -5", desc = "Seek up 5 units in the preview" },
     { on = "N", run = "seek 5", desc = "Seek down 5 units in the preview" },
 
-    # Selection
-    { on = "<Space>", run = [
-        "select --state=none",
-        "arrow 1",
-    ], desc = "Toggle the current selection state" },
-    { on = "v", run = "visual_mode", desc = "Enter visual mode (selection mode)" },
-    { on = "V", run = "visual_mode --unset", desc = "Enter visual mode (unset mode)" },
-    { on = "<C-a>", run = "select_all --state=true", desc = "Select all files" },
-    { on = "<C-r>", run = "select_all --state=none", desc = "Inverse selection of all files" },
+    # # Selection
+    # { on = "<Space>", run = [
+    #     "select --state=none",
+    #     "arrow 1",
+    # ], desc = "Toggle the current selection state" },
+    # { on = "v", run = "visual_mode", desc = "Enter visual mode (selection mode)" },
+    # { on = "V", run = "visual_mode --unset", desc = "Enter visual mode (unset mode)" },
+    # { on = "<C-a>", run = "select_all --state=true", desc = "Select all files" },
+    # { on = "<C-r>", run = "select_all --state=none", desc = "Inverse selection of all files" },
 
     # Operation
     { on = "o", run = "open", desc = "Open selected files" },
@@ -189,8 +189,8 @@ keymap = [
     # plugin chmod
     { on = [ "c", "m", ], run = "plugin chmod", desc = "Chmod on selected files"},
 
-    # plugin compress
-    { on = [ "c", "a", ], run = "plugin compress", desc = "Archive selected files"},
+    # plugin ouch
+    { on = [ "c", "a", ], run = "plugin ouch", desc = "compress with ouch"},
 
     # plugin diff
     { on = [ "c", "d", ], run = "plugin diff", desc = "Diff the selected with the hovered file"},
@@ -208,7 +208,7 @@ keymap = [
 
 [tasks]
 
-keymap = [
+prepend_keymap = [
     { on = "<Esc>", run = "close", desc = "Close task manager" },
     { on = "<C-[>", run = "close", desc = "Close task manager" },
     { on = "<C-c>", run = "close", desc = "Close task manager" },
@@ -230,7 +230,7 @@ keymap = [
 
 [select]
 
-keymap = [
+prepend_keymap = [
     { on = "<Esc>", run = "close", desc = "Cancel selection" },
     { on = "<C-[>", run = "close", desc = "Cancel selection" },
     { on = "<C-c>", run = "close", desc = "Cancel selection" },
@@ -249,7 +249,7 @@ keymap = [
 
 [input]
 
-keymap = [
+prepend_keymap = [
     { on = "<C-c>", run = "close", desc = "Cancel input" },
     { on = "<Enter>", run = "close --submit", desc = "Submit the input" },
     { on = "<Esc>", run = "escape", desc = "Go back the normal mode, or cancel input" },
@@ -338,7 +338,7 @@ keymap = [
 
 [completion]
 
-keymap = [
+prepend_keymap = [
     { on = "<C-c>", run = "close", desc = "Cancel completion" },
     { on = "<Tab>", run = "close --submit", desc = "Submit the completion" },
     { on = "<Enter>", run = [
@@ -362,7 +362,7 @@ keymap = [
 
 [help]
 
-keymap = [
+prepend_keymap = [
     { on = "<Esc>", run = "escape", desc = "Clear the filter, or hide the help" },
     { on = "<C-[>", run = "escape", desc = "Clear the filter, or hide the help" },
     { on = "q", run = "close", desc = "Exit the process" },

@@ -29,7 +29,7 @@ homemanager)
     ;;
 interception)
     case "$DISTRIB_ID" in
-    "Arch")
+    "Arch|EndeavourOS")
         yay -S meson interception-tools yaml-cpp cmake
         ;;
     *)
@@ -64,6 +64,13 @@ EOF
 dotfiles)
     export NIX_PATH=$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels${NIX_PATH:+:$NIX_PATH}
     home-manager switch -f home/home-light.nix
+    set +e
+    export TMUX_PLUGIN_MANAGER_PATH=/home/uniqueding/.tmux/plugins/tpm
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    ~/.tmux/plugins/tpm/bin/install_plugins
+    ya pack -u
+    fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher && fisher update"
+    nvim --headless -c 'Lazy! sync' -c 'qa'
     ;;
 nixgl)
     nix-channel --add https://github.com/guibou/nixGL/archive/main.tar.gz nixgl && nix-channel --update
@@ -92,5 +99,19 @@ update)
     ;;
 font)
     ;;
-
+pkg)
+    case "$DISTRIB_ID" in
+    "Arch|EndeavourOS")
+        ./init_pkg.sh arch
+        ;;
+    esac
+    ;;
+kanata)
+    case "$DISTRIB_ID" in
+    Arch|EndeavourOS)
+        yay -Sy --noconfirm kanata
+        sudo ln -sfn $HOME/dotfiles/home/kanata/kanata.kbd /etc/kanata.kbd
+        sudo systemctl enable --now kanata
+    esac
+    ;;
 esac

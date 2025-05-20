@@ -1,0 +1,80 @@
+;; +-------+-------+-------+-------+-------+-------+--+-------+-------+-------+-------+-------+-------+-------+-------+
+;; | @tnav |   q   |   w   | e   f | r   p | t   g |  | y   u | u   l | i   u | o   y | p   ; |   [   |   ]   |   \   |
+;; |       | 1   ! | 2   @ | 3   # | 4   $ | 5   % |  |       |       |       |       |       |       |       |       |
+;; |  tab  |       | prnt  | home  |  end  |       |  |       | pgdn  | pgup  |       |       |       |       |       |
+;; +-------+-------+-------+-------+-------+-------+--+-------+-------+-------+-------+-------+-------+-------+-------+
+;; | @cap  |   a   | s   r | d   s | f   t | g   d |  |   h   | j   n | k   e | l   i | ;   o |   '   |       |       |
+;; | bspc  | 6   [ | 7   ] | 8   { | 9   } | 0   | |  |       | =   ( | -   ) | +     | *     | /     |       |  ret  |
+;; | caps  |       |       |  del  | bspc  |       |  | left  | down  |  up   | right |       |       |       |       |
+;; +-------+-------+-------+-------+-------+-------+--+-------+-------+-------+-------+-------+-------+-------+-------+
+;; | @tcn  |   z   |   x   |   c   |   v   |   b   |  | n   k |   m   |   ,   |   .   |   ?   |       |       |  @jp  |
+;; |       |     \ | x   & | _   ` | .   ~ |     ^ |  |       |       |       |       |       |       |       |       |
+;; | lsft  |       |       |       |       |       |  |       |       |       |       |       |       |       | rsft  |
+;; +-------+-------+-------+-------+-------+-------+--+-------+-------+-------+-------+-------+-------+-------+-------+
+;; | lctl  |       | lmet  |       | lalt  |       |  |  spc  |       |       | ralt  |       | rmet  |       | @tmux |
+;; +-------+-------+-------+-------+-------+-------+--+-------+-------+-------+-------+-------+-------+-------+-------+
+
+(defsrc
+  tab    q     w     e     r     t        y     u     i     o     p     [     ]     \
+  caps   a     s     d     f     g        h     j     k     l     ;     '           ret
+  lsft   z     x     c     v     b        n     m     ,     .     /                 rsft
+  lctl         lmet        lalt           spc               ralt        rmet        rctl
+)
+
+(deflayer colemak
+  @tnav  q     w     f     p     g        j     l     u     y     ;     [     ]     \
+  @cap   a     r     s     t     d        h     n     e     i     o     @tsym       ret
+  lsft   z     x     c     v     b        k     m     ,     .     /                 rsft
+  lctl         lmet        lalt           spc               @tnum       rmet        @tmux
+)
+
+(deflayer qwerty
+  @tnav  q     w     e     r     t        y     u     i     o     p     [     ]     \
+  @cap   a     s     d     f     g        h     j     k     l     ;     @tsym       ret
+  @ten   z     x     c     v     b        n     m     ,     .     /                 @ten
+  lctl         lmet        lalt           spc               @tnum       rmet        rctl
+)
+
+(deflayer nav
+  tab    XX    prnt  home  end   XX       XX    pgdn  pgup  XX    XX    XX    XX    XX
+  caps   XX    XX    del   bspc  XX       left  down  up    right XX    XX          ret
+  lsft   XX    XX    XX    XX    XX       XX    XX    XX    XX    XX                rsft
+  lctl         lmet        lalt           spc               ralt        rmet        rctl
+)
+
+(deflayer symbol
+  tab    S-1   S-2   S-3   S-4   S-5      XX    XX    XX    XX    XX    XX    XX    XX
+  bspc   [     ]     S-[   S-]   S-\      XX    S-9   S-0   XX    XX    XX          ret
+  lsft   \     S-7   `     S-`   S-6      XX    XX    XX    XX    XX                rsft
+  lctl         lmet        lalt           spc               ralt        rmet        rctl
+)
+
+(deflayer number
+  tab    1     2     3     4     5        XX    XX    XX    XX    XX    XX    XX    XX
+  bspc   6     7     8     9     0        XX    =     -     S-=   S-8   /           ret
+  lsft   XX    x     S--   .     XX       XX    XX    XX    XX    XX                rsft
+  lctl         lmet        lalt           spc               ralt        rmet        rctl
+)
+
+(defalias
+    lnav (layer-while-held nav)
+    lsym (layer-while-held symbol)
+    lnum (layer-while-held number)
+    lqwe (layer-while-held qwerty)
+    sqwe (layer-switch qwerty)
+    scol (layer-switch colemak)
+
+    esc (multi esc lctl lsft f1)
+
+    tnav (tap-hold-press 200 200 tab @lnav)
+    tsym (tap-hold-press 200 200 ' @lsym)
+    tnum (tap-hold-press 200 200 bspc @lnum)
+    ten (tap-hold-press 200 200 (multi lctl lsft f1 @scol) lsft)
+    tcn (tap-hold-press 200 200 (multi lctl lsft f2 @sqwe) lsft)
+    tjp (tap-hold-press 200 200 (multi lctl lsft f3 @sqwe) lsft)
+    tmux (tap-hold-release 200 200 rctl C-g)
+
+    cap (tap-hold 200 200 @esc lctl)
+
+    cw (caps-word 2000)
+)

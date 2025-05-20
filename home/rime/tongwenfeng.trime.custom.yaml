@@ -1,0 +1,111 @@
+# Trime custom style settings
+# encoding: utf-8
+patch:
+  "preset_keys/Mode_switch": {toggle: ascii_mode, functional: false, send: Mode_switch, states: [ 文, A ]}
+  "preset_keys/Schema_switch": {label: 🌐, functional: false, send: Shift+Shift_R}
+  "preset_keys/Bing": {label: ⌕, send: function, command: run, option: "https://bing.com/search?q=%4$s"}
+  "preset_keys/Page_Down": {label: ⤵, send: Page_Down, functional: false}
+  "preset_keyboards/default":
+    author: "UniqueDing"
+    name: 26 鍵默認佈局
+    width: 9.4
+    key_text_offset_y: 1.8
+    height: 60
+    ascii_mode: 0
+    keys:
+
+      - {width: 4.7}
+      - {click: q, long_click: '#',  swipe_down: '#', key_back_color: bh2, key_text_color: th2}
+      - {click: w, long_click: '@',  swipe_down: '@', key_back_color: bh2, key_text_color: th2}
+      - {click: f, long_click: '&',  swipe_down: '&', key_back_color: bh2, key_text_color: th2}
+      - {click: p, long_click: '~',  swipe_down: '~', key_back_color: bh2, key_text_color: th2}
+      - {click: g, long_click: '|',  swipe_down: '|', key_back_color: bh2, key_text_color: th2}
+      - {click: j, long_click: '$',  swipe_down: '$', key_back_color: bh2, key_text_color: th2}
+      - {click: l, long_click: '%',  swipe_down: '%', key_back_color: bh2, key_text_color: th2}
+      - {click: u, long_click: '`',  swipe_down: '`', key_back_color: bh2, key_text_color: th2}
+      - {click: y, long_click: '\',  swipe_down: '\', key_back_color: bh2, key_text_color: th2}
+      - {width: 4.7}
+      - {width: 6}
+      
+      - {click: a, swipe_down: ':', long_click: ':', key_back_color: bh2, key_text_color: th2}
+      - {click: r, swipe_down: ';', long_click: ';', key_back_color: bh2, key_text_color: th2}
+      - {click: s, swipe_down: "'", long_click: "'", key_back_color: bh2, key_text_color: th2}
+      - {click: t, swipe_down: '"', long_click: '"', key_back_color: bh2, key_text_color: th2}
+      - {click: d, swipe_down: '*', long_click: '*', key_back_color: bh2, key_text_color: th2}
+      - {click: h, swipe_down: '+', long_click: '+', key_back_color: bh2, key_text_color: th2}
+      - {click: n, swipe_down: '-', long_click: '-', key_back_color: bh2, key_text_color: th2}
+      - {click: e, swipe_down: "=", long_click: "=", key_back_color: bh2, key_text_color: th2}
+      - {click: i, swipe_down: '<>{Left}', long_click: '<>{Left}', key_back_color: bh2, key_text_color: th2}
+      - {click: o, long_click: '^',  swipe_down: '^', key_back_color: bh2, key_text_color: th2}
+      - {width: 6}
+      
+      - {click: BackSpace, width: 14.1, key_back_color: bbs, key_text_color: tbs, key_text_offset_y: 0}
+      - {click: z, swipe_down: '/', long_click: '/', key_back_color: bh3, key_text_color: th3}
+      - {click: x, swipe_down: '_', long_click: '_', key_back_color: bh3, key_text_color: th3}
+      - {click: c, swipe_down: '?', long_click: '?', key_back_color: bh3, key_text_color: th3}
+      - {click: v, swipe_down: '!', long_click: '!', key_back_color: bh3, key_text_color: th3}
+      - {click: b, swipe_down: '(){Left}', long_click: '(){Left}', key_back_color: bh3, key_text_color: th3}
+      - {click: k, swipe_down: "[]{Left}", long_click: "[]{Left}", key_back_color: bh3, key_text_color: th3}
+      - {click: m, swipe_down: '{}{Left}', long_click: '{}{Left}', key_back_color: bh3, key_text_color: th3}
+      - {click: Shift_L, composing: delimiter, width: 14.1, hilited_key_back_color: benter, hilited_key_text_color: tenter, key_back_color: bbs, key_text_color: tbs,key_text_size: 14 , key_text_offset_y: 0}
+      - {width: 6}
+      
+      - {click: Return, composing: Return1, width: 14.1, key_back_color: benter, key_text_color: tenter, key_text_offset_y: 0}
+      - {click: Mode_switch, key_text_size: 16, long_click: Schema_switch, key_back_color: bh4, key_text_color: th4}
+      - {click: ',', long_click: liquid_keyboard_clipboard, key_back_color: bh4, key_text_color: th4}
+      - {click: space, swipe_left: "Left", swipe_right: "Right", long_click: Bing, width: 28.2, key_back_color: bkg, key_text_color: tkg}
+      - {click: '.', long_click: paste_clip, key_back_color: bh4, key_text_color: th4}
+      - {click: liquid_keyboard_emoji, long_click: Hide, has_menu: Page_Down, key_back_color: bh2, key_text_color: th2}
+      - {click: Keyboard_number, long_click: Keyboard_bqrw, swipe_down: Menu, hint: '_', width: 14.1, key_back_color: bgn, key_text_color: tgn}
+      - {width: 6}
+
+      - {click: 1, key_back_color: bh2, key_text_color: th2, key_text_offset_y: 1, height: 50, key_text_size: 20}
+      - {click: 2, key_back_color: bh2, key_text_color: th2, key_text_offset_y: 1, height: 50, key_text_size: 20}
+      - {click: 3, key_back_color: bh2, key_text_color: th2, key_text_offset_y: 1, height: 50, key_text_size: 20}
+      - {click: 4, key_back_color: bh2, key_text_color: th2, key_text_offset_y: 1, height: 50, key_text_size: 20}
+      - {click: 5, key_back_color: bh2, key_text_color: th2, key_text_offset_y: 1, height: 50, key_text_size: 20}
+      - {click: 6, key_back_color: bh2, key_text_color: th2, key_text_offset_y: 1, height: 50, key_text_size: 20}
+      - {click: 7, key_back_color: bh2, key_text_color: th2, key_text_offset_y: 1, height: 50, key_text_size: 20}
+      - {click: 8, key_back_color: bh2, key_text_color: th2, key_text_offset_y: 1, height: 50, key_text_size: 20}
+      - {click: 9, key_back_color: bh2, key_text_color: th2, key_text_offset_y: 1, height: 50, key_text_size: 20}
+      - {click: 0, key_back_color: bh2, key_text_color: th2, key_text_offset_y: 1, height: 50, key_text_size: 20}
+      - {width: 6}
+
+  "preset_keyboards/number":
+    author: "ChiesiMario"
+    name: 數字
+    width: 18
+  # height: 48
+    ascii_mode: 1
+    keys:
+    
+      - {click: 1, key_back_color: key_back_color, key_text_color: key_text_color}
+      - {click: 2, key_back_color: key_back_color, key_text_color: key_text_color}
+      - {click: 3, key_back_color: key_back_color, key_text_color: key_text_color}
+      - {click: '+', long_click: '@', swipe_down: '@', key_text_size: 20, key_back_color: bgn, key_text_color: tgn, key_text_offset_y: 5}
+      - {click: '*', long_click: '^', swipe_down: '^', key_text_size: 20, key_back_color: bgn, key_text_color: tgn, key_text_offset_y: 5}
+      - {width: 10, key_back_color: bh2, key_text_color: th2}
+
+
+      - {click: 4, key_back_color: key_back_color, key_text_color: key_text_color}
+      - {click: 5, key_back_color: key_back_color, key_text_color: key_text_color}
+      - {click: 6, key_back_color: key_back_color, key_text_color: key_text_color}
+      - {click: '-', long_click: '_', swipe_down: '_', key_text_size: 20, key_back_color: bgn, key_text_color: tgn, key_text_offset_y: 5}
+      - {click: '/', long_click: '%', swipe_down: '%', key_text_size: 20, key_back_color: bgn, key_text_color: tgn, key_text_offset_y: 5}
+      - {width: 10, key_back_color: bh2, key_text_color: th2}
+
+      - {click: 7, key_back_color: key_back_color, key_text_color: key_text_color}
+      - {click: 8, key_back_color: key_back_color, key_text_color: key_text_color}
+      - {click: 9, key_back_color: key_back_color, key_text_color: key_text_color}
+      - {click: '=', long_click: '≠', swipe_down: '≠', key_back_color: bgn, key_text_color: tgn}
+      - {click: BackSpace, key_back_color: bbs, key_text_color: tbs}
+      - {width: 10, key_back_color: bh2, key_text_color: th2}
+
+      - {click: Return, key_back_color: benter, key_text_color: tenter}
+      - {click: 0, key_back_color: key_back_color, key_text_color: key_text_color}
+      - {click: '.', long_click: ',', swipe_down: ',', key_back_color: bgn, key_text_color: tgn}
+      - {click: space1, key_back_color: bgn, key_text_color: tgn}
+      - {click: Keyboard_default, key_back_color: bgn, key_text_color: 'tgn'}
+      - {width: 10, key_back_color: bh2, key_text_color: th2}
+
+      - {height: 30, width: 100}

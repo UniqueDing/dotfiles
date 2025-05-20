@@ -1,0 +1,6 @@
+# Rime schema
+# encoding: utf-8
+
+patch:
+  schema:
+    icon: icon/pinyin.ico

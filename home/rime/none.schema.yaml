@@ -1,0 +1,57 @@
+# Rime schema
+# encoding: utf-8
+
+schema:
+  schema_id: none
+  name: none
+  version: "1"
+  author:
+    - none
+  description: |
+    none
+  icon: icon/us.ico
+
+switches:
+  - name: full_shape
+    reset: 0
+    # states: [ 半角, 全角 ]
+
+engine:
+  processors:
+    - ascii_composer
+    # - recognizer
+    - key_binder
+    # - navigator
+    # - speller
+    # - punctuator
+    # - selector
+    # - navigator
+    # - fluency_editor
+    # - express_editor
+  segmentors:
+    - ascii_segmentor
+    #- matcher
+    #- abc_segmentor
+    #- affix_segmentor@putonghua_to_hannom_lookup
+    #- affix_segmentor@kanji_lookup
+    #- affix_segmentor@hanja_lookup
+    # - punct_segmentor
+    #- fallback_segmentor
+  translators:
+    #- echo_translator
+    # - punct_translator
+    #- table_translator
+    #- r10n_translator
+    #- reverse_lookup_translator
+    #- script_translator@putonghua_to_hannom_lookup
+    #- script_translator@kanji_lookup
+    #- script_translator@hanja_lookup
+  filters:
+    #- simplifier
+    #- uniquifier
+    #- reverse_lookup_filter@putonghua_to_hannom_reverse_lookup
+    #- reverse_lookup_filter@kanji_reverse_lookup
+    #- reverse_lookup_filter@hanja_reverse_lookup
+
+key_binder:
+    import_preset: default
