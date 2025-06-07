@@ -10,7 +10,7 @@ patch:
       - { when: has_menu, accept: minus, send: Page_Up }
       - { when: has_menu, accept: equal, send: Page_Down }
       - { when: always, accept: Shift+Shift_R, select: .next }
-      - { when: always, accept: Control+Shift+F1, toggle: ascii_mode }
+      - { when: always, accept: Escape, set_option: ascii_mode }
 
   switcher:
     caption: select

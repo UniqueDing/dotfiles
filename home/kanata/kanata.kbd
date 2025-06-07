@@ -74,7 +74,7 @@
     tjp (tap-hold-press 200 200 (multi lctl lsft f3 @sqwe) lsft)
     tmux (tap-hold-release 200 200 rctl C-g)
 
-    cap (tap-hold 200 200 @esc lctl)
+    cap (tap-hold 200 200 esc lctl)
 
     cw (caps-word 2000)
 )
