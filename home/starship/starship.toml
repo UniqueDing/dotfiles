@@ -1,10 +1,25 @@
 # "$schema" = 'https://starship.rs/config-schema.json'
 
 add_newline = false
-format = '''
-$directory$character'''
-right_format = '''
-$status$cmd_duration$git_commit$git_state$git_status$git_branch$jobs$sudo$username$nix_shell$localip$time'''
+format = """
+$directory\
+$character\
+"""
+right_format = """
+$status\
+$cmd_duration\
+$git_commit\
+$git_state\
+$git_status\
+$git_branch\
+$jobs\
+$sudo\
+$shlvl\
+$username\
+$nix_shell\
+$localip\
+$time\
+"""
 
 [directory]
 format = '[$read_only]($read_only_style)[$path]($style) '
@@ -82,3 +97,8 @@ impure_msg = '[i](bold red)'
 pure_msg = '[p](bold green)'
 unknown_msg = '[u(bold yellow)'
 format = '[❄️ $state](bold blue) '
+
+[shlvl]
+disabled = false
+format = '[$shlvl](bold cyan) '
+threshold = 2

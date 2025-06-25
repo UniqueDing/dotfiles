@@ -10,7 +10,7 @@
     gdb
     go
     jdk
-    lua
+    # lua
     # luajit
     # lua5_1
     ninja
@@ -19,9 +19,12 @@
     rustup
     # rustc
     racket
-    nodePackages.npm
-    python3Full
-    python310Packages.pip
-    pythonFull
+    # python314
+    # python314Packages.pip
+    protobuf
+    flutter
+    chromium
+    android-tools
+    sdkmanager
   ];
 }

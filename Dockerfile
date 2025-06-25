@@ -24,6 +24,8 @@ RUN curl https://mirrors.tuna.tsinghua.edu.cn/nix/latest/install | sh
 RUN nix-env -iA nixpkgs.home-manager
 RUN home-manager switch -f home/home-light.nix
 
+RUN rustup default stable
+RUN go env -w  GOPROXY=https://goproxy.io,direct
 ENV TMUX_PLUGIN_MANAGER_PATH /home/uniqueding/.tmux/plugins/tpm
 RUN git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 RUN ~/.tmux/plugins/tpm/bin/install_plugins
@@ -38,4 +40,4 @@ RUN echo "build end"
 USER root
 RUN mkdir -p /run/sshd
 
-CMD ["/usr/sbin/sshd", "-D"] 
+CMD ["/usr/sbin/sshd", "-D"]

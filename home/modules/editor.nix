@@ -11,7 +11,7 @@
  #   neovim-nightly
     neovim
     tree-sitter
-    cargo
+    rustup
     go
     gcc
     lua

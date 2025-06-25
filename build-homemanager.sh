@@ -95,7 +95,7 @@ EOF
     ;;
 update)
     nix-channel --update
-    home-manager switch -f home/home-light.nix
+    # home-manager switch -f home/home-light.nix
     ;;
 font)
     ;;

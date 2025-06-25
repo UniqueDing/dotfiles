@@ -4,6 +4,7 @@
   home.packages = with pkgs; [
     psmisc
     atool
+    bc
     dos2unix
     tree
     vivid
@@ -15,6 +16,7 @@
     git
     lazygit
     lazydocker
+    lazysql
     lsb-release
     zoxide
     tealdeer
@@ -30,6 +32,7 @@
     pciutils
     joshuto
     bottom
+    less
     # diskonaut
     gping
     termscp
@@ -46,6 +49,10 @@
     zsh
     nushell
     fish
+    pay-respects
+    curl
+    wget
+    netcat
   ];
 
   systemd.user.services.glances_server = {

@@ -11,7 +11,7 @@
     ./modules/editor.nix
     ./modules/tools.nix
     ./modules/filemanager.nix
-    # ./modules/app.nix
+    ./modules/lang.nix
   ];
 
   home.activation.linkDotfiles = config.lib.dag.entryAfter ["writeBoundary"]
@@ -26,5 +26,6 @@
     ln -sfn $HOME/dotfiles/home/starship $HOME/.config/starship
     ln -sfn $HOME/dotfiles/home/tmux $HOME/.config/tmux
     ln -sfn $HOME/dotfiles/home/yazi $HOME/.config/yazi
+    ln -sfn $HOME/dotfiles/home/tealdeer $HOME/.config/tealdeer
   '';
 }

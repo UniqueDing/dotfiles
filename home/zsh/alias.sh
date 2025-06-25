@@ -16,8 +16,12 @@ alias showkey="wshowkeys -a bottom -b 00000033 -m100 -F 'Hack 44'"
 
 alias tssh="TERM=xterm ssh"
 alias scpr="rsync -P --rsh=ssh"
+alias lg="lazygit"
 
+alias proxychains="proxychains4"
 alias pc="proxychains -q"
+
+alias f="$(pay-respects zsh)"
 
 alias nvim="env CC=gcc nvim"
 
@@ -71,10 +75,6 @@ alias frpcc='frpc -c /etc/frp/frpc.ini'
 
 # fzf
 alias nvimf='nvim `fzf --preview "cat {}"`'
-
-alias mountnas='sudo mount.cifs //192.168.100.2/main ~/extern/nas -o credentials=/etc/nas.cre,uid=1000,gid=1000'
-alias mountinas='sudo mount.cifs //192.168.2.1/main ~/extern/nas -o credentials=/etc/nas.cre,uid=1000,gid=1000'
-alias umountnas='sudo umount ~/extern/nas'
 
 # systemd
 alias sysE='systemctl enable'
