@@ -1,59 +1,57 @@
 { config, pkgs, ... }:
 
-let
-
-
-  # bash script to let dbus know about important env variables and propogate them to relevent services
-  # run at the end of sway config
-  # see https://github.com/emersion/xdg-desktop-portal-wlr/wiki/"It-doesn't-work"-Troubleshooting-Checklist
-  dbus-sway-environment = pkgs.writeTextFile {
-    name = "dbus-sway-environment";
-    destination = "/bin/dbus-sway-environment";
-    executable = true;
-
-    text = ''
-  dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
-  systemctl --user stop pipewire pipewire-media-session xdg-desktop-portal xdg-desktop-portal-wlr
-  systemctl --user start pipewire pipewire-media-session xdg-desktop-portal xdg-desktop-portal-wlr
-      '';
-};
-
-in
 {
-  environment.systemPackages = with pkgs; [
-    dbus-sway-environment
-    gnome.gdm
-  ];
-  programs.sway.enable = true;
-
-  services.dbus.enable = true;
-  xdg.portal = {
+  wayland.windowManager.sway = {
     enable = true;
-    wlr.enable = true;
-    # gtk portal needed to make gtk apps happy
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-    gtkUsePortal = true;
-  };
-
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    pulse.enable = true;
-  };
-
-  services.greetd = {
-    enable = true;
-    settings = {
-      default_session = {
-        command = "${pkgs.sway}/bin/sway";
-        user = "uniqueding";
-      };
+    wrapperFeatures = {
+      base = true;
+      gtk = true;
     };
+    xwayland = true;
+    extraSessionCommands = ''
+      export XDG_SESSION_TYPE=wayland
+      export XDG_CURRENT_DESKTOP=sway
+      export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+      export QT_AUTO_SCREEN_SCALE_FACTOR=0
+      export QT_SCALE_FACTOR=1
+      export GDK_SCALE=1
+      export GDK_DPI_SCALE=1
+      export MOZ_ENABLE_WAYLAND=1
+      export _JAVA_AWT_WM_NONREPARENTING=1
+    '';
   };
 
-
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-  };
+  home.packages = with pkgs; [
+      swaylock-effects
+      swayidle
+      wl-clipboard
+      mako # notification daemon
+      waybar
+      wlsunset
+      imagemagick
+      grim
+      brightnessctl
+      # playctl
+      pulseaudio
+      swaybg
+      slurp
+      wlogout
+      wofi
+      wob
+      wtype
+      wmctrl
+      squeekboard
+      networkmanagerapplet
+      openvpn
+      networkmanager-openvpn
+      pavucontrol
+      materia-theme
+      material-icons
+      material-design-icons
+      qogir-theme
+      qogir-icon-theme
+      gnome.adwaita-icon-theme
+      glib # gsettings
+      foot
+  ];
 }

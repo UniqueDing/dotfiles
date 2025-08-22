@@ -1,32 +1,23 @@
 { config, pkgs, ... }:
 
 {
-  environment.systemPackages = with pkgs; [
-    zsh
+  home.packages = with pkgs; [
     psmisc
     atool
-    curl
+    bc
     dos2unix
-    man
-    nettools
     tree
-    zip
-    unzip
-    wget
-    vim
-    fd
-    file
-    lsd
+    vivid
     bat
-    ranger
-    lf
-    ripgrep
     diff-so-fancy
+    delta
     httpie
     htop
     glances
+    git
     lazygit
     lazydocker
+    lazysql
     lsb-release
     zoxide
     tealdeer
@@ -40,5 +31,27 @@
     cmatrix
     jq
     pciutils
+    bottom
+    less
+    # diskonaut
+    gping
+    termscp
+    gitui
+    todo-txt-cli
+    proxychains-ng
+    zip
+    unzip
+    nettools
+    try
+    pay-respects
+    curl
+    wget
+    netcat
   ];
+
+  home.file.".gitconfig" = { source = ../conf/gitconfig; };
+  home.file.".config/lazygit" = { source = ../conf/lazygit; };
+  home.file.".config/bat" = { source = ../conf/bat; };
+  home.file.".config/tealdeer" = { source = ../conf/tealdeer; };
+  home.file.".config/eza" = { source = ../conf/eza; };
 }

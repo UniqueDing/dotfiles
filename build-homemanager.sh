@@ -14,62 +14,48 @@ nixpkgs)
     sudo mv /etc/bashrc.backup-before-nix /etc/bashrc
     sudo mv /etc/bash.bashrc.backup-before-nix /etc/bash.bashrc
     sudo mv /etc/zshrc.backup-before-nix /etc/zshrc
+    # sh <(curl -L https://nixos.org/nix/install) --daemon
+    curl https://mirrors.tuna.tsinghua.edu.cn/nix/latest/install | sh
+    sudo mkdir /etc/nix
+    sudo cp nix.conf /etc/nix/nix.conf
+    sudo sed -i "s|\(Defaults\s*secure_path=.*\):.*|\1:/home/uniqueding/.nix-profile/bin\"|" /etc/sudoers
     set -e
-    #sh <(curl -L https://nixos.org/nix/install) --daemon
-    yes | sh <(curl https://mirrors.tuna.tsinghua.edu.cn/nix/latest/install)
     ;;
 homemanager)
     #nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-    #nix-channel --update
-    nix-channel --add https://mirrors.tuna.tsinghua.edu.cn/nix-channels/nixpkgs-unstable nixpkgs
-    nix-channel --update
     #export NIX_PATH=$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels${NIX_PATH:+:$NIX_PATH}
     #nix-shell '<home-manager>' -A install
+    nix-channel --update
     nix-env -iA nixpkgs.home-manager
     ;;
-interception)
-    case "$DISTRIB_ID" in
-    "Arch|EndeavourOS")
-        yay -S meson interception-tools yaml-cpp cmake
-        ;;
-    *)
-        sudo apt install -y cmake libevdev-dev libudev-dev libyaml-cpp-dev libboost-dev g++ git
-        cd /tmp
-        git clone https://gitlab.com/interception/linux/tools.git interception-tools
-        cd interception-tools
-        sudo cp udevmon.service /lib/systemd/system
-        cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
-        cmake --build build
-        cd build && sudo make install
-        ;;
-
-    esac
-    cd /tmp
-    git clone https://github.com/UniqueDing/interception-vimproved.git
-    cd interception-vimproved
-    cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
-    cmake --build build
-    cd build && sudo make install && cd -
-    sudo mkdir -p /etc/interception-vimproved && sudo cp config.yaml /etc/interception-vimproved
-
-    sudo mkdir -p /etc/interception
-    sudo touch /etc/interception/udevmon.yaml
-    sudo tee /etc/interception/udevmon.yaml > /dev/null << EOF
-- JOB: intercept -g \$DEVNODE | interception-vimproved /etc/interception-vimproved/config.yaml  | uinput -d \$DEVNODE
-  DEVICE:
-    NAME: ".*((k|K)(eyboard|EYBOARD)|TADA68|kb).*"
-EOF
-    sudo systemctl enable --now udevmon
-    ;;
 dotfiles)
-    export NIX_PATH=$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels${NIX_PATH:+:$NIX_PATH}
-    home-manager switch -f home/home-light.nix
+    config=$2
+    home-manager switch --flake .#$config
+    ;;
+all)
+    curl https://mirrors.tuna.tsinghua.edu.cn/nix/latest/install | sh
+    sudo mkdir /etc/nix
+    sudo cp nix.conf /etc/nix/nix.conf
+    nix-channel --update
+    nix-env -iA nixpkgs.home-manager
+    config=$2
+    home-manager switch --flake .#$config
     set +e
-    export TMUX_PLUGIN_MANAGER_PATH=/home/uniqueding/.tmux/plugins/tpm
-    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-    ~/.tmux/plugins/tpm/bin/install_plugins
-    ya pack -u
-    fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher && fisher update"
+    rustup default stable
+    go env -w GOPROXY=https://goproxy.io,direct
+    echo $PWD/conf > /home/uniqueding/.config/dotfiles
+    echo $config >> /home/uniqueding/.config/dotfiles
+    export TMUX_PLUGIN_MANAGER_PATH=/home/uniqueding/.local/tmux/plugins/tpm
+    git clone https://github.com/tmux-plugins/tpm ~/.local/tmux/plugins/tpm
+    ~/.local/tmux/plugins/tpm/bin/install_plugins
+    ya pkg upgrade
+    bat cache --build
+    ZIM_HOME=~/.local/zim
+    ZIM_CONFIG_FILE=~/.config/zsh/zimrc
+    curl -fsSL --create-dirs -o ${ZIM_HOME}/zimfw.zsh \
+        https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
+    zsh -c "ZIM_HOME=${ZIM_HOME} ZIM_CONFIG_FILE=${ZIM_CONFIG_FILE} source ${ZIM_HOME}/zimfw.zsh init -q"
+    # fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher && fisher update"
     nvim --headless -c 'Lazy! sync' -c 'qa'
     ;;
 nixgl)
@@ -86,15 +72,10 @@ theme)
     cd Qogir-icon-theme
     ./install.sh
     ;;
-channel)
-    sudo mkdir /etc/nix
-    sudo tee -a /etc/nix/nix.conf > /dev/null << EOF
-substituters = https://mirrors.ustc.edu.cn/nix-channels/store https://mirror.sjtu.edu.cn/nix-channels/store https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store https://cache.nixos.org/
-EOF
-    #sudo systemctl restart nix-daemon
-    ;;
 update)
     nix-channel --update
+    nix flake update
+    nix-env -iA home-manager
     # home-manager switch -f home/home-light.nix
     ;;
 font)
@@ -110,7 +91,7 @@ kanata)
     case "$DISTRIB_ID" in
     Arch|EndeavourOS)
         yay -Sy --noconfirm kanata
-        sudo ln -sfn $HOME/dotfiles/home/kanata/kanata.kbd /etc/kanata.kbd
+        sudo ln -sfn ./conf/kanata/kanata.kbd /etc/kanata.kbd
         sudo systemctl enable --now kanata
     esac
     ;;

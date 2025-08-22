@@ -1,0 +1,383 @@
+# "$schema" = 'https://starship.rs/config-schema.json'
+
+add_newline = false
+format = """
+$directory\
+$character\
+"""
+right_format = """
+$status\
+$cmd_duration\
+$git_commit\
+$git_state\
+$git_status\
+$git_branch\
+$jobs\
+$sudo\
+$shlvl\
+$username\
+$nix_shell\
+$localip\
+$time\
+"""
+
+palette = 'catppuccin_mocha'
+
+[directory]
+format = '[$read_only]($read_only_style)[$path]($style) '
+truncation_length = 8
+truncation_symbol = '…/'
+read_only = ' '
+read_only_style = 'yellow'
+
+[time]
+disabled = false
+format = '[$time]($style)'
+style = 'overlay'
+
+[sudo]
+disabled = false
+format = '[$symbol]($style)'
+symbol = '󰊠 '
+style = 'blue'
+
+[character]
+success_symbol = '[➜](bold green)'
+error_symbol = '[✗](bold red)'
+
+[git_branch]
+format = '[$symbol$branch(:$remote_branch)]($style) '
+symbol = ''
+
+[git_state]
+format = '[$state( $progress_current of $progress_total)]($style) '
+style = 'green'
+rebase = 'rebase'
+merge = 'merge'
+revert = 'revert'
+cherry_pick = 'cherry'
+bisect = 'bisect'
+am = 'am'
+am_or_rebase = 'am/rebase'
+
+[git_commit]
+format = '[@$hash$tag]($style) '
+style = 'yellow'
+
+[git_status]
+format = '[$all_status$ahead_behind]($style) '
+conflicted = '~${count}'
+ahead = '⇡${count}'
+behind = '⇣${count}'
+diverged = '⇕${count}'
+untracked = '?${count}'
+stashed = '*${count}'
+modified = '!${count}'
+staged = '+${count}'
+renamed = '»${count}'
+deleted = '✘${count}'
+style = 'orange'
+
+[status]
+format = '[✗$int]($style) '
+disabled = false
+style = 'red'
+
+[username]
+disabled = false
+format = '[$user]($style)'
+style_user = 'teal'
+
+[localip]
+disabled = false
+format = '@[$localipv4]($style) '
+style = 'teal'
+
+[nix_shell]
+disabled = false
+impure_msg = '[i](bold red)'
+pure_msg = '[p](bold green)'
+unknown_msg = '[u(bold yellow)'
+format = '[❄️ $state](bold blue) '
+
+[shlvl]
+disabled = false
+format = '[$shlvl](bold cyan) '
+threshold = 2
+
+[palettes.catppuccin_mocha]
+catppuccin_rosewater = "#f5e0dc"
+catppuccin_flamingo = "#f2cdcd"
+catppuccin_pink = "#f5c2e7"
+catppuccin_mauve = "#cba6f7"
+catppuccin_red = "#f38ba8"
+catppuccin_maroon = "#eba0ac"
+catppuccin_peach = "#fab387"
+catppuccin_yellow = "#f9e2af"
+catppuccin_green = "#a6e3a1"
+catppuccin_teal = "#94e2d5"
+catppuccin_sky = "#89dceb"
+catppuccin_sapphire = "#74c7ec"
+catppuccin_blue = "#89b4fa"
+catppuccin_lavender = "#b4befe"
+catppuccin_text = "#cdd6f4"
+catppuccin_subtext1 = "#bac2de"
+catppuccin_subtext0 = "#a6adc8"
+catppuccin_overlay2 = "#9399b2"
+catppuccin_overlay1 = "#7f849c"
+catppuccin_overlay0 = "#6c7086"
+catppuccin_surface2 = "#585b70"
+catppuccin_surface1 = "#45475a"
+catppuccin_surface0 = "#313244"
+catppuccin_base = "#1e1e2e"
+catppuccin_mantle = "#181825"
+catppuccin_crust = "#11111b"
+
+base = "#1e1e2e"
+surface = "#313244"
+surface1 = "#45475a"
+overlay = "#6c7086"
+overlay1 = "#7f849c"
+text = "#cdd6f4"
+subtext = "#bac2de"
+gray = "#585b70"
+red = "#f38ba8"
+pink = "#f5c2e7"
+orange = "#fab387"
+yellow = "#f9e2af"
+green = "#a6e3a1"
+teal = "#94e2d5"
+blue = "#89b4fa"
+cyan = "#74c7ec"
+purple = "#cba6f7"
+
+[palettes.nord]
+nord0 = "#2E3440"
+nord1 = "#3B4252"
+nord2 = "#434C5E"
+nord3 = "#4C566A"
+nord3_bright = "#616E88"
+nord4 = "#D8DEE9"
+nord5 = "#E5E9F0"
+nord6 = "#ECEFF4"
+nord7 = "#8FBCBB"
+nord8 = "#88C0D0"
+nord9 = "#81A1C1"
+nord10 = "#5E81AC"
+nord11 = "#BF616A"
+nord12 = "#D08770"
+nord13 = "#EBCB8B"
+nord14 = "#A3BE8C"
+nord15 = "#B48EAD"
+
+base = "#2E3440"
+surface = "#3B4252"
+surface1 = "#434C5E"
+overlay = "#4C566A"
+overlay1 = "#9399b2"
+text = "#ECEFF4"
+subtext = "#E5E9F0"
+gray = "#4C566A"
+red = "#BF616A"
+pink = "#B48EAD"
+orange = "#D08770"
+yellow = "#EBCB8B"
+green = "#A3BE8C"
+teal = "#8FBCBB"
+blue = "#81A1C1"
+cyan = "#88C0D0"
+purple = "#5E81AC"
+
+[palettes.tokyonight_moon]
+tokyonight_bg = "#222436"
+tokyonight_bg_dark = "#1e2030"
+tokyonight_bg_dark1 = "#191B29"
+tokyonight_bg_highlight = "#2f334d"
+tokyonight_blue = "#82aaff"
+tokyonight_blue0 = "#3e68d7"
+tokyonight_blue1 = "#65bcff"
+tokyonight_blue2 = "#0db9d7"
+tokyonight_blue5 = "#89ddff"
+tokyonight_blue6 = "#b4f9f8"
+tokyonight_blue7 = "#394b70"
+tokyonight_comment = "#636da6"
+tokyonight_cyan = "#86e1fc"
+tokyonight_dark3 = "#545c7e"
+tokyonight_dark5 = "#737aa2"
+tokyonight_fg = "#c8d3f5"
+tokyonight_fg_dark = "#828bb8"
+tokyonight_fg_gutter = "#3b4261"
+tokyonight_green = "#c3e88d"
+tokyonight_green1 = "#4fd6be"
+tokyonight_green2 = "#41a6b5"
+tokyonight_magenta = "#c099ff"
+tokyonight_magenta2 = "#ff007c"
+tokyonight_orange = "#ff966c"
+tokyonight_purple = "#fca7ea"
+tokyonight_red = "#ff757f"
+tokyonight_red1 = "#c53b53"
+tokyonight_teal = "#4fd6be"
+tokyonight_terminal_black = "#444a73"
+tokyonight_yellow = "#ffc777"
+
+base = "#191B29"
+surface = "#222436"
+surface1 = "#1e2030"
+overlay = "#2f334d"
+overlay1 = "#444a73"
+text = "#c8d3f5"
+subtext = "#636da6"
+gray = "#3b4261"
+red = "#c53b53"
+pink = "#fca7ea"
+orange = "#ff966c"
+yellow = "#ffc777"
+green = "#c3e88d"
+teal = "#4fd6be"
+blue = "#82aaff"
+cyan = "#86e1fc"
+purple = "#c099ff"
+
+[palettes.onedark]
+onedark_black = "#181a1f"
+onedark_bg_d = "#21252b"
+onedark_bg0 = "#282c34"
+onedark_bg1 = "#31353f"
+onedark_bg2 = "#393f4a"
+onedark_bg3 = "#3b3f4c"
+onedark_bg_blue = "#73b8f1"
+onedark_bg_yellow = "#ebd09c"
+onedark_chalky = "#e5c07b"
+onedark_coral = "#e06c75"
+onedark_cyan = "#56b6c2"
+onedark_ivory = "#abb2bf"
+onedark_malibu = "#61afef"
+onedark_sage = "#98c379"
+onedark_stone = "#5c6370"
+onedark_violet = "#c678dd"
+onedark_whiskey = "#d19a66"
+onedark_light_grey = "#848b98"
+onedark_dark_cyan = "#2b6f77"
+onedark_dark_red = "#993939"
+onedark_dark_yellow = "#93691d"
+onedark_dark_purple = "#8a3fa0"
+onedark_diff_add =  "#31392b"
+onedark_diff_delete = "#382b2c"
+onedark_diff_change = "#1c3448"
+onedark_diff_text = "#2c5372"
+
+base = "#181a1f"
+surface = "#21252b"
+surface1 = "#282c34"
+overlay = "#31353f"
+overlay1 = "#393f4a"
+text = "#cdd6f4"
+subtext = "#2c5372"
+gray = "#848b98"
+red = "#e06c75"
+pink = "#c678dd"
+orange = "#e5c07d"
+yellow = "#ebd09c"
+green = "#98c375"
+teal = "#abb2bf"
+blue = "#73b8f1"
+cyan = "#56b6c2"
+purple = "#8a3fa0"
+
+[palettes.dracula]
+dracula_bg = "#282A36"
+dracula_fg = "#F8F8F2"
+dracula_selection = "#44475A"
+dracula_comment = "#6272A4"
+dracula_red = "#FF5555"
+dracula_orange = "#FFB86C"
+dracula_yellow = "#F1FA8C"
+dracula_green = "#50fa7b"
+dracula_purple = "#BD93F9"
+dracula_cyan = "#8BE9FD"
+dracula_pink = "#FF79C6"
+dracula_bright_red = "#FF6E6E"
+dracula_bright_green = "#69FF94"
+dracula_bright_yellow = "#FFFFA5"
+dracula_bright_blue = "#D6ACFF"
+dracula_bright_magenta = "#FF92DF"
+dracula_bright_cyan = "#A4FFFF"
+dracula_bright_white = "#FFFFFF"
+dracula_menu = "#21222C"
+dracula_visual = "#3E4452"
+dracula_gutter_fg = "#4B5263"
+dracula_nontext = "#3B4048"
+dracula_white = "#ABB2BF"
+dracula_black = "#191A21"
+
+base = "#191A21"
+surface = "#21222C"
+surface1 = "#3B4048"
+overlay = "#3E4452"
+overlay1 = "#44475A"
+text = "#F8F8F2"
+subtext = "#6272A4"
+gray = "#4B5263"
+red = "#FF6E6E"
+pink = "#FF79C6"
+orange = "#FFB86C"
+yellow = "#F1FA8C"
+green = "#69FF94"
+teal = "#50fa7b"
+blue = "#D6ACFF"
+cyan = "#8BE9FD"
+purple = "#BD93F9"
+
+[palettes.gruvbox_dark]
+gruvbox_fg = "#ebdbb2"
+gruvbox_bg = "#282828"
+gruvbox_bg_inactive = "#232323"
+gruvbox_alt_bg = "#232323"
+gruvbox_dark = "#26292a"
+gruvbox_accent = "#806969"
+gruvbox_dark_gray = "#5c6370"
+gruvbox_fg_gutter = "#353d46"
+gruvbox_context = "#4b5263"
+gruvbox_popup_back = "#353535"
+gruvbox_search_orange = "#613214"
+gruvbox_search_blue = "#5e81ac"
+gruvbox_gray = "#5c6370"
+gruvbox_light_gray = "#abb2bf"
+gruvbox_blue = "#83a598"
+gruvbox_dark_blue = "#353535"
+gruvbox_green = "#adb026"
+gruvbox_cyan = "#749689"
+gruvbox_red = "#dc4934"
+gruvbox_orange = "#d65d0e"
+gruvbox_light_red = "#be5046"
+gruvbox_yellow = "#d79921"
+gruvbox_yellow_orange = "#d79921"
+gruvbox_purple = "#d3869b"
+gruvbox_magenta = "#D16D9E"
+gruvbox_cursor_fg = "#515052"
+gruvbox_cursor_bg = "#AEAFAD"
+gruvbox_sign_add = "#fabd2f"
+gruvbox_sign_change = "#83a598"
+gruvbox_sign_delete = "#94151b"
+gruvbox_error_red = "#F44747"
+gruvbox_warning_orange = "#e78a4e"
+gruvbox_info_yellow = "#FFCC66"
+gruvbox_hint_blue = "#4FC1FF"
+
+base = "#282828"
+surface = "#232323"
+surface1 = "#26292a"
+overlay = "#353d46"
+overlay1 = "#4b5263"
+text = "#ebdbb2"
+subtext = "#5e81ac"
+gray = "#5c6370"
+red = "#dc4934"
+pink = "#d3869b"
+orange = "#d65d0e"
+yellow = "#FFCC66"
+green = "#adb026"
+teal = "#83a598"
+blue = "#4FC1FF"
+cyan = "#749689"
+purple = "#D16D9E"

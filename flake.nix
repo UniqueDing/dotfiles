@@ -1,122 +1,58 @@
 {
-  description = "UniqueDing's nixos dotfiles";
+  description = "My Home Manager Configuration";
 
   inputs = {
+    home-manager.url = "github:nix-community/home-manager";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixos-hardware.url = github:NixOS/nixos-hardware/master;
-
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    nur.url = "github:nix-community/NUR";
-    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+    flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = inputs @ {
-    self,
-    nixpkgs,
-    nixos-hardware,
-    home-manager,
-    nur,
-    neovim-nightly-overlay,
-    ...
-  }: {
+  outputs = { self, flake-utils, home-manager, nixpkgs, ... }@inputs:
+    flake-utils.lib.eachDefaultSystemPassThrough (system:
+      let
+        pkgs = nixpkgs.legacyPackages.${system};
+        username = "uniqueding";
+        homeDirectory = "/home/uniqueding";
+        stateVersion = "25.11";
+        confPath = builtins.storePath;
+      in {
+        homeConfigurations.docker = home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          modules = [
+            {
+              home.username = username;
+              home.homeDirectory = homeDirectory;
+              home.stateVersion = stateVersion;
 
-    nixosConfigurations.uniqueding-vm = nixpkgs.lib.nixosSystem {
-      specialArgs = {inherit inputs;};
-      system = "x86_64-linux";
-      modules = [
-        {
-          nixpkgs.overlays = [
-            nur.overlay
-            neovim-nightly-overlay.overlay
+              imports = [
+                ./modules/editor.nix
+                ./modules/tools.nix
+                ./modules/shell.nix
+                ./modules/filemanager.nix
+                ./modules/lang.nix
+              ];
+            }
           ];
-          networking.hostName = "uniqueding-vm";
-        }
+        };
+        homeConfigurations.app = home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          modules = [
+            {
+              home.username = username;
+              home.homeDirectory = homeDirectory;
+              home.stateVersion = stateVersion;
 
-        ./hosts/uniqueding-vm/hardware-configuration.nix
-
-        ./modules/configuration.nix
-        ./modules/base.nix
-        ./modules/lib.nix
-        ./modules/lang.nix
-        ./modules/interception.nix
-        ./modules/sway.nix
-        ./modules/vm.nix
-
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.uniqueding = import ./home/home-sway-light.nix;
-        }
-      ];
-    };
-    nixosConfigurations.uniqueding-pad = nixpkgs.lib.nixosSystem {
-      specialArgs = {inherit inputs;};
-      system = "x86_64-linux";
-      modules = [
-        {
-          nixpkgs.overlays = [
-            nur.overlay
-            neovim-nightly-overlay.overlay
+              imports = [
+                ./modules/editor.nix
+                ./modules/tools.nix
+                ./modules/shell.nix
+                ./modules/filemanager.nix
+                ./modules/lang.nix
+                ./modules/app.nix
+              ];
+            }
           ];
-          networking.hostName = "uniqueding-pad";
-        }
-
-        ./hosts/uniqueding-pad/hardware-configuration.nix
-        ./hosts/uniqueding-pad/surface/default.nix
-        ./hosts/uniqueding-pad/wrmsr.nix
-
-        ./modules/configuration.nix
-        ./modules/base.nix
-        ./modules/lib.nix
-        ./modules/lang.nix
-        ./modules/interception.nix
-        ./modules/n2n.nix
-        ./modules/virtualbox.nix
-        ./modules/sway.nix
-        ./modules/waydroid.nix
-        ./modules/build-wlroots.nix
-
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.uniqueding = import ./home/home-sway.nix;
-        }
-      ];
-    };
-    nixosConfigurations.uniqueding-nas = nixpkgs.lib.nixosSystem {
-      specialArgs = {inherit inputs;};
-      system = "x86_64-linux";
-      modules = [
-        {
-          networking.hostName = "uniqueding-nas";
-        }
-
-        ./hosts/uniqueding-nas/hardware-configuration.nix
-        ./hosts/uniqueding-nas/network.nix
-        ./hosts/uniqueding-nas/mount-bind.nix
-        ./hosts/uniqueding-nas/samba.nix
-        ./hosts/uniqueding-nas/container.nix
-
-        ./modules/configuration.nix
-        ./modules/base.nix
-        ./modules/lib.nix
-        ./modules/nas.nix
-        ./modules/podman.nix
-        ./modules/n2n.nix
-
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.uniqueding = import ./home/home.nix;
-        }
-      ];
-    };
-  };
+        };
+      }
+    );
 }

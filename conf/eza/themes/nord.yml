@@ -1,0 +1,91 @@
+colourful: true
+filekinds:
+  normal: { foreground: "#D8DEE9" }  # Nord4
+  directory: { foreground: "#88C0D0" }  # Nord8
+  symlink: { foreground: "#81A1C1" }  # Nord9
+  pipe: { foreground: "#4C566A" }  # Nord3
+  block_device: { foreground: "#BF616A" } # Nord11
+  char_device: { foreground: "#BF616A" } # Nord11
+  socket: { foreground: "#2E3440" } # Nord0
+  special: { foreground: "#8FBCBB" } # Nord7
+  executable: { foreground: "#A3BE8C" } # Nord14
+  mount_point: { foreground: "#88C0D0" }  # Nord8
+perms:
+  user_read: { foreground: "#D8DEE9" }  # Nord4
+  user_write: { foreground: "#BF616A" } # Nord11
+  user_execute_file: { foreground: "#A3BE8C" } # Nord14
+  user_execute_other: { foreground: "#A3BE8C" } # Nord14
+  group_read: { foreground: "#D8DEE9" }  # Nord4
+  group_write: { foreground: "#BF616A" } # Nord11
+  group_execute: { foreground: "#A3BE8C" } # Nord14
+  other_read: { foreground: "#D8DEE9" }  # Nord4
+  other_write: { foreground: "#BF616A" } # Nord11
+  other_execute: { foreground: "#A3BE8C" } # Nord14
+  special_user_file: { foreground: "#8FBCBB" } # Nord7
+  special_other: { foreground: "#2E3440" } # Nord0
+  attribute: { foreground: "#4C566A" }  # Nord3
+size:
+  major: { foreground: "#4C566A" }  # Nord3
+  minor: { foreground: "#81A1C1" }  # Nord9
+  number_byte: { foreground: "#D8DEE9" }  # Nord4
+  number_kilo: { foreground: "#D8DEE9" }  # Nord4
+  number_mega: { foreground: "#88C0D0" }  # Nord8
+  number_giga: { foreground: "#8FBCBB" } # Nord7
+  number_huge: { foreground: "#8FBCBB" } # Nord7
+  unit_byte: { foreground: "#81A1C1" }  # Nord9
+  unit_kilo: { foreground: "#81A1C1" }  # Nord9
+  unit_mega: { foreground: "#81A1C1" }  # Nord9
+  unit_giga: { foreground: "#81A1C1" }  # Nord9
+  unit_huge: { foreground: "#88C0D0" }  # Nord8
+users:
+  user_you: { foreground: "#D8DEE9" }  # Nord4
+  user_root: { foreground: "#BF616A" } # Nord11
+  user_other: { foreground: "#8FBCBB" } # Nord7
+  group_yours: { foreground: "#D8DEE9" }  # Nord4
+  group_other: { foreground: "#4C566A" }  # Nord3
+  group_root: { foreground: "#BF616A" } # Nord11
+links:
+  normal: { foreground: "#81A1C1" }  # Nord9
+  multi_link_file: { foreground: "#88C0D0" }  # Nord8
+git:
+  new: { foreground: "#A3BE8C" } # Nord14
+  modified: { foreground: "#D08770" } # Nord12
+  deleted: { foreground: "#BF616A" } # Nord11
+  renamed: { foreground: "#88C0D0" }  # Nord8
+  typechange: { foreground: "#8FBCBB" } # Nord7
+  ignored: { foreground: "#4C566A" }  # Nord3
+  conflicted: { foreground: "#BF616A" } # Nord11
+git_repo:
+  branch_main: { foreground: "#D8DEE9" }  # Nord4
+  branch_other: { foreground: "#8FBCBB" } # Nord7
+  git_clean: { foreground: "#A3BE8C" } # Nord14
+  git_dirty: { foreground: "#BF616A" } # Nord11
+security_context:
+  colon: { foreground: "#4C566A" }  # Nord3
+  user: { foreground: "#D8DEE9" }  # Nord4
+  role: { foreground: "#8FBCBB" } # Nord7
+  typ: { foreground: "#2E3440" } # Nord0
+  range: { foreground: "#8FBCBB" } # Nord7
+file_type:
+  image: { foreground: "#D08770" } # Nord12
+  video: { foreground: "#BF616A" } # Nord11
+  music: { foreground: "#A3BE8C" } # Nord14
+  lossless: { foreground: "#88C0D0" }  # Nord8
+  crypto: { foreground: "#2E3440" } # Nord0
+  document: { foreground: "#D8DEE9" }  # Nord4
+  compressed: { foreground: "#8FBCBB" } # Nord7
+  temp: { foreground: "#BF616A" } # Nord11
+  compiled: { foreground: "#88C0D0" }  # Nord8
+  build: { foreground: "#2E3440" } # Nord0
+  source: { foreground: "#81A1C1" }  # Nord9
+punctuation: { foreground: "#4C566A" }  # Nord3
+date: { foreground: "#D08770" } # Nord12
+inode: { foreground: "#4C566A" }  # Nord3
+blocks: { foreground: "#4C566A" }  # Nord3
+header: { foreground: "#D8DEE9" }  # Nord4
+octal: { foreground: "#88C0D0" }  # Nord8
+flags: { foreground: "#8FBCBB" } # Nord7
+symlink_path: { foreground: "#81A1C1" }  # Nord9
+control_char: { foreground: "#88C0D0" }  # Nord8
+broken_symlink: { foreground: "#BF616A" } # Nord11
+broken_path_overlay: { foreground: "#2E3440" } # Nord0

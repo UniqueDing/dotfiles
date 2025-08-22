@@ -1,0 +1,89 @@
+update:
+  method: never
+
+confirmOnQuit: true
+
+keybinding:
+  universal:
+    prevItem-alt: e
+    nextItem-alt: n
+    scrollLeft: H
+    scrollRight: I
+    prevBlock-alt: h
+    nextBlock-alt: i
+    nextMatch: "k"
+    prevMatch: "K"
+    new: "k"
+    edit: j
+    scrollUpMain-alt1: E
+    scrollDownMain-alt1: N
+  files:
+    ignoreFile: l
+  branches:
+    viewGitFlowOptions: l
+    moveCommitsToNewBranch: "K"
+  commits:
+    startInteractiveRebase: l
+    moveDownCommit: <c-n>
+    moveUpCommit: <c-e>
+  main:
+    editSelectHunk: J
+  submodules:
+    init: l
+
+git:
+  paging:
+    colorArg: always
+    pager: "delta --dark --paging=never"
+
+  parseEmoji: true
+
+
+gui:
+  tabWidth: 2
+  nerdFontsVersion: "3"
+  showDivergenceFromBaseBranch: 'onlyArrow'
+  theme:
+    # base="#1e1e2e"
+    # surface="#313244"
+    # surface1="#45475a"
+    # overlay="#6c7086"
+    # overlay1="#7f849c"
+    # text="#cdd6f4"
+    # subtext="#bac2de"
+    # gray="#585b70"
+    # red="#f38ba8"
+    # pink="#f5c2e7"
+    # orange="#fab387"
+    # yellow="#f9e2af"
+    # green="#a6e3a1"
+    # teal="#94e2d5"
+    # blue="#89b4fa"
+    # cyan="#74c7ec"
+    # purple="#cba6f7"
+    activeBorderColor: #green
+      - '#a6e3a1'
+      - bold
+    inactiveBorderColor: #text
+      - '#cdd6f4'
+    searchingActiveBorderColor: #cyan
+      - '#74c7ec'
+      - bold
+    optionsTextColor: #blue
+      - '#89b4fa'
+    selectedLineBgColor: #blue
+      - '#89b4fa'
+    inactiveViewSelectedLineBgColor:
+      - bold
+    cherryPickedCommitFgColor: #blue
+      - '#89b4fa'
+    cherryPickedCommitBgColor: #cyan
+      - '#74c7ec'
+    markedBaseCommitFgColor: #blue
+      - '#89b4fa'
+    markedBaseCommitBgColor: #yellow
+      - '#f9e2af'
+    unstagedChangesColor: #red
+      - '#f38ba8'
+    defaultFgColor: #text
+      - '#cdd6f4'

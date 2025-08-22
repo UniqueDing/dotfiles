@@ -1,27 +1,30 @@
 { config, pkgs, ... }:
 
 {
-  environment.systemPackages = with pkgs; [
-    cargo
-    clang
-    clang-tools
+  home.packages = with pkgs; [
+    # cargo
+    # clang
+    # clang-tools
     cmake
     gcc
     gdb
     go
     jdk
-    lua
-    luajit
-    lua5_1
+    # lua
+    # luajit
+    # lua5_1
     ninja
     nodejs
     pkg-config
     rustup
-    rustc
+    # rustc
     racket
-    nodePackages.npm
-    python3Full
-    python39Packages.pip
-    pythonFull
+    python313
+    python313Packages.pip
+    protobuf
+    flutter
+    chromium
+    android-tools
+    sdkmanager
   ];
 }

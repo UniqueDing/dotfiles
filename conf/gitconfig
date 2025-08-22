@@ -1,0 +1,21 @@
+[user]
+	email = uniqueding@uniqueding.xyz
+	name = uniqueding
+[core]
+  pager = delta
+[interactive]
+  diffFilter = delta --color-only
+[include]
+  path = ~/.config/delta/themes/catppuccin.gitconfig
+[delta]
+  navigate = true  # use n and N to move between diff sections
+  syntax-theme = catppuccin_mocha
+  side-by-side = true
+  file-style = omit
+  file-decoration-style = none
+  hunk-header-style = file line-number syntax
+  line-numbers = true
+  line-numbers-left-format = "{nm:>3} "
+  line-numbers-right-format = "{np:>3} "
+[merge]
+  conflictstyle = zdiff3
