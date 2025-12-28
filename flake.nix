@@ -14,7 +14,7 @@
         username = "uniqueding";
         homeDirectory = "/home/uniqueding";
         stateVersion = "25.11";
-        confPath = builtins.storePath;
+        confPath = "/home/uniqueding/dotfiles/conf";
       in {
         homeConfigurations.docker = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
@@ -33,6 +33,9 @@
               ];
             }
           ];
+          extraSpecialArgs = {
+            inherit confPath;
+          };
         };
         homeConfigurations.app = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;

@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, confPath, ... }:
 
 {
   home.packages = with pkgs; [
@@ -49,9 +49,11 @@
     netcat
   ];
 
-  home.file.".gitconfig" = { source = ../conf/gitconfig; };
-  home.file.".config/lazygit" = { source = ../conf/lazygit; };
-  home.file.".config/bat" = { source = ../conf/bat; };
-  home.file.".config/tealdeer" = { source = ../conf/tealdeer; };
-  home.file.".config/eza" = { source = ../conf/eza; };
+  home.activation.toolsLink = lib.mkAfter ''
+    ln -sfn ${confPath}/gitconfig $HOME/.gitconfig
+    ln -sfn ${confPath}/lazygit   $HOME/.config/lazygit
+    ln -sfn ${confPath}/bat       $HOME/.config/bat
+    ln -sfn ${confPath}/tealdeer  $HOME/.config/tealdeer
+    ln -sfn ${confPath}/eza       $HOME/.config/eza
+  '';
 }

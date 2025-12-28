@@ -30,15 +30,13 @@ local function modify_scheme() {
   scheme=$1
   # file
   echo $scheme > $HOME/.config/colorscheme
-  read -r CONFIG_PATH < "$HOME/.config/dotfiles"
-  read -r CONFIG_OPTION < <(tail -n +2 "/$HOME/.config/dotfiles")
 
   # starship
-  starship_config="$CONFIG_PATH/starship/starship.toml"
+  starship_config="$HOME/.config/starship/starship.toml"
   sed -i "s/palette = '.*/palette = '$scheme'/" "$starship_config"
 
   # nvim
-  nvim_config="$CONFIG_PATH/nvim/lua/plugins/colorscheme.lua"
+  nvim_config="$HOME/.config/nvim/lua/plugins/colorscheme.lua"
   nvim_scheme=$scheme
   case "$scheme" in
     "catppuccin_mocha")
@@ -57,7 +55,7 @@ local function modify_scheme() {
   sed -i "s/      colorscheme = \".*\",/      colorscheme = \"$nvim_scheme\",/g" "$nvim_config"
 
   # yazi
-  yazi_config="$CONFIG_PATH/yazi/theme.toml"
+  yazi_config="$HOME/.config/yazi/theme.toml"
   yazi_scheme=$scheme
   case "$scheme" in
     "catppuccin_mocha")
@@ -73,7 +71,7 @@ local function modify_scheme() {
   sed -i "s/dark = \".*\"/dark = \"$yazi_scheme\"/g" "$yazi_config"
 
   # bat
-  bat_config="$CONFIG_PATH/bat/config"
+  bat_config="$HOME/.config/bat/config"
   bat_scheme=$scheme
   sed -i "s/--theme=\".*\"/--theme=\"$bat_scheme\"/" "$bat_config"
 
@@ -90,27 +88,25 @@ local function modify_scheme() {
       eza_scheme="gruvbox-dark"
       ;;
   esac
-  ln -sf $CONFIG_PATH/eza/themes/$eza_scheme.yml $CONFIG_PATH/eza/theme.yml
+  ln -sf $HOME/.config/eza/themes/$eza_scheme.yml $HOME/.config/eza/theme.yml
 
   # tmux
-  tmux_config="$CONFIG_PATH/tmux/tmux.conf"
+  tmux_config="$HOME/.config/tmux/tmux.conf"
   tmux_scheme=$scheme
   sed -i "s/source-file \$HOME\/.config\/tmux\/theme\/.*.conf/source-file \$HOME\/.config\/tmux\/theme\/$tmux_scheme.conf/" "$tmux_config"
+  tmux source-file $tmux_config
 
   # lazygit
-  lazygit_config="$CONFIG_PATH/lazygit/config.yml"
+  lazygit_config="$HOME/.config/lazygit/config.yml"
   lazygit_scheme=$scheme
   sed -i '/^  theme:/,$d' "$lazygit_config"
   sed 's/^/  /' "$HOME/.config/lazygit/themes/$lazygit_scheme.yml" | tee -a $lazygit_config
 
   # delta
-  delta_config="$CONFIG_PATH/gitconfig"
+  delta_config="$HOME/.gitconfig"
   delta_scheme=$scheme
   sed -i "s/  syntax-theme = .*/  syntax-theme = $delta_scheme/" "$delta_config"
 
-  cd $CONFIG_PATH/../
-  ./build-homemanager.sh dotfiles $CONFIG_OPTION
-  tmux source-file $tmux_config
   set +x
 }
 

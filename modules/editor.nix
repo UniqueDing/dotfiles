@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, confPath, ... }:
 
 {
   #nixpkgs.overlays = [
@@ -20,5 +20,7 @@
     translate-shell
   ];
 
-  home.file.".config/nvim" = { source = ../conf/nvim; };
+  home.activation.editorLink = lib.mkAfter ''
+    ln -sfn ${confPath}/nvim $HOME/.config/nvim
+  '';
 }

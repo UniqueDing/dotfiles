@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, confPath, ... }:
 
 {
   home.packages = with pkgs; [
@@ -19,5 +19,7 @@
     ouch
   ];
 
-  home.file.".config/yazi" = { source = ../conf/yazi; };
+  home.activation.filemanagerLink = lib.mkAfter ''
+    ln -sfn ${confPath}/yazi $HOME/.config/yazi
+  '';
 }

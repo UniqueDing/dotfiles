@@ -15,7 +15,7 @@ nixpkgs)
     sudo mv /etc/bash.bashrc.backup-before-nix /etc/bash.bashrc
     sudo mv /etc/zshrc.backup-before-nix /etc/zshrc
     # sh <(curl -L https://nixos.org/nix/install) --daemon
-    curl https://mirrors.tuna.tsinghua.edu.cn/nix/latest/install | sh
+    curl https://mirrors.tuna.tsinghua.edu.cn/nix/latest/install | sh -s -- --no-daemon
     sudo mkdir /etc/nix
     sudo cp nix.conf /etc/nix/nix.conf
     sudo sed -i "s|\(Defaults\s*secure_path=.*\):.*|\1:/home/uniqueding/.nix-profile/bin\"|" /etc/sudoers
@@ -42,6 +42,7 @@ all)
     home-manager switch --flake .#$config
     set +e
     rustup default stable
+    pip config set global.index-url https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple
     go env -w GOPROXY=https://goproxy.io,direct
     echo $PWD/conf > /home/uniqueding/.config/dotfiles
     echo $config >> /home/uniqueding/.config/dotfiles
@@ -75,7 +76,7 @@ theme)
 update)
     nix-channel --update
     nix flake update
-    nix-env -iA home-manager
+    nix-env -iA nixpkgs.home-manager
     # home-manager switch -f home/home-light.nix
     ;;
 font)

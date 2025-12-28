@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, confPath, ... }:
 
 {
   home.packages = with pkgs; [
@@ -30,8 +30,10 @@
     };
   };
 
-  home.file.".config/zsh" = { source = ../conf/zsh; };
-  home.file.".zshrc" = { source = ../conf/zshrc; };
-  home.file.".config/starship" = { source = ../conf/starship; };
-  home.file.".config/tmux" = { source = ../conf/tmux; };
+  home.activation.shellLink = lib.mkAfter ''
+    ln -sfn ${confPath}/zshrc   $HOME/.zshrc
+    ln -sfn ${confPath}/zsh      $HOME/.config/zsh
+    ln -sfn ${confPath}/starship $HOME/.config/starship
+    ln -sfn ${confPath}/tmux     $HOME/.config/tmux
+  '';
 }

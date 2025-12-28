@@ -1,8 +1,6 @@
 update:
   method: never
-
 confirmOnQuit: true
-
 keybinding:
   universal:
     prevItem-alt: e
@@ -30,15 +28,11 @@ keybinding:
     editSelectHunk: J
   submodules:
     init: l
-
 git:
-  paging:
-    colorArg: always
-    pager: "delta --dark --paging=never"
-
+  pagers:
+    - colorArg: always
+      pager: "delta --dark --paging=never"
   parseEmoji: true
-
-
 gui:
   tabWidth: 2
   nerdFontsVersion: "3"

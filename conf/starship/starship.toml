@@ -17,6 +17,7 @@ $sudo\
 $shlvl\
 $username\
 $nix_shell\
+$python\
 $localip\
 $time\
 """
@@ -104,6 +105,11 @@ format = '[❄️ $state](bold blue) '
 disabled = false
 format = '[$shlvl](bold cyan) '
 threshold = 2
+
+[python]
+disabled = false
+format = ' [$virtualenv](cyan) '
+
 
 [palettes.catppuccin_mocha]
 catppuccin_rosewater = "#f5e0dc"

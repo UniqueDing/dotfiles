@@ -34,11 +34,12 @@ return {
     local home = vim.fn.expand("$HOME")
     local host_cmd = "sed -n 1p " .. home .. "/.config/chat.api"
     local key_cmd = "sed -n 2p " .. home .. "/.config/chat.api"
+    local model = "sed -n 3p " .. home .. "/.config/chat.api"
     require("chatgpt").setup({
       api_host_cmd = host_cmd,
       api_key_cmd = key_cmd,
       openai_params = {
-        model = "gpt-4o-mini",
+        model = model,
         max_tokens = 4095,
       },
     })
