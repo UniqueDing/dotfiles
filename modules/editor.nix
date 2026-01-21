@@ -18,6 +18,7 @@
     nodejs
     # chromium
     translate-shell
+    opencode
   ];
 
   home.activation.editorLink = lib.mkAfter ''

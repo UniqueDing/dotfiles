@@ -17,15 +17,12 @@ alias showkey="wshowkeys -a bottom -b 00000033 -m100 -F 'Hack 44'"
 alias tssh="TERM=xterm ssh"
 alias scpr="rsync -P --rsh=ssh"
 alias lg="lazygit"
+alias oc="opencode"
 
 alias proxychains="proxychains4"
 alias pc="proxychains -q"
 
 alias f="$(pay-respects zsh)"
-
-alias nvim="env CC=gcc nvim"
-
-alias nhome-manager="NIX_PATH=${NIX_PATH:+$NIX_PATH:}$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels home-manager"
 
 alias pS='sudo pacman -S'
 alias pSs='pacman -Ss'

@@ -107,6 +107,25 @@ local function modify_scheme() {
   delta_scheme=$scheme
   sed -i "s/  syntax-theme = .*/  syntax-theme = $delta_scheme/" "$delta_config"
 
+  # opencode
+  opencode_config="$HOME/.config/opencode/opencode.json"
+  opencode_scheme=$scheme
+  case "$scheme" in
+    "catppuccin_mocha")
+      opencode_scheme="catppuccin-macchiato"
+      ;;
+    "tokyonight_moon")
+      opencode_scheme="tokyonight"
+      ;;
+    "gruvbox_dark")
+      opencode_scheme="gruvbox"
+      ;;
+    "onedark")
+      opencode_scheme="one-dark"
+      ;;
+  esac
+  sed -i "s/  \"theme\": \".*\",/  \"theme\": \"$opencode_scheme\",/" "$opencode_config"
+
   set +x
 }
 

@@ -9,6 +9,8 @@ return {
         ["n"] = "",
         ["e"] = "",
         ["/"] = "",
+        ["<bs>"] = "toggle_hidden",
+        ["H"] = "navigate_up",
         ["f"] = "fuzzy_finder",
         ["<space>"] = "none",
         ["Y"] = {
