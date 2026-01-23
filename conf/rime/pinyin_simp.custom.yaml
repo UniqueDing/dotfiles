@@ -2,5 +2,16 @@
 # encoding: utf-8
 
 patch:
-  schema:
-    icon: icon/pinyin.ico
+  "schema/icon": icon/pinyin.ico
+  "schema/name": 拼音
+  switches:
+    - name: full_shape
+      states: [ 半, 全 ]
+    - name: zh_simp
+      states: [ 简, 繁 ]
+  st/option_name: zh_simp
+  st/opencc_config: s2t.json
+  "key_binder/bindings":
+    - { when: has_menu, accept: semicolon, send: 2 }
+    - { accept: "Shift+space", select: latin, when: always }
+    - { accept: "Control+semicolon", toggle: zh_simp, when: always }

@@ -1,0 +1,12 @@
+# Rime schema
+# encoding: utf-8
+patch:
+  switches:
+    - name: full_shape
+      reset: 0
+      states: [ 半, 全 ]
+  
+  "schema/icon": icon/us.ico
+
+  "key_binder/bindings":
+    - { accept: "Shift+space", select: .next, when: always }

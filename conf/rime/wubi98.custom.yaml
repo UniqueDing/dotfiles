@@ -3,9 +3,6 @@ patch:
   speller/auto_select: true                       # 顶字上屏
   speller/auto_select_unique_candidate: true      # 无重码自动上屏
   switches:
-    - name: ascii_mode
-      reset: 0
-      states: [ 中, 西 ]
     - name: zh_simp
       states: [ 简, 繁 ]
     - name: mars
@@ -14,8 +11,6 @@ patch:
       states: [ 常, 增 ]
     - name: full_shape
       states: [ 半, 全 ]
-    - name: ascii_punct
-      states: [ 。, ． ]
   engine/filters:
     - simplifier@st
     - simplifier@mars
@@ -25,7 +20,8 @@ patch:
   mars/option_name: mars
   mars/opencc_config: mars.json
   schema/icon: icon/wubi.ico
+  "schema/name": 五笔
   "key_binder/bindings":
     - { when: has_menu, accept: semicolon, send: 2 }
-    - { accept: "Shift+space", toggle: full_shape, when: always }
-    - { accept: "Shift_R", toggle: zh_simp, when: always }
+    - { accept: "Shift+space", select: latin, when: always }
+    - { accept: "Control+semicolon", toggle: zh_simp, when: always }

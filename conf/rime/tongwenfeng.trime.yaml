@@ -28,15 +28,12 @@ round_corner:
 #界面风格、功能开关
 style:
   auto_caps: false #自動句首大寫:true|false|ascii
-  background_dim_amount: 0.5
-  root_background: keyboard_back_color # 整个键盘区+候选栏的背景图/色
   candidate_font: han.ttf  #候选字体
   candidate_padding: 5  #候选项内边距
   candidate_spacing: 0.5  #候选间距
   candidate_text_size: 18  #候选字号
   candidate_use_cursor: true #高亮候选项
   candidate_view_height: 28 #候选区高度
-  color_scheme: default #配色方案
   comment_font: comment.ttf #编码提示字体
   comment_height: 14 #编码提示区高度
   comment_on_top: true #编码提示在上方或右侧
@@ -44,45 +41,14 @@ style:
   hanb_font: hanb.ttf #扩充字体
   horizontal: true #水平模式
   horizontal_gap: *hgap #键水平间距
-  layout:
-    position: fixed #候选窗口位置：left|right|left_up|right_up|fixed|bottom_left|bottom_right|top_left|top_right(left、right需要Android5.0以上)
-    min_length: 4 #候选窗口最小词长
-    max_length: 14 #超过字数则换行
-    sticky_lines: 1 #固顶行数
-    sticky_lines_land: 0 #横屏模式下的固顶行数
-    max_entries: 5 #候选窗口最大词条数
-    border: 0 #候选窗口边框宽度
-    max_width: 360 #最大宽度，超过则自动换行
-    max_height: 300 #最大高度
-    min_width: 0 #最小宽度
-    min_height: 50 #最小高度
-    margin_x: 5 #水平邊距 NOTE: margin_{x, y, bottom} 实际为 padding
-    margin_y: 5 #竖直边距
-    line_spacing: 0 #候选词的行间距(px)
-    line_spacing_multiplier: 1.2 #候选词的行间距(倍数)
-    real_margin: 3 #屏幕左右边缘和悬浮窗之间的距离 TODO: 在 4.0 时给 real_margin 与 spacing 换一个更适合的名字
-    spacing: 1 #屏幕上下边缘或预编辑上下边缘和悬浮窗之间的距离
-    round_corner: *round2 #候选窗口圆角
-    alpha: 0xff #透明度(0-255)
-    elevation: 0 #阴影(>=Android5.0)
-    background: background.png #颜色或者backgrounds目录下的图片文档名
-    movable: false #是否可移动窗口，或仅移动一次 true|false|once
-    all_phrases: false #显示所有长词
-  window: #悬浮窗口组件
-#    - {start: "", move: 'ㄓ ', end: ""}
-    - {start: "", composition: "%s", end: "", letter_spacing: 0.12} #letter_spacing需要Android5.0
-    - {start: "\n", label: "%s.", candidate: "%s", comment: "%s", end: "", sep: "☁️️"}
   key_font: symbol.ttf #键盘字体
   key_height: *jpgd4 #键高
   key_long_text_size: 16 #长标签字号
   key_text_size: 24 #键字号
   key_width: 10.0 #键宽，占屏幕宽的百分比
-  keyboards: [.default, letter, default, number, symbols, edit, move, bqrw1, bqrw2, bqrw3, bqrw4, bqrw5, bqrw6, bqqt1, bqqt2, bqqt3, bqqt4, bqqz1, bqqz2, bqqz3, bqqz4, bqqz5, bqqz6, bqpt1, bqpt2, bqhd1, bqhd2, bqhc1, bqhc2, bqhc3, bqlx1, bqlx2, bqlx3, bqlx4, bqlx5, bqlx6, bqkj1, bqkj2, bqkj3, bqkj4, bqkj5, bqfh1, bqfh2, bqfh3, bqfh4, kao_fond, kao_sad, kao_mad, kao_astonished, kao_impotent, kao_happy, numberb] #键盘配置
   label_text_size: 22 #标签字号
   label_font: label.ttf #编标签字体
   latin_font: latin.ttf #西文本体
-  latin_locale: en_US #西文语言
-  locale: zh_CN #缺省语言 zh_TW,zh_CN,zh_HK,""
   keyboard_height: 250 #锁定键盘高度，避免切换时键盘高度变化而造成闪烁
   keyboard_height_land: 200 #锁定横屏下键盘高度，避免切换时键盘高度变化而造成闪烁
   preview_font: latin.ttf #按键提示字体
@@ -93,12 +59,9 @@ style:
   reset_ascii_mode: false #显示键盘时重置为中文状态
   round_corner: *round1 #按键圆角半径
   shadow_radius: 0.0 #按键阴影半径
-  speech_opencc_config: none #语音输入简繁转换
   symbol_font: symbol.ttf #符号字体
   symbol_text_size: 10 #符号字号
   text_font: latin.ttf #编码字体
-  #text_height: 32 #编码区高度
-  text_size: 14 #编码区字号
   vertical_correction: -5
   vertical_gap: *sgap #键盘行距
   enter_label_mode: 0  #是否使用App提供的ActionLabel内容作为Enter键的文本（由于多数App没有适配ActionLable，实际影响不大）。0不使用，1只使用actionlabel，2优先使用，3当其他方式没有获得label时才读取actionlabel
@@ -110,6 +73,28 @@ style:
     search: 搜索
     send: 发送
     default: Enter   # 定义默认Enter键的文本
+
+preedit:                  # 预编辑文本视图参数
+  horizontal_padding: 8     # 横向内边距（整数）
+#  alpha: 0.8                 # 透明度（0-1，浮点）
+  top_end_radius: 4         # 末上端圆角（浮点）
+  foreground:               # 前景样式
+    font_size: 16             # 预编辑字体大小（浮点）
+
+window:               # 候选窗口（悬浮窗）参数
+  insets:               # 窗口内边距
+    vertical: 4           # 纵向内边距（整数）
+    horizontal: 4         # 横向内边距（整数）
+  item_padding:         # 候选项内边距
+#    vertical: 0           # 纵向内边距（整数）
+    horizontal: 4         # 横向内边距（整数）
+#  min_width: 0          # 最小宽度（整数）
+#  corner_radius: 0      # 圆角半径（浮点）
+#  alpha: 1              # 透明度（0-1，浮点）
+  foreground:           # 前景样式
+    label_font_size: 20   # 序号字体大小（浮点）
+    text_font_size: 20    # 文字字体大小（浮点）
+    comment_font_size: 16  # 注释字体大小（浮点）
 
 # 最好保留一项，防止其他主题使用 __include 时无法加载
 fallback_colors:
@@ -123,6 +108,7 @@ fallback_colors:
 #  hilited_back_color: back_color
 #  hilited_candidate_text_color: hilited_text_color
 #  hilited_candidate_back_color: hilited_back_color
+#  hilited_candidate_button_color: hilited_candidate_back_color # 候选栏工具按钮高亮背景色
 #  hilited_label_color: hilited_candidate_text_color # 高亮候选序号 颜色
 #  hilited_comment_text_color: comment_text_color
 #  hilited_key_back_color: hilited_candidate_back_color
@@ -880,7 +866,7 @@ liquid_keyboard:
   key_height_land: 40 #横屏模式按键高度
   single_width: 60    #single类型的按键宽度
   vertical_gap: 8     #纵向按键间隙
-  margin_x: 2       #左右按键间隙的1/2
+  margin_x: 5       #左右按键间隙的1/2
   fixed_key_bar: # 固定按键条
     position: bottom  # 摆放位置（在滚动区域的……） top|bottom|left|right
     keys: # 按键（显示名称为对应的label，不能放太多）
@@ -890,7 +876,7 @@ liquid_keyboard:
       - Return2
       - liquid_keyboard_clipboard
       - liquid_keyboard_tabs
-  keyboards: [emoji, math, ascii, cn, history, clipboard, collection, draft, symbollist, list, ids, symbol, tabs, pinyin, script_symbols, jp, grease, rusa, korea, lation, yinbiao, unit, yanwenzi, combing, emoji_full, candidate]  #tab列表
+  keyboards: [emoji, math, ascii, cn, historyliquid_keyboard, clipboard, collection, draft, symbollist, list, ids, symbol, tabs, pinyin, script_symbols, jp, grease, rusa, korea, lation, yinbiao, unit, yanwenzi, combing, emoji_full, candidate]  #tab列表
   tabs:
     name: 更多
     type: TABS
@@ -1017,7 +1003,68 @@ liquid_keyboard:
     type: SYMBOL
     name: 符号表
     keys: [ 符号: '/fh', 电脑: '/dn', 象棋: '/xq', 麻将: '/mj', 骰子: '/sz', 扑克: '/pk', 天气: '/tq', 音乐: '/yy', 八卦: '/bg', 易经: '/lssg', 天体: '/tt',  星座: '/xz',  星号: '/xh',  方块: '/fk',  几何: '/jh',  箭头: '/jt',  数学: '/sx',  上标: '/sb',  下标: '/xb',  单位: '/dw',  货币: '/hb',  拼音: '/py',  注音: '/zy',  假名: '/jm',  片假: '/pjm',  韩文: '/hw',  希腊: '/xl',  希大: '/xld', 罗马:   '/lm',  罗大:   '/lmd', 俄语:   '/ey',  俄大:   '/eyd', 表情:  '/bq',  一: '/1',  二: '/2',  三: '/3',  四: '/4',  五: '/5',  六: '/6',  七: '/7',  八: '/8',  九: '/9',  零: '/0',  十: '/10',  分数: '/fs',  标点: '/bd',  偏旁: '/pp',  竖标:  '/bdz'  ]
-  
+
+tool_bar:
+  button_spacing: 5 # 按钮间距
+  button_font: iconfont.ttf # 按钮字体
+
+  # 左侧固定主按钮配置
+  primary_button:
+    # 背景样式设置
+    background:
+      type: circle           # 高亮形状 (可选值: circle|rectangle)
+      corner_radius: 10      # 圆角半径
+      bg_normal: 0x00        # 正常状态背景颜色
+      bg_highlight: hilited_candidate_button_color  # 高亮状态背景色
+      vertical_inset: 4      # 垂直方向内缩量
+      horizontal_inset: 0    # 水平方向内缩量
+    # 前景内容设置
+    foreground:
+      style: "ic@dots_horizontal"         # 内置质感设计图标样式（以ic@开头）
+      fg_normal: candidate_text_color  # 正常状态前景色 (本地图片不允许着色)
+      # fg_highlight:        # 高亮状态前景色
+      padding: 10            # 前景内容与背景边界的内边距
+      # size: [120, 24]      # 视图控件宽高，非前景样式宽高
+    # 按钮点击事件
+    action: menu_keyboard
+
+
+  hide_button: &hide_button
+    foreground:
+      style: "ic@keyboard_close"
+      fg_normal: candidate_text_color
+    action: Hide
+
+  emoji_button: &emoji_button
+    foreground:
+      style: "ic@emoticon"
+    # 前景样式可以为空，使用默认样式，按钮将显示为 action 的 label
+    action: liquid_keyboard_emoji
+
+  clipboard_button: &clipboard_button
+    foreground:
+      style: "ic@clipboard"
+    action: liquid_keyboard_clipboard
+
+  edit_button: &edit_button
+    foreground:
+      style: "ic@cursor_text"
+    action: Keyboard_numberb
+
+  ascii_mode_button: &ascii_mode_button
+    foreground:
+      option_styles: ["中", "En"] # 样式也可以为表，将根据 action 的 toggle 决定
+      font_size: 18  # 按钮字体大小
+      padding: 10
+    action: Mode_switch
+
+  full_shape_button: &full_shape_button
+    foreground:
+      option_styles: ["ic@moon_full", "ic@moon_new"]
+    action: Zenkaku_Hankaku
+
+  # 右侧按钮列表（从右向左排列）
+  buttons: [ *hide_button, *emoji_button, *clipboard_button, *edit_button, *ascii_mode_button, *full_shape_button ]
 
 #键盘布局
 preset_keyboards:
@@ -3985,6 +4032,7 @@ preset_keys:
   liquid_keyboard_tabs: { label: 更多, send: function, command: liquid_keyboard, option: "更多" }
   liquid_keyboard_emoji: { label: 🙂, send: function, command: liquid_keyboard, option: "emoji" }
   liquid_keyboard_clipboard: { label: 剪贴, send: function, command: liquid_keyboard, option: "剪贴" }
+  menu_keyboard: { label: 菜单, send: function, command: menu_keyboard }
   # rime状态
   Mode_switch: {toggle: ascii_mode, functional: false, send: Mode_switch, states: [ 中文, 西文 ]}
   Zenkaku_Hankaku: {toggle: full_shape, send: Mode_switch, states: [ 半角, 全角 ]}

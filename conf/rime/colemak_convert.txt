@@ -1,0 +1,23 @@
+# f -> t
+f -> %
+e -> f
+k -> e
+n -> k
+j -> n
+y -> j
+o -> y
+p -> o
+r -> p
+s -> r
+d -> s
+g -> d
+t -> g
+# f -> t
+% -> t
+
+# u -> l
+u -> %
+i -> u
+l -> i
+# u -> l
+% -> l

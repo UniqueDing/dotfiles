@@ -1,0 +1,25 @@
+patch:
+  reverse_lookup/prefix: "\\"
+  recognizer/reverse_lookup: "^\\\\[a-z]*'?$"
+  switches:
+    - name: zh_simp
+      states: [ 简, 繁 ]
+    - name: mars
+      states: [ 地, 火 ]
+    - name: extended_charset
+      states: [ 常, 增 ]
+    - name: full_shape
+      states: [ 半, 全 ]
+  engine/filters:
+    - simplifier@st
+    - simplifier@mars
+    - uniquifier
+  st/option_name: zh_simp
+  st/opencc_config: s2t.json
+  mars/option_name: mars
+  mars/opencc_config: mars.json
+  schema/icon: icon/wubi.ico
+  "schema/name": 虎码
+  "key_binder/bindings":
+    - { when: has_menu, accept: semicolon, send: 2 }
+    - { accept: "Shift+Shift_R", toggle: zh_simp, when: always }

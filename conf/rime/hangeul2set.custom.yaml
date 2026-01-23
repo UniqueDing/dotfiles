@@ -1,0 +1,15 @@
+patch:
+  "schema/icon": icon/korean.ico
+  "schema/name": 韩语
+
+  switches:
+    - name: full_shape
+      states: [ "半", "全" ]
+
+  "key_binder/bindings":
+    - { when: has_menu, accept: semicolon, send: 2 }
+    - { accept: "Shift+space", select: latin, when: always }
+  
+  menu:
+    alternative_select_keys: "123456789"
+    page_size: 9

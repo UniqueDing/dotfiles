@@ -1,0 +1,41 @@
+patch:
+  schema/icon: icon/jp.ico
+  schema/name: 日语
+  switches:
+    - name: kata
+      reset: 0
+      states: [ひ, カ]
+    - name: full_shape
+      reset: 0
+      states: ["半", "全"]
+  engine/filters:
+    - simplifier
+    - simplifier@kata
+    #- simplifier@jp_variants
+    #- simplifier@zh_simp
+    #- simplifier@zh_tw
+    - uniquifier
+    - reverse_lookup_filter@putonghua_to_kanji_reverse_lookup
+    - reverse_lookup_filter@hannom_reverse_lookup
+    - reverse_lookup_filter@hanja_reverse_lookup
+  putonghua_to_kanji_lookup:
+    tag: putonghua_to_kanji_lookup
+    prefix: "\\"
+    dictionary: pinyin_simp
+    prism: pinyin_simp
+    tips: 【拼音反查】
+  putonghua_to_kanji_reverse_lookup:
+    tags: [ putonghua_to_kanji_lookup ]
+    dictionary: japanese
+    spelling_hints: 10
+  "recognizer/patterns/reverse_lookup": "\\\\H[a-z]*\\\\?$"
+  "recognizer/patterns/putonghua_to_kanji_lookup": "\\\\[a-z;/,.]*\\\\?$"
+  kata:
+    option_name: kata
+    opencc_config: hira2kata.json
+    tags: [abc]
+  "key_binder/bindings":
+    - { when: has_menu, accept: semicolon, send: 2 }
+    - { accept: "Shift+Shift_R", toggle: kata, when: always }
+    - { accept: minus, send: Page_Up, when: has_menu }
+    - { accept: equal, send: Page_Down, when: has_menu }

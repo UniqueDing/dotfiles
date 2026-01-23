@@ -1,0 +1,163 @@
+# Rime schema settings
+# encoding: utf-8
+# 《韓語標準鍵位(2-set)設定頁》
+schema:
+  schema_id: hangeul2set # 注意此ID與文件名裏 .schema.yaml 之前的部分相同
+  name: ❃韓語2set❃
+  version: "201903"
+  author:
+    - 『洋蔥』
+  description: |
+    韓文
+
+switches:
+  - name: ascii_mode
+    reset: 0
+    states: [ "韓文", "英文" ] 
+  - name: full_shape
+    states: [ "半形", "全形" ]
+
+engine:
+  processors:
+    - ascii_composer
+    - recognizer
+    - key_binder
+    - speller
+    - punctuator
+    - selector
+    - navigator
+    - express_editor
+#    - fluency_editor
+  segmentors:
+    - ascii_segmentor
+    - matcher
+    - abc_segmentor
+    - punct_segmentor
+    - fallback_segmentor
+  translators:
+    - script_translator
+    - punct_translator
+    - table_translator@hangeul_phrase
+
+menu:
+  alternative_select_keys: "0123456789"
+  page_size: 10
+
+speller:
+  alphabet: "abcdefghijklmnopqrstuvwxyz;QWERTOP"
+  delimiter: " "
+  algebra:
+    - xform/mqy/QY/
+    - xform/mqo/QO/
+    - xform/mwy/WY/
+    - xform/mwo/WO/
+    - xform/mfy/FY/
+    - xform/mfo/FO/
+    - xform/mry/RY/
+    - xform/mpo/PO/
+    - xform/mgy/GY/
+    - xform/mgo/GO/
+    - xform/qq/Q/
+    - xform/ww/W/
+    - xform/ff/F/
+    - xform/pp/P/
+    - xform/gg/G/
+    - xform/yy/Y/
+    - xform/oo/O/
+    - derive/^Q/qq/
+    - derive/^W/ww/
+    - derive/^F/ff/
+    - derive/^P/pp/
+    - derive/^G/gg/
+
+translator:
+  dictionary: hangeul2set
+  prism: hangeul2set
+  enable_user_dict: true
+  enable_sentence: false
+  enable_completion: false
+  preedit_format:
+#    - "xlit|abcdefghijklmnopqrstuvwxyz|ABCDEFGHIJKLMNOPQRSTUVWXYZ|"
+#    - "xlit|abcdefghijklmnopqrstuvwxyzQWERTOP |ㅁㅠㅊㅇㄷㄹㅎㅗㅑㅓㅏㅣㅡㅜㅐㅔㅂㄱㄴㅅㅕㅍㅈㅌㅛㅋㅃㅉㄸㄲㅆㅒㅖ·|"
+    - "xlit|abcsftdhuneimkyoqprglvwxjzQWFPGYO |ㅁㅠㅊㅇㄷㄹㅎㅗㅑㅓㅏㅣㅡㅜㅐㅔㅂㄱㄴㅅㅕㅍㅈㅌㅛㅋㅃㅉㄸㄲㅆㅒㅖ·|"
+  comment_format:
+#    - "xlit|abcdefghijklmnopqrstuvwxyz|ABCDEFGHIJKLMNOPQRSTUVWXYZ|"
+#    - "xlit|abcdefghijklmnopqrstuvwxyzQWERTOP |ㅁㅠㅊㅇㄷㄹㅎㅗㅑㅓㅏㅣㅡㅜㅐㅔㅂㄱㄴㅅㅕㅍㅈㅌㅛㅋㅃㅉㄸㄲㅆㅒㅖ·|"
+    - "xlit|abcsftdhuneimkyoqprglvwxjzQWFPGYO |ㅁㅠㅊㅇㄷㄹㅎㅗㅑㅓㅏㅣㅡㅜㅐㅔㅂㄱㄴㅅㅕㅍㅈㅌㅛㅋㅃㅉㄸㄲㅆㅒㅖ·|"
+
+hangeul_phrase:
+  dictionary: ""
+  user_dict: hangeul2set_phrase
+  db_class: tabledb #stabledb
+  enable_completion: false
+  enable_sentence: false
+  initial_quality: "1"
+
+punctuator:
+  half_shape:
+    "`" : { commit: "₩" }
+    "|" : { commit: " " }  ##會空一格並上屏，原「|」鍵會失效變「空格」。可結合key_binder空白鍵，使空白鍵能空一格上屏。
+    "$" : [ "$", "₩", "＄", "¥", "￥", "€", "£", "￡", "₤", "¢", "￠", "₵", "₡", "¤", "৳", "฿", "₠", "₢", "₣", "₥", "₦", "₧", "₪", "₫", "₭", "₮", "₯", "₰", "₱", "₲", "₳", "₴", "₶", "₷", "₸", "₹", "₺", "₨", "﷼" ]
+    "%" : [ "%", "％", "‰", "‱", "°", "℃", "℉", "Å", "㏃", "㏆", "㎈", "㏄", "㏅", "㎝", "㎠", "㎤", "㏈", "㎗", "㎙", "㎓", "㎬", "㏉", "㏊", "㏋", "㎐", "㏌", "㎄", "㎅", "㎉", "㎏", "㎑", "㏍", "㎘", "㎞", "㏎", "㎢", "㎦", "㎪", "㏏", "㎸", "㎾", "㏀", "㏐", "㏓", "㎧", "㎨", "㎡", "㎥", "㎃", "㏔", "㎆", "㎎", "㎒", "㏕", "㎖", "㎜", "㎟", "㎣", "㏖", "㎫", "㎳", "㎷", "㎹", "㎽", "㎿", "㏁", "㎁", "㎋", "㎚", "㎱", "㎵", "㎻", "㏘", "㎩", "㎀", "㎊", "㏗", "㏙", "㏚", "㎰", "㎴", "㎺", "㎭", "㎮", "㎯", "㏛", "㏜", "㎔", "㏝", "㎂", "㎌", "㎍", "㎕", "㎛", "㎲", "㎶", "㎼" ]
+    "&" : [ "&", "＆", "＃", "＠", ⅟, ½, ↉, ⅓, ⅔, ¼, ⅕, ⅖, ⅗, ⅘, ⅙, ⅚, ⅐, ⅛, ⅜, ⅝, ⅞, ⅑, ⅒ ]
+    "*" : [ "*", ＊, "﹡", ※, ❂, ★, ☆, ✡, ❋, ❊, ❉, ❈, ❇, ❆, ❅, ❄, ❃, ❁, ❀, ✿, ✾, ✽, ✼, ✻, ✺, ✹, ✸, ✷, ✶, ✵, ✴, ✳, ✲, ✱, ✰, ✯, ✮, ✭, ✬, ✫, ✪, ✩, ✧, ✦, ✥, ✤, ✣, ✢, ⛤, ⛥, ⛦, ⛧ ]
+    "^" : [ "^", "+", "-", "×", "÷", "±", "=", "≠", "＝", "＋", "－", "＜", "＞", "∈", "∏", "∑", "≮", "≯", "∕", "√", "∝", "∞", ∟, ∠, ∥, ∧, ∨, ∩, ∪, ∫, ∮, ∴, ∵, ∷, ∽, ≈, ≌, ≒, ≡, ≤, ≥, ≦, ≧, ⊕, ⊙, ⊥, ⊿, ㏑, ㏒ ]
+    "=" : { commit: "=" }
+    "-" : { commit: "-" }
+    "," : { commit: "," }
+    "." : { commit: "." }
+    ";" : [ ";", "…", "·", "`", "'", "\"" ]
+    "'" : { pair: [ "‘", "’" ] }
+    "\"" : { pair: [ "“", "”" ] }
+#############################
+    "A" : { commit: "ㅁ" }
+    "B" : { commit: "ㅠ" }
+    "C" : { commit: "ㅊ" }
+    "S" : { commit: "ㅇ" }
+#    "F" : { commit: "ㄸ" }
+    "T" : { commit: "ㄹ" }
+    "D" : { commit: "ㅎ" }
+    "H" : { commit: "ㅗ" }
+    "U" : { commit: "ㅑ" }
+    "N" : { commit: "ㅓ" }
+    "E" : { commit: "ㅏ" }
+    "I" : { commit: "ㅣ" }
+    "M" : { commit: "ㅡ" }
+    "K" : { commit: "ㅜ" }
+#    "Y" : { commit: "ㅒ" }
+#    "O" : { commit: "ㅖ" }
+#    "Q" : { commit: "ㅃ" }
+#    "P" : { commit: "ㄲ" }
+    "R" : { commit: "ㄴ" }
+#    "G" : { commit: "ㅆ" }
+    "L" : { commit: "ㅕ" }
+    "V" : { commit: "ㅍ" }
+#    "W" : { commit: "ㅉ" }
+    "X" : { commit: "ㅌ" }
+    "J" : { commit: "ㅛ" }
+    "Z" : { commit: "ㅋ" }
+#############################
+
+key_binder:
+  import_preset: default
+  bindings:
+    - {accept: comma, send: comma, when: has_menu}
+    - {accept: period, send: period, when: has_menu}
+    - {accept: minus, send: minus, when: has_menu}
+    - {accept: equal, send: equal, when: has_menu}
+    - {accept: Left, send: Page_Up, when: paging}
+    - {accept: Right, send: Page_Down, when: paging}
+    - {accept: Tab, send: Shift+Right, when: composing}
+    - {accept: Shift+space, send: Down, when: has_menu} #選字可用「 Shift 」+空白鍵
+    - {accept: Return, send: space, when: has_menu} #return,enter直出
+    - {accept: space, send: bar, when: has_menu} #按空白鍵後會空一格並上屏，原「|」鍵會失效變「空格」。
+    - {accept: space, send: space, when: paging} #選單有多字並選擇時，不會跳成單字加上空格。
+
+editor:
+  bindings:
+    Shift+Return: commit_raw_input
+
+recognizer:
+  patterns:
+    email: "^[A-Za-z][-_.0-9A-Za-z]*@.*$"
+    url: "^(www[.]|https?:|ftp[.:]|mailto:|file:).*$|^[a-z]+[.].+$"
