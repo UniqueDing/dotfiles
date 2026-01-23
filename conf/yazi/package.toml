@@ -1,17 +1,17 @@
 [[plugin.deps]]
 use = "yazi-rs/plugins:git"
-rev = "398796d"
-hash = "73788c7dc5827ef4677c502c3ea8fa19"
+rev = "de33976"
+hash = "36a484acf6a0a0219c543ccb4cee218f"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:chmod"
-rev = "398796d"
+rev = "de33976"
 hash = "8da0b15a97b5dfd13941d1ecc617ac7c"
 
 [[plugin.deps]]
 use = "Ape/open-with-cmd"
-rev = "433cf30"
-hash = "86e0312b01bc5762813c6c1d0517f073"
+rev = "e3d430f"
+hash = "d29c1ffa99099181faf8c01d1f59aa4c"
 
 [[plugin.deps]]
 use = "Ape/reflink"
@@ -25,23 +25,23 @@ hash = "e519d894e94ded741e06aae4d4775981"
 
 [[plugin.deps]]
 use = "pirafrank/what-size"
-rev = "a36fdaf"
-hash = "c5c38bb8cd68d4426471efe0013ca0ac"
+rev = "179ebf6"
+hash = "57056b9728006881d580ccabe8154a9c"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:diff"
-rev = "398796d"
+rev = "de33976"
 hash = "492e4757f332e29f982556bf507e043c"
 
 [[flavor.deps]]
 use = "AdithyanA2005/nord"
-rev = "3a791e9"
-hash = "8c0450f0966288d1ad3173ed2502e3dd"
+rev = "bdf0bd4"
+hash = "816970e00d643d3e8213b430d2148aec"
 
 [[flavor.deps]]
 use = "BennyOe/tokyo-night"
-rev = "5f56364"
-hash = "ea25e1f0f25b0521ef78fd4e9698ff52"
+rev = "8e6296f"
+hash = "d9da921c3bd37ba32ee27a8a7a40461f"
 
 [[flavor.deps]]
 use = "BennyOe/onedark"
@@ -50,15 +50,15 @@ hash = "1e647ba2d7c6e6f2bafe858ad9a4e50a"
 
 [[flavor.deps]]
 use = "bennyyip/gruvbox-dark"
-rev = "2c61c90"
-hash = "3685f7557e7425381b65c883c688f593"
+rev = "619fdc5"
+hash = "d4c7003ec6dc4efd5d3a050d5c2f2575"
 
 [[flavor.deps]]
 use = "yazi-rs/flavors:dracula"
-rev = "9276ffa"
-hash = "7a870f143a4026a893ea3123be711e7a"
+rev = "ca61658"
+hash = "8589ae0231756a9daf9c072f31b1fe0"
 
 [[flavor.deps]]
 use = "yazi-rs/flavors:catppuccin-mocha"
-rev = "9276ffa"
-hash = "b951d27afe197d154f6da9683b46c5f8"
+rev = "ca61658"
+hash = "8eabb4e88096f10905a6df62cfaadbf4"

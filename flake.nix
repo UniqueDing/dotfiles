@@ -10,7 +10,7 @@
   outputs = { self, flake-utils, home-manager, nixpkgs, ... }@inputs:
     flake-utils.lib.eachDefaultSystemPassThrough (system:
       let
-        pkgs = nixpkgs.legacyPackages.${system};
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
         username = "uniqueding";
         homeDirectory = "/home/uniqueding";
         stateVersion = "25.11";

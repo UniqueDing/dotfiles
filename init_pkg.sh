@@ -31,9 +31,10 @@ arch)
     ;;
 esac
 
-ln -sfn $HOME/dotfiles/home/alacritty $HOME/.config/alacritty
-ln -sfn $HOME/dotfiles/home/kanata $HOME/.config/kanata
-ln -sfn $HOME/dotfiles/home/fcitx5/config $HOME/.config/fcitx5
-ln -sfn $HOME/dotfiles/home/fcitx5/share $HOME/.local/share/fcitx5
-ln -sfn $HOME/dotfiles/home/rime $HOME/.local/share/fcitx5/rime
-ln -sfn $HOME/dotfiles/home/rime $HOME/.config/ibus/rime
+ln -sfn $HOME/dotfiles/conf/alacritty              $HOME/.config/alacritty
+ln -sfn $HOME/dotfiles/conf/kanata                 $HOME/.config/kanata
+ln -sfn $HOME/dotfiles/conf/fcitx5/config          $HOME/.config/fcitx5
+mkdir -p $HOME/.local/share/fcitx5
+ln -sfn $HOME/dotfiles/conf/fcitx5/share/themes    $HOME/.local/share/fcitx5/themes
+ln -sfn $HOME/dotfiles/conf/rime                   $HOME/.local/share/fcitx5/rime
+#ln -sfn $HOME/dotfiles/conf/rime $HOME/.config/ibus/rime

@@ -32,14 +32,7 @@ dotfiles)
     config=$2
     home-manager switch --flake .#$config
     ;;
-all)
-    curl https://mirrors.tuna.tsinghua.edu.cn/nix/latest/install | sh
-    sudo mkdir /etc/nix
-    sudo cp nix.conf /etc/nix/nix.conf
-    nix-channel --update
-    nix-env -iA nixpkgs.home-manager
-    config=$2
-    home-manager switch --flake .#$config
+conf)
     set +e
     rustup default stable
     pip config set global.index-url https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple
@@ -58,6 +51,16 @@ all)
     zsh -c "ZIM_HOME=${ZIM_HOME} ZIM_CONFIG_FILE=${ZIM_CONFIG_FILE} source ${ZIM_HOME}/zimfw.zsh init -q"
     # fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher && fisher update"
     nvim --headless -c 'Lazy! sync' -c 'qa'
+    ;;
+all)
+    curl https://mirrors.tuna.tsinghua.edu.cn/nix/latest/install | sh
+    sudo mkdir /etc/nix
+    sudo cp nix.conf /etc/nix/nix.conf
+    nix-channel --update
+    nix-env -iA nixpkgs.home-manager
+    config=$2
+    home-manager switch --flake .#$config
+    ./build-homemanager conf
     ;;
 nixgl)
     nix-channel --add https://github.com/guibou/nixGL/archive/main.tar.gz nixgl && nix-channel --update
