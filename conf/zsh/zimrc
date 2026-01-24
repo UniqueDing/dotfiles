@@ -6,4 +6,4 @@ zmodule wfxr/forgit
 zmodule hlissner/zsh-autopair
 zmodule MichaelAquilina/zsh-auto-notify
 zmodule ohmyzsh/ohmyzsh --root plugins/sudo
-
+zmodule unixorn/fzf-zsh-plugin

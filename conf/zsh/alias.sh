@@ -1,6 +1,5 @@
 # alias
 
-alias s=sudo
 alias ra='yazi'
 # alias ls='lsd --hyperlink=auto'
 alias ls='eza --icons=auto'
@@ -24,6 +23,15 @@ alias pc="proxychains -q"
 
 alias f="$(pay-respects zsh)"
 
+alias fzda="d-attach" # fzf docker attach
+alias fzdirm="d-image-rm" # fzf docker image rm
+alias fzdrm="d-rm" # fzf docker rm
+alias fzds="d-stop-container" # fzf docker stop
+alias fz="fif"
+alias fze="fzf-find-edit" # fzf edit with $EDITOR
+alias fzg="fzf-grep-edit" # fzf edit with $EDITOR
+alias fzk="fzf-kill" # fzf kill processes
+
 alias pS='sudo pacman -S'
 alias pSs='pacman -Ss'
 alias pSyu='sudo pacman -Syu'
@@ -33,11 +41,11 @@ alias pRs='sudo pacman -Rs'
 alias pSi='pacman -Si'
 alias pQs='pacman -Qs'
 alias pQi='pacman -Qi'
-alias yS='yay -S'
-alias ySs='yay -Ss'
-alias yR='yay -R'
-alias ySyu='yay -Syu'
-alias ySyyu='yay -Syyu'
+alias yS='paru -S'
+alias ySs='paru -Ss'
+alias yR='paru -R'
+alias ySyu='paru -Syu'
+alias ySyyu='paru -Syyu'
 
 alias bI='brew install'
 alias bR='brew remove'
@@ -53,13 +61,6 @@ alias aP='sudo apt purge'
 alias aL='apt list'
 alias aH='apt show'
 alias aU='sudo apt update && sudo apt upgrade'
-
-alias sI="sudo snap install"
-alias sS="snap find"
-alias sR="sudo snap remove"
-alias sH="snap info"
-alias sL="snap list"
-alias sU="sudo snap refresh"
 
 alias gu='git status'
 alias gm='git commit'
@@ -77,13 +78,13 @@ alias nvimf='nvim `fzf --preview "cat {}"`'
 alias sysE='systemctl enable'
 alias sysD='systemctl disable'
 alias sysS='systemctl start'
-alias sysT='systemctl stop'
+alias sysP='systemctl stop'
 alias sysU='systemctl status'
 alias sysR='systemctl restart'
 alias sysuE='systemctl --user enable'
 alias sysuD='systemctl --user disable'
 alias sysuS='systemctl --user start'
-alias sysuT='systemctl --user stop'
+alias sysuP='systemctl --user stop'
 alias sysuU='systemctl --user status'
 alias sysuR='systemctl --user restart'
 

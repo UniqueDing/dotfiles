@@ -26,7 +26,7 @@
     duf
     neo-cowsay
     lolcat
-    neofetch
+    fastfetch
     asciiquarium
     cmatrix
     jq

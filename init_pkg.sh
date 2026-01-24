@@ -18,8 +18,8 @@ _arch() {
         echo "error：$PACKAGE_FILE not exsit!"
         exit 1
     fi
-    yay -Syu --noconfirm
-    xargs -a "package/$PACKAGE_FILE" -r yay -Sy --noconfirm
+    paru -Syu --noconfirm
+    xargs -a "package/$PACKAGE_FILE" -r paru -Sy --noconfirm
 }
 
 case $1 in
@@ -32,6 +32,7 @@ arch)
 esac
 
 ln -sfn $HOME/dotfiles/conf/alacritty              $HOME/.config/alacritty
+ln -sfn $HOME/dotfiles/conf/ghostty/               $HOME/.config/ghostty
 ln -sfn $HOME/dotfiles/conf/kanata                 $HOME/.config/kanata
 ln -sfn $HOME/dotfiles/conf/fcitx5/config          $HOME/.config/fcitx5
 mkdir -p $HOME/.local/share/fcitx5
