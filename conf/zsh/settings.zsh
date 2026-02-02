@@ -10,3 +10,4 @@ eval "$(zoxide init zsh)"
 eval "$(pay-respects zsh --alias)"
 
 zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+source <(fzf --zsh)
