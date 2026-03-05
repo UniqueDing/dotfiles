@@ -144,6 +144,7 @@ case "$cmd" in
 
       rm -f "$tmp_local" "$tmp_remote"
       trap - EXIT
+      chmod 0400 ~/.ssh/id_rsa
     done
     ;;
 

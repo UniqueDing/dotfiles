@@ -8,7 +8,6 @@
     imv
     emacs
     alacritty
-    nekoray
     wezterm
   ];
 

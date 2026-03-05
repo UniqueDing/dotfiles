@@ -5,6 +5,7 @@
     psmisc
     atool
     bc
+    bitwarden-cli
     dos2unix
     tree
     vivid

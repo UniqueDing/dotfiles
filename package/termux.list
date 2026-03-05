@@ -1,0 +1,31 @@
+alacritty
+# ghostty
+fastfetch
+firefox
+codelldb
+vsix-package-codelldb
+vlc
+chromium
+syncthing
+# triliumnext-bin
+# fcitx5
+# fcitx5-rime
+# fcitx5-configtool
+kdenlive
+# krita
+gimp
+openscad
+vim
+mesa
+mesa-vulkan-ice-freedreno
+proot
+proot-distro
+openssh
+termux-x11-nightly
+termux-tools
+termux-services
+tree
+zip
+unzip
+wget
+xfce4
