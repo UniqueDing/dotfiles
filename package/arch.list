@@ -2,6 +2,7 @@ alacritty
 ghostty
 kanata
 v2rayn-bin
+gui-for-singbox
 ttf-roboto-mono-nerd
 firefox
 linuxqq
@@ -11,7 +12,8 @@ thunderbird
 wps-office
 netease-cloud-music
 vlc
-wechat
+wechat-universal-bwrap
+wl-clipboard
 chromium
 telegram-desktop
 localsend-bin

@@ -12,7 +12,7 @@ if status is-interactive
 
 
     set -x PATH $PATH /home/uniqueding/.local/bin
-    set -x LOCALE_ARCHIVE {$glibcLocales}/lib/locale/locale-archive
+    # set -x LOCALE_ARCHIVE {$glibcLocales}/lib/locale/locale-archive
     set -x LS_COLORS "$(vivid generate catppuccin-mocha)"
     set -x FZF_DEFAULT_OPTS " \
     --color=bg+:#313244,spinner:#f5e0dc,hl:#f38ba8 \

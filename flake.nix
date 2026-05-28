@@ -7,14 +7,17 @@
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, flake-utils, home-manager, nixpkgs, ... }@inputs:
+  outputs = { flake-utils, home-manager, nixpkgs, ... }:
     flake-utils.lib.eachDefaultSystemPassThrough (system:
       let
-        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        pkgs = nixpkgs.legacyPackages.${system};
         username = "uniqueding";
         homeDirectory = "/home/uniqueding";
         stateVersion = "25.11";
-        confPath = "/home/uniqueding/dotfiles/conf";
+        localConfig =
+          if builtins.pathExists ./local.nix then import ./local.nix else { };
+        dotfilesPath = localConfig.dotfilesPath or "${homeDirectory}/dotfiles";
+        confPath = "${dotfilesPath}/conf";
       in {
         homeConfigurations.docker = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
@@ -55,6 +58,9 @@
               ];
             }
           ];
+          extraSpecialArgs = {
+            inherit confPath;
+          };
         };
       }
     );

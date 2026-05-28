@@ -1,4 +1,4 @@
-{ config, pkgs, lib, confPath, ... }:
+{ config, pkgs, confPath, ... }:
 
 {
   home.packages = with pkgs; [
@@ -17,9 +17,10 @@
     lsd
     eza
     ouch
+    trash-cli
+    chafa
+    ueberzugpp
   ];
 
-  home.activation.filemanagerLink = lib.mkAfter ''
-    ln -sfn ${confPath}/yazi $HOME/.config/yazi
-  '';
+  xdg.configFile.yazi.source = config.lib.file.mkOutOfStoreSymlink "${confPath}/yazi";
 }

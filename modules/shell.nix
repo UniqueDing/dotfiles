@@ -1,4 +1,4 @@
-{ config, pkgs, lib, confPath, ... }:
+{ config, pkgs, confPath, ... }:
 
 {
   home.packages = with pkgs; [
@@ -24,16 +24,14 @@
     };
     Service = {
       Type = "simple";
-      ExecStart = "${pkgs.glances}/bin/glances -w --disable-webui --disable-plugins all --enable-plugins cpu,gpu,network,sensors,mem,network,fs";
+      ExecStart = "${pkgs.glances}/bin/glances -w --disable-webui --disable-plugins all --enable-plugins cpu,gpu,network,sensors,mem,fs";
       Restart = "always";
       RestartSec = "10";
     };
   };
 
-  home.activation.shellLink = lib.mkAfter ''
-    ln -sfn ${confPath}/zshrc   $HOME/.zshrc
-    ln -sfn ${confPath}/zsh      $HOME/.config/zsh
-    ln -sfn ${confPath}/starship $HOME/.config/starship
-    ln -sfn ${confPath}/tmux     $HOME/.config/tmux
-  '';
+  home.file.".zshrc".source = config.lib.file.mkOutOfStoreSymlink "${confPath}/zshrc";
+  xdg.configFile.zsh.source = config.lib.file.mkOutOfStoreSymlink "${confPath}/zsh";
+  xdg.configFile.starship.source = config.lib.file.mkOutOfStoreSymlink "${confPath}/starship";
+  xdg.configFile.tmux.source = config.lib.file.mkOutOfStoreSymlink "${confPath}/tmux";
 }

@@ -19,7 +19,7 @@ USER uniqueding
 RUN mkdir -p /home/uniqueding/.config /home/uniqueding/.local/share /home/uniqueding/.cache
 ENV USER="uniqueding"
 ENV PATH="/home/uniqueding/.nix-profile/bin:/home/uniqueding/.local/bin:${PATH}"
-RUN bash build-homemanager.sh all docker
+RUN bash build.sh all docker
 
 RUN echo "export LANG=en_US.UTF-8" >> /home/uniqueding/.profile
 RUN echo "export LC_ALL=en_US.UTF-8" >> /home/uniqueding/.profile

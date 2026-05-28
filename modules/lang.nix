@@ -4,7 +4,6 @@
   home.packages = with pkgs; [
     # cargo
     # clang
-    # clang-tools
     cmake
     gcc
     gdb
@@ -19,12 +18,38 @@
     rustup
     # rustc
     racket
+    uv
     python313
     python313Packages.pip
     protobuf
     flutter
-    chromium
+    # chromium
     android-tools
     sdkmanager
+    godot
+    dotnet-sdk
+
+    ## lsp
+    nixd
+    clang-tools
+    cmake-language-server
+    # rust-analyzer
+    gopls
+    python3Packages.python-lsp-server
+    vtsls
+    vue-language-server
+    jdt-language-server
+    typescript-language-server
+    yaml-language-server
+    taplo
+    lemminx
+    sqls
+    postgres-language-server
+    buf
+    bash-language-server
+    docker-language-server
+    systemd-language-server
+    marksman
+    lua-language-server
   ];
 }

@@ -1,4 +1,4 @@
-{ config, pkgs, lib, confPath, ... }:
+{ config, pkgs, confPath, ... }:
 
 {
   home.packages = with pkgs; [
@@ -50,11 +50,9 @@
     netcat
   ];
 
-  home.activation.toolsLink = lib.mkAfter ''
-    ln -sfn ${confPath}/gitconfig $HOME/.gitconfig
-    ln -sfn ${confPath}/lazygit   $HOME/.config/lazygit
-    ln -sfn ${confPath}/bat       $HOME/.config/bat
-    ln -sfn ${confPath}/tealdeer  $HOME/.config/tealdeer
-    ln -sfn ${confPath}/eza       $HOME/.config/eza
-  '';
+  home.file.".gitconfig".source = config.lib.file.mkOutOfStoreSymlink "${confPath}/gitconfig";
+  xdg.configFile.lazygit.source = config.lib.file.mkOutOfStoreSymlink "${confPath}/lazygit";
+  xdg.configFile.bat.source = config.lib.file.mkOutOfStoreSymlink "${confPath}/bat";
+  xdg.configFile.tealdeer.source = config.lib.file.mkOutOfStoreSymlink "${confPath}/tealdeer";
+  xdg.configFile.eza.source = config.lib.file.mkOutOfStoreSymlink "${confPath}/eza";
 }

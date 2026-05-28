@@ -1,5 +1,15 @@
 #!/usr/bin/env bash
-set -xe
+set -euo pipefail
+set -x
+
+DOTFILES_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)"
+CONF_DIR="$DOTFILES_DIR/conf"
+
+cat > "$DOTFILES_DIR/local.nix" <<EOF
+{
+  dotfilesPath = "$DOTFILES_DIR";
+}
+EOF
 
 _fonts() {
     FONT_VERSION="v3.4.0"
@@ -32,37 +42,39 @@ _fonts() {
 
 _deepin() {
     PACKAGE_FILE="deepin.list"
-    if [[ ! -f "package/$PACKAGE_FILE" ]]; then
+    if [[ ! -f "$DOTFILES_DIR/package/$PACKAGE_FILE" ]]; then
         echo "error：$PACKAGE_FILE not exsit!"
         exit 1
     fi
     echo "deb https://pro-store-packages.uniontech.com/appstore eagle-pro appstore" | sudo tee /etc/apt/sources.list.d/appstoreuos.list
     sudo apt update
-    cat "package/$PACKAGE_FILE" | grep -vE '^\s*#' | grep -vE '^\s*$' | xargs -r sudo apt install -y
+    cat "$DOTFILES_DIR/package/$PACKAGE_FILE" | grep -vE '^\s*#' | grep -vE '^\s*$' | xargs -r sudo apt install -y
 }
 
 _arch() {
     PACKAGE_FILE="arch.list"
-    if [[ ! -f "package/$PACKAGE_FILE" ]]; then
+    if [[ ! -f "$DOTFILES_DIR/package/$PACKAGE_FILE" ]]; then
         echo "error：$PACKAGE_FILE not exsit!"
         exit 1
     fi
     sudo paru -Syu --noconfirm
-    cat "package/$PACKAGE_FILE" | grep -vE '^\s*#' | grep -vE '^\s*$' | xargs -r sudo paru -Sy --noconfirm
+    cat "$DOTFILES_DIR/package/$PACKAGE_FILE" | grep -vE '^\s*#' | grep -vE '^\s*$' | xargs -r sudo paru -Sy --noconfirm
 }
 
 _termux() {
     PACKAGE_FILE="termux.list"
-    if [[ ! -f "package/$PACKAGE_FILE" ]]; then
+    if [[ ! -f "$DOTFILES_DIR/package/$PACKAGE_FILE" ]]; then
         echo "error：$PACKAGE_FILE not exsit!"
         exit 1
     fi
     pkg update
-    cat "package/$PACKAGE_FILE" | grep -vE '^\s*#' | grep -vE '^\s*$' | xargs -r pkg i -y
+    cat "$DOTFILES_DIR/package/$PACKAGE_FILE" | grep -vE '^\s*#' | grep -vE '^\s*$' | xargs -r pkg i -y
     vs start sshd
 }
 
-case $1 in
+target="${1:-}"
+
+case "$target" in
 deepin)
     _deepin
     ;;
@@ -72,15 +84,21 @@ arch)
 termux)
     _termux
     ;;
+*)
+    echo "error: unknown package target: $target" >&2
+    exit 1
+    ;;
 esac
 _fonts
 
-ln -sfn $HOME/dotfiles/conf/vimrc                  $HOME/.vimrc
-ln -sfn $HOME/dotfiles/conf/alacritty              $HOME/.config/alacritty
-ln -sfn $HOME/dotfiles/conf/ghostty/               $HOME/.config/ghostty
-ln -sfn $HOME/dotfiles/conf/kanata                 $HOME/.config/kanata
-ln -sfn $HOME/dotfiles/conf/fcitx5/config          $HOME/.config/fcitx5
-mkdir -p $HOME/.local/share/fcitx5
-ln -sfn $HOME/dotfiles/conf/fcitx5/themes          $HOME/.local/share/fcitx5/themes
-ln -sfn $HOME/dotfiles/conf/rime                   $HOME/.local/share/fcitx5/rime
+mkdir -p "$HOME/.config" "$HOME/.local/share/fcitx5" "$HOME/.config/environment.d"
+
+ln -sfn "$CONF_DIR/vimrc"                   "$HOME/.vimrc"
+ln -sfn "$CONF_DIR/alacritty"               "$HOME/.config/alacritty"
+ln -sfn "$CONF_DIR/ghostty/"                "$HOME/.config/ghostty"
+ln -sfn "$CONF_DIR/kanata"                  "$HOME/.config/kanata"
+ln -sfn "$CONF_DIR/fcitx5/config"           "$HOME/.config/fcitx5"
+ln -sfn "$CONF_DIR/environment.d/fcitx.env" "$HOME/.config/environment.d/fcitx.env"
+ln -sfn "$CONF_DIR/fcitx5/themes"           "$HOME/.local/share/fcitx5/themes"
+ln -sfn "$CONF_DIR/rime"                    "$HOME/.local/share/fcitx5/rime"
 #ln -sfn $HOME/dotfiles/conf/rime $HOME/.config/ibus/rime

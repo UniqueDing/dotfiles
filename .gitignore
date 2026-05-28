@@ -25,3 +25,4 @@ conf/fish/completions
 conf/fish/conf.d
 conf/yazi/flavors
 conf/yazi/plugins
+local.nix

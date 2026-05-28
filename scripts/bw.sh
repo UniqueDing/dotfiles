@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e
+set -euo pipefail
 
 FOLDER="dotfiles"
 
@@ -73,6 +73,10 @@ show_diff_if_any() {
   fi
 }
 
+cleanup_tmp() {
+  rm -f "${tmp_local:-}" "${tmp_remote:-}"
+}
+
 case "$cmd" in
   list)
     bw list items --folderid "$FOLDER_ID" \
@@ -94,7 +98,7 @@ case "$cmd" in
 
       tmp_local="$(mktemp)"
       tmp_remote="$(mktemp)"
-      trap 'rm -f "$tmp_local" "$tmp_remote"' EXIT
+      trap cleanup_tmp EXIT
 
       cat -- "$src" > "$tmp_local"
 
@@ -136,13 +140,13 @@ case "$cmd" in
               | .name=$name
               | .folderId=$folderId
               | .notes=$notes
-              | .secureNote.type={ "type=0" }'
+              | .secureNote.type=0'
           )"
         echo "update: $name"
         echo "$item_json" | bw encode | bw edit item "$item_id" >/dev/null
       fi
 
-      rm -f "$tmp_local" "$tmp_remote"
+      cleanup_tmp
       trap - EXIT
       chmod 0400 ~/.ssh/id_rsa
     done
@@ -156,7 +160,7 @@ case "$cmd" in
 
       tmp_local="$(mktemp)"
       tmp_remote="$(mktemp)"
-      trap 'rm -f "$tmp_local" "$tmp_remote"' EXIT
+      trap cleanup_tmp EXIT
 
       bw get item "$item_id" | jq -r '.notes // ""' > "$tmp_remote"
 
@@ -180,7 +184,7 @@ case "$cmd" in
       cat -- "$tmp_remote" > "$dst"
       echo "pulled: $name"
 
-      rm -f "$tmp_local" "$tmp_remote"
+      cleanup_tmp
       trap - EXIT
     done
     ;;
