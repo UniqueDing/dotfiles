@@ -26,3 +26,4 @@ conf/fish/conf.d
 conf/yazi/flavors
 conf/yazi/plugins
 local.nix
+pkg_target

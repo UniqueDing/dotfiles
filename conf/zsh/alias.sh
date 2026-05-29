@@ -1,6 +1,6 @@
 # alias
 
-alias ra='yazi'
+alias ra='/usr/bin/yazi'
 # alias ls='lsd --hyperlink=auto'
 alias ls='eza --icons=auto'
 alias l=ls

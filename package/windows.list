@@ -1,0 +1,68 @@
+# terminal / shell
+Microsoft.WindowsTerminal
+Microsoft.PowerShell
+Git.Git
+Alacritty.Alacritty
+
+# editor
+Microsoft.VisualStudioCode
+Neovim.Neovim
+
+# browser
+Mozilla.Firefox
+Google.Chrome
+
+# cli tools
+BurntSushi.ripgrep.MSVC
+sharkdp.fd
+sharkdp.bat
+eza-community.eza
+ajeetdsouza.zoxide
+Starship.Starship
+jqlang.jq
+GitHub.cli
+7zip.7zip
+Microsoft.WindowsSDK
+OpenJS.NodeJS.LTS
+Python.Python.3.12
+GoLang.Go
+Rustlang.Rustup
+
+# tui / terminal apps
+jesseduffield.lazygit
+sxyazi.yazi
+
+# input method
+RIME.Weasel
+
+# apps
+Tencent.QQ
+Tencent.WeChat
+GUI.for.SingBox
+2dust.v2rayN
+Valve.Steam
+EpicGames.EpicGamesLauncher
+Bilibili.Bilibili
+NetEase.CloudMusic
+VideoLAN.VLC
+Daum.PotPlayer
+Telegram.TelegramDesktop
+LocalSend.LocalSend
+Syncthing.Syncthing
+ZeroTier.ZeroTierOne
+TriliumNext.Notes
+
+# hardware tools
+CrystalDewWorld.CrystalDiskInfo
+CrystalDewWorld.CrystalDiskMark
+CPUID.CPU-Z
+TechPowerUp.GPU-Z
+
+# creative tools
+GIMP.GIMP
+KDE.Krita
+BlenderFoundation.Blender
+KDE.Kdenlive
+
+# web apps
+# Twitter and YouTube are usually installed as browser PWAs instead of winget packages.
