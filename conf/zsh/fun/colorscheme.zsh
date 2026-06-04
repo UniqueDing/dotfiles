@@ -40,7 +40,7 @@ local function modify_scheme() {
   nvim_scheme=$scheme
   case "$scheme" in
     "catppuccin_mocha")
-      nvim_scheme="catppuccin"
+      nvim_scheme="catppuccin-nvim"
       ;;
     "tokyonight_moon")
       nvim_scheme="tokyonight"
