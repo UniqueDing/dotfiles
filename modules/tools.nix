@@ -47,6 +47,7 @@
     pay-respects
     curl
     wget
+    traceroute
     netcat
   ];
 

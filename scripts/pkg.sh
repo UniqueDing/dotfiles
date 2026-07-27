@@ -39,8 +39,9 @@ install_arch_packages() {
         echo "error：$PACKAGE_FILE not exsit!"
         exit 1
     fi
-    without_nix_env paru -Syu --noconfirm
-    cat "$DOTFILES_DIR/package/$PACKAGE_FILE" | grep -vE '^\s*#' | grep -vE '^\s*$' | xargs -r without_nix_env paru -Sy --noconfirm
+    # bug
+    paru -Syu --noconfirm
+    cat "$DOTFILES_DIR/package/$PACKAGE_FILE" | grep -vE '^\s*#' | grep -vE '^\s*$' | xargs -r paru -Sy --noconfirm
 }
 
 install_termux_packages() {
@@ -115,7 +116,7 @@ update_system_packages() {
 }
 
 update_all() {
-    update_system_packages
+    # update_system_packages
     if command -v nix-channel >/dev/null 2>&1; then
         update_nix
     fi

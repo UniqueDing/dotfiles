@@ -28,9 +28,9 @@ install_nixpkgs() {
     restore_if_exists /etc/bash.bashrc.backup-before-nix /etc/bash.bashrc
     restore_if_exists /etc/zshrc.backup-before-nix /etc/zshrc
 
-    curl https://mirrors.tuna.tsinghua.edu.cn/nix/latest/install | sh -s -- --no-daemon
+    curl https://mirrors.tuna.tsinghua.edu.cn/nix/latest/install | sh -s -- --no-daemon --no-modify-profile
     sudo mkdir -p /etc/nix
-    sudo cp "$DOTFILES_DIR/nix.conf" /etc/nix/nix.conf
+    sudo cp "$DOTFILES_DIR/conf/nix.conf" /etc/nix/nix.conf
     sudo sed -i "s|\(Defaults\s*secure_path=.*\):.*|\1:/home/uniqueding/.nix-profile/bin\"|" /etc/sudoers
 }
 

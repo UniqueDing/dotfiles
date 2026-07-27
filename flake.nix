@@ -13,7 +13,7 @@
         pkgs = nixpkgs.legacyPackages.${system};
         username = "uniqueding";
         homeDirectory = "/home/uniqueding";
-        stateVersion = "25.11";
+        stateVersion = "26.05";
         localConfig =
           if builtins.pathExists ./local.nix then import ./local.nix else { };
         dotfilesPath = localConfig.dotfilesPath or "${homeDirectory}/dotfiles";

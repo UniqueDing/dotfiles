@@ -33,6 +33,7 @@ Commands:
   all [profile]        Install Nix/Home Manager, switch profile, run conf; defaults to docker
   nixgl                Install nixGL
   theme                Install Qogir themes
+  windows-terminal     Add Git Bash profile to Windows Terminal
   update               Update Nix, channels, flake lock, and Home Manager
   kanata               Install and enable kanata on Arch/EndeavourOS
 EOF
@@ -97,6 +98,9 @@ main() {
         ;;
     theme)
         install_theme
+        ;;
+    windows-terminal)
+        add_windows_terminal_git_bash
         ;;
     update)
         update_all

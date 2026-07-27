@@ -1,8 +1,8 @@
 # alias
 
-alias ra='/usr/bin/yazi'
+alias ra='yazi'
 # alias ls='lsd --hyperlink=auto'
-alias ls='eza --icons=auto'
+alias ls='eza --icons=auto --hyperlink -g'
 alias l=ls
 alias ll='ls -l --git -g'
 alias lla='ll -a'

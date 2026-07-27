@@ -47,7 +47,7 @@ install_nerd_fonts() {
     for FONT_NAME in "${FONT_NAMES[@]}"; do
         FONT_URL="https://github.com/ryanoasis/nerd-fonts/releases/download/$FONT_VERSION/$FONT_NAME.zip"
 
-        wget -q --show-progress "$FONT_URL" -O "$HOME/$FONT_NAME.zip"
+        curl -fL "$FONT_URL" -o "$HOME/$FONT_NAME.zip"
         if [[ $? -ne 0 ]]; then
             echo "Download failed for $FONT_NAME. Please check your network connection or font name!"
             continue
@@ -71,8 +71,27 @@ install_linux_fonts() {
 install_windows_fonts() {
     FONT_DIR="$LOCALAPPDATA/Microsoft/Windows/Fonts"
     install_nerd_fonts
-    # If copying fonts is not enough, register them for the current user.
-    # powershell.exe -NoProfile -Command 'New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Fonts" -Name "Font Name (TrueType)" -Value "$env:LOCALAPPDATA\Microsoft\Windows\Fonts\Font.ttf" -PropertyType String -Force'
+    register_windows_fonts
+}
+
+register_windows_fonts() {
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -Command '
+$ErrorActionPreference = "Stop"
+
+$fontDir = Join-Path $env:LOCALAPPDATA "Microsoft\Windows\Fonts"
+$registryPath = "HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Fonts"
+
+Get-ChildItem -Path $fontDir -Include *.ttf,*.otf -Recurse | ForEach-Object {
+    $fontType = if ($_.Extension -ieq ".otf") { "OpenType" } else { "TrueType" }
+    $name = "$($_.BaseName) ($fontType)"
+    New-ItemProperty `
+        -Path $registryPath `
+        -Name $name `
+        -Value $_.FullName `
+        -PropertyType String `
+        -Force | Out-Null
+}
+'
 }
 
 link_linux_configs() {
@@ -100,4 +119,43 @@ link_windows_configs() {
     ln -sfn "$CONF_DIR/gitconfig" "$USERPROFILE/.gitconfig"
     # If Git Bash symlinks fail on Windows, use junctions for directories instead.
     # cmd //c mklink /J "target" "source"
+}
+
+add_windows_terminal_git_bash() {
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -Command '
+$ErrorActionPreference = "Stop"
+
+$settingsPath = Join-Path $env:LOCALAPPDATA "Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json"
+if (-not (Test-Path $settingsPath)) {
+    $settingsPath = Join-Path $env:LOCALAPPDATA "Microsoft\Windows Terminal\settings.json"
+}
+
+if (-not (Test-Path $settingsPath)) {
+    throw "Windows Terminal settings.json not found"
+}
+
+$settings = Get-Content $settingsPath -Raw | ConvertFrom-Json
+if (-not $settings.profiles) {
+    $settings | Add-Member -MemberType NoteProperty -Name profiles -Value ([pscustomobject]@{ list = @() })
+}
+if (-not $settings.profiles.list) {
+    $settings.profiles | Add-Member -MemberType NoteProperty -Name list -Value @()
+}
+
+$commandline = "`"C:\Program Files\Git\bin\bash.exe`" --login -i"
+$icon = "C:\Program Files\Git\mingw64\share\git\git-for-windows.ico"
+$exists = $settings.profiles.list | Where-Object { $_.name -eq "Git Bash" }
+
+if (-not $exists) {
+    $settings.profiles.list += [pscustomobject]@{
+        guid = "{00000000-0000-0000-0000-000000000001}"
+        name = "Git Bash"
+        commandline = $commandline
+        startingDirectory = "%USERPROFILE%"
+        icon = $icon
+    }
+}
+
+$settings | ConvertTo-Json -Depth 100 | Set-Content -Encoding UTF8 $settingsPath
+'
 }

@@ -1,9 +1,18 @@
 alacritty
 ghostty
-kanata
+docker
+
+# net
+sunshine-bin
+localsend-bin
 v2rayn-bin
 gui-for-singbox
-ttf-roboto-mono-nerd
+
+# kanata
+fcitx5
+fcitx5-rime
+fcitx5-configtool
+
 firefox
 linuxqq
 code
@@ -16,30 +25,25 @@ wechat-universal-bwrap
 wl-clipboard
 chromium
 telegram-desktop
-localsend-bin
-zerotier-one
 baidunetdisk-bin
 syncthing
-ibus
-ibus-rime
-bottles
 steam
 triliumnext-bin
 electron28-bin
 bilibili-bin
-docker
 docker-compose
-fcitx5
-fcitx5-rime
-fcitx5-configtool
 kdenlive
 krita
 gimp
 openscad
 jellyfin-desktop
 
-libvirt
-swtpm
-virt-manager
-qemu-all
-qemu-ovmf-secureboot
+# wine
+# bottles
+
+# virt
+# libvirt
+# swtpm
+# virt-manager
+# qemu-all
+# qemu-ovmf-secureboot
