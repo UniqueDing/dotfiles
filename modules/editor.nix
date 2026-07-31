@@ -20,6 +20,8 @@
     # chromium
     translate-shell
     opencode
+    codegraph
+    skills
   ];
 
   systemd.user.services.opencode-web = {

@@ -9,6 +9,8 @@ source "$DOTFILES_DIR/scripts/nix.sh"
 source "$DOTFILES_DIR/scripts/conf.sh"
 # shellcheck source=scripts/pkg.sh
 source "$DOTFILES_DIR/scripts/pkg.sh"
+# shellcheck source=scripts/kanata.sh
+source "$DOTFILES_DIR/scripts/kanata.sh"
 
 if [[ -f /etc/lsb-release ]]; then
     # shellcheck disable=SC1091
@@ -35,7 +37,7 @@ Commands:
   theme                Install Qogir themes
   windows-terminal     Add Git Bash profile to Windows Terminal
   update               Update Nix, channels, flake lock, and Home Manager
-  kanata               Install and enable kanata on Arch/EndeavourOS
+  kanata               Install Kanata; add tray autostart on Deepin
 EOF
 }
 

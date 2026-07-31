@@ -1,0 +1,12 @@
+[Unit]
+Description=Kanata tray
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+ExecStart=/usr/local/bin/kanata-tray
+Restart=on-failure
+Environment=KANATA_TRAY_LOG_DIR=%h/.local/state/kanata-tray
+
+[Install]
+WantedBy=graphical-session.target

@@ -24,7 +24,8 @@ set -g command-alias[117] joinpane6='run-shell "$dwm_path join 6"'
 set -g command-alias[118] joinpane7='run-shell "$dwm_path join 7"'
 set -g command-alias[119] joinpane8='run-shell "$dwm_path join 8"'
 set -g command-alias[120] joinpane9='run-shell "$dwm_path join 9"'
-set-hook -g pane-exited 'run-shell "$dwm_path layouttile"'
+# Keep automatic exits consistent with the mirrored layout used by killpane.
+set-hook -g pane-exited 'run-shell "$dwm_path layoutmirrored"'
 
 # bind n newpane
 bind w newpanecurdir
@@ -47,4 +48,3 @@ bind ^   joinpane6
 bind &   joinpane7
 bind *   joinpane8
 bind (   joinpane9
-

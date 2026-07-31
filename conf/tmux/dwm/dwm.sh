@@ -57,6 +57,10 @@ layouttile() {
     tmux select-layout main-vertical\; resize-pane -t :.0 -x ${mfact}%
 }
 
+layoutmirrored() {
+    tmux select-layout main-vertical-mirrored\; resize-pane -t :.0 -x ${mfact}%
+}
+
 float() {
     tmux resize-pane -Z
 }
@@ -120,6 +124,7 @@ rotateccw) rotateccw ;;
 rotatecw) rotatecw ;;
 zoom) zoom ;;
 layouttile) layouttile ;;
+layoutmirrored) layoutmirrored ;;
 float) float ;;
 incmfact) incmfact ;;
 decmfact) decmfact ;;

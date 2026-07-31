@@ -1,0 +1,8 @@
+[general]
+allow_concurrent_presets = false
+
+[presets.kanata]
+kanata_executable = "/usr/local/bin/kanata"
+kanata_config = "/etc/kanata.kbd"
+autorun = true
+autorestart_on_crash = true
