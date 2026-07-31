@@ -2,10 +2,6 @@
 FUNPATH=$(dirname "$0")
 source $FUNPATH/*.zsh
 
-function mkcd(){
-	mkdir $1
-	cd $1
-}
 
 # function adbS() {
 #     while :

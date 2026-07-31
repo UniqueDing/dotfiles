@@ -1,27 +1,36 @@
 CONF_DIR="$DOTFILES_DIR/conf"
 
 init_conf() {
-    rustup default stable || true
-    pip config set global.index-url https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple || true
-    go env -w GOPROXY=https://goproxy.io,direct || true
     mkdir -p "$HOME/.config"
     printf '%s\n' "$DOTFILES_DIR/conf" > "$HOME/.config/dotfiles"
     printf '%s\n' "${1:-}" >> "$HOME/.config/dotfiles"
-    export TMUX_PLUGIN_MANAGER_PATH="$HOME/.local/tmux/plugins/tpm"
 
+    rustup default stable || true
+
+    pip config set global.index-url https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple || true
+
+    go env -w GOPROXY=https://goproxy.io,direct || true
+
+    export TMUX_PLUGIN_MANAGER_PATH="$HOME/.local/tmux/plugins/tpm"
     if [[ ! -d "$TMUX_PLUGIN_MANAGER_PATH/.git" ]]; then
         git clone https://github.com/tmux-plugins/tpm "$TMUX_PLUGIN_MANAGER_PATH"
     fi
 
     "$TMUX_PLUGIN_MANAGER_PATH/bin/install_plugins" || true
+
     ya pkg upgrade || true
+
     bat cache --build || true
+
     ZIM_HOME="$HOME/.local/zim"
     ZIM_CONFIG_FILE="$HOME/.config/zsh/zimrc"
     curl -fsSL --create-dirs -o "${ZIM_HOME}/zimfw.zsh" \
         https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
     zsh -c "ZIM_HOME=${ZIM_HOME} ZIM_CONFIG_FILE=${ZIM_CONFIG_FILE} source ${ZIM_HOME}/zimfw.zsh init -q" || true
+
     nvim --headless -c 'Lazy! sync' -c 'qa' || true
+
+    uv tool install code-review-graph || true
 }
 
 install_theme() {

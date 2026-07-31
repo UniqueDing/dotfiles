@@ -28,6 +28,7 @@
     sdkmanager
     godot
     dotnet-sdk
+    aqtinstall
 
     ## lsp
     nixd

@@ -46,4 +46,5 @@
   };
 
   xdg.configFile.nvim.source = config.lib.file.mkOutOfStoreSymlink "${confPath}/nvim";
+  xdg.configFile.opencode.source = config.lib.file.mkOutOfStoreSymlink "${confPath}/opencode";
 }

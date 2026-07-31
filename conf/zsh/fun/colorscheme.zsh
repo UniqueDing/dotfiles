@@ -25,6 +25,7 @@ function cs() {
   done
 }
 
+
 local function modify_scheme() {
   set -x
   scheme=$1
@@ -108,7 +109,7 @@ local function modify_scheme() {
   sed -i "s/  syntax-theme = .*/  syntax-theme = $delta_scheme/" "$delta_config"
 
   # opencode
-  opencode_config="$HOME/.config/opencode/opencode.json"
+  opencode_config="$HOME/.config/opencode/opencode.jsonc"
   opencode_scheme=$scheme
   case "$scheme" in
     "catppuccin_mocha")
@@ -128,4 +129,3 @@ local function modify_scheme() {
 
   set +x
 }
-

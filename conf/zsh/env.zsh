@@ -26,3 +26,6 @@ export PATH=$PATH:/home/uniqueding/go/bin
 export GOPATH=/home/uniqueding/go
 export WAKATIME_HOME=~/.local/
 export PATH="$PATH:$(npm config get prefix)/bin"
+
+# opencode
+export OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS=true

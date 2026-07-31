@@ -1,0 +1,19 @@
+# Local provider credentials and private endpoint.
+opencode.local.jsonc
+
+# OpenCode runtime, cache, auth, and generated state.
+node_modules/
+package.json
+package-lock.json
+bun.lock
+*.bak
+*.backup
+*.log
+*.db
+*.sqlite
+*.sqlite3
+auth.json
+state/
+cache/
+runtime/
+.oh-my-opencode-slim/

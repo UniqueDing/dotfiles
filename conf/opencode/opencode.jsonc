@@ -1,0 +1,136 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "plugin": [
+    "opencode-antigravity-auth@latest",
+    "oh-my-opencode-slim"
+  ],
+  "provider": {
+    "openai": {
+      "models": {
+        "gpt-5.6-luna": {
+          "name": "gpt-5.6-luna",
+          "variants": {
+            "low": {
+              "reasoningEffort": "low",
+              "textVerbosity": "low"
+            },
+            "medium": {
+              "reasoningEffort": "medium",
+              "textVerbosity": "medium"
+            },
+            "high": {
+              "reasoningEffort": "high",
+              "textVerbosity": "medium"
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh",
+              "textVerbosity": "high"
+            }
+          }
+        },
+        "gpt-5.6-terra": {
+          "name": "gpt-5.6-terra",
+          "variants": {
+            "low": {
+              "reasoningEffort": "low",
+              "textVerbosity": "low"
+            },
+            "medium": {
+              "reasoningEffort": "medium",
+              "textVerbosity": "medium"
+            },
+            "high": {
+              "reasoningEffort": "high",
+              "textVerbosity": "medium"
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh",
+              "textVerbosity": "high"
+            }
+          }
+        },
+        "gpt-5.6-sol": {
+          "name": "gpt-5.6-sol",
+          "variants": {
+            "low": {
+              "reasoningEffort": "low",
+              "textVerbosity": "low"
+            },
+            "medium": {
+              "reasoningEffort": "medium",
+              "textVerbosity": "medium"
+            },
+            "high": {
+              "reasoningEffort": "high",
+              "textVerbosity": "medium"
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh",
+              "textVerbosity": "high"
+            }
+          }
+        },
+        "gemini-3.5-flash": {
+          "name": "gemini"
+        }
+      },
+      "npm": "@ai-sdk/openai",
+      "options": {
+        "apiKey": "{env:OPENAI_API_KEY}",
+        "baseURL": "{env:OPENAI_BASE_URL}"
+      }
+    }
+  },
+  "lsp": true,
+  "mcp": {
+    "codegraph": {
+      "type": "local",
+      "command": [
+        "codegraph",
+        "serve",
+        "--mcp"
+      ],
+      "enabled": true
+    }
+  },
+  "permission": {
+    "read": "allow",
+    "edit": "allow",
+    "external_directory": {
+      "*": "ask",
+      "/tmp": "allow",
+      "/tmp/**": "allow"
+    },
+    "bash": {
+      "*": "allow",
+      "rm": "ask",
+      "rm *": "ask",
+      "git clean *": "ask",
+      "git checkout *": "ask",
+      "git reset --hard *": "ask",
+      "git restore *": "ask",
+      "git push *": "ask",
+      "chmod *": "ask",
+      "chown *": "ask",
+      "sudo *": "ask",
+      "mv *": "ask",
+      "kill *": "ask",
+      "pkill *": "ask",
+      "dd *": "ask"
+    }
+  },
+  "agent": {
+    "build": {
+      "disable": true
+    },
+    "plan": {
+      "disable": true
+    },
+    "explore": {
+      "disable": true
+    },
+    "general": {
+      "disable": true
+    }
+  }
+}
