@@ -3,7 +3,7 @@ export BROWSER=firefox
 export EDITOR=nvim
 export SHELL=zsh
 # export LOCALE_ARCHIVE=${glibcLocales}/lib/locale/locale-archive
-export PATH=$PATH:/home/uniqueding/.local/bin
+export PATH="$PATH:$HOME/.local/bin"
 
 # export LS_COLORS="$(vivid generate catppuccin-mocha)"
 export FZF_DEFAULT_OPTS=" \
@@ -19,11 +19,13 @@ export STARSHIP_CONFIG=~/.config/starship/starship.toml
 # flutter
 export PUB_HOSTED_URL=https://pub.flutter-io.cn
 export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
-export CHROME_EXECUTABLE="$(command -v chromium)"
+if command -v chromium >/dev/null 2>&1; then
+  export CHROME_EXECUTABLE="$(command -v chromium)"
+fi
 
 # go
-export PATH=$PATH:/home/uniqueding/go/bin
-export GOPATH=/home/uniqueding/go
+export GOPATH="${GOPATH:-$HOME/go}"
+export PATH="$PATH:$GOPATH/bin"
 export WAKATIME_HOME=~/.local/
 export PATH="$PATH:$(npm config get prefix)/bin"
 

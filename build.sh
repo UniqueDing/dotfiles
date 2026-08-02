@@ -7,6 +7,7 @@ DOTFILES_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 source "$DOTFILES_DIR/scripts/nix.sh"
 # shellcheck source=scripts/conf.sh
 source "$DOTFILES_DIR/scripts/conf.sh"
+source "$DOTFILES_DIR/scripts/opencode.sh"
 # shellcheck source=scripts/pkg.sh
 source "$DOTFILES_DIR/scripts/pkg.sh"
 # shellcheck source=scripts/kanata.sh
@@ -26,18 +27,19 @@ Usage: $0 <command> [args]
 Commands:
   nixpkgs              Install Nix and write nix.conf
   homemanager          Install Home Manager through nix-channel
-  dotfiles [profile]   Switch Home Manager profile, defaults to docker
+  dotfiles [profile]   Switch Home Manager profile, defaults to light
   conf                 Initialize post-switch user config
   pkg [target]         Install packages for target, defaults by distro
-                       targets: arch, deepin, termux, windows
+                       targets: arch, deepin, termux, windows, macos
   sdk                  Run scripts/init_sdk.sh
   bw [args]            Run scripts/bw.sh with forwarded args
-  all [profile]        Install Nix/Home Manager, switch profile, run conf; defaults to docker
+  all [profile]        Install Nix/Home Manager, switch profile, run conf; defaults to light
   nixgl                Install nixGL
   theme                Install Qogir themes
   windows-terminal     Add Git Bash profile to Windows Terminal
   update               Update Nix, channels, flake lock, and Home Manager
-  kanata               Install Kanata; add tray autostart on Deepin
+  kanata               Install Kanata and its macOS tray LaunchAgent
+  opencode             Bootstrap OpenCode skills and oh-my-opencode-slim
 EOF
 }
 
@@ -89,7 +91,7 @@ main() {
         run_bw "$@"
         ;;
     all)
-        local profile="${1:-docker}"
+        local profile="${1:-light}"
         install_nixpkgs
         install_home_manager
         switch_dotfiles "$profile"
@@ -109,6 +111,9 @@ main() {
         ;;
     kanata)
         install_kanata
+        ;;
+    opencode)
+        install_opencode_environment
         ;;
     -h|--help|help|"")
         usage

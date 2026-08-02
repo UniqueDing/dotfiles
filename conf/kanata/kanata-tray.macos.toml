@@ -1,0 +1,8 @@
+[general]
+allow_concurrent_presets = false
+
+[presets.kanata]
+kanata_executable = "__KANATA_EXECUTABLE__"
+kanata_config = "__KANATA_CONFIG__"
+autorun = false
+autorestart_on_crash = true

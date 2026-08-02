@@ -40,7 +40,7 @@ install_home_manager() {
 }
 
 switch_dotfiles() {
-    local profile="${1:-docker}"
+    local profile="${1:-light}"
 
     home-manager switch --flake "path:$DOTFILES_DIR#$profile"
 }

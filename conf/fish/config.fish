@@ -11,7 +11,7 @@ if status is-interactive
     end
 
 
-    set -x PATH $PATH /home/uniqueding/.local/bin
+    fish_add_path "$HOME/.local/bin"
     # set -x LOCALE_ARCHIVE {$glibcLocales}/lib/locale/locale-archive
     set -x LS_COLORS "$(vivid generate catppuccin-mocha)"
     set -x FZF_DEFAULT_OPTS " \

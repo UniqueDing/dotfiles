@@ -1,4 +1,4 @@
-{ config, pkgs, confPath, ... }:
+{ config, lib, pkgs, confPath, ... }:
 
 {
   home.packages = with pkgs; [
@@ -15,18 +15,36 @@
     glances
   ];
 
-  systemd.user.services.glances_server = {
-    Unit = {
-        Description = "Glance server";
-    };
-    Install = {
-        WantedBy = [ "default.target" ];
-    };
-    Service = {
-      Type = "simple";
-      ExecStart = "${pkgs.glances}/bin/glances -w --disable-webui --disable-plugins all --enable-plugins cpu,gpu,network,sensors,mem,fs";
-      Restart = "always";
-      RestartSec = "10";
+  systemd.user.services.glances_server = lib.mkIf pkgs.stdenv.isLinux {
+      Unit = {
+          Description = "Glance server";
+      };
+      Install = {
+          WantedBy = [ "default.target" ];
+      };
+      Service = {
+        Type = "simple";
+        ExecStart = "${pkgs.glances}/bin/glances -w --disable-webui --disable-plugins all --enable-plugins cpu,gpu,network,sensors,mem,fs";
+        Restart = "always";
+        RestartSec = "10";
+      };
+  };
+
+  launchd.agents.glances = lib.mkIf pkgs.stdenv.isDarwin {
+    enable = true;
+    config = {
+      Label = "dev.uniqueding.glances";
+      ProgramArguments = [
+        "${pkgs.glances}/bin/glances"
+        "-w"
+        "--disable-webui"
+        "--disable-plugins"
+        "all"
+        "--enable-plugins"
+        "cpu,gpu,network,sensors,mem,fs"
+      ];
+      RunAtLoad = true;
+      KeepAlive = true;
     };
   };
 

@@ -77,6 +77,11 @@ install_linux_fonts() {
     fc-cache -fv
 }
 
+install_macos_fonts() {
+    FONT_DIR="$HOME/Library/Fonts"
+    install_nerd_fonts
+}
+
 install_windows_fonts() {
     FONT_DIR="$LOCALAPPDATA/Microsoft/Windows/Fonts"
     install_nerd_fonts
@@ -115,6 +120,17 @@ link_linux_configs() {
     ln -sfn "$CONF_DIR/fcitx5/themes"           "$HOME/.local/share/fcitx5/themes"
     ln -sfn "$CONF_DIR/rime"                    "$HOME/.local/share/fcitx5/rime"
     #ln -sfn $HOME/dotfiles/conf/rime $HOME/.config/ibus/rime
+}
+
+link_macos_configs() {
+    local rime_link="$HOME/Library/Rime/dotfiles-rime"
+
+    mkdir -p "$HOME/Library/Rime"
+    if [[ -e "$rime_link" && ! -L "$rime_link" ]]; then
+        echo "error: refusing to replace existing Rime path: $rime_link" >&2
+        return 1
+    fi
+    ln -sfn "$CONF_DIR/rime" "$rime_link"
 }
 
 link_windows_configs() {

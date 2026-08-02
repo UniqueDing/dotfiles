@@ -9,6 +9,14 @@ local color_schemes=(
   "gruvbox_dark"
 )
 
+local function portable_sed_i() {
+  if [[ "$(uname -s)" == "Darwin" ]]; then
+    sed -i '' "$@"
+  else
+    sed -i "$@"
+  fi
+}
+
 function cs() {
   echo "now colorscheme:"
   cat ~/.config/colorscheme
@@ -34,7 +42,7 @@ local function modify_scheme() {
 
   # starship
   starship_config="$HOME/.config/starship/starship.toml"
-  sed -i "s/palette = '.*/palette = '$scheme'/" "$starship_config"
+  portable_sed_i "s/palette = '.*/palette = '$scheme'/" "$starship_config"
 
   # nvim
   nvim_config="$HOME/.config/nvim/lua/plugins/colorscheme.lua"
@@ -53,7 +61,7 @@ local function modify_scheme() {
       nvim_scheme="gruvbox"
       ;;
   esac
-  sed -i "s/      colorscheme = \".*\",/      colorscheme = \"$nvim_scheme\",/g" "$nvim_config"
+  portable_sed_i "s/      colorscheme = \".*\",/      colorscheme = \"$nvim_scheme\",/g" "$nvim_config"
 
   # yazi
   yazi_config="$HOME/.config/yazi/theme.toml"
@@ -69,12 +77,12 @@ local function modify_scheme() {
       yazi_scheme="gruvbox-dark"
       ;;
   esac
-  sed -i "s/dark = \".*\"/dark = \"$yazi_scheme\"/g" "$yazi_config"
+  portable_sed_i "s/dark = \".*\"/dark = \"$yazi_scheme\"/g" "$yazi_config"
 
   # bat
   bat_config="$HOME/.config/bat/config"
   bat_scheme=$scheme
-  sed -i "s/--theme=\".*\"/--theme=\"$bat_scheme\"/" "$bat_config"
+  portable_sed_i "s/--theme=\".*\"/--theme=\"$bat_scheme\"/" "$bat_config"
 
   # eza
   eza_scheme=$scheme
@@ -94,19 +102,19 @@ local function modify_scheme() {
   # tmux
   tmux_config="$HOME/.config/tmux/tmux.conf"
   tmux_scheme=$scheme
-  sed -i "s/source-file \$HOME\/.config\/tmux\/theme\/.*.conf/source-file \$HOME\/.config\/tmux\/theme\/$tmux_scheme.conf/" "$tmux_config"
+  portable_sed_i "s/source-file \$HOME\/.config\/tmux\/theme\/.*.conf/source-file \$HOME\/.config\/tmux\/theme\/$tmux_scheme.conf/" "$tmux_config"
   tmux source-file $tmux_config
 
   # lazygit
   lazygit_config="$HOME/.config/lazygit/config.yml"
   lazygit_scheme=$scheme
-  sed -i '/^  theme:/,$d' "$lazygit_config"
+  portable_sed_i '/^  theme:/,$d' "$lazygit_config"
   sed 's/^/  /' "$HOME/.config/lazygit/themes/$lazygit_scheme.yml" | tee -a $lazygit_config
 
   # delta
   delta_config="$HOME/.gitconfig"
   delta_scheme=$scheme
-  sed -i "s/  syntax-theme = .*/  syntax-theme = $delta_scheme/" "$delta_config"
+  portable_sed_i "s/  syntax-theme = .*/  syntax-theme = $delta_scheme/" "$delta_config"
 
   # opencode
   opencode_config="$HOME/.config/opencode/opencode.jsonc"
@@ -125,7 +133,7 @@ local function modify_scheme() {
       opencode_scheme="one-dark"
       ;;
   esac
-  sed -i "s/  \"theme\": \".*\",/  \"theme\": \"$opencode_scheme\",/" "$opencode_config"
+  portable_sed_i "s/  \"theme\": \".*\",/  \"theme\": \"$opencode_scheme\",/" "$opencode_config"
 
   set +x
 }

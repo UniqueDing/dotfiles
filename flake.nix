@@ -3,11 +3,14 @@
 
   inputs = {
     home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    nix-darwin.url = "github:nix-darwin/nix-darwin";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { flake-utils, home-manager, nixpkgs, ... }:
+  outputs = inputs @ { flake-utils, home-manager, nix-darwin, nixpkgs, ... }:
     flake-utils.lib.eachDefaultSystemPassThrough (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
@@ -19,7 +22,7 @@
         dotfilesPath = localConfig.dotfilesPath or "${homeDirectory}/dotfiles";
         confPath = "${dotfilesPath}/conf";
       in {
-        homeConfigurations.docker = home-manager.lib.homeManagerConfiguration {
+        homeConfigurations.light = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = [
             {
@@ -63,5 +66,46 @@
           };
         };
       }
-    );
+    ) // {
+      darwinConfigurations.uniqueding-mbp = nix-darwin.lib.darwinSystem {
+        system = "aarch64-darwin";
+        specialArgs = { inherit inputs; };
+        modules = [
+          home-manager.darwinModules.home-manager
+          ({ lib, ... }:
+            let
+              localConfig =
+                if builtins.pathExists ./local.nix then import ./local.nix else { };
+              configuredDotfilesPath = localConfig.dotfilesPath or "/Users/uniqueding/dotfiles";
+              dotfilesPath =
+                if lib.hasPrefix "/Users/" configuredDotfilesPath
+                then configuredDotfilesPath
+                else "/Users/uniqueding/dotfiles";
+              confPath = "${dotfilesPath}/conf";
+            in
+            {
+              system.primaryUser = "uniqueding";
+              system.stateVersion = 6;
+              users.users.uniqueding.home = "/Users/uniqueding";
+
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = { inherit confPath; };
+              home-manager.users.uniqueding = {
+                home.username = "uniqueding";
+                home.homeDirectory = "/Users/uniqueding";
+                home.stateVersion = "26.05";
+
+                imports = [
+                  ./modules/editor.nix
+                  ./modules/tools.nix
+                  ./modules/shell.nix
+                  ./modules/filemanager.nix
+                  ./modules/lang.nix
+                ];
+              };
+            })
+        ];
+      };
+    };
 }

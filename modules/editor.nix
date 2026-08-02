@@ -1,4 +1,4 @@
-{ config, pkgs, confPath, ... }:
+{ config, lib, pkgs, confPath, ... }:
 
 {
   #nixpkgs.overlays = [
@@ -24,7 +24,7 @@
     skills
   ];
 
-  systemd.user.services.opencode-web = {
+  systemd.user.services.opencode-web = lib.mkIf pkgs.stdenv.isLinux {
     Unit = {
       Description = "OpenCode Web";
       Documentation = "https://opencode.ai/";
@@ -42,6 +42,23 @@
       Environment = [
         "PATH=${pkgs.opencode}/bin:${pkgs.bash}/bin:${pkgs.coreutils}/bin"
       ];
+    };
+  };
+
+  launchd.agents.opencode-web = lib.mkIf pkgs.stdenv.isDarwin {
+    enable = true;
+    config = {
+      Label = "dev.uniqueding.opencode-web";
+      ProgramArguments = [
+        "${pkgs.opencode}/bin/opencode"
+        "web"
+        "--hostname"
+        "0.0.0.0"
+        "--port"
+        "4096"
+      ];
+      RunAtLoad = true;
+      KeepAlive = true;
     };
   };
 
