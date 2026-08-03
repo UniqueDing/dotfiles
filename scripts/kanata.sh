@@ -1,4 +1,5 @@
 install_kanata_deepin() (
+    # Build Kanata locally because the Deepin repositories do not package it.
     without_nix_env sudo apt install -y curl build-essential pkg-config libayatana-appindicator3-dev
 
     local temporary_dir
@@ -20,6 +21,7 @@ install_kanata_deepin() (
         https://github.com/rszyma/kanata-tray/releases/latest/download/kanata-tray-linux
     sudo install -m 0755 "$tray_binary" /usr/local/bin/kanata-tray
 
+    # Allow Kanata to create virtual input devices and keep the tray per user.
     sudo groupadd --system --force uinput
     sudo usermod -aG input,uinput "$USER"
     sudo install -m 0644 "$DOTFILES_DIR/conf/kanata/99-kanata.rules" /etc/udev/rules.d/99-kanata.rules
@@ -37,6 +39,7 @@ install_kanata_deepin() (
 )
 
 kanata_macos_run() {
+    # Homebrew must run outside a Nix-provided environment.
     if declare -F without_nix_env >/dev/null 2>&1; then
         without_nix_env "$@"
     else
@@ -47,6 +50,7 @@ kanata_macos_run() {
 install_kanata_macos() (
     set -e
 
+    # The macOS setup is maintained for Apple Silicon only.
     if [[ "$(uname -s)" != Darwin || "$(uname -m)" != arm64 ]]; then
         echo "error: macOS Kanata installation requires Apple Silicon (Darwin arm64)" >&2
         exit 1
@@ -67,6 +71,7 @@ install_kanata_macos() (
     mkdir -p "$(dirname "$kanata_config")"
     ln -sfn "$DOTFILES_DIR/conf/kanata/kanata.kbd" "$kanata_config"
 
+    # Kanata needs a system LaunchDaemon; the tray remains a user LaunchAgent.
     local daemon_plist="$temporary_dir/dev.kanata.kanata.plist"
     cat > "$daemon_plist" <<PLIST
 <?xml version="1.0" encoding="UTF-8"?>
@@ -189,9 +194,87 @@ PLIST
         "  spctl --assess --type execute --verbose '$tray_binary_path'"
 )
 
+install_kanata_windows() (
+    set -e
+
+    # Winget currently publishes the Kanata GUI package for x64 only.
+    case "$(uname -m)" in
+    x86_64|amd64) ;;
+    *)
+        printf 'error: Windows Kanata installation requires x86_64/amd64, got %s\n' "$(uname -m)" >&2
+        exit 1
+        ;;
+    esac
+
+    if [[ -z "${LOCALAPPDATA:-}" || -z "${USERDOMAIN:-}" || -z "${USERNAME:-}" ]]; then
+        printf '%s\n' 'error: LOCALAPPDATA, USERDOMAIN, and USERNAME must be set' >&2
+        exit 1
+    fi
+
+    winget install --exact --id jtroo.kanata_gui --source winget \
+        --accept-source-agreements --accept-package-agreements
+
+    # Winget owns the executable path, so locate the installed portable package.
+    local package_root="${LOCALAPPDATA}/Microsoft/WinGet/Packages"
+    local kanata_filename="kanata_windows_gui_winIOv2_x64.exe"
+    local -a kanata_matches=()
+    if [[ -d "$package_root" ]]; then
+        local absolute_package_root
+        absolute_package_root="$(CDPATH= cd -- "$package_root" && pwd -P)"
+        while IFS= read -r -d '' kanata_match; do
+            kanata_matches+=("$kanata_match")
+        done < <(find "$absolute_package_root" -type f -name "$kanata_filename" -print0)
+    fi
+
+    case "${#kanata_matches[@]}" in
+    0)
+        printf 'error: could not find %s beneath %s\n' "$kanata_filename" "$package_root" >&2
+        exit 1
+        ;;
+    1)
+        local kanata_exe="${kanata_matches[0]}"
+        ;;
+    *)
+        printf 'error: found %d matching Kanata executables beneath %s; expected exactly one:\n' \
+            "${#kanata_matches[@]}" "$package_root" >&2
+        printf '  %s\n' "${kanata_matches[@]}" >&2
+        exit 1
+        ;;
+    esac
+
+    # Keep the user configuration outside Winget's versioned package directory.
+    local kanata_dir="${LOCALAPPDATA}/kanata"
+    local kanata_cfg="${kanata_dir}/kanata.kbd"
+    mkdir -p "$kanata_dir"
+    install -m 0644 "$DOTFILES_DIR/conf/kanata/kanata.kbd" "$kanata_cfg"
+
+    # Task Scheduler has no working-directory option; use absolute paths instead.
+    local run_as="${USERDOMAIN}\\${USERNAME}"
+    schtasks.exe //Create \
+        //TN "Kanata" \
+        //SC ONLOGON \
+        //RU "$run_as" \
+        //IT \
+        //TR "\"${kanata_exe}\" --cfg \"${kanata_cfg}\"" \
+        //F
+    schtasks.exe //Run //TN "Kanata"
+
+    printf '%s\n' \
+        'Warning: the default LLHOOK/winIOv2 build does not remap administrator-elevated applications unless Kanata itself is elevated.' \
+        'The Windows installer intentionally does not install Interception.' \
+        'Future Kanata upgrades are managed via winget.'
+)
+
 install_kanata() {
-    if [[ "$(uname -s)" == Darwin ]]; then
+    # Route native platforms before consulting Linux distribution metadata.
+    local os_name
+    os_name="$(uname -s)"
+    if [[ "$os_name" == Darwin ]]; then
         install_kanata_macos
+        return
+    fi
+    if [[ "$os_name" == MINGW* || "$os_name" == MSYS* || "$os_name" == CYGWIN* ]]; then
+        install_kanata_windows
         return
     fi
 
@@ -205,7 +288,7 @@ install_kanata() {
         install_kanata_deepin || return
         ;;
     *)
-        echo "error: kanata install is only configured for Arch/EndeavourOS/Deepin" >&2
+        echo "error: kanata install is only configured for Windows, Arch/EndeavourOS, or Deepin" >&2
         exit 1
         ;;
     esac

@@ -22,6 +22,81 @@ without_nix_env() {
     env -u NIX_PATH -u NIX_PROFILES -u NIX_SSL_CERT_FILE -u NIX_REMOTE -u IN_NIX_SHELL PATH="$clean_path" "$@"
 }
 
+install_clash_party_deepin() (
+    set -e
+
+    local architecture
+    architecture="$(without_nix_env dpkg --print-architecture)" || exit 1
+    case "$architecture" in
+    amd64|arm64)
+        ;;
+    *)
+        echo "error: unsupported Clash Party architecture: $architecture" >&2
+        exit 1
+        ;;
+    esac
+
+    local temporary_dir
+    temporary_dir="$(without_nix_env mktemp -d)" || exit 1
+    trap 'rm -rf "$temporary_dir"' EXIT
+
+    local release_file="$temporary_dir/release.json"
+    without_nix_env curl \
+        --location \
+        --silent \
+        --show-error \
+        --fail \
+        --header 'Accept: application/vnd.github+json' \
+        --output "$release_file" \
+        https://api.github.com/repos/mihomo-party-org/clash-party/releases/latest || exit 1
+
+    local tag_name
+    tag_name="$(without_nix_env jq -er '
+        select(.draft == false and .prerelease == false)
+        | .tag_name
+        | select(type == "string" and length > 0)
+    ' "$release_file")" || exit 1
+
+    local version="${tag_name#v}"
+    local deb_name="clash-party-linux-${version}-${architecture}.deb"
+    local checksum_name="${deb_name}.sha256"
+    local deb_url
+    local checksum_url
+    deb_url="$(without_nix_env jq -er --arg name "$deb_name" "
+        [.assets[] | select(.name == \$name and .state == \"uploaded\") | .browser_download_url]
+        | select(length == 1)
+        | .[0]
+        | select(type == \"string\" and length > 0)
+    " "$release_file")" || exit 1
+    checksum_url="$(without_nix_env jq -er --arg name "$checksum_name" "
+        [.assets[] | select(.name == \$name and .state == \"uploaded\") | .browser_download_url]
+        | select(length == 1)
+        | .[0]
+        | select(type == \"string\" and length > 0)
+    " "$release_file")" || exit 1
+
+    without_nix_env curl --location --silent --show-error --fail --output "$temporary_dir/$deb_name" "$deb_url" || exit 1
+    without_nix_env curl --location --silent --show-error --fail --output "$temporary_dir/$checksum_name" "$checksum_url" || exit 1
+
+    local expected_checksum
+    expected_checksum="$(< "$temporary_dir/$checksum_name")"
+    if [[ ! "$expected_checksum" =~ ^[[:xdigit:]]{64}$ ]]; then
+        echo "error: invalid Clash Party checksum for $deb_name" >&2
+        exit 1
+    fi
+
+    local actual_checksum
+    actual_checksum="$(without_nix_env sha256sum "$temporary_dir/$deb_name")" || exit 1
+    actual_checksum="${actual_checksum%% *}"
+    if [[ "${actual_checksum,,}" != "${expected_checksum,,}" ]]; then
+        echo "error: Clash Party checksum mismatch for $deb_name" >&2
+        exit 1
+    fi
+
+    cd "$temporary_dir"
+    without_nix_env sudo apt install -y "./$deb_name" || exit 1
+)
+
 install_deepin_packages() {
     PACKAGE_FILE="deepin.list"
     if [[ ! -f "$DOTFILES_DIR/package/$PACKAGE_FILE" ]]; then
@@ -29,8 +104,15 @@ install_deepin_packages() {
         exit 1
     fi
     echo "deb https://pro-store-packages.uniontech.com/appstore eagle-pro appstore" | sudo tee /etc/apt/sources.list.d/appstoreuos.list
-    without_nix_env sudo apt update
-    cat "$DOTFILES_DIR/package/$PACKAGE_FILE" | grep -vE '^\s*#' | grep -vE '^\s*$' | xargs -r without_nix_env sudo apt install -y
+    without_nix_env sudo apt update || return
+    without_nix_env sudo apt install -y curl jq || return
+
+    local packages=()
+    mapfile -t packages < <(grep -vE '^\s*(#|$)' "$DOTFILES_DIR/package/$PACKAGE_FILE")
+    if ((${#packages[@]} > 0)); then
+        without_nix_env sudo apt install -y "${packages[@]}" || return
+    fi
+    install_clash_party_deepin
 }
 
 install_arch_packages() {
@@ -64,7 +146,34 @@ install_windows_packages() {
     cat "$DOTFILES_DIR/package/$PACKAGE_FILE" | grep -vE '^\s*#' | grep -vE '^\s*$' | xargs -r -I {} winget install --id "{}" --exact --accept-package-agreements --accept-source-agreements
 }
 
+install_macos_packages() {
+    local package_file="$DOTFILES_DIR/package/macos.list"
+    local package
+
+    if [[ ! -f "$package_file" ]]; then
+        echo "error: macos.list not found" >&2
+        return 1
+    fi
+    if ! command -v brew >/dev/null 2>&1; then
+        echo "error: Homebrew (brew) is required for macOS packages" >&2
+        return 1
+    fi
+
+    brew update || return 1
+    while IFS= read -r package || [[ -n "$package" ]]; do
+        package="${package#${package%%[![:space:]]*}}"
+        package="${package%${package##*[![:space:]]}}"
+        [[ -z "$package" || "${package#\#}" != "$package" ]] && continue
+        brew install --cask "$package" || return 1
+    done < "$package_file"
+}
+
 default_pkg_target() {
+    if [[ "$(uname -s)" == "Darwin" ]]; then
+        echo macos
+        return
+    fi
+
     if [[ "${OS:-}" == "Windows_NT" ]]; then
         echo windows
         return
@@ -79,7 +188,7 @@ default_pkg_target() {
         ;;
     *)
         echo "error: cannot infer package target for DISTRIB_ID='${DISTRIB_ID:-}'" >&2
-        echo "usage: $0 pkg <arch|deepin|termux|windows>" >&2
+        echo "usage: $0 pkg <arch|deepin|termux|windows|macos>" >&2
         exit 1
         ;;
     esac
@@ -112,6 +221,15 @@ update_system_packages() {
     windows)
         winget upgrade --all --accept-package-agreements --accept-source-agreements
         ;;
+    macos)
+        if command -v brew >/dev/null 2>&1; then
+            brew update
+            brew upgrade --cask
+        else
+            echo "error: Homebrew (brew) is required for macOS updates" >&2
+            return 1
+        fi
+        ;;
     esac
 }
 
@@ -131,26 +249,49 @@ install_packages() {
     case "$target" in
     deepin)
         install_deepin_packages
-        install_linux_fonts
         link_linux_configs
         ;;
     arch)
         install_arch_packages
-        install_linux_fonts
         link_linux_configs
         ;;
     termux)
         install_termux_packages
-        install_linux_fonts
         link_linux_configs
         ;;
     windows)
         install_windows_packages
-        install_windows_fonts
         link_windows_configs
+        ;;
+    macos)
+        install_macos_packages || return 1
+        link_macos_configs || return 1
         ;;
     *)
         echo "error: unknown package target: $target" >&2
+        exit 1
+        ;;
+    esac
+}
+
+run_fonts() {
+    local target="${1:-}"
+    if [[ -z "$target" ]]; then
+        target="$(default_pkg_target)"
+    fi
+
+    case "$target" in
+    deepin|arch|termux)
+        install_linux_fonts
+        ;;
+    windows)
+        install_windows_fonts
+        ;;
+    macos)
+        install_macos_fonts || return 1
+        ;;
+    *)
+        echo "error: unknown font target: $target" >&2
         exit 1
         ;;
     esac
@@ -162,20 +303,12 @@ run_pkg() {
         target="$(default_pkg_target)"
     fi
 
+    if [[ "$target" == "macos" ]]; then
+        install_packages "$target" || return 1
+        save_pkg_target "$target"
+        return
+    fi
+
     install_packages "$target" || true
     save_pkg_target "$target"
-}
-
-install_kanata() {
-    case "${DISTRIB_ID:-}" in
-    Arch|EndeavourOS)
-        yay -Sy --noconfirm kanata
-        sudo ln -sfn "$DOTFILES_DIR/conf/kanata/kanata.kbd" /etc/kanata.kbd
-        sudo systemctl enable --now kanata
-        ;;
-    *)
-        echo "error: kanata install is only configured for Arch/EndeavourOS" >&2
-        exit 1
-        ;;
-    esac
 }
