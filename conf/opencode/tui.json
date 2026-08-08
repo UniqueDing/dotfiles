@@ -1,5 +1,6 @@
 {
   "$schema": "https://opencode.ai/tui.json",
+  "theme": "catppuccin",
   "keybinds": {
     "leader": "ctrl+b",
     "command_list": "ctrl+x",

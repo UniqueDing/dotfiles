@@ -10,6 +10,8 @@ source "$DOTFILES_DIR/scripts/conf.sh"
 source "$DOTFILES_DIR/scripts/opencode.sh"
 # shellcheck source=scripts/pkg.sh
 source "$DOTFILES_DIR/scripts/pkg.sh"
+# shellcheck source=scripts/font.sh
+source "$DOTFILES_DIR/scripts/font.sh"
 # shellcheck source=scripts/kanata.sh
 source "$DOTFILES_DIR/scripts/kanata.sh"
 
@@ -31,6 +33,7 @@ Commands:
   conf                 Initialize post-switch user config
   pkg [target]         Install packages for target, defaults by distro
                        targets: arch, deepin, termux, windows, macos
+  fonts [target]       Install fonts for target, defaults by distro
   sdk                  Run scripts/init_sdk.sh
   bw [args]            Run scripts/bw.sh with forwarded args
   all [profile]        Install Nix/Home Manager, switch profile, run conf; defaults to light
@@ -84,6 +87,9 @@ main() {
     pkg)
         run_pkg "${1:-}"
         ;;
+    fonts)
+        install_fonts "${1:-}"
+        ;;
     sdk)
         run_sdk
         ;;
@@ -96,6 +102,7 @@ main() {
         install_home_manager
         switch_dotfiles "$profile"
         init_conf "$profile"
+        install_fonts
         ;;
     nixgl)
         install_nixgl
