@@ -274,29 +274,6 @@ install_packages() {
     esac
 }
 
-run_fonts() {
-    local target="${1:-}"
-    if [[ -z "$target" ]]; then
-        target="$(default_pkg_target)"
-    fi
-
-    case "$target" in
-    deepin|arch|termux)
-        install_linux_fonts
-        ;;
-    windows)
-        install_windows_fonts
-        ;;
-    macos)
-        install_macos_fonts || return 1
-        ;;
-    *)
-        echo "error: unknown font target: $target" >&2
-        exit 1
-        ;;
-    esac
-}
-
 run_pkg() {
     local target="${1:-}"
     if [[ -z "$target" ]]; then
