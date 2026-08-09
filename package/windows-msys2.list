@@ -1,0 +1,16 @@
+# Authoritative confirmed MSYS repository packages; one package per non-comment line.
+zsh
+fish
+tmux
+coreutils
+findutils
+grep
+sed
+gawk
+which
+diffutils
+patch
+dos2unix
+gcc
+gdb
+pkgconf

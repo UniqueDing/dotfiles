@@ -138,12 +138,83 @@ install_termux_packages() {
 }
 
 install_windows_packages() {
-    PACKAGE_FILE="windows.list"
-    if [[ ! -f "$DOTFILES_DIR/package/$PACKAGE_FILE" ]]; then
-        echo "error：$PACKAGE_FILE not exsit!"
-        exit 1
+    local package_file="$DOTFILES_DIR/package/windows.list"
+    local msys_package_file="$DOTFILES_DIR/package/windows-msys2.list"
+    local package
+    local windows_packages=()
+    local msys_packages=()
+    local update_status=0
+    declare -A seen_windows_packages=()
+    declare -A seen_msys_packages=()
+
+    if [[ ! -f "$package_file" ]]; then
+        echo "error: required WinGet list not found: $package_file" >&2
+        return 1
     fi
-    cat "$DOTFILES_DIR/package/$PACKAGE_FILE" | grep -vE '^\s*#' | grep -vE '^\s*$' | xargs -r -I {} winget install --id "{}" --exact --accept-package-agreements --accept-source-agreements
+    if [[ ! -f "$msys_package_file" ]]; then
+        echo "error: required MSYS2 package list not found: $msys_package_file" >&2
+        return 1
+    fi
+
+    while IFS= read -r package || [[ -n "$package" ]]; do
+        package="${package#${package%%[![:space:]]*}}"
+        package="${package%${package##*[![:space:]]}}"
+        [[ -z "$package" || "${package#\#}" != "$package" ]] && continue
+        if [[ ! "$package" =~ ^[[:alnum:].-]+$ ]]; then
+            echo "error: invalid WinGet ID in $package_file: $package" >&2
+            return 1
+        fi
+        if [[ -n ${seen_windows_packages[$package]+x} ]]; then
+            echo "error: duplicate WinGet ID in $package_file: $package" >&2
+            return 1
+        fi
+        seen_windows_packages[$package]=1
+        windows_packages+=("$package")
+    done < "$package_file"
+    if ((${#windows_packages[@]} == 0)); then
+        echo "error: WinGet list is empty: $package_file" >&2
+        return 1
+    fi
+
+    while IFS= read -r package || [[ -n "$package" ]]; do
+        package="${package#${package%%[![:space:]]*}}"
+        package="${package%${package##*[![:space:]]}}"
+        [[ -z "$package" || "${package#\#}" != "$package" ]] && continue
+        if [[ ! "$package" =~ ^[[:alnum:].-]+$ ]]; then
+            echo "error: invalid MSYS2 package in $msys_package_file: $package" >&2
+            return 1
+        fi
+        if [[ -n ${seen_msys_packages[$package]+x} ]]; then
+            echo "error: duplicate MSYS2 package in $msys_package_file: $package" >&2
+            return 1
+        fi
+        seen_msys_packages[$package]=1
+        msys_packages+=("$package")
+    done < "$msys_package_file"
+    if ((${#msys_packages[@]} == 0)); then
+        echo "error: MSYS2 package list is empty: $msys_package_file" >&2
+        return 1
+    fi
+
+    if [[ "${MSYSTEM:-}" != "MSYS" ]]; then
+        echo "error: run Windows package installation from an MSYS2 MSYS shell" >&2
+        return 1
+    fi
+    if ! command -v powershell.exe >/dev/null 2>&1; then
+        echo "error: powershell.exe is required to install Windows packages" >&2
+        return 1
+    fi
+
+    pacman -Syu || update_status=$?
+    if (( update_status != 0 )); then
+        printf '%s\n' 'MSYS2 update did not complete. Close and reopen the MSYS shell, then rerun package setup.' >&2
+        return "$update_status"
+    fi
+    pacman -S --needed "${msys_packages[@]}" || return 1
+
+    for package in "${windows_packages[@]}"; do
+        powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "winget install --id '$package' --exact --source winget --accept-package-agreements --accept-source-agreements" || return 1
+    done
 }
 
 install_macos_packages() {
@@ -219,7 +290,8 @@ update_system_packages() {
         pkg upgrade -y
         ;;
     windows)
-        winget upgrade --all --accept-package-agreements --accept-source-agreements
+        printf '%s\n' 'PowerShell: winget upgrade --all'
+        printf '%s\n' 'MSYS2 MSYS shell: pacman -Syu'
         ;;
     macos)
         if command -v brew >/dev/null 2>&1; then
@@ -260,8 +332,8 @@ install_packages() {
         link_linux_configs
         ;;
     windows)
-        install_windows_packages
-        link_windows_configs
+        install_windows_packages || return 1
+        link_windows_configs || return 1
         ;;
     macos)
         install_macos_packages || return 1
@@ -278,6 +350,12 @@ run_pkg() {
     local target="${1:-}"
     if [[ -z "$target" ]]; then
         target="$(default_pkg_target)"
+    fi
+
+    if [[ "$target" == "windows" ]]; then
+        install_packages "$target" || return 1
+        save_pkg_target "$target"
+        return
     fi
 
     if [[ "$target" == "macos" ]]; then
