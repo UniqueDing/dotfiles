@@ -41,7 +41,8 @@ Commands:
   theme                Install Qogir themes
   windows-terminal     Add Git Bash profile to Windows Terminal
   update               Update Nix, channels, flake lock, and Home Manager
-  kanata               Install Kanata and its macOS tray LaunchAgent
+  kanata [target]      Install Kanata (Linux uses the system-service migration)
+                        targets: deepin-x11, arch-x11, arch-kde, macos, windows
   opencode             Bootstrap OpenCode skills and oh-my-opencode-slim
 EOF
 }
@@ -117,7 +118,7 @@ main() {
         update_all
         ;;
     kanata)
-        install_kanata
+        install_kanata "${1:-}"
         ;;
     opencode)
         install_opencode_environment

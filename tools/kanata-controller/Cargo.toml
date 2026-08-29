@@ -1,0 +1,14 @@
+[package]
+name = "kanata-controller"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.80"
+publish = false
+
+[lib]
+name = "kanata_controller"
+path = "src/lib.rs"
+
+[dependencies]
+ksni = "0.3"
+tokio = { version = "1", features = ["io-util", "macros", "process", "rt", "sync", "time"] }

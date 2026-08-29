@@ -1,0 +1,10 @@
+polkit.addRule(function(action, subject) {
+    if (subject.user === "__KANATA_USER__" &&
+        action.id === "org.freedesktop.systemd1.manage-units" &&
+        action.lookup("unit") === "kanata.service" &&
+        (action.lookup("verb") === "start" ||
+         action.lookup("verb") === "stop" ||
+         action.lookup("verb") === "restart")) {
+        return polkit.Result.YES;
+    }
+});

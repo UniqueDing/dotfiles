@@ -1,3 +1,4 @@
+;; Linux Kanata configuration.
 ;; +-------+-------+-------+-------+-------+-------+--+-------+-------+-------+-------+-------+-------+-------+-------+
 ;; | @tnav |   q   |   w   | e   f | r   p | t   g |  | y   u | u   l | i   u | o   y | p   ; |   [   |   ]   |   \   |
 ;; |       | 1   ! | 2   @ | 3   # | 4   $ | 5   % |  |       |       |       |       |       |       |       |       |
@@ -14,6 +15,12 @@
 ;; | lctl  |       | lmet  |       | lalt  |       |  |  spc  |       |       | ralt  |       | rmet  |       | @tmux |
 ;; +-------+-------+-------+-------+-------+-------+--+-------+-------+-------+-------+-------+-------+-------+-------+
 
+(defcfg
+  linux-dev-names-include ("uniqueding-kb Keyboard")
+  linux-output-device-name "kanata"
+  linux-continue-if-no-devs-found yes
+)
+
 (defsrc
   tab    q     w     e     r     t        y     u     i     o     p     [     ]     \
   caps   a     s     d     f     g        h     j     k     l     ;     '           ret
@@ -25,35 +32,50 @@
   @tnav  q     w     f     p     g        j     l     u     y     ;     [     ]     \
   @cap   a     r     s     t     d        h     n     e     i     o     @tsym       ret
   lsft   z     x     c     v     b        k     m     ,     .     /                 rsft
-  lctl         lmet        lalt           spc               @tnum       rmet        @tmux
+  lctl         @lmet-tmux  rctl           spc               @tnum       ralt        @tnum
 )
 
 (deflayer qwerty
   @tnav  q     w     e     r     t        y     u     i     o     p     [     ]     \
   @cap   a     s     d     f     g        h     j     k     l     ;     @tsym       ret
   @ten   z     x     c     v     b        n     m     ,     .     /                 @ten
-  lctl         lmet        lalt           spc               @tnum       rmet        rctl
+  lctl         @lmet-tmux  rctl           spc               @tnum       ralt        rctl
 )
 
 (deflayer nav
   tab    XX    prnt  home  end   XX       XX    pgdn  pgup  XX    XX    XX    XX    XX
   caps   XX    XX    del   bspc  XX       left  down  up    right XX    XX          ret
   lsft   XX    XX    XX    XX    XX       XX    XX    XX    XX    XX                rsft
-  lctl         lmet        lalt           spc               ralt        rmet        rctl
+  lctl         @lmet-tmux  rctl           spc               @tnum       ralt        rctl
 )
 
 (deflayer symbol
   tab    S-1   S-2   S-3   S-4   S-5      XX    XX    XX    XX    XX    XX    XX    XX
   bspc   [     ]     S-[   S-]   S-\      XX    S-9   S-0   XX    XX    XX          ret
   lsft   \     S-7   `     S-`   S-6      XX    XX    XX    XX    XX                rsft
-  lctl         lmet        lalt           spc               ralt        rmet        rctl
+  lctl         @lmet-tmux  rctl           spc               @tnum       ralt        rctl
 )
 
 (deflayer number
   tab    1     2     3     4     5        XX    XX    XX    XX    XX    XX    XX    XX
   bspc   6     7     8     9     0        XX    =     -     S-=   S-8   /           ret
-  lsft   XX    x     S--   .     XX       XX    XX    XX    XX    XX                rsft
-  lctl         lmet        lalt           spc               ralt        rmet        rctl
+  lsft   XX    x     S--   .     XX       XX    @tmux XX    XX    XX                rsft
+  lctl         @lmet-tmux  rctl           spc               @tnum       ralt        rctl
+)
+
+;; The physical left Win (defsrc lmet) tap emits the completed tmux prefix and
+;; arms this layer for the next key only. Its hold action is lalt. Letter
+;; outputs below are the existing Colemak outputs at each physical position;
+;; number positions therefore remain positional.
+(deflayer tmux-command
+  tab    1     2     3     4     5        M-j   M-l   M-u   M-y   M-;   [     ]     \
+  esc    6     7     8     9     0        M-h   M-n   M-e   M-i   M-o   '           ret
+  lsft   M-z   M-x   M-c   M-v   M-b      M-k   M-m   ,     .     /                 rsft
+  lctl         lalt        lalt           spc               ralt        rmet        rctl
+)
+
+(defvirtualkeys
+    tmux-command-once (one-shot-press 1200 (layer-while-held tmux-command))
 )
 
 (defalias
@@ -66,6 +88,8 @@
 
     esc (multi esc lctl lsft f1)
 
+    lmet-tmux (tap-hold-press 200 200 (macro C-g (on-press tap-vkey tmux-command-once)) lalt)
+
     tnav (tap-hold-press 200 200 tab @lnav)
     tsym (tap-hold-press 200 200 ' @lsym)
     tnum (tap-hold-press 200 200 bspc @lnum)
@@ -74,7 +98,7 @@
     tjp (tap-hold-press 200 200 (multi lctl lsft f3 @sqwe) lsft)
     tmux (tap-hold-release 200 200 rctl C-g)
 
-    cap (tap-hold 200 200 esc lctl)
+    cap (tap-hold-press 200 200 esc lctl)
 
     cw (caps-word 2000)
 )

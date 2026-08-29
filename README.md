@@ -31,4 +31,3 @@ nixos-rebuild switch --flake --#HOSTNAME
 ## manual
 
 > [manual](doc/manaul.md)
-
