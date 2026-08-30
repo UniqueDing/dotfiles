@@ -12,7 +12,8 @@ keybinding:
     nextMatch: "k"
     prevMatch: "K"
     new: "k"
-    edit: j
+    edit: o
+    openFile: e
     scrollUpMain-alt1: E
     scrollDownMain-alt1: N
   files:
@@ -29,9 +30,9 @@ keybinding:
   submodules:
     init: l
 git:
-  pagers:
+  diffRenderers:
     - colorArg: always
-      pager: "delta --dark --paging=never"
+      command: "delta --dark --paging=never"
   parseEmoji: true
 gui:
   tabWidth: 2
