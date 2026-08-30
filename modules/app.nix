@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, confPath, ... }:
 
 {
   home.packages = with pkgs; [
@@ -28,6 +28,8 @@
     nur.repos.xddxdd.bilibili
     nur.repos.linyinfeng.wemeet
   ];
+
+  xdg.configFile.wezterm.source = config.lib.file.mkOutOfStoreSymlink "${confPath}/wezterm";
 
   nixpkgs.config.packageOverrides = pkgs: {
     nur = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") {
