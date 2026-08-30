@@ -24,10 +24,13 @@ set -g command-alias[117] joinpane6='run-shell "$dwm_path join 6"'
 set -g command-alias[118] joinpane7='run-shell "$dwm_path join 7"'
 set -g command-alias[119] joinpane8='run-shell "$dwm_path join 8"'
 set -g command-alias[120] joinpane9='run-shell "$dwm_path join 9"'
-# Keep automatic exits consistent with the mirrored layout used by killpane.
-set-hook -g pane-exited 'run-shell "$dwm_path layoutmirrored"'
+# Keep natural exits and raw kill-pane operations consistent with the mirrored
+# layout. repair is idempotent and safely ignores windows already destroyed.
+set-hook -g pane-exited 'run-shell "$dwm_path repair #{q:hook_window}"'
+set-hook -g after-kill-pane 'run-shell -b "$dwm_path repair #{q:hook_window} #{q:window_id}"'
 
 # bind n newpane
+unbind m
 bind w newpanecurdir
 bind q killpane
 bind n nextpane

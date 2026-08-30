@@ -57,12 +57,25 @@ layouttile() {
     tmux select-layout main-vertical\; resize-pane -t :.0 -x ${mfact}%
 }
 
-layoutmirrored() {
-    tmux select-layout main-vertical-mirrored\; resize-pane -t :.0 -x ${mfact}%
-}
-
 float() {
     tmux resize-pane -Z
+}
+
+repair() {
+    target=
+    for candidate in "$@"; do
+        [ -n "$candidate" ] || continue
+        if tmux display -p -t "$candidate" '#{window_id}' >/dev/null 2>&1; then
+            target=$candidate
+            break
+        fi
+    done
+    [ -n "$target" ] || return 0
+    # Pane-exited and after-kill-pane can run after the final pane has already
+    # destroyed its window. Do not try to repair a target that no longer exists.
+    target_mfact=$(tmux display -p -t "$target" '#{mfact}') || return 0
+    tmux select-layout -t "$target" main-vertical-mirrored >/dev/null 2>&1 || return 0
+    tmux resize-pane -t "$target.0" -x "${target_mfact}%" >/dev/null 2>&1 || true
 }
 
 incmfact() {
@@ -90,14 +103,22 @@ window() {
 
 join() {
     window=$1
+    source_window=$(tmux display -p '#{window_id}')
     tmux rotate-window -U\; select-pane -l
-    if tmux list-windows | grep -q "$window:"; then
+    if destination_window=$(tmux list-windows \
+        -f "#{==:#{window_index},$window}" \
+        -F '#{window_id}' 2>/dev/null) && [ -n "$destination_window" ]; then
         tmux join-pane -t :$window\; \
             swap-pane -s :.0 -t :.1\; \
             select-layout main-vertical-mirrored\; \
             resize-pane -t :.0 -x ${mfact}%
+        repair "$source_window"
+        repair "$destination_window"
     else
         tmux break-pane -t :$window
+        destination_window=$(tmux display -p '#{window_id}')
+        repair "$source_window"
+        repair "$destination_window"
     fi
 }
 
@@ -109,10 +130,7 @@ fi
 command=$1
 shift
 args=$*
-set -- $(tmux display -p "#{window_panes} #{killlast} #{mfact}")
-window_panes=$1
-killlast=$2
-mfact=$3
+read -r window_panes killlast mfact < <(tmux display -p "#{window_panes} #{killlast} #{mfact}")
 
 case $command in
 newpane) newpane ;;
@@ -124,12 +142,12 @@ rotateccw) rotateccw ;;
 rotatecw) rotatecw ;;
 zoom) zoom ;;
 layouttile) layouttile ;;
-layoutmirrored) layoutmirrored ;;
 float) float ;;
 incmfact) incmfact ;;
 decmfact) decmfact ;;
 window) window $args ;;
 join) join $args ;;
+repair) repair "$@" ;;
 *)
     echo "unknown command"
     exit 1
