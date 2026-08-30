@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-local color_schemes=(
+typeset -ga color_schemes=(
   "catppuccin_mocha"
   "tokyonight_moon"
   "nord"
@@ -9,131 +9,206 @@ local color_schemes=(
   "gruvbox_dark"
 )
 
-local function portable_sed_i() {
-  if [[ "$(uname -s)" == "Darwin" ]]; then
-    sed -i '' "$@"
-  else
-    sed -i "$@"
-  fi
-}
-
+# Interactively select and apply one of the supported color profiles.
 function cs() {
-  echo "now colorscheme:"
-  cat ~/.config/colorscheme
-  echo "choose color scheme: "
+  print -- "now colorscheme:"
+  if [[ -r "$HOME/.config/colorscheme" ]]; then
+    cat -- "$HOME/.config/colorscheme"
+  else
+    print -- "(not set)"
+  fi
+  print -- "choose color scheme: "
   select scheme in "${color_schemes[@]}"; do
-    echo $scheme
     if [[ -n "$scheme" ]]; then
-      echo "selected：$scheme"
-      modify_scheme $scheme
-      return 0
-    else
-      echo "unknown"
+      print -- "$scheme"
+      print -- "selected: $scheme"
+      modify_scheme "$scheme"
+      return $?
     fi
+    print -- "unknown"
   done
 }
 
+# Apply a selected profile to each configured application in order.
+function modify_scheme() {
+  local scheme="${1:-}"
+  local config_dir="$HOME/.config"
 
-local function modify_scheme() {
-  set -x
-  scheme=$1
-  # file
-  echo $scheme > $HOME/.config/colorscheme
+  if [[ -z "$scheme" ]]; then
+    print -u2 -- "colorscheme: no color scheme selected"
+    return 1
+  fi
+  if (( ! ${color_schemes[(I)$scheme]} )); then
+    print -u2 -- "colorscheme: unknown color scheme: $scheme"
+    return 1
+  fi
 
-  # starship
-  starship_config="$HOME/.config/starship/starship.toml"
-  portable_sed_i "s/palette = '.*/palette = '$scheme'/" "$starship_config"
+  _cs_apply_starship "$config_dir" "$scheme" || return 1
+  _cs_apply_nvim "$config_dir" "$scheme" || return 1
+  _cs_apply_yazi "$config_dir" "$scheme" || return 1
+  _cs_apply_bat "$config_dir" "$scheme" || return 1
+  _cs_apply_eza "$config_dir" "$scheme" || return 1
+  _cs_apply_tmux "$config_dir" "$scheme" || return 1
+  _cs_apply_lazygit "$config_dir" "$scheme" || return 1
+  _cs_apply_delta "$HOME" "$scheme" || return 1
+  _cs_apply_opencode "$config_dir" "$scheme" || return 1
 
-  # nvim
-  nvim_config="$HOME/.config/nvim/lua/plugins/colorscheme.lua"
-  nvim_scheme=$scheme
-  case "$scheme" in
-    "catppuccin_mocha")
-      nvim_scheme="catppuccin-nvim"
-      ;;
-    "tokyonight_moon")
-      nvim_scheme="tokyonight"
-      ;;
-    "nord")
-      nvim_scheme="nordic"
-      ;;
-    "gruvbox_dark")
-      nvim_scheme="gruvbox"
-      ;;
-  esac
-  portable_sed_i "s/      colorscheme = \".*\",/      colorscheme = \"$nvim_scheme\",/g" "$nvim_config"
+  print -- "$scheme" > "$config_dir/colorscheme" || {
+    print -u2 -- "colorscheme: could not update $config_dir/colorscheme"
+    return 1
+  }
+  if ! tmux source-file "$config_dir/tmux/tmux.conf"; then
+    print -u2 -- "Theme configuration updated, but tmux could not be reloaded."
+  else
+    print -- "Tmux configuration reloaded successfully."
+  fi
+  print -- "Theme set to $scheme. Restart OpenCode and other applications to apply it."
+}
 
-  # yazi
-  yazi_config="$HOME/.config/yazi/theme.toml"
-  yazi_scheme=$scheme
-  case "$scheme" in
-    "catppuccin_mocha")
-      yazi_scheme="catppuccin-mocha"
-      ;;
-    "tokyonight_moon")
-      yazi_scheme="tokyo-night"
-      ;;
-    "gruvbox_dark")
-      yazi_scheme="gruvbox-dark"
-      ;;
-  esac
-  portable_sed_i "s/dark = \".*\"/dark = \"$yazi_scheme\"/g" "$yazi_config"
+# Run an in-place extended sed expression on GNU or BSD systems.
+function portable_sed_i() {
+  local expression="$1"
+  local target="$2"
+  if [[ "$(uname -s)" == "Darwin" ]]; then
+    sed -i '' -E "$expression" "$target"
+  else
+    sed -i -E "$expression" "$target"
+  fi
+}
 
-  # bat
-  bat_config="$HOME/.config/bat/config"
-  bat_scheme=$scheme
-  portable_sed_i "s/--theme=\".*\"/--theme=\"$bat_scheme\"/" "$bat_config"
+# Require a regular configuration file before changing it.
+function _cs_require_config() {
+  if [[ ! -f "$1" ]]; then
+    print -u2 -- "colorscheme: required config is not a regular file: $1"
+    return 1
+  fi
+}
 
-  # eza
-  eza_scheme=$scheme
-  case "$scheme" in
-    "catppuccin_mocha")
-      eza_scheme="catppuccin"
-      ;;
-    "tokyonight_moon")
-      eza_scheme="tokyonight"
-      ;;
-    "gruvbox_dark")
-      eza_scheme="gruvbox-dark"
-      ;;
-  esac
-  ln -sf $HOME/.config/eza/themes/$eza_scheme.yml $HOME/.config/eza/theme.yml
+# Apply Starship's canonical profile palette.
+function _cs_apply_starship() {
+  local config_dir="$1"
+  local scheme="$2"
+  local target="$config_dir/starship/starship.toml"
+  _cs_require_config "$target" || return 1
+  portable_sed_i "s|^palette = '.*'$|palette = '$scheme'|" "$target"
+}
 
-  # tmux
-  tmux_config="$HOME/.config/tmux/tmux.conf"
-  tmux_scheme=$scheme
-  portable_sed_i "s/source-file \$HOME\/.config\/tmux\/theme\/.*.conf/source-file \$HOME\/.config\/tmux\/theme\/$tmux_scheme.conf/" "$tmux_config"
-  tmux source-file $tmux_config
+# Apply Neovim's profile-specific colorscheme alias.
+function _cs_apply_nvim() {
+  local config_dir="$1"
+  local scheme="$2"
+  local target="$config_dir/nvim/lua/plugins/colorscheme.lua"
+  local nvim_scheme="$scheme"
+  local -A aliases=(
+    [catppuccin_mocha]=catppuccin-nvim
+    [tokyonight_moon]=tokyonight
+    [nord]=nordic
+    [gruvbox_dark]=gruvbox
+  )
+  _cs_require_config "$target" || return 1
+  nvim_scheme="${aliases[$scheme]:-$nvim_scheme}"
+  portable_sed_i "s|^      colorscheme = \".*\",$|      colorscheme = \"$nvim_scheme\",|" "$target"
+}
 
-  # lazygit
-  lazygit_config="$HOME/.config/lazygit/config.yml"
-  lazygit_scheme=$scheme
-  portable_sed_i '/^  theme:/,$d' "$lazygit_config"
-  sed 's/^/  /' "$HOME/.config/lazygit/themes/$lazygit_scheme.yml" | tee -a $lazygit_config
+# Apply Yazi's profile-specific dark flavor.
+function _cs_apply_yazi() {
+  local config_dir="$1"
+  local scheme="$2"
+  local target="$config_dir/yazi/theme.toml"
+  local yazi_scheme="$scheme"
+  local -A aliases=(
+    [catppuccin_mocha]=catppuccin-mocha
+    [tokyonight_moon]=tokyo-night
+    [gruvbox_dark]=gruvbox-dark
+  )
+  _cs_require_config "$target" || return 1
+  yazi_scheme="${aliases[$scheme]:-$yazi_scheme}"
+  portable_sed_i "s|^dark = \".*\"$|dark = \"$yazi_scheme\"|" "$target"
+}
 
-  # delta
-  delta_config="$HOME/.gitconfig"
-  delta_scheme=$scheme
-  portable_sed_i "s/  syntax-theme = .*/  syntax-theme = $delta_scheme/" "$delta_config"
+# Apply bat's canonical profile theme.
+function _cs_apply_bat() {
+  local config_dir="$1"
+  local scheme="$2"
+  local target="$config_dir/bat/config"
+  _cs_require_config "$target" || return 1
+  portable_sed_i "s|^--theme=\".*\"$|--theme=\"$scheme\"|" "$target"
+}
 
-  # opencode
-  opencode_config="$HOME/.config/opencode/opencode.jsonc"
-  opencode_scheme=$scheme
-  case "$scheme" in
-    "catppuccin_mocha")
-      opencode_scheme="catppuccin-macchiato"
-      ;;
-    "tokyonight_moon")
-      opencode_scheme="tokyonight"
-      ;;
-    "gruvbox_dark")
-      opencode_scheme="gruvbox"
-      ;;
-    "onedark")
-      opencode_scheme="one-dark"
-      ;;
-  esac
-  portable_sed_i "s/  \"theme\": \".*\",/  \"theme\": \"$opencode_scheme\",/" "$opencode_config"
+# Apply eza's profile-specific theme link after checking its asset.
+function _cs_apply_eza() {
+  local config_dir="$1"
+  local scheme="$2"
+  local eza_scheme="$scheme"
+  local asset
+  local -A aliases=(
+    [catppuccin_mocha]=catppuccin
+    [tokyonight_moon]=tokyonight
+    [onedark]=one_dark
+    [gruvbox_dark]=gruvbox-dark
+  )
+  eza_scheme="${aliases[$scheme]:-$eza_scheme}"
+  asset="$config_dir/eza/themes/$eza_scheme.yml"
+  if [[ ! -f "$asset" ]]; then
+    print -u2 -- "colorscheme: required theme asset is not a regular file: $asset"
+    return 1
+  fi
+  ln -sf "$asset" "$config_dir/eza/theme.yml"
+}
 
-  set +x
+# Apply tmux's profile theme source after checking its asset.
+function _cs_apply_tmux() {
+  local config_dir="$1"
+  local scheme="$2"
+  local target="$config_dir/tmux/tmux.conf"
+  local asset="$config_dir/tmux/theme/$scheme.conf"
+  _cs_require_config "$target" || return 1
+  if [[ ! -f "$asset" ]]; then
+    print -u2 -- "colorscheme: required theme asset is not a regular file: $asset"
+    return 1
+  fi
+  portable_sed_i 's|^source-file \$HOME/.config/tmux/theme/.*\.conf$|source-file \$HOME/.config/tmux/theme/'"$scheme"'.conf|' "$target"
+}
+
+# Apply Lazygit's selected theme block after checking its asset.
+function _cs_apply_lazygit() {
+  local config_dir="$1"
+  local scheme="$2"
+  local target="$config_dir/lazygit/config.yml"
+  local asset="$config_dir/lazygit/themes/$scheme.yml"
+  _cs_require_config "$target" || return 1
+  if [[ ! -f "$asset" ]]; then
+    print -u2 -- "colorscheme: required theme asset is not a regular file: $asset"
+    return 1
+  fi
+  portable_sed_i '/^  theme:$/,$d' "$target" || return 1
+  sed 's/^/  /' "$asset" >> "$target"
+}
+
+# Apply Delta's canonical profile syntax theme.
+function _cs_apply_delta() {
+  local home_dir="$1"
+  local scheme="$2"
+  local target="$home_dir/.gitconfig"
+  _cs_require_config "$target" || return 1
+  portable_sed_i "s|^  syntax-theme = .*$|  syntax-theme = $scheme|" "$target"
+}
+
+# Apply OpenCode's official TUI alias without touching opencode.jsonc.
+function _cs_apply_opencode() {
+  local config_dir="$1"
+  local scheme="$2"
+  local target="$config_dir/opencode/tui.json"
+  local opencode_scheme="$scheme"
+  local -A aliases=(
+    [catppuccin_mocha]=catppuccin
+    [tokyonight_moon]=tokyonight
+    [nord]=nord
+    [onedark]=one-dark
+    [dracula]=dracula
+    [gruvbox_dark]=gruvbox
+  )
+  _cs_require_config "$target" || return 1
+  opencode_scheme="${aliases[$scheme]:-$opencode_scheme}"
+  portable_sed_i "s|^  \"theme\": \".*\",$|  \"theme\": \"$opencode_scheme\",|" "$target"
 }
