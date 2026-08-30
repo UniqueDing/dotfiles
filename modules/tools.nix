@@ -2,7 +2,7 @@
 
 {
   home.packages = with pkgs; [
-    psmisc
+    # psmisc # Linux-only utility.
     atool
     bc
     bitwarden-cli
@@ -21,7 +21,7 @@
     lazygit
     lazydocker
     lazysql
-    lsb-release
+    # lsb-release # Linux Standard Base metadata.
     zoxide
     tealdeer
     fzf
@@ -45,11 +45,11 @@
     zip
     unzip
     nettools
-    try
+    # try # Linux-only utility.
     pay-respects
     curl
     wget
-    traceroute
+    # traceroute # Provided by the host system where available.
     netcat
   ];
 

@@ -29,6 +29,13 @@
     godot
     dotnet-sdk
     aqtinstall
+    tree-sitter
+    rustup
+    go
+    gcc
+    lua
+    nodejs
+    bun
 
     ## lsp
     nixd

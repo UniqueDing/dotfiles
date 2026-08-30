@@ -10,13 +10,6 @@
   home.packages = with pkgs; [
  #   neovim-nightly
     neovim
-    tree-sitter
-    rustup
-    go
-    gcc
-    lua
-    nodejs
-    bun
     # chromium
     translate-shell
     opencode
@@ -24,9 +17,9 @@
     skills
   ];
 
-  systemd.user.services.opencode-web = lib.mkIf pkgs.stdenv.isLinux {
+  systemd.user.services.opencode-serve = lib.mkIf pkgs.stdenv.isLinux {
     Unit = {
-      Description = "OpenCode Web";
+      Description = "OpenCode Serve";
       Documentation = "https://opencode.ai/";
       After = [ "network-online.target" ];
       Wants = [ "network-online.target" ];
@@ -36,11 +29,11 @@
     };
     Service = {
       Type = "simple";
-      ExecStart = "${pkgs.opencode}/bin/opencode web --hostname 0.0.0.0 --port 4096";
+      ExecStart = "${pkgs.opencode}/bin/opencode serve --hostname 0.0.0.0 --port 4096";
       Restart = "on-failure";
       RestartSec = "5";
       Environment = [
-        "PATH=${pkgs.opencode}/bin:${pkgs.bash}/bin:${pkgs.coreutils}/bin"
+        "PATH=${config.home.profileDirectory}/bin:${pkgs.opencode}/bin:${pkgs.bash}/bin:${pkgs.coreutils}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
       ];
     };
   };

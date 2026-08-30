@@ -8,7 +8,7 @@
     jq
     starship
     tmux
-    try
+    # try # Linux-only utility.
     zsh
     nushell
     fish
