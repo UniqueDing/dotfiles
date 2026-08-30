@@ -16,13 +16,9 @@ alias showkey="wshowkeys -a bottom -b 00000033 -m100 -F 'Hack 44'"
 alias tssh="TERM=xterm ssh"
 alias scpr="rsync -aHAXP --rsh=ssh"
 alias lg="lazygit"
-# alias oc="nix run nixpkgs#opencode"
-oc() {
-  local port
-  port=$(python3 -c 'import socket; s=socket.socket(); s.bind(("127.0.0.1",0)); print(s.getsockname()[1]); s.close()')
-  source "$HOME/.config/zsh/ai.env"
-  OPENCODE_ENABLE_EXA=1 OPENCODE_PORT="$port" opencode --port "$port" "$@"
-}
+# Connect the TUI to the systemd-managed OpenCode server.
+# Keep the caller's current directory as the OpenCode project directory.
+alias oc='OPENCODE_ENABLE_EXA=1 opencode attach http://127.0.0.1:4096 --dir "$PWD"'
 function mkcd(){
 	mkdir $1
 	cd $1
