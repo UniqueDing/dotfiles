@@ -27,3 +27,24 @@ conf/yazi/flavors
 conf/yazi/plugins
 local.nix
 pkg_target
+/docs/
+/.omo/
+/tools/kanata-controller/target/
+
+# OpenCode local overrides and generated/runtime content.
+conf/opencode/opencode.local.jsonc
+conf/opencode/node_modules/
+conf/opencode/package.json
+conf/opencode/package-lock.json
+conf/opencode/bun.lock
+conf/opencode/*.bak
+conf/opencode/*.backup
+conf/opencode/*.log
+conf/opencode/*.db
+conf/opencode/*.sqlite
+conf/opencode/*.sqlite3
+conf/opencode/auth.json
+conf/opencode/state/
+conf/opencode/cache/
+conf/opencode/runtime/
+conf/opencode/.oh-my-opencode-slim/
