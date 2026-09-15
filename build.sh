@@ -42,7 +42,7 @@ Commands:
   windows-terminal     Add Git Bash profile to Windows Terminal
   update               Update Nix, channels, flake lock, and Home Manager
   kanata [target]      Install Kanata (Linux uses the system-service migration)
-                        targets: deepin-x11, arch-x11, arch-kde, macos, windows
+                        targets: other, arch, macos, windows
   opencode             Bootstrap OpenCode skills and oh-my-opencode-slim
 EOF
 }

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title>Kanata controller</title>
+  <!-- Running variant. The embedded tray pixmaps use state-specific colors. -->
+  <rect x="2" y="2" width="60" height="60" rx="10" fill="#16a34a"/>
+  <path fill="#fff" d="M18 15h8v12l12-12h12L34 31l16 18H38L26 36v13h-8z"/>
+</svg>
