@@ -1,6 +1,16 @@
 local wezterm = require("wezterm")
 local config = wezterm.config_builder()
 
+-- The Deepin package wrapper leaks a private library path. Start the shell
+-- without it so terminal programs use their own compatible shared libraries.
+config.default_prog = {
+  "/usr/bin/env",
+  "-u",
+  "LD_LIBRARY_PATH",
+  "/bin/bash",
+  "-l",
+}
+
 config.use_ime = true
 config.ime_preedit_rendering = "Builtin"
 config.xim_im_name = "fcitx"
@@ -11,7 +21,7 @@ config.keys = {
     action = wezterm.action.ActivateKeyTable({
       name = "right_ctrl",
       one_shot = false,
-      timeout_milliseconds = 300,
+      timeout_milliseconds = 1000,
       replace_current = true,
     }),
   },
@@ -75,6 +85,7 @@ add(",", tmux_send(","))
 add(".", tmux_send("."))
 add("[", tmux_send("["))
 add("]", tmux_send("]"))
+add("/", tmux_send("w"))
 
 config.key_tables = {
   right_ctrl = right_ctrl,

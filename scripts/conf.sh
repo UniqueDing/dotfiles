@@ -50,6 +50,7 @@ link_linux_configs() {
     ln -sfn "$CONF_DIR/vimrc"                   "$HOME/.vimrc"
     ln -sfn "$CONF_DIR/alacritty"               "$HOME/.config/alacritty"
     ln -sfn "$CONF_DIR/ghostty/"                "$HOME/.config/ghostty"
+    ln -sfn "$CONF_DIR/wezterm"                 "$HOME/.config/wezterm"
     ln -sfn "$CONF_DIR/fcitx5/config"           "$HOME/.config/fcitx5"
     ln -sfn "$CONF_DIR/environment.d/fcitx.env" "$HOME/.config/environment.d/fcitx.env"
     ln -sfn "$CONF_DIR/fcitx5/themes"           "$HOME/.local/share/fcitx5/themes"
