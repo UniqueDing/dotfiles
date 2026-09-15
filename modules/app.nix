@@ -19,7 +19,7 @@
     zathura
     wpsoffice
     lisgd
-    tdesktop
+    telegram-desktop
     steam
     netease-cloud-music-gtk
 

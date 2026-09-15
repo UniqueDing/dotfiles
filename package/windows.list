@@ -1,4 +1,5 @@
-# Authoritative verified WinGet IDs; one exact ID per non-comment line.
+# WinGet IDs plus special installer entries; one item per non-comment line.
+cliproxyapi
 Git.Git
 Neovim.Neovim
 OpenJS.NodeJS.LTS
