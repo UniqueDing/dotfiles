@@ -208,6 +208,15 @@ update_system_packages() {
 
 update_all() {
     # update_system_packages
+    if [[ "$(uname -s)" == "Darwin" ]]; then
+        command -v nix >/dev/null 2>&1 || { echo "error: Nix is required for macOS updates" >&2; return 1; }
+        update_nix
+        return
+    fi
+    if [[ "$(uname -s)" != "Linux" ]]; then
+        echo "error: unsupported platform for updates: $(uname -s)" >&2
+        return 1
+    fi
     command -v nix-channel >/dev/null 2>&1 && update_nix
     command -v home-manager >/dev/null 2>&1 && switch_dotfiles
 }

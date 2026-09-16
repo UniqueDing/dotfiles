@@ -27,16 +27,16 @@ usage() {
 Usage: $0 <command> [args]
 
 Commands:
-  nixpkgs              Install Nix and write nix.conf
-  homemanager          Install Home Manager through nix-channel
-  dotfiles [profile]   Switch Home Manager profile, defaults to light
+  nixpkgs              Install Nix; macOS also bootstraps nix-darwin
+  homemanager          Install Home Manager through nix-channel (Linux only)
+  dotfiles [profile]   Switch Home Manager profile (Linux, defaults to light) or nix-darwin (macOS)
   conf                 Initialize post-switch user config
   pkg [target]         Install packages for target, defaults by distro
                        targets: arch, deepin, termux, windows, macos
   fonts [target]       Install fonts for target, defaults by distro
   sdk                  Run scripts/init_sdk.sh
   bw [args]            Run scripts/bw.sh with forwarded args
-  all [profile]        Install Nix/Home Manager, switch profile, run conf; defaults to light
+  all [profile]        Linux: install Nix/Home Manager and switch profile; macOS: install and switch nix-darwin
   nixgl                Install nixGL
   theme                Install Qogir themes
   windows-terminal     Add Git Bash profile to Windows Terminal
@@ -99,11 +99,26 @@ main() {
         ;;
     all)
         local profile="${1:-light}"
-        install_nixpkgs
-        install_home_manager
-        switch_dotfiles "$profile"
-        init_conf "$profile"
-        install_fonts
+        case "$(uname -s)" in
+        Linux)
+            install_nixpkgs
+            install_home_manager
+            switch_dotfiles "$profile"
+            init_conf "$profile"
+            install_fonts
+            ;;
+        Darwin)
+            if [[ -n "${1:-}" ]]; then
+                echo "error: macOS does not support Home Manager profiles; omit the profile argument" >&2
+                return 1
+            fi
+            install_nixpkgs
+            ;;
+        *)
+            echo "error: unsupported platform for all: $(uname -s)" >&2
+            return 1
+            ;;
+        esac
         ;;
     nixgl)
         install_nixgl
