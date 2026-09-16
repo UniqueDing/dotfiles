@@ -71,7 +71,7 @@
   launchd.agents.syncthing = lib.mkIf pkgs.stdenv.isDarwin {
     enable = true;
     config = {
-      Label = "dev.uniqueding.syncthing";
+      Label = "syncthing";
       ProgramArguments = [ "${pkgs.syncthing}/bin/syncthing" ];
       RunAtLoad = true;
       KeepAlive = true;

@@ -15,7 +15,7 @@
     glances
   ];
 
-  systemd.user.services.glances_server = lib.mkIf pkgs.stdenv.isLinux {
+  systemd.user.services.glances-server = lib.mkIf pkgs.stdenv.isLinux {
       Unit = {
           Description = "Glance server";
       };
@@ -30,10 +30,10 @@
       };
   };
 
-  launchd.agents.glances = lib.mkIf pkgs.stdenv.isDarwin {
+  launchd.agents.glances-server = lib.mkIf pkgs.stdenv.isDarwin {
     enable = true;
     config = {
-      Label = "dev.uniqueding.glances";
+      Label = "glances-server";
       ProgramArguments = [
         "${pkgs.glances}/bin/glances"
         "-w"

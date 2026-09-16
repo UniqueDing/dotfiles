@@ -29,6 +29,8 @@
     };
     Service = {
       Type = "simple";
+      PassEnvironment = "SSH_AUTH_SOCK";
+      ExecStartPre = "${pkgs.openssh}/bin/ssh-add -l";
       ExecStart = "${pkgs.opencode}/bin/opencode serve --hostname 0.0.0.0 --port 4096";
       Restart = "on-failure";
       RestartSec = "5";
@@ -38,13 +40,13 @@
     };
   };
 
-  launchd.agents.opencode-web = lib.mkIf pkgs.stdenv.isDarwin {
+  launchd.agents.opencode-serve = lib.mkIf pkgs.stdenv.isDarwin {
     enable = true;
     config = {
-      Label = "dev.uniqueding.opencode-web";
+      Label = "opencode-serve";
       ProgramArguments = [
         "${pkgs.opencode}/bin/opencode"
-        "web"
+        "serve"
         "--hostname"
         "0.0.0.0"
         "--port"
