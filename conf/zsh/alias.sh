@@ -25,6 +25,16 @@ function mkcd(){
 }
 alias ssha="eval $(ssh-agent -s) ssh-add"
 
+# Unlock an SSH key, share its agent with the user service manager, then restart OpenCode.
+function ocs() {
+	if [[ -z "${SSH_AUTH_SOCK:-}" ]]; then
+		eval "$(ssh-agent -s)" || return
+	fi
+	ssh-add || return
+	systemctl --user import-environment SSH_AUTH_SOCK || return
+	systemctl --user restart opencode-serve
+}
+
 alias proxychains="proxychains4"
 alias pc="proxychains -q"
 
