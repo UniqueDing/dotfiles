@@ -1,5 +1,15 @@
 CONFIG_PATH=~/.config/zsh
 
-if [ -e /home/uniqueding/.nix-profile/etc/profile.d/nix.sh ]; then . /home/uniqueding/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+if [[ "$(uname -s)" == Darwin ]]; then
+  if [[ -r /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]]; then
+    source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+  fi
+
+  if [[ -x /opt/homebrew/bin/brew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  fi
+elif [[ -r /home/uniqueding/.nix-profile/etc/profile.d/nix.sh ]]; then
+  source /home/uniqueding/.nix-profile/etc/profile.d/nix.sh
+fi
 
 source $CONFIG_PATH/init.zsh
