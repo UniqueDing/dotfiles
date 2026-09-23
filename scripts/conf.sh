@@ -59,14 +59,14 @@ link_linux_configs() {
 }
 
 link_macos_configs() {
-    local rime_link="$HOME/Library/Rime/dotfiles-rime"
+    mkdir -p "$HOME/Library/Rime" "$HOME/.config/linearmouse"
 
-    mkdir -p "$HOME/Library/Rime"
-    if [[ -e "$rime_link" && ! -L "$rime_link" ]]; then
-        echo "error: refusing to replace existing Rime path: $rime_link" >&2
-        return 1
-    fi
-    ln -sfn "$CONF_DIR/rime" "$rime_link"
+    for source in "$CONF_DIR/rime"/*; do
+        ln -sfn "$source" "$HOME/Library/Rime/${source##*/}"
+    done
+
+    ln -sfn "$CONF_DIR/macos/linearmouse/linearmouse.json" \
+        "$HOME/.config/linearmouse/linearmouse.json"
 }
 
 link_windows_configs() {

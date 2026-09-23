@@ -88,6 +88,9 @@
               system.stateVersion = 6;
               users.users.uniqueding.home = "/Users/uniqueding";
 
+              # Zim owns completion initialization from the user configuration.
+              programs.zsh.enableGlobalCompInit = false;
+
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.extraSpecialArgs = { inherit confPath; };

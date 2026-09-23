@@ -9,13 +9,16 @@ telegram
 qq
 wechat
 localsend
+bitwarden
 
 # media and notes
 vlc
 bilibili
 neteasemusic
+douyin
 baidunetdisk
 jellyfin
+jellyfin-media-player
 trilium-notes
 
 # creative
@@ -27,7 +30,17 @@ kdenlive
 
 # entertainment
 steam
+epic-games
 
 # terminal
 ghostty
 wezterm
+
+# input devices
+linearmouse
+squirrel-app
+
+# tools and utilities
+awesun
+clash-party
+parallels
