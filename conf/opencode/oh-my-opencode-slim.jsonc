@@ -19,7 +19,7 @@
     "openai": {
       "designer": {
         "mcps": [],
-        "model": "openai/gpt-5.6-terra",
+        "model": "openai/gpt-6-luna",
         "skills": [],
         "variant": "medium"
       },
@@ -27,15 +27,15 @@
         "mcps": [
           "codegraph"
         ],
-        "model": "openai/gpt-5.6-luna",
+        "model": "openai/gpt-6-luna",
         "skills": [],
         "variant": "low"
       },
       "fixer": {
         "mcps": [],
-        "model": "openai/gpt-5.6-terra",
+        "model": "openai/gpt-6-luna",
         "skills": [],
-        "variant": "medium"
+        "variant": "high"
       },
       "librarian": {
         "mcps": [
@@ -43,7 +43,7 @@
           "context7",
           "gh_grep"
         ],
-        "model": "openai/gpt-5.6-luna",
+        "model": "openai/gpt-6-luna",
         "skills": [],
         "variant": "low"
       },
@@ -51,22 +51,22 @@
         "mcps": [
           "codegraph"
         ],
-        "model": "openai/gpt-5.6-sol",
+        "model": "openai/gpt-6-astra",
         "skills": [
           "simplify"
         ],
-        "variant": "xhigh"
+        "variant": "high"
       },
       "orchestrator": {
         "mcps": [
           "*",
           "!context7"
         ],
-        "model": "openai/gpt-5.6-terra",
+        "model": "openai/gpt-6-sol",
         "skills": [
           "*"
         ],
-        "variant": "xhigh"
+        "variant": "high"
       }
     },
     "opencode-go": {
