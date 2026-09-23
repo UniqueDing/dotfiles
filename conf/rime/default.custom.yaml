@@ -2,7 +2,6 @@ patch:
   schema_list:
     - schema: pinyin_simp
     - schema: wubi86
-    - schema: tigress
     - schema: japanese
     - schema: hangeul2set
 
