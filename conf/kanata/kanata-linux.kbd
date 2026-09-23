@@ -1,4 +1,5 @@
 ;; Linux Kanata configuration.
+(include "kanata-common.kbd")
 ;; +-------+-------+-------+-------+-------+-------+--+-------+-------+-------+-------+-------+-------+-------+-------+
 ;; | @tnav |   q   |   w   | e   f | r   p | t   g |  | y   u | u   l | i   u | o   y | p   ; |   [   |   ]   |   \   |
 ;; |       | 1   ! | 2   @ | 3   # | 4   $ | 5   % |  |       |       |       |       |       |       |       |       |
@@ -29,9 +30,9 @@
 )
 
 (deflayer colemak
-  @tnav  q     w     f     p     g        j     l     u     y     ;     [     ]     \
+  @tnav  q     w     f     p     g        j     l     u     y     @temoji [     ]     \
   @cap   a     r     s     t     d        h     n     e     i     o     @tsym       ret
-  lsft   z     x     c     v     b        k     m     ,     .     /                 rsft
+  lsft   z     x     c     v     b        k     m     ,     .     @tlatin           rsft
   lctl         @lmet-tmux  rctl           spc               @tnum       ralt        @tnum
 )
 
@@ -43,16 +44,10 @@
 )
 
 (deflayer nav
-  tab    XX    prnt  home  end   XX       XX    pgdn  pgup  XX    XX    XX    XX    XX
+  ;; Physical N takes the platform screenshot action; W remains unmapped.
+  tab    XX    XX    home  end   XX       XX    pgdn  pgup  XX    XX    XX    XX    XX
   caps   XX    XX    del   bspc  XX       left  down  up    right XX    XX          ret
-  lsft   XX    XX    XX    XX    XX       XX    XX    XX    XX    XX                rsft
-  lctl         @lmet-tmux  rctl           spc               @tnum       ralt        rctl
-)
-
-(deflayer symbol
-  tab    S-1   S-2   S-3   S-4   S-5      XX    XX    XX    XX    XX    XX    XX    XX
-  bspc   [     ]     S-[   S-]   S-\      XX    S-9   S-0   XX    XX    XX          ret
-  lsft   \     S-7   `     S-`   S-6      XX    XX    XX    XX    XX                rsft
+  lsft   XX    XX    XX    XX    XX       @platform-screenshot XX XX XX XX          rsft
   lctl         @lmet-tmux  rctl           spc               @tnum       ralt        rctl
 )
 
@@ -82,6 +77,8 @@
     lnav (layer-while-held nav)
     lsym (layer-while-held symbol)
     lnum (layer-while-held number)
+    lemoji (layer-while-held emoji)
+    llatin (layer-while-held latin)
     lqwe (layer-while-held qwerty)
     sqwe (layer-switch qwerty)
     scol (layer-switch colemak)
@@ -93,12 +90,26 @@
     tnav (tap-hold-press 200 200 tab @lnav)
     tsym (tap-hold-press 200 200 ' @lsym)
     tnum (tap-hold-press 200 200 bspc @lnum)
+    temoji (tap-hold-press 200 200 ; @lemoji)
+    tlatin (tap-hold-press 200 200 / @llatin)
     ten (tap-hold-press 200 200 (multi lctl lsft f1 @scol) lsft)
     tcn (tap-hold-press 200 200 (multi lctl lsft f2 @sqwe) lsft)
     tjp (tap-hold-press 200 200 (multi lctl lsft f3 @sqwe) lsft)
     tmux (tap-hold-release 200 200 rctl C-g)
 
     cap (tap-hold-press 200 200 esc lctl)
+
+    cmod1 lctl
+    cmod2 @lmet-tmux
+    cmod3 rctl
+    cmod4 @tnum
+    cmod5 ralt
+    cmod6 @tnum
+    platform-screenshot prnt
+
+    emojia (macro (clipboard-save 0) 100 (clipboard-set "😀") 100 C-v 100 (clipboard-restore 0)) emojis (macro (clipboard-save 0) 100 (clipboard-set "😂") 100 C-v 100 (clipboard-restore 0)) emojih (macro (clipboard-save 0) 100 (clipboard-set "😭") 100 C-v 100 (clipboard-restore 0)) emojiz (macro (clipboard-save 0) 100 (clipboard-set "😴") 100 C-v 100 (clipboard-restore 0)) emojin (macro (clipboard-save 0) 100 (clipboard-set "🤔") 100 C-v 100 (clipboard-restore 0)) emojiu (macro (clipboard-save 0) 100 (clipboard-set "😎") 100 C-v 100 (clipboard-restore 0)) emojit (macro (clipboard-save 0) 100 (clipboard-set "🌝") 100 C-v 100 (clipboard-restore 0)) emojiy (macro (clipboard-save 0) 100 (clipboard-set "🌚") 100 C-v 100 (clipboard-restore 0)) emojij (macro (clipboard-save 0) 100 (clipboard-set "👀") 100 C-v 100 (clipboard-restore 0)) emojid (macro (clipboard-save 0) 100 (clipboard-set "❤️") 100 C-v 100 (clipboard-restore 0))
+    emojil (macro (clipboard-save 0) 100 (clipboard-set "✅") 100 C-v 100 (clipboard-restore 0)) emojix (macro (clipboard-save 0) 100 (clipboard-set "❌") 100 C-v 100 (clipboard-restore 0)) emojiq (macro (clipboard-save 0) 100 (clipboard-set "❓") 100 C-v 100 (clipboard-restore 0)) emojiw (macro (clipboard-save 0) 100 (clipboard-set "⚠️") 100 C-v 100 (clipboard-restore 0)) emojip (macro (clipboard-save 0) 100 (clipboard-set "🎉") 100 C-v 100 (clipboard-restore 0)) emojie (macro (clipboard-save 0) 100 (clipboard-set "✨") 100 C-v 100 (clipboard-restore 0)) emojir (macro (clipboard-save 0) 100 (clipboard-set "🚀") 100 C-v 100 (clipboard-restore 0)) emojik (macro (clipboard-save 0) 100 (clipboard-set "🔥") 100 C-v 100 (clipboard-restore 0)) emojii (macro (clipboard-save 0) 100 (clipboard-set "💡") 100 C-v 100 (clipboard-restore 0))
+    emojio (macro (clipboard-save 0) 100 (clipboard-set "👌") 100 C-v 100 (clipboard-restore 0)) emojic (macro (clipboard-save 0) 100 (clipboard-set "👏") 100 C-v 100 (clipboard-restore 0)) emojiv (macro (clipboard-save 0) 100 (clipboard-set "✌️") 100 C-v 100 (clipboard-restore 0)) emojib (macro (clipboard-save 0) 100 (clipboard-set "🤝") 100 C-v 100 (clipboard-restore 0)) emojif (macro (clipboard-save 0) 100 (clipboard-set "👍") 100 C-v 100 (clipboard-restore 0)) emojim (macro (clipboard-save 0) 100 (clipboard-set "🙏") 100 C-v 100 (clipboard-restore 0)) emojig (macro (clipboard-save 0) 100 (clipboard-set "🎈") 100 C-v 100 (clipboard-restore 0))
 
     cw (caps-word 2000)
 )

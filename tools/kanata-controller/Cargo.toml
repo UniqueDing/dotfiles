@@ -10,5 +10,12 @@ name = "kanata_controller"
 path = "src/lib.rs"
 
 [dependencies]
-ksni = "0.3"
 tokio = { version = "1", features = ["io-util", "macros", "process", "rt", "sync", "time"] }
+
+[target.'cfg(target_os = "linux")'.dependencies]
+ksni = "0.3"
+
+[target.'cfg(target_os = "macos")'.dependencies]
+resvg = { version = "0.44", default-features = false }
+tao = "0.30"
+tray-icon = "=0.21.2"

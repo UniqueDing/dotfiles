@@ -1,47 +1,30 @@
-use std::{future::Future, process::Stdio, time::Duration};
-
-use tokio::{
-    io::{AsyncRead, AsyncReadExt},
-    process::Command,
-    time,
-};
+use std::future::Future;
 
 use crate::model::{Operation, ServiceStatus};
 
-pub const SYSTEMD_UNIT: &str = "kanata.service";
+#[cfg(target_os = "linux")]
+use crate::process::{run_bounded, CommandError, CommandOutput, CommandSpec};
+
+#[cfg(target_os = "linux")]
+pub(crate) const SYSTEMD_UNIT: &str = "kanata.service";
+#[cfg(target_os = "linux")]
 const SYSTEMCTL_PATH: &str = "/usr/bin/systemctl";
-const MAX_OUTPUT_BYTES: usize = 4 * 1024;
-const COMMAND_TIMEOUT: Duration = Duration::from_secs(10);
-
-#[derive(Clone, Debug, Eq, PartialEq)]
-pub struct CommandSpec {
-    pub program: &'static str,
-    pub args: Vec<String>,
-}
-
-impl CommandSpec {
-    pub fn new<const N: usize>(program: &'static str, args: [&str; N]) -> Self {
-        Self {
-            program,
-            args: args.into_iter().map(str::to_owned).collect(),
-        }
-    }
-}
-
-pub trait ServiceControl {
+pub(crate) trait ServiceControl {
     fn status(&self) -> impl Future<Output = Result<ServiceStatus, String>> + Send;
     fn execute(&self, operation: Operation) -> impl Future<Output = Result<(), String>> + Send;
 }
 
 #[derive(Clone, Copy, Debug, Default)]
-pub struct SystemdControl;
+#[cfg(target_os = "linux")]
+pub(crate) struct SystemdControl;
 
+#[cfg(target_os = "linux")]
 impl SystemdControl {
-    pub fn new() -> Self {
+    pub(crate) fn new() -> Self {
         Self
     }
 
-    pub fn command_for(&self, operation: Operation) -> CommandSpec {
+    pub(crate) fn command_for(&self, operation: Operation) -> CommandSpec {
         let verb = match operation {
             Operation::Start => "start",
             Operation::Stop => "stop",
@@ -50,7 +33,7 @@ impl SystemdControl {
         CommandSpec::new(SYSTEMCTL_PATH, [verb, SYSTEMD_UNIT])
     }
 
-    pub fn status_command(&self) -> CommandSpec {
+    pub(crate) fn status_command(&self) -> CommandSpec {
         CommandSpec::new(
             SYSTEMCTL_PATH,
             ["show", SYSTEMD_UNIT, "--property=ActiveState", "--value"],
@@ -58,37 +41,11 @@ impl SystemdControl {
     }
 
     async fn run(&self, spec: CommandSpec) -> Result<CommandOutput, String> {
-        let mut child = Command::new(spec.program)
-            .args(&spec.args)
-            .stdin(Stdio::null())
-            .stdout(Stdio::piped())
-            .stderr(Stdio::piped())
-            .kill_on_drop(true)
-            .spawn()
-            .map_err(|error| error.to_string())?;
-        let stdout = child.stdout.take().expect("stdout is piped");
-        let stderr = child.stderr.take().expect("stderr is piped");
-        let stdout_reader = tokio::spawn(read_bounded(stdout));
-        let stderr_reader = tokio::spawn(read_bounded(stderr));
-
-        let status = match time::timeout(COMMAND_TIMEOUT, child.wait()).await {
-            Ok(result) => result.map_err(|error| error.to_string())?,
-            Err(_) => {
-                child.kill().await.map_err(|error| error.to_string())?;
-                child.wait().await.map_err(|error| error.to_string())?
-            }
-        };
-        let stdout = stdout_reader.await.map_err(|error| error.to_string())?;
-        let stderr = stderr_reader.await.map_err(|error| error.to_string())?;
-
-        if status.success() {
-            Ok(CommandOutput { stdout })
-        } else {
-            Err(bounded_stderr(&stderr))
-        }
+        run_bounded(&spec).await.map_err(systemd_error)
     }
 }
 
+#[cfg(target_os = "linux")]
 impl ServiceControl for SystemdControl {
     async fn status(&self) -> Result<ServiceStatus, String> {
         let output = self.run(self.status_command()).await?;
@@ -100,24 +57,7 @@ impl ServiceControl for SystemdControl {
     }
 }
 
-struct CommandOutput {
-    stdout: Vec<u8>,
-}
-
-async fn read_bounded<R: AsyncRead + Unpin>(mut reader: R) -> Vec<u8> {
-    let mut output = Vec::new();
-    let mut buffer = [0_u8; 1024];
-    loop {
-        let read = match reader.read(&mut buffer).await {
-            Ok(0) | Err(_) => break,
-            Ok(read) => read,
-        };
-        let remaining = MAX_OUTPUT_BYTES.saturating_sub(output.len());
-        output.extend_from_slice(&buffer[..read.min(remaining)]);
-    }
-    output
-}
-
+#[cfg(target_os = "linux")]
 fn bounded_stderr(stderr: &[u8]) -> String {
     let error = String::from_utf8_lossy(stderr).trim().to_owned();
     if error.is_empty() {
@@ -127,7 +67,19 @@ fn bounded_stderr(stderr: &[u8]) -> String {
     }
 }
 
-pub fn parse_active_state(output: &[u8]) -> ServiceStatus {
+#[cfg(target_os = "linux")]
+fn systemd_error(error: CommandError) -> String {
+    match error {
+        CommandError::Exit { stderr, .. } => bounded_stderr(&stderr),
+        CommandError::Timeout => "systemctl command timed out".into(),
+        CommandError::Spawn(error) | CommandError::Wait(error) | CommandError::Read(error) => {
+            error.chars().take(512).collect()
+        }
+    }
+}
+
+#[cfg_attr(not(target_os = "linux"), allow(dead_code))]
+pub(crate) fn parse_active_state(output: &[u8]) -> ServiceStatus {
     match String::from_utf8_lossy(output).trim() {
         "active" => ServiceStatus::Running,
         "activating" => ServiceStatus::Starting,
@@ -135,5 +87,44 @@ pub fn parse_active_state(output: &[u8]) -> ServiceStatus {
         "deactivating" => ServiceStatus::Stopping,
         "failed" => ServiceStatus::Failed,
         _ => ServiceStatus::Unknown,
+    }
+}
+
+#[cfg(all(test, target_os = "linux"))]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn systemd_commands_are_fixed_to_kanata_unit() {
+        let control = SystemdControl::new();
+        assert_eq!(
+            control.command_for(Operation::Restart),
+            CommandSpec::new(SYSTEMCTL_PATH, ["restart", SYSTEMD_UNIT])
+        );
+        assert_eq!(
+            control.status_command(),
+            CommandSpec::new(
+                SYSTEMCTL_PATH,
+                ["show", SYSTEMD_UNIT, "--property=ActiveState", "--value"]
+            )
+        );
+    }
+}
+
+#[cfg(test)]
+mod parser_tests {
+    use super::*;
+
+    #[test]
+    fn systemd_active_state_parser_maps_known_values() {
+        assert_eq!(parse_active_state(b"active\n"), ServiceStatus::Running);
+        assert_eq!(parse_active_state(b"activating\n"), ServiceStatus::Starting);
+        assert_eq!(parse_active_state(b"inactive\n"), ServiceStatus::Stopped);
+        assert_eq!(
+            parse_active_state(b"deactivating\n"),
+            ServiceStatus::Stopping
+        );
+        assert_eq!(parse_active_state(b"failed\n"), ServiceStatus::Failed);
+        assert_eq!(parse_active_state(b"unknown\n"), ServiceStatus::Unknown);
     }
 }

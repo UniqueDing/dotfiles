@@ -1,62 +1,54 @@
 ;; macOS configuration. Bottom-row modifiers stay in native Mac order.
 
 (defsrc
-  tab    q     w     e     r     t        y     u     i     o     p     [     ]     \
-  caps   a     s     d     f     g        h     j     k     l     ;     '           ret
-  lsft   z     x     c     v     b        n     m     ,     .     /                 rsft
-  lctl         lalt        lmet           spc               ralt        rmet        rctl
+  tab q w e r t y u i o p [ ] \
+  caps a s d f g h j k l ; ' ret
+  lsft z x c v b n m , . / rsft
+  lctl lalt lmet spc ralt rmet rctl
 )
-
 (deflayer colemak
-  @tnav  q     w     f     p     g        j     l     u     y     ;     [     ]     \
-  @cap   a     r     s     t     d        h     n     e     i     o     @tsym       ret
-  lsft   z     x     c     v     b        k     m     ,     .     /                 rsft
-  lctl         lalt        lmet           spc               ralt        rmet        @tnum
+  @tnav q w f p g j l u y @temoji [ ] \
+  @cap a r s t d h n e i o @tsym ret
+  lsft z x c v b k m , . @tlatin rsft
+  lctl lalt lmet spc @raltnum @rmetnum @tnum
 )
-
 (deflayer qwerty
-  @tnav  q     w     e     r     t        y     u     i     o     p     [     ]     \
-  @cap   a     s     d     f     g        h     j     k     l     ;     @tsym       ret
-  @ten   z     x     c     v     b        n     m     ,     .     /                 @ten
-  lctl         lalt        lmet           spc               ralt        rmet        rctl
+  @tnav q w e r t y u i o p [ ] \
+  @cap a s d f g h j k l ; @tsym ret
+  @ten z x c v b n m , . / @ten
+  lctl lalt lmet spc @raltnum @rmetnum rctl
 )
-
 (deflayer nav
-  tab    XX    prnt  home  end   XX       XX    pgdn  pgup  XX    XX    XX    XX    XX
-  caps   XX    XX    del   bspc  XX       left  down  up    right XX    XX          ret
-  lsft   XX    XX    XX    XX    XX       XX    XX    XX    XX    XX                rsft
-  lctl         lalt        lmet           spc               ralt        rmet        rctl
+  tab f1 f2 f3 f4 f5 home pgdn pgup end XX XX XX XX
+  caps f6 f7 f8 f9 f10 left down up right XX XX ret
+  ;; Physical N takes the platform screenshot action.
+  lsft f11 f12 f13 f14 del @platform-screenshot XX XX XX XX rsft
+  lctl lalt lmet spc ralt rmet rctl
 )
-
-(deflayer symbol
-  tab    S-1   S-2   S-3   S-4   S-5      XX    XX    XX    XX    XX    XX    XX    XX
-  bspc   [     ]     S-[   S-]   S-\      XX    S-9   S-0   XX    XX    XX          ret
-  lsft   \     S-7   `     S-`   S-6      XX    XX    XX    XX    XX                rsft
-  lctl         lalt        lmet           spc               ralt        rmet        rctl
-)
-
+;; Number layer (QWERTY physical positions):
+;; Q 1   W 2   E 3   R 4   T 5   Y ·   U ·   I ·   O ·   P ·   [ ·   ] ·   \ ·
+;; A 6   S 7   D 8   F 9   G 0   H ·   J =   K -   L +   ; *   ' /
+;; Z ·   X x   C _   V .   B ·   N ·   M tmux-prefix   , ·   . ·   / ·
 (deflayer number
-  tab    1     2     3     4     5        XX    XX    XX    XX    XX    XX    XX    XX
-  bspc   6     7     8     9     0        XX    =     -     S-=   S-8   /           ret
-  lsft   XX    x     S--   .     XX       XX    @tmux XX    XX    XX                rsft
-  lctl         lalt        lmet           spc               ralt        rmet        rctl
+  tab 1 2 3 4 5 XX XX XX XX XX XX XX XX
+  bspc 6 7 8 9 0 XX = - S-= S-8 / ret
+  lsft XX x S-- . XX XX @tmux XX XX XX rsft
+  lctl lalt lmet spc ralt rmet rctl
 )
-
+(include "kanata-common.kbd")
 (defalias
-    lnav (layer-while-held nav)
-    lsym (layer-while-held symbol)
-    lnum (layer-while-held number)
-    lqwe (layer-while-held qwerty)
-    sqwe (layer-switch qwerty)
-    scol (layer-switch colemak)
-    esc (multi esc lctl lsft f1)
-    tnav (tap-hold-press 200 200 tab @lnav)
-    tsym (tap-hold-press 200 200 ' @lsym)
-    tnum (tap-hold-press 200 200 bspc @lnum)
-    ten (tap-hold-press 200 200 (multi lctl lsft f1 @scol) lsft)
-    tcn (tap-hold-press 200 200 (multi lctl lsft f2 @sqwe) lsft)
-    tjp (tap-hold-press 200 200 (multi lctl lsft f3 @sqwe) lsft)
-    tmux (tap-hold-release 200 200 rctl C-g)
-    cap (tap-hold 200 200 esc lctl)
-    cw (caps-word 2000)
+  lnav (layer-while-held nav) lsym (layer-while-held symbol) lnum (layer-while-held number)
+  lemoji (layer-while-held emoji) llatin (layer-while-held latin)
+  lqwe (layer-while-held qwerty) sqwe (layer-switch qwerty) scol (layer-switch colemak)
+  esc (multi esc lctl lsft f1) tnav (tap-hold-press 200 200 tab @lnav)
+  tsym (tap-hold-press 200 200 ' @lsym) tnum (tap-hold-press 200 200 bspc @lnum)
+  temoji (tap-hold-press 200 200 ; @lemoji) tlatin (tap-hold-press 200 200 / @llatin)
+  ten (tap-hold-press 200 200 (multi lctl lsft f1 @scol) lsft) tcn (tap-hold-press 200 200 (multi lctl lsft f2 @sqwe) lsft)
+  tjp (tap-hold-press 200 200 (multi lctl lsft f3 @sqwe) lsft) tmux (tap-hold-release 200 200 rctl C-g)
+  cap (tap-hold 200 200 esc lctl) raltnum (tap-hold-press 200 200 bspc @lnum) rmetnum (tap-hold-press 200 200 bspc @lnum) cw (caps-word 2000)
+  cmod1 lctl cmod2 lalt cmod3 lmet cmod4 ralt cmod5 rmet cmod6 rctl
+  platform-screenshot M-S-4
+  emojia (unicode 😀) emojis (unicode 😂) emojih (unicode 😭) emojiz (unicode 😴) emojin (unicode 🤔) emojiu (unicode 😎) emojit (unicode 🌝) emojiy (unicode 🌚) emojij (unicode 👀) emojid (unicode 💖)
+  emojil (unicode ✅) emojix (unicode ❌) emojiq (unicode ❓) emojiw (unicode 🚨) emojip (unicode 🎉) emojie (unicode ✨) emojir (unicode 🚀) emojik (unicode 🔥) emojii (unicode 💡)
+  emojio (unicode 👌) emojic (unicode 👏) emojiv (unicode 🤞) emojib (unicode 🤝) emojif (unicode 👍) emojim (unicode 🙏) emojig (unicode 🎈)
 )

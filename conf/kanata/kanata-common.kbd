@@ -1,0 +1,56 @@
+;; Symbol layer (QWERTY physical positions):
+;; Q !   W @   E #   R $   T %   Y ¡   U ¿   I «   O »   P €   [ —   ] …   \ °
+;; A [   S ]   D {   F }   G |   H ·   J (   K )   L ·   ; ·   ' ·
+;; Z \   X &   C `   V ~   B ^   N ·   M ·   , ·   . ·   / ·
+(deflayer symbol
+  tab    S-1   S-2   S-3   S-4   S-5      @iexcl @iquest @guillemet-left @guillemet-right @euro @emdash @ellipsis @degree
+  bspc   [     ]     S-[   S-]   S-\      XX    S-9   S-0   XX    XX    XX          ret
+  lsft   \     S-7   `     S-`   S-6      XX    @middot XX    XX    XX                rsft
+  @cmod1       @cmod2      @cmod3         spc               @cmod4      @cmod5      @cmod6
+)
+
+;; Emoji layer (QWERTY physical positions):
+;; Q 😀   W 😂   E 😭   R 😴   T 🤔   Y 😎   U 🌝   I 🌚   O 👀   P 😴 (trigger/unreachable)
+;; A ✅   S ❌   D ❓   F ⚠️   G 🎉   H ✨   J 🚀   K 🔥   L 💡   ; ·
+;; Z 👌   X 👏   C 🤝   V 👍   B 🙏   N 💖   M 🎈
+(deflayer emoji
+  XX     @emojia @emojis @emojih @emojiz @emojin @emojiu @emojit @emojiy @emojij @emojiz XX    XX    XX
+  XX     @emojil @emojix @emojiq @emojiw @emojip @emojie @emojir @emojik @emojii XX      XX          XX
+  XX     @emojio @emojic @emojib @emojif @emojim @emojid @emojig XX    XX    XX                XX
+  @cmod1       @cmod2      @cmod3         spc               @cmod4      @cmod5      @cmod6
+)
+
+;; Latin layer (QWERTY physical positions):
+;; Q ú, W é, E é, R ü, T á, Y í, U â, I î, O ö, P ù;
+;; A á, S à, D è, F ê, G ë, H í, I î, J ï, K ñ, L ó;
+;; Z ï, X ë, C ç, V è, B â, N õ, M ô.
+(deflayer latin
+  XX     @latin_q @latin_w @latin_e @latin_r @latin_t @latin_y @latin_u @latin_i @latin_o @latin_p XX    XX    XX
+  XX     @latin_a @latin_s @latin_d @latin_f @latin_g @latin_h @latin_j @latin_k @latin_l XX    XX          XX
+  XX     @latin_z @latin_x @latin_c @latin_v @latin_b @latin_n @latin_m XX    XX    XX                XX
+  @cmod1       @cmod2      @cmod3         spc               @cmod4      @cmod5      @cmod6
+)
+
+(defalias
+  iexcl (unicode U+00A1) iquest (unicode U+00BF)
+  guillemet-left (unicode U+00AB) guillemet-right (unicode U+00BB)
+  euro (unicode U+20AC) emdash (unicode U+2014) ellipsis (unicode U+2026)
+  degree (unicode U+00B0) middot (unicode U+00B7)
+  latin_a (unicode U+00E1) latin_b (unicode U+00E2) latin_c (unicode U+00E7)
+  latin_d (unicode U+00E8) latin_e (unicode U+00E9) latin_f (unicode U+00EA)
+  latin_g (unicode U+00EB) latin_h (unicode U+00ED) latin_i (unicode U+00EE)
+  latin_j (unicode U+00EF) latin_k (unicode U+00F1) latin_l (unicode U+00F3)
+  latin_m (unicode U+00F4) latin_n (unicode U+00F5) latin_o (unicode U+00F6)
+  latin_p (unicode U+00F9) latin_q (unicode U+00FA) latin_r (unicode U+00FC)
+  latin_s (unicode U+00E0) latin_t (unicode U+00E1) latin_u (unicode U+00E2)
+  latin_v (unicode U+00E8) latin_w (unicode U+00E9) latin_x (unicode U+00EB)
+  latin_y (unicode U+00ED) latin_z (unicode U+00EF)
+  latin_agrave (unicode U+00E0) latin_atilde (unicode U+00E3)
+  latin_ccedilla (unicode U+00E7) latin_ntilde (unicode U+00F1)
+  latin_oe (unicode U+0153) latin_ugrave (unicode U+00F9)
+  latin_ucircumflex (unicode U+00FB) latin_acircumflex (unicode U+00E2)
+  latin_egrave (unicode U+00E8) latin_ecircumflex (unicode U+00EA)
+  latin_edieresis (unicode U+00EB) latin_icircumflex (unicode U+00EE)
+  latin_idieresis (unicode U+00EF) latin_ocircumflex (unicode U+00F4)
+  latin_odieresis (unicode U+00F6) latin_udieresis (unicode U+00FC)
+)

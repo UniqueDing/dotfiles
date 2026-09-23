@@ -8,6 +8,10 @@ if [[ -z "${DOTFILES_DIR:-}" ]]; then
 fi
 
 KANATA_SYSTEM_BINARY=/usr/local/bin/kanata
+KANATA_MACOS_VHID_LABEL=org.pqrs.Karabiner-VirtualHIDDevice-Daemon
+KANATA_MACOS_VHID_BINARY='/Library/Application Support/org.pqrs/Karabiner-DriverKit-VirtualHIDDevice/Applications/Karabiner-VirtualHIDDevice-Daemon.app/Contents/MacOS/Karabiner-VirtualHIDDevice-Daemon'
+KANATA_MACOS_VHID_PLIST="/Library/LaunchDaemons/$KANATA_MACOS_VHID_LABEL.plist"
+KANATA_MACOS_VHID_SOCKET_DIR='/Library/Application Support/org.pqrs/tmp/rootonly/vhidd_server'
 
 kanata_run_without_nix() {
     if declare -F without_nix_env >/dev/null 2>&1; then
@@ -192,6 +196,7 @@ kanata_render_unit() {
     local kanata_config="${4:-}"
     local kanata_user="${5:-}"
     local kanata_controller_exec="${6:-}"
+    local kanata_controller_log_dir="${7:-}"
     local temporary_destination
     local line
     temporary_destination="$(mktemp "$(dirname -- "$destination")/.kanata-unit.XXXXXX")" || return 1
@@ -201,6 +206,7 @@ kanata_render_unit() {
         line="${line//__KANATA_CONFIG__/$kanata_config}"
         line="${line//__KANATA_USER__/$kanata_user}"
         line="${line//__KANATA_CONTROLLER_EXECUTABLE__/$kanata_controller_exec}"
+        line="${line//__KANATA_CONTROLLER_LOG_DIR__/$kanata_controller_log_dir}"
         printf '%s\n' "$line"
     done < "$source" > "$temporary_destination"
     chmod 0644 "$temporary_destination"
@@ -214,7 +220,21 @@ kanata_render_unit() {
 kanata_build_controller() {
     local manifest="$DOTFILES_DIR/tools/kanata-controller/Cargo.toml"
     KANATA_CONTROLLER_BUILD="$DOTFILES_DIR/tools/kanata-controller/target/release/kanata-controller"
-    cargo build --manifest-path "$manifest" --release || return 1
+    if [[ "$(uname -s)" == Darwin ]]; then
+        local libiconv_prefix
+        libiconv_prefix="$(kanata_macos_run brew --prefix libiconv)" || {
+            printf '%s\n' 'error: Homebrew libiconv is required to link the macOS kanata-controller' >&2
+            return 1
+        }
+        RUSTFLAGS="-C link-arg=-L$libiconv_prefix/lib${RUSTFLAGS:+ $RUSTFLAGS}" \
+            cargo build --manifest-path "$manifest" --release || {
+            printf '%s\n' 'error: cargo failed to build the host kanata-controller release binary' >&2
+            return 1
+        }
+    elif ! cargo build --manifest-path "$manifest" --release; then
+        printf '%s\n' 'error: cargo failed to build the host kanata-controller release binary' >&2
+        return 1
+    fi
     [[ -x "$KANATA_CONTROLLER_BUILD" ]] || {
         printf 'error: controller release binary is not executable: %s\n' "$KANATA_CONTROLLER_BUILD" >&2
         return 1
@@ -267,10 +287,11 @@ kanata_reject_unresolved_placeholders() {
 kanata_prepare_system_files() {
     local kanata_exec="$1" kanata_user="$2" controller_exec="$3"
     KANATA_TXN_DIR="$(mktemp -d "${TMPDIR:-/tmp}/dotfiles-kanata.XXXXXX")" || return 1
-    kanata_render_unit "$DOTFILES_DIR/conf/kanata/systemd/kanata.service" "$KANATA_TXN_DIR/kanata.service" "$kanata_exec" /etc/kanata/kanata.kbd "$kanata_user" || return 1
+    kanata_render_unit "$DOTFILES_DIR/conf/kanata/linux/kanata.service" "$KANATA_TXN_DIR/kanata.service" "$kanata_exec" /etc/kanata/kanata.kbd "$kanata_user" || return 1
     kanata_render_unit "$DOTFILES_DIR/conf/kanata/polkit/50-kanata-controller.rules" "$KANATA_TXN_DIR/50-kanata-controller.rules" "$kanata_exec" /etc/kanata/kanata.kbd "$kanata_user" || return 1
-    kanata_render_unit "$DOTFILES_DIR/conf/kanata/systemd/kanata-controller.service" "$KANATA_TXN_DIR/kanata-controller.service" '' '' '' "$controller_exec" || return 1
+    kanata_render_unit "$DOTFILES_DIR/conf/kanata/linux/kanata-controller.service" "$KANATA_TXN_DIR/kanata-controller.service" '' '' '' "$controller_exec" || return 1
     cp "$DOTFILES_DIR/conf/kanata/kanata-linux.kbd" "$KANATA_TXN_DIR/kanata.kbd" || return 1
+    cp "$DOTFILES_DIR/conf/kanata/kanata-common.kbd" "$KANATA_TXN_DIR/kanata-common.kbd" || return 1
     kanata_reject_unresolved_placeholders "$KANATA_TXN_DIR/kanata.service" "$KANATA_TXN_DIR/50-kanata-controller.rules" "$KANATA_TXN_DIR/kanata-controller.service" || { printf '%s\n' 'error: unresolved template placeholder' >&2; return 1; }
 }
 
@@ -426,6 +447,7 @@ kanata_rollback() {
     [[ "${KANATA_CONTROLLER_LOAD:-not-found}" != not-found ]] || kanata_restore_service_state user kanata-controller.service "${KANATA_CONTROLLER_LOAD:-not-found}" "${KANATA_CONTROLLER_ACTIVE:-0}" "${KANATA_CONTROLLER_ENABLED:-0}" || failed=1
     [[ "${KANATA_RELEASE_BINARY_MANAGED:-0}" != 1 ]] || kanata_restore_root_file "$KANATA_SYSTEM_BINARY" executable || failed=1
     kanata_restore_root_file /etc/kanata/kanata.kbd config || failed=1
+    kanata_restore_root_file /etc/kanata/kanata-common.kbd common_config || failed=1
     kanata_restore_root_file /etc/systemd/system/kanata.service system_unit || failed=1
     kanata_restore_root_file /etc/polkit-1/rules.d/50-kanata-controller.rules polkit || failed=1
     sudo systemctl daemon-reload || failed=1
@@ -508,38 +530,812 @@ install_kanata_system() (
     kanata_build_controller || return 1
     kanata_prepare_system_files "$kanata_exec" "$kanata_user" "$controller_exec" || return 1
     [[ "$target" != other ]] || kanata_validate_candidate "$kanata_candidate" "$KANATA_TXN_DIR/kanata.kbd" || return 1
-    kanata_snapshot_root_file /etc/kanata/kanata.kbd config && kanata_snapshot_root_file /etc/systemd/system/kanata.service system_unit && kanata_snapshot_root_file /etc/polkit-1/rules.d/50-kanata-controller.rules polkit && { [[ "$KANATA_RELEASE_BINARY_MANAGED" != 1 ]] || kanata_snapshot_root_file "$KANATA_SYSTEM_BINARY" executable; } && kanata_query_service system kanata.service KANATA_SYSTEM && kanata_query_service user kanata.service KANATA_USER && kanata_query_service user kanata-controller.service KANATA_CONTROLLER && kanata_snapshot_user_unit kanata.service && kanata_snapshot_user_unit kanata-controller.service && kanata_snapshot_user_file "$controller_exec" controller_binary || return 1
+    kanata_snapshot_root_file /etc/kanata/kanata.kbd config && kanata_snapshot_root_file /etc/kanata/kanata-common.kbd common_config && kanata_snapshot_root_file /etc/systemd/system/kanata.service system_unit && kanata_snapshot_root_file /etc/polkit-1/rules.d/50-kanata-controller.rules polkit && { [[ "$KANATA_RELEASE_BINARY_MANAGED" != 1 ]] || kanata_snapshot_root_file "$KANATA_SYSTEM_BINARY" executable; } && kanata_query_service system kanata.service KANATA_SYSTEM && kanata_query_service user kanata.service KANATA_USER && kanata_query_service user kanata-controller.service KANATA_CONTROLLER && kanata_snapshot_user_unit kanata.service && kanata_snapshot_user_unit kanata-controller.service && kanata_snapshot_user_file "$controller_exec" controller_binary || return 1
     KANATA_TXN_READY=1
     { [[ "$KANATA_RELEASE_BINARY_MANAGED" != 1 ]] || kanata_install_release_binary "$kanata_candidate"; } && kanata_install_controller_binary "$KANATA_CONTROLLER_BUILD" || return 1
     kanata_verify_prepared_system_files "$kanata_exec" || return 1
-    sudo install -d -o root -g root -m 0755 /etc/kanata && kanata_install_root_file "$KANATA_TXN_DIR/kanata.kbd" /etc/kanata/kanata.kbd && kanata_install_root_file "$KANATA_TXN_DIR/kanata.service" /etc/systemd/system/kanata.service && kanata_install_root_file "$KANATA_TXN_DIR/50-kanata-controller.rules" /etc/polkit-1/rules.d/50-kanata-controller.rules && sudo systemctl daemon-reload && kanata_cutover_system_service "$kanata_exec" || return 1
+    sudo install -d -o root -g root -m 0755 /etc/kanata && kanata_install_root_file "$KANATA_TXN_DIR/kanata.kbd" /etc/kanata/kanata.kbd && kanata_install_root_file "$KANATA_TXN_DIR/kanata-common.kbd" /etc/kanata/kanata-common.kbd && kanata_install_root_file "$KANATA_TXN_DIR/kanata.service" /etc/systemd/system/kanata.service && kanata_install_root_file "$KANATA_TXN_DIR/50-kanata-controller.rules" /etc/polkit-1/rules.d/50-kanata-controller.rules && sudo systemctl daemon-reload && kanata_cutover_system_service "$kanata_exec" || return 1
     KANATA_TXN_COMMITTED=1
 )
 
 kanata_macos_run() {
+    if [[ "${1:-}" == brew ]] && ! command -v brew >/dev/null 2>&1; then
+        if [[ -x /opt/homebrew/bin/brew ]]; then
+            set -- /opt/homebrew/bin/brew "${@:2}"
+        elif [[ -x /usr/local/bin/brew ]]; then
+            set -- /usr/local/bin/brew "${@:2}"
+        fi
+    fi
     kanata_run_without_nix "$@"
+}
+
+kanata_macos_resolved_directory() {
+    # Resolve under sudo: /etc is Apple's root-owned /private/etc symlink,
+    # while arbitrary symlink substitutions must not become trusted parents.
+    kanata_macos_run sudo /bin/sh -c 'cd -P -- "$1" && /bin/pwd -P' sh "$1"
+}
+
+kanata_macos_validate_directory() {
+    local directory="$1" resolved expected metadata owner group mode
+    kanata_macos_run sudo /bin/test -d "$directory" || return 1
+    resolved="$(kanata_macos_resolved_directory "$directory")" || return 1
+    case "$directory:$resolved" in
+    /etc:/private/etc) expected=/private/etc ;;
+    /etc/*:/private/etc/*) expected="/private$directory" ;;
+    *) expected="$directory" ;;
+    esac
+    [[ "$resolved" == "$expected" ]] || return 1
+    # Stat the resolved object, not the spelling used to reach it.
+    metadata="$(kanata_macos_run sudo /usr/bin/stat -f '%Su:%Sg:%Lp' "$resolved")" || return 1
+    IFS=: read -r owner group mode <<<"$metadata"
+    [[ "$owner" == root && "$group" == wheel && "$mode" =~ ^[0-7]{3,4}$ ]] || return 1
+    (( (8#$mode & 022) == 0 ))
+}
+
+kanata_macos_validate_directories() {
+    local directory
+    for directory in /usr/local /usr/local/libexec /etc /etc/kanata /etc/sudoers.d /Library /Library/LaunchDaemons; do
+        kanata_macos_validate_directory "$directory" || {
+            printf 'error: unsafe macOS privileged directory: %s\n' "$directory" >&2
+            return 1
+        }
+    done
+}
+
+kanata_macos_ensure_directory() {
+    local directory="$1"
+    if kanata_macos_run sudo /bin/test -e "$directory" || kanata_macos_run sudo /bin/test -L "$directory"; then
+        kanata_macos_validate_directory "$directory"
+    else
+        kanata_macos_run sudo install -d -o root -g wheel -m 0755 "$directory" || return 1
+        kanata_macos_validate_directory "$directory"
+    fi
+}
+
+kanata_macos_validate_vhid_vendor_directory() {
+    local directory="$1" resolved metadata owner mode
+    kanata_macos_run sudo /bin/test -d "$directory" && kanata_macos_run sudo /bin/test ! -L "$directory" || return 1
+    resolved="$(kanata_macos_resolved_directory "$directory")" || return 1
+    [[ "$resolved" == "$directory" ]] || return 1
+    metadata="$(kanata_macos_run sudo /usr/bin/stat -f '%Su:%Lp' "$resolved")" || return 1
+    IFS=: read -r owner mode <<<"$metadata"
+    [[ "$owner" == root && "$mode" =~ ^[0-7]{3,4}$ && $((8#$mode & 022)) -eq 0 ]]
+}
+
+kanata_macos_validate_vhid_binary() {
+    local path parent metadata owner group mode codesign_output
+    path="$KANATA_MACOS_VHID_BINARY"
+    [[ "$path" == '/Library/Application Support/org.pqrs/Karabiner-DriverKit-VirtualHIDDevice/Applications/Karabiner-VirtualHIDDevice-Daemon.app/Contents/MacOS/Karabiner-VirtualHIDDevice-Daemon' ]] || return 1
+    kanata_macos_run sudo /bin/test -f "$path" && kanata_macos_run sudo /bin/test ! -L "$path" && kanata_macos_run sudo /bin/test -x "$path" || return 1
+    metadata="$(kanata_macos_run sudo /usr/bin/stat -f '%Su:%Sg:%Lp' "$path")" || return 1
+    IFS=: read -r owner group mode <<<"$metadata"
+    [[ "$owner" == root && "$mode" =~ ^[0-7]{3,4}$ && $((8#$mode & 022)) -eq 0 ]] || return 1
+    for parent in /Library '/Library/Application Support' '/Library/Application Support/org.pqrs' '/Library/Application Support/org.pqrs/Karabiner-DriverKit-VirtualHIDDevice' '/Library/Application Support/org.pqrs/Karabiner-DriverKit-VirtualHIDDevice/Applications' '/Library/Application Support/org.pqrs/Karabiner-DriverKit-VirtualHIDDevice/Applications/Karabiner-VirtualHIDDevice-Daemon.app' '/Library/Application Support/org.pqrs/Karabiner-DriverKit-VirtualHIDDevice/Applications/Karabiner-VirtualHIDDevice-Daemon.app/Contents' '/Library/Application Support/org.pqrs/Karabiner-DriverKit-VirtualHIDDevice/Applications/Karabiner-VirtualHIDDevice-Daemon.app/Contents/MacOS'; do
+        kanata_macos_validate_vhid_vendor_directory "$parent" || return 1
+    done
+    kanata_macos_run sudo /usr/bin/codesign --verify --strict --verbose=2 "$path" || return 1
+    codesign_output="$(kanata_macos_run sudo /usr/bin/codesign -dv --verbose=4 "$path" 2>&1)" || return 1
+    [[ "$codesign_output" == *$'Identifier=org.pqrs.Karabiner-VirtualHIDDevice-Daemon'* && "$codesign_output" == *$'TeamIdentifier=G43BCU2T37'* ]] || return 1
+}
+
+kanata_macos_vhid_loaded() {
+    local output status domain="system/$KANATA_MACOS_VHID_LABEL"
+    if output="$(kanata_macos_run sudo /bin/launchctl print "$domain" 2>&1)"; then return 0; fi
+    status=$?
+    [[ "$output" == *'Could not find service'* && "$output" == *"$KANATA_MACOS_VHID_LABEL"* ]] && return 1
+    printf 'error: VirtualHID launchctl print failed (%d): %s\n' "$status" "$output" >&2; return 2
+}
+
+kanata_macos_vhid_running() {
+    local output state='' pid='' status domain="system/$KANATA_MACOS_VHID_LABEL"
+    if output="$(kanata_macos_run sudo /bin/launchctl print "$domain" 2>&1)"; then :; else
+        status=$?; printf 'error: VirtualHID launchctl print failed (%d): %s\n' "$status" "$output" >&2; return 2
+    fi
+    [[ "$output" =~ (^|$'\n'|[[:space:]])state[[:space:]]=[[:space:]]([^$'\n']+)($'\n'|$) ]] && state="${BASH_REMATCH[2]}"
+    [[ "$output" =~ (^|$'\n'|[[:space:]])pid[[:space:]]=[[:space:]]([0-9]+)($'\n'|$) ]] && pid="${BASH_REMATCH[2]}"
+    [[ "$pid" =~ ^[1-9][0-9]*$ || "$state" == running ]] && return 0
+    case "$state" in exited|stopped|waiting|throttled|'spawn scheduled'|terminated|crashed) return 1 ;; esac
+    printf 'error: VirtualHID state is unknown (state: %s, pid: %s)\n' "$state" "$pid" >&2; return 2
+}
+
+kanata_macos_bootout_vhid() {
+    local status
+    if kanata_macos_vhid_loaded; then
+        kanata_macos_run sudo /bin/launchctl bootout "system/$KANATA_MACOS_VHID_LABEL" || return 1
+        kanata_macos_vhid_loaded && return 1
+        status=$?; (( status == 1 )) || return "$status"
+    else status=$?; (( status == 1 )) || return "$status"; fi
+}
+
+kanata_macos_stop_manual_vhid() {
+    local pid command attempt found=0 output line
+    if ! output="$(kanata_macos_run sudo /bin/ps -axo pid=,comm=)"; then
+        printf '%s\n' 'error: cannot enumerate VirtualHID processes with ps' >&2
+        return 1
+    fi
+    while IFS= read -r line; do
+        [[ -n "$line" ]] || continue
+        if [[ "$line" =~ ^[[:space:]]*([1-9][0-9]*)[[:space:]]+(.+)$ ]]; then
+            pid="${BASH_REMATCH[1]}"
+            command="${BASH_REMATCH[2]}"
+        else
+            continue
+        fi
+        [[ "$command" == "$KANATA_MACOS_VHID_BINARY" ]] || continue
+        kanata_macos_run sudo /bin/kill -TERM "$pid" || return 1
+        found=1
+        KANATA_MACOS_MANUAL_VHID_STOPPED=1
+    done <<<"$output"
+    (( found )) || return 0
+    for ((attempt = 0; attempt < 10; attempt++)); do
+        kanata_macos_run /bin/sleep 1 || return 1
+        if ! output="$(kanata_macos_run sudo /bin/ps -axo pid=,comm=)"; then
+            printf '%s\n' 'error: cannot recheck VirtualHID processes with ps' >&2
+            return 1
+        fi
+        found=0
+        while IFS= read -r line; do
+            [[ -n "$line" ]] || continue
+            if [[ "$line" =~ ^[[:space:]]*([1-9][0-9]*)[[:space:]]+(.+)$ ]]; then
+                command="${BASH_REMATCH[2]}"
+            else
+                continue
+            fi
+            [[ "$command" == "$KANATA_MACOS_VHID_BINARY" ]] && found=1
+        done <<<"$output"
+        (( ! found )) && return 0
+    done
+    printf '%s\n' 'error: exact VirtualHID foreground daemon did not terminate; refusing to create a competing service' >&2; return 1
+}
+
+kanata_macos_verify_vhid_running() {
+    local attempt status socket
+    for ((attempt = 0; attempt < 10; attempt++)); do
+        if kanata_macos_vhid_running; then
+            if kanata_macos_run sudo /bin/test -d "$KANATA_MACOS_VHID_SOCKET_DIR"; then
+                kanata_macos_validate_vhid_vendor_directory "$KANATA_MACOS_VHID_SOCKET_DIR" || return 1
+                while IFS= read -r socket; do
+                    kanata_macos_run sudo /bin/test -S "$socket" && return 0
+                done < <(kanata_macos_run sudo /usr/bin/find "$KANATA_MACOS_VHID_SOCKET_DIR" -maxdepth 1 -type s -name '*.sock' -print 2>/dev/null) || return 1
+            fi
+        else
+            status=$?; (( status == 1 )) || return "$status"
+        fi
+        kanata_macos_run /bin/sleep 1 || return 1
+    done
+    printf 'error: VirtualHID service is not ready: require running launchd job and a UNIX socket under %s\n' "$KANATA_MACOS_VHID_SOCKET_DIR" >&2; return 1
+}
+
+kanata_macos_bootstrap_vhid() {
+    local output status domain="system/$KANATA_MACOS_VHID_LABEL"
+    kanata_macos_run sudo /bin/launchctl enable "$domain" || return 1
+    if output="$(kanata_macos_run sudo /bin/launchctl bootstrap system "$KANATA_MACOS_VHID_PLIST" 2>&1)"; then return 0; fi
+    status=$?
+    if [[ "$output" == *disabled* || "$output" == *Disabled* ]]; then
+        kanata_macos_run sudo /bin/launchctl enable "$domain" || return 1
+        kanata_macos_run sudo /bin/launchctl bootstrap system "$KANATA_MACOS_VHID_PLIST" || return 1
+        return 0
+    fi
+    printf 'error: VirtualHID bootstrap failed (%d): %s\n' "$status" "$output" >&2; return "$status"
+}
+
+kanata_macos_install_vhid_daemon() {
+    local template="$DOTFILES_DIR/conf/kanata/macos/$KANATA_MACOS_VHID_LABEL.plist"
+    local staged="$KANATA_MACOS_TXN_DIR/$KANATA_MACOS_VHID_LABEL.plist"
+    [[ -f "$template" && ! -L "$template" ]] || return 1
+    kanata_macos_validate_vhid_binary || return 1
+    /bin/cp "$template" "$staged" || return 1
+    grep -Fqx "    <string>$KANATA_MACOS_VHID_LABEL</string>" "$staged" || return 1
+    grep -Fqx "        <string>$KANATA_MACOS_VHID_BINARY</string>" "$staged" || return 1
+    kanata_macos_run /usr/bin/plutil -lint "$staged" || return 1
+    kanata_macos_bootout_vhid || return 1
+    kanata_macos_run sudo install -o root -g wheel -m 0644 "$staged" "$KANATA_MACOS_VHID_PLIST" || return 1
+    # This is a durable dependency installation, intentionally independent of
+    # the Kanata transaction: do not roll it back if a later Kanata step fails.
+    kanata_macos_stop_manual_vhid || return 1
+    kanata_macos_bootstrap_vhid || return 1
+    kanata_macos_run sudo /bin/launchctl kickstart "system/$KANATA_MACOS_VHID_LABEL" || return 1
+    kanata_macos_verify_vhid_running || return 1
+}
+
+
+kanata_macos_service_loaded() {
+    local output status
+    if output="$(kanata_macos_run sudo /bin/launchctl print system/dev.kanata.kanata 2>&1)"; then
+        return 0
+    fi
+    status=$?
+    if [[ "$output" == *'Could not find service'* && "$output" == *'dev.kanata.kanata'* ]]; then
+        return 1
+    fi
+    printf 'error: launchctl print failed (%d): %s\n' "$status" "$output" >&2
+    return 2
+}
+
+kanata_macos_service_running() {
+    local output status state pid
+    if output="$(kanata_macos_run sudo /bin/launchctl print system/dev.kanata.kanata 2>&1)"; then
+        :
+    else
+        status=$?
+        printf 'error: launchctl print for running state failed (%d): %s\n' "$status" "$output" >&2
+        return 2
+    fi
+    if [[ "$output" =~ (^|$'\n'|[[:space:]])state[[:space:]]=[[:space:]]([^$'\n']+)($'\n'|$) ]]; then
+        state="${BASH_REMATCH[2]}"
+    else
+        state=''
+    fi
+    if [[ "$output" =~ (^|$'\n'|[[:space:]])pid[[:space:]]=[[:space:]]([0-9]+)($'\n'|$) ]]; then
+        pid="${BASH_REMATCH[2]}"
+    else
+        pid=''
+    fi
+    if [[ "$pid" =~ ^[1-9][0-9]*$ || "$state" == running ]]; then
+        return 0
+    fi
+    case "$state" in
+    exited|stopped|waiting|throttled|'spawn scheduled'|terminated|crashed)
+        return 1
+        ;;
+    *)
+        printf 'error: launchctl print for running state had unknown format (state: %s, pid: %s)\n' "$state" "$pid" >&2
+        return 2
+        ;;
+    esac
+}
+
+kanata_macos_service_enabled() {
+    local output status disabled='"dev.kanata.kanata"[[:space:]]*=>[[:space:]]*true'
+    if output="$(kanata_macos_run sudo /bin/launchctl print-disabled system 2>&1)"; then
+        :
+    else
+        status=$?
+        printf 'error: launchctl print-disabled failed (%d): %s\n' "$status" "$output" >&2
+        return 2
+    fi
+    # print-disabled records explicit disables; a missing fixed label is enabled.
+    [[ ! "$output" =~ $disabled ]]
+}
+
+kanata_macos_snapshot_service_state() {
+    local status
+    KANATA_MACOS_PRIOR_LOADED=0
+    KANATA_MACOS_PRIOR_ENABLED=0
+    KANATA_MACOS_PRIOR_RUNNING=0
+    if kanata_macos_service_enabled; then
+        KANATA_MACOS_PRIOR_ENABLED=1
+    else
+        status=$?
+        (( status == 1 )) || return "$status"
+    fi
+    if kanata_macos_service_loaded; then
+        KANATA_MACOS_PRIOR_LOADED=1
+        if kanata_macos_service_running; then
+            KANATA_MACOS_PRIOR_RUNNING=1
+        else
+            status=$?
+            (( status == 1 )) || return "$status"
+        fi
+    else
+        status=$?
+        (( status == 1 )) || return "$status"
+    fi
+    KANATA_MACOS_STATE_SNAPSHOTTED=1
+}
+
+kanata_macos_stop_fixed_service() {
+    local attempt status
+    kanata_macos_run sudo /bin/launchctl disable system/dev.kanata.kanata || return 1
+    if kanata_macos_service_running; then
+        kanata_macos_run sudo /bin/launchctl kill SIGTERM system/dev.kanata.kanata || return 1
+    else
+        status=$?
+        (( status == 1 )) || return "$status"
+        return 0
+    fi
+    # Require the fixed job to remain stopped across a short bounded poll, so
+    # an old RunAtLoad/KeepAlive policy cannot silently restart it.
+    for ((attempt = 0; attempt < 5; attempt++)); do
+        kanata_macos_run /bin/sleep 1 || return 1
+        if kanata_macos_service_running; then
+            continue
+        fi
+        status=$?
+        (( status == 1 )) || return "$status"
+        # Once stopped, continue observing for the rest of the bounded window.
+    done
+    if kanata_macos_service_running; then
+        printf '%s\n' 'error: restored launchd service did not remain stopped' >&2
+        return 1
+    fi
+    status=$?
+    (( status == 1 )) || return "$status"
+}
+
+kanata_macos_bootout_fixed_service() {
+    local output status
+    if kanata_macos_service_loaded; then
+        :
+    else
+        status=$?
+        (( status == 1 )) || return "$status"
+        # Absence is a verified, benign bootout outcome.
+        KANATA_MACOS_BOOTED_OUT=1
+        return 0
+    fi
+    if output="$(kanata_macos_run sudo /bin/launchctl bootout system/dev.kanata.kanata 2>&1)"; then
+        status=0
+    else
+        status=$?
+    fi
+    if (( status == 0 )); then
+        if kanata_macos_service_loaded; then
+            printf '%s\n' 'error: launchctl bootout succeeded but the fixed service is still loaded' >&2
+            return 1
+        fi
+        status=$?
+        (( status == 1 )) || return "$status"
+        KANATA_MACOS_BOOTED_OUT=1
+        return 0
+    fi
+    printf 'error: launchctl bootout failed (%d): %s\n' "$status" "$output" >&2
+    return 1
+}
+
+kanata_macos_snapshot_file() {
+    local destination="$1" name="$2"
+    if kanata_macos_run sudo /bin/test -e "$destination" || kanata_macos_run sudo /bin/test -L "$destination"; then
+        kanata_macos_run sudo /bin/test ! -L "$destination" || return 1
+        printf -v "KANATA_MACOS_PRESENT_$name" '%s' 1
+        kanata_macos_run sudo /bin/cp -p "$destination" "$KANATA_MACOS_TXN_DIR/$name.old" || return 1
+    else
+        printf -v "KANATA_MACOS_PRESENT_$name" '%s' 0
+    fi
+}
+
+kanata_macos_restore_file() {
+    local destination="$1" name="$2" present temporary
+    eval "present=\${KANATA_MACOS_PRESENT_$name:-0}"
+    if (( ! present )); then
+        kanata_macos_run sudo /bin/rm -f "$destination"
+        return
+    fi
+    temporary="${destination}.kanata-restore.$$"
+    if ! kanata_macos_run sudo /bin/cp -p "$KANATA_MACOS_TXN_DIR/$name.old" "$temporary" ||
+        ! kanata_macos_run sudo /bin/mv -f "$temporary" "$destination"; then
+        kanata_macos_run sudo /bin/rm -f "$temporary"
+        return 1
+    fi
+}
+
+kanata_macos_ensure_user_directory() {
+    local directory="$1"
+    mkdir -p "$directory" || return 1
+    [[ -d "$directory" && ! -L "$directory" && -O "$directory" ]] || {
+        printf 'error: unsafe macOS user directory: %s\n' "$directory" >&2
+        return 1
+    }
+}
+
+kanata_macos_snapshot_user_file() {
+    local destination="$1" name="$2"
+    if [[ -e "$destination" || -L "$destination" ]]; then
+        [[ ! -L "$destination" ]] || return 1
+        printf -v "KANATA_MACOS_USER_PRESENT_$name" '%s' 1
+        /bin/cp -p "$destination" "$KANATA_MACOS_TXN_DIR/$name.old" || return 1
+    else
+        printf -v "KANATA_MACOS_USER_PRESENT_$name" '%s' 0
+    fi
+}
+
+kanata_macos_restore_user_file() {
+    local destination="$1" name="$2" present temporary
+    eval "present=\${KANATA_MACOS_USER_PRESENT_$name:-0}"
+    if (( ! present )); then
+        /bin/rm -f "$destination"
+        return
+    fi
+    kanata_macos_ensure_user_directory "$(dirname -- "$destination")" || return 1
+    temporary="$(dirname -- "$destination")/.${destination##*/}.kanata-restore.$$"
+    if ! /bin/cp -p "$KANATA_MACOS_TXN_DIR/$name.old" "$temporary" || ! /bin/mv -f "$temporary" "$destination"; then
+        /bin/rm -f "$temporary"
+        return 1
+    fi
+}
+
+kanata_macos_controller_loaded() {
+    local output status domain="gui/$(id -u)/dev.kanata.controller"
+    if output="$(kanata_macos_run /bin/launchctl print "$domain" 2>&1)"; then
+        return 0
+    fi
+    status=$?
+    if [[ "$output" == *'Could not find service'* && "$output" == *'dev.kanata.controller'* ]]; then
+        return 1
+    fi
+    printf 'error: controller launchctl print failed (%d): %s\n' "$status" "$output" >&2
+    return 2
+}
+
+kanata_macos_controller_running() {
+    local output status state pid domain="gui/$(id -u)/dev.kanata.controller"
+    if output="$(kanata_macos_run /bin/launchctl print "$domain" 2>&1)"; then
+        :
+    else
+        status=$?
+        printf 'error: controller launchctl print for running state failed (%d): %s\n' "$status" "$output" >&2
+        return 2
+    fi
+    [[ "$output" =~ (^|$'\n'|[[:space:]])state[[:space:]]=[[:space:]]([^$'\n']+)($'\n'|$) ]] && state="${BASH_REMATCH[2]}" || state=''
+    [[ "$output" =~ (^|$'\n'|[[:space:]])pid[[:space:]]=[[:space:]]([0-9]+)($'\n'|$) ]] && pid="${BASH_REMATCH[2]}" || pid=''
+    [[ "$pid" =~ ^[1-9][0-9]*$ || "$state" == running ]] && return 0
+    case "$state" in exited|stopped|waiting|throttled|'spawn scheduled'|terminated|crashed) return 1 ;; esac
+    printf 'error: controller launchctl print had unknown format (state: %s, pid: %s)\n' "$state" "$pid" >&2
+    return 2
+}
+
+kanata_macos_controller_enabled() {
+    local output status disabled='"dev.kanata.controller"[[:space:]]*=>[[:space:]]*true'
+    if output="$(kanata_macos_run /bin/launchctl print-disabled "gui/$(id -u)" 2>&1)"; then
+        :
+    else
+        status=$?
+        printf 'error: controller launchctl print-disabled failed (%d): %s\n' "$status" "$output" >&2
+        return 2
+    fi
+    [[ ! "$output" =~ $disabled ]]
+}
+
+kanata_macos_controller_verify_running() {
+    local attempt status
+    for ((attempt = 0; attempt < 5; attempt++)); do
+        if kanata_macos_controller_running; then
+            return 0
+        fi
+        status=$?
+        (( status == 1 )) || return "$status"
+        kanata_macos_run /bin/sleep 1 || return 1
+    done
+    if kanata_macos_controller_running; then
+        return 0
+    fi
+    status=$?
+    (( status == 1 )) || return "$status"
+    printf '%s\n' 'error: controller launchd service did not become running' >&2
+    return 1
+}
+
+kanata_macos_stop_controller() {
+    local attempt status saw_stopped=0 domain="gui/$(id -u)/dev.kanata.controller"
+    # Disable first so a KeepAlive policy cannot restart the job while its
+    # stopped state is being restored.
+    kanata_macos_run /bin/launchctl disable "$domain" || return 1
+    if kanata_macos_controller_running; then
+        kanata_macos_run /bin/launchctl kill SIGTERM "$domain" || return 1
+    else
+        status=$?
+        (( status == 1 )) || return "$status"
+        saw_stopped=1
+    fi
+    for ((attempt = 0; attempt < 5; attempt++)); do
+        kanata_macos_run /bin/sleep 1 || return 1
+        if kanata_macos_controller_running; then
+            if (( saw_stopped )); then
+                printf '%s\n' 'error: restored controller launchd service did not remain stopped' >&2
+                return 1
+            fi
+            continue
+        fi
+        status=$?
+        (( status == 1 )) || return "$status"
+        saw_stopped=1
+    done
+    (( saw_stopped )) || {
+        printf '%s\n' 'error: restored controller launchd service did not stop' >&2
+        return 1
+    }
+    if kanata_macos_controller_running; then
+        printf '%s\n' 'error: restored controller launchd service did not remain stopped' >&2
+        return 1
+    fi
+    status=$?
+    (( status == 1 )) || return "$status"
+}
+
+kanata_macos_snapshot_controller_state() {
+    local status
+    KANATA_MACOS_CONTROLLER_PRIOR_LOADED=0
+    KANATA_MACOS_CONTROLLER_PRIOR_ENABLED=0
+    KANATA_MACOS_CONTROLLER_PRIOR_RUNNING=0
+    if kanata_macos_controller_enabled; then
+        KANATA_MACOS_CONTROLLER_PRIOR_ENABLED=1
+    else
+        status=$?; (( status == 1 )) || return "$status"
+    fi
+    if kanata_macos_controller_loaded; then
+        KANATA_MACOS_CONTROLLER_PRIOR_LOADED=1
+        if kanata_macos_controller_running; then
+            KANATA_MACOS_CONTROLLER_PRIOR_RUNNING=1
+        else
+            status=$?; (( status == 1 )) || return "$status"
+        fi
+    else
+        status=$?; (( status == 1 )) || return "$status"
+    fi
+    if (( KANATA_MACOS_CONTROLLER_PRIOR_LOADED == 1 &&
+          KANATA_MACOS_CONTROLLER_PRIOR_ENABLED == 1 &&
+          KANATA_MACOS_CONTROLLER_PRIOR_RUNNING == 0 )); then
+        printf '%s\n' 'error: controller is loaded and enabled but stopped; this state cannot be safely preserved under RunAtLoad/KeepAlive. Start the controller or disable it and boot it out before rerunning the installer.' >&2
+        return 1
+    fi
+    KANATA_MACOS_CONTROLLER_STATE_SNAPSHOTTED=1
+}
+
+kanata_macos_bootout_controller() {
+    local status domain="gui/$(id -u)/dev.kanata.controller"
+    if kanata_macos_controller_loaded; then
+        kanata_macos_run /bin/launchctl bootout "$domain" || return 1
+        if kanata_macos_controller_loaded; then return 1; fi
+        status=$?; (( status == 1 )) || return "$status"
+    else
+        status=$?; (( status == 1 )) || return "$status"
+    fi
+}
+
+kanata_macos_restore_controller() {
+    local failed=0 bootstrapped=0 domain="gui/$(id -u)/dev.kanata.controller" plist="$HOME/Library/LaunchAgents/dev.kanata.controller.plist"
+    [[ "${KANATA_MACOS_CONTROLLER_STATE_SNAPSHOTTED:-0}" == 1 ]] || return 0
+    # Do not replace the binary or plist beneath a loaded KeepAlive agent.
+    # bootout_controller verifies absence, so any failure must fail closed.
+    kanata_macos_bootout_controller || return 1
+    kanata_macos_restore_user_file "$HOME/.local/bin/kanata-controller" controller_binary || failed=1
+    kanata_macos_restore_user_file "$plist" controller_plist || failed=1
+    (( ! failed )) || return 1
+
+    if [[ "${KANATA_MACOS_CONTROLLER_PRIOR_LOADED:-0}" != 1 ]]; then
+        # An unloaded prior agent remains unloaded; only restore its disabled
+        # database entry.
+        if [[ "${KANATA_MACOS_CONTROLLER_PRIOR_ENABLED:-0}" == 1 ]]; then
+            kanata_macos_run /bin/launchctl enable "$domain" || return 1
+        else
+            kanata_macos_run /bin/launchctl disable "$domain" || return 1
+        fi
+        return 0
+    fi
+
+    if [[ "${KANATA_MACOS_CONTROLLER_PRIOR_ENABLED:-0}" == 1 ]]; then
+        kanata_macos_run /bin/launchctl enable "$domain" || return 1
+        kanata_macos_run /bin/launchctl bootstrap "gui/$(id -u)" "$plist" || return 1
+        bootstrapped=1
+    else
+        # Preserve a disabled prior state when launchd permits it. Some
+        # launchd versions reject bootstrap for an explicitly disabled label;
+        # enable only as the bootstrap fallback and restore disabled below.
+        kanata_macos_run /bin/launchctl disable "$domain" || return 1
+        if kanata_macos_run /bin/launchctl bootstrap "gui/$(id -u)" "$plist"; then
+            bootstrapped=1
+        else
+            kanata_macos_run /bin/launchctl enable "$domain" || return 1
+            kanata_macos_run /bin/launchctl bootstrap "gui/$(id -u)" "$plist" || return 1
+            bootstrapped=1
+        fi
+    fi
+    (( bootstrapped )) || return 1
+
+    if [[ "${KANATA_MACOS_CONTROLLER_PRIOR_RUNNING:-0}" == 1 ]]; then
+        kanata_macos_run /bin/launchctl enable "$domain" || return 1
+        kanata_macos_run /bin/launchctl kickstart -k "$domain" || return 1
+        kanata_macos_controller_verify_running || return 1
+    else
+        kanata_macos_stop_controller || return 1
+    fi
+    if [[ "${KANATA_MACOS_CONTROLLER_PRIOR_ENABLED:-0}" == 1 ]]; then
+        kanata_macos_run /bin/launchctl enable "$domain" || return 1
+    else
+        kanata_macos_run /bin/launchctl disable "$domain" || return 1
+    fi
+}
+
+kanata_macos_rollback() {
+    local failed=0
+    [[ "${KANATA_MACOS_STAGED:-0}" == 1 ]] || return 0
+    kanata_macos_restore_controller || failed=1
+    # Always remove any current/new loaded job before restoring files.
+    if ! kanata_macos_bootout_fixed_service || [[ "${KANATA_MACOS_BOOTED_OUT:-0}" != 1 ]]; then
+        printf '%s\n' 'error: cannot verify the fixed Kanata launchd service is absent; active artifacts were not restored. Remove or unload system/dev.kanata.kanata manually, then restore the saved files.' >&2
+        return 1
+    fi
+    kanata_macos_restore_file /etc/kanata/kanata.kbd config || failed=1
+    kanata_macos_restore_file /etc/kanata/kanata-common.kbd common_config || failed=1
+    kanata_macos_restore_file /Library/LaunchDaemons/dev.kanata.kanata.plist plist || failed=1
+    kanata_macos_restore_file /usr/local/libexec/kanata-control helper || failed=1
+    kanata_macos_restore_file /etc/sudoers.d/kanata-controller sudoers || failed=1
+    if [[ "${KANATA_MACOS_STATE_SNAPSHOTTED:-0}" == 1 ]]; then
+        if [[ "${KANATA_MACOS_PRIOR_LOADED:-0}" == 1 ]]; then
+            # A disabled job may reject bootstrap.  Keep the prior state first;
+            # enable only for that required bootstrap fallback.
+            if [[ "${KANATA_MACOS_PRIOR_ENABLED:-0}" == 1 ]]; then
+                kanata_macos_run sudo /bin/launchctl enable system/dev.kanata.kanata || failed=1
+                kanata_macos_run sudo /bin/launchctl bootstrap system /Library/LaunchDaemons/dev.kanata.kanata.plist || failed=1
+            else
+                kanata_macos_run sudo /bin/launchctl disable system/dev.kanata.kanata || failed=1
+                if ! kanata_macos_run sudo /bin/launchctl bootstrap system /Library/LaunchDaemons/dev.kanata.kanata.plist; then
+                    kanata_macos_run sudo /bin/launchctl enable system/dev.kanata.kanata || failed=1
+                    kanata_macos_run sudo /bin/launchctl bootstrap system /Library/LaunchDaemons/dev.kanata.kanata.plist || failed=1
+                fi
+            fi
+            if [[ "${KANATA_MACOS_PRIOR_RUNNING:-0}" == 1 ]]; then
+                kanata_macos_run sudo /bin/launchctl enable system/dev.kanata.kanata || failed=1
+                kanata_macos_run sudo /bin/launchctl kickstart system/dev.kanata.kanata || failed=1
+                if [[ "${KANATA_MACOS_PRIOR_ENABLED:-0}" == 1 ]]; then
+                    kanata_macos_run sudo /bin/launchctl enable system/dev.kanata.kanata || failed=1
+                else
+                    # Keep an already-running, explicitly disabled old job
+                    # running while restoring its disabled state.
+                    kanata_macos_run sudo /bin/launchctl disable system/dev.kanata.kanata || failed=1
+                fi
+            else
+                kanata_macos_stop_fixed_service || failed=1
+                if [[ "${KANATA_MACOS_PRIOR_ENABLED:-0}" == 1 ]]; then
+                    kanata_macos_run sudo /bin/launchctl enable system/dev.kanata.kanata || failed=1
+                else
+                    kanata_macos_run sudo /bin/launchctl disable system/dev.kanata.kanata || failed=1
+                fi
+            fi
+        elif [[ "${KANATA_MACOS_PRIOR_ENABLED:-0}" == 1 ]]; then
+            kanata_macos_run sudo /bin/launchctl enable system/dev.kanata.kanata || failed=1
+        else
+            kanata_macos_run sudo /bin/launchctl disable system/dev.kanata.kanata || failed=1
+        fi
+    fi
+    (( ! failed ))
+}
+
+kanata_macos_transaction_exit() {
+    local status="$1"
+    if [[ "${KANATA_MACOS_COMMITTED:-0}" != 1 ]]; then
+        kanata_macos_rollback || status=1
+        if [[ "${KANATA_MACOS_MANUAL_VHID_STOPPED:-0}" == 1 ]]; then
+            printf '%s\n' "recovery: the prior foreground VirtualHID daemon was stopped. After resolving the installer failure, restart it manually with: sudo '$KANATA_MACOS_VHID_BINARY'" >&2
+        fi
+    fi
+    [[ -z "${KANATA_MACOS_TXN_DIR:-}" ]] || rm -rf -- "$KANATA_MACOS_TXN_DIR"
+    [[ -z "${KANATA_MACOS_STAGE_DIR:-}" ]] || kanata_macos_run sudo /bin/rm -rf -- "$KANATA_MACOS_STAGE_DIR"
+    trap - EXIT HUP INT TERM
+    exit "$status"
 }
 
 install_kanata_macos() (
     set -e
     [[ "$(uname -s)" == Darwin ]] || { printf '%s\n' 'error: macos target must run on macOS' >&2; exit 1; }
-    kanata_macos_run brew install kanata
+    KANATA_MACOS_TXN_DIR=""
+    KANATA_MACOS_BOOTED_OUT=0
+    KANATA_MACOS_NEW_SERVICE=0
+    KANATA_MACOS_STAGE_DIR=""
+    KANATA_MACOS_COMMITTED=0
+    KANATA_MACOS_STAGED=0
+    KANATA_MACOS_STATE_SNAPSHOTTED=0
+    KANATA_MACOS_CONTROLLER_STATE_SNAPSHOTTED=0
+    KANATA_MACOS_MANUAL_VHID_STOPPED=0
+    trap 'kanata_macos_transaction_exit $?' EXIT HUP INT TERM
+    kanata_macos_run brew install kanata libiconv
     local kanata_binary
     kanata_binary="$(kanata_macos_run brew --prefix kanata)/bin/kanata"
+    [[ -f "$kanata_binary" && ! -L "$kanata_binary" && -x "$kanata_binary" ]] || {
+        printf '%s\n' 'error: Homebrew Kanata binary must be a regular executable file' >&2
+        exit 1
+    }
     local config_dir="$HOME/.config/kanata"
     local config="$config_dir/kanata.kbd"
     mkdir -p "$config_dir"
     install -m 0644 "$DOTFILES_DIR/conf/kanata/kanata-macos.kbd" "$config"
+    install -m 0644 "$DOTFILES_DIR/conf/kanata/kanata-common.kbd" "$config_dir/kanata-common.kbd"
+
+    local runtime_dir=/etc/kanata helper=/usr/local/libexec/kanata-control
+    local sudoers=/etc/sudoers.d/kanata-controller
+    local temporary_dir temporary_plist temporary_controller_plist user
+    temporary_dir="$(mktemp -d)"
+    KANATA_MACOS_TXN_DIR="$temporary_dir"
+    user="$(id -un)"
+    kanata_safe_user "$user" || {
+        printf '%s\n' 'error: current username is unsafe for policy rendering' >&2
+        exit 1
+    }
+    mkdir -p "$temporary_dir/runtime"
+    install -m 0644 "$DOTFILES_DIR/conf/kanata/kanata-macos.kbd" "$temporary_dir/runtime/kanata.kbd"
+    install -m 0644 "$DOTFILES_DIR/conf/kanata/kanata-common.kbd" "$temporary_dir/runtime/kanata-common.kbd"
+    kanata_render_unit "$DOTFILES_DIR/conf/kanata/macos/kanata-controller.sudoers.template" \
+        "$temporary_dir/sudoers" '' '' "$user"
+    kanata_reject_unresolved_placeholders "$temporary_dir/sudoers" || {
+        printf '%s\n' 'error: unresolved sudoers template placeholder' >&2
+        exit 1
+    }
+    [[ -x /usr/sbin/visudo ]] || exit 1
+    /usr/sbin/visudo -c -f "$temporary_dir/sudoers" || exit 1
+
+    kanata_macos_validate_directory /usr/local
+    kanata_macos_validate_directory /etc
+    kanata_macos_validate_vhid_binary || {
+        printf '%s\n' 'error: VirtualHID daemon must be a root-owned executable under the trusted Karabiner DriverKit path' >&2
+        exit 1
+    }
+    kanata_macos_ensure_directory "$runtime_dir"
+    kanata_macos_ensure_directory /usr/local/libexec
+    kanata_macos_ensure_directory /etc/sudoers.d
+    kanata_macos_validate_directories
+    KANATA_MACOS_STAGED=1
+    kanata_macos_snapshot_file /etc/kanata/kanata.kbd config
+    kanata_macos_snapshot_file /etc/kanata/kanata-common.kbd common_config
+    kanata_macos_snapshot_file /Library/LaunchDaemons/dev.kanata.kanata.plist plist
+    kanata_macos_snapshot_file "$helper" helper
+    kanata_macos_snapshot_file "$sudoers" sudoers
+    kanata_macos_snapshot_service_state
+
+    local controller_binary="$HOME/.local/bin/kanata-controller"
+    local controller_plist="$HOME/Library/LaunchAgents/dev.kanata.controller.plist"
+    local controller_log_dir="$HOME/.local/state/kanata-controller"
+    local controller_domain="gui/$(id -u)/dev.kanata.controller"
+    [[ "$controller_binary" == "$HOME/.local/bin/kanata-controller" && "$controller_plist" == "$HOME/Library/LaunchAgents/dev.kanata.controller.plist" && "$controller_domain" == "gui/$(id -u)/dev.kanata.controller" ]] || exit 1
+    kanata_macos_ensure_user_directory "$HOME/.local/bin"
+    kanata_macos_ensure_user_directory "$HOME/Library/LaunchAgents"
+    kanata_macos_ensure_user_directory "$controller_log_dir"
+    kanata_macos_snapshot_user_file "$controller_binary" controller_binary
+    kanata_macos_snapshot_user_file "$controller_plist" controller_plist
+    kanata_macos_snapshot_controller_state
+    kanata_build_controller
+    temporary_controller_plist="$temporary_dir/dev.kanata.controller.plist"
+    kanata_render_unit "$DOTFILES_DIR/conf/kanata/macos/dev.kanata.controller.plist" \
+        "$temporary_controller_plist" '' '' '' "$controller_binary" "$controller_log_dir"
+    kanata_reject_unresolved_placeholders "$temporary_controller_plist" || exit 1
+    grep -Fqx '    <string>dev.kanata.controller</string>' "$temporary_controller_plist" || exit 1
+    ! grep -Eq '<key>(UserName|GroupName)</key>' "$temporary_controller_plist" || exit 1
+    kanata_macos_run /usr/bin/plutil -lint "$temporary_controller_plist"
+    kanata_macos_bootout_controller
+    kanata_install_controller_binary "$KANATA_CONTROLLER_BUILD"
+    install -m 0644 "$temporary_controller_plist" "$controller_plist"
 
     local plist=/Library/LaunchDaemons/dev.kanata.kanata.plist
-    local temporary_plist
-    temporary_plist="$(mktemp)"
-    trap 'rm -f "$temporary_plist"' EXIT
+    temporary_plist="$temporary_dir/dev.kanata.kanata.plist"
     kanata_render_unit "$DOTFILES_DIR/conf/kanata/macos/dev.kanata.kanata.plist" \
-        "$temporary_plist" "$kanata_binary" "$config"
+        "$temporary_plist" "$kanata_binary" "$runtime_dir/kanata.kbd"
+    kanata_reject_unresolved_placeholders "$temporary_plist" || {
+        printf '%s\n' 'error: unresolved plist template placeholder' >&2
+        exit 1
+    }
+    # Unload the fixed job before replacing any active artifact it may use.
+    kanata_macos_bootout_fixed_service
+    # Validate the Homebrew binary from a root-owned path without running the
+    # user-owned Homebrew path through sudo.
+    KANATA_MACOS_STAGE_DIR="$runtime_dir/.kanata-staging.$$"
+    kanata_macos_run sudo install -d -o root -g wheel -m 0755 "$KANATA_MACOS_STAGE_DIR"
+    kanata_macos_run sudo install -o root -g wheel -m 0644 "$temporary_dir/runtime/kanata.kbd" "$KANATA_MACOS_STAGE_DIR/kanata.kbd"
+    kanata_macos_run sudo install -o root -g wheel -m 0644 "$temporary_dir/runtime/kanata-common.kbd" "$KANATA_MACOS_STAGE_DIR/kanata-common.kbd"
+    kanata_macos_run sudo install -o root -g wheel -m 0755 "$kanata_binary" "$KANATA_MACOS_STAGE_DIR/kanata"
+    kanata_macos_validate_directory "$KANATA_MACOS_STAGE_DIR"
+    local staged_binary="$KANATA_MACOS_STAGE_DIR/kanata"
+    kanata_macos_run sudo "$staged_binary" --check --cfg "$KANATA_MACOS_STAGE_DIR/kanata.kbd"
+    kanata_macos_run /usr/bin/plutil -lint "$temporary_plist"
+    kanata_macos_run /usr/sbin/visudo -c -f "$temporary_dir/sudoers"
+    kanata_macos_run sudo install -o root -g wheel -m 0644 "$temporary_dir/runtime/kanata.kbd" "$runtime_dir/kanata.kbd"
+    kanata_macos_run sudo install -o root -g wheel -m 0644 "$temporary_dir/runtime/kanata-common.kbd" "$runtime_dir/kanata-common.kbd"
+    kanata_macos_run sudo install -o root -g wheel -m 0755 "$DOTFILES_DIR/conf/kanata/macos/kanata-control.sh" "$helper"
+    kanata_macos_run sudo install -o root -g wheel -m 0440 "$temporary_dir/sudoers" "$sudoers"
     kanata_macos_run sudo install -o root -g wheel -m 0644 "$temporary_plist" "$plist"
-    kanata_macos_run sudo launchctl bootout system/dev.kanata.kanata >/dev/null 2>&1 || true
-    kanata_macos_run sudo launchctl bootstrap system "$plist"
+    [[ "$(kanata_macos_run sudo /usr/bin/stat -f '%Su:%Sg:%Lp' "$helper")" == root:wheel:755 ]] || exit 1
+    [[ "$(kanata_macos_run sudo /usr/bin/stat -f '%Su:%Sg:%Lp' "$sudoers")" == root:wheel:440 ]] || exit 1
+    kanata_macos_install_vhid_daemon
+    # Mark before bootstrap because launchctl can load before reporting failure.
+    KANATA_MACOS_NEW_SERVICE=1
+    kanata_macos_run sudo /bin/launchctl bootstrap system "$plist"
+    kanata_macos_run sudo /bin/launchctl enable system/dev.kanata.kanata
+    kanata_macos_run sudo /bin/launchctl kickstart system/dev.kanata.kanata
+    kanata_macos_service_loaded
+    kanata_macos_service_running
+    kanata_macos_run /bin/launchctl enable "$controller_domain"
+    kanata_macos_run /bin/launchctl bootstrap "gui/$(id -u)" "$controller_plist"
+    kanata_macos_run /bin/launchctl kickstart -k "$controller_domain"
+    kanata_macos_controller_verify_running
+    KANATA_MACOS_COMMITTED=1
     printf '%s\n' \
         'Kanata macOS manual steps:' \
         '  Approve the Karabiner DriverKit/VirtualHID extension if prompted.' \
@@ -680,6 +1476,7 @@ install_kanata_windows() (
     local kanata_cfg="${kanata_dir}/kanata.kbd"
     mkdir -p "$kanata_dir"
     install -m 0644 "$DOTFILES_DIR/conf/kanata/kanata-windows.kbd" "$kanata_cfg"
+    install -m 0644 "$DOTFILES_DIR/conf/kanata/kanata-common.kbd" "$kanata_dir/kanata-common.kbd"
 
     local run_as
     run_as="$(kanata_windows_current_user)"

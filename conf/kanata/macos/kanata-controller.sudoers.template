@@ -1,0 +1,4 @@
+__KANATA_USER__ ALL=(root) NOPASSWD: /usr/local/libexec/kanata-control status
+__KANATA_USER__ ALL=(root) NOPASSWD: /usr/local/libexec/kanata-control start
+__KANATA_USER__ ALL=(root) NOPASSWD: /usr/local/libexec/kanata-control stop
+__KANATA_USER__ ALL=(root) NOPASSWD: /usr/local/libexec/kanata-control restart

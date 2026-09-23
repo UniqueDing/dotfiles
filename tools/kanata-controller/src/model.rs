@@ -1,6 +1,7 @@
 use std::fmt;
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[cfg_attr(not(target_os = "linux"), allow(dead_code))]
 pub enum ServiceStatus {
     Running,
     Starting,
