@@ -12,5 +12,4 @@ patch:
       states: ["半", "全"]
   "key_binder/bindings":
     - { when: has_menu, accept: semicolon, send: 2 }
-    - { accept: "Shift+space", select: latin, when: always }
     - { accept: "Control+semicolon", toggle: kata, when: always }

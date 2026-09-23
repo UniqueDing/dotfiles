@@ -8,7 +8,6 @@ patch:
 
   "key_binder/bindings":
     - { when: has_menu, accept: semicolon, send: 2 }
-    - { accept: "Shift+space", select: latin, when: always }
   
   menu:
     alternative_select_keys: "123456789"

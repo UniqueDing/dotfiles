@@ -23,5 +23,4 @@ patch:
   "schema/name": 五笔
   "key_binder/bindings":
     - { when: has_menu, accept: semicolon, send: 2 }
-    - { accept: "Shift+space", select: latin, when: always }
     - { accept: "Control+semicolon", toggle: zh_simp, when: always }
