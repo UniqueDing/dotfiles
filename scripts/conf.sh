@@ -44,6 +44,20 @@ install_theme() {
     "$tmp_dir/Qogir-icon-theme/install.sh"
 }
 
+link_rime_configs() {
+    local rime_dir="$1"
+    local source
+
+    # Replace the legacy directory-level link so generated Rime data remains
+    # local while versioned configuration files are linked individually.
+    [[ -L "$rime_dir" ]] && rm "$rime_dir"
+    mkdir -p "$rime_dir"
+
+    for source in "$CONF_DIR/rime"/*; do
+        ln -sfn "$source" "$rime_dir/${source##*/}"
+    done
+}
+
 link_linux_configs() {
     mkdir -p "$HOME/.config" "$HOME/.local/share/fcitx5" "$HOME/.config/environment.d"
 
@@ -54,25 +68,23 @@ link_linux_configs() {
     ln -sfn "$CONF_DIR/fcitx5/config"           "$HOME/.config/fcitx5"
     ln -sfn "$CONF_DIR/environment.d/fcitx.env" "$HOME/.config/environment.d/fcitx.env"
     ln -sfn "$CONF_DIR/fcitx5/themes"           "$HOME/.local/share/fcitx5/themes"
-    ln -sfn "$CONF_DIR/rime"                    "$HOME/.local/share/fcitx5/rime"
+    link_rime_configs "$HOME/.local/share/fcitx5/rime"
     #ln -sfn $HOME/dotfiles/conf/rime $HOME/.config/ibus/rime
 }
 
 link_macos_configs() {
-    mkdir -p "$HOME/Library/Rime" "$HOME/.config/linearmouse"
-
-    for source in "$CONF_DIR/rime"/*; do
-        ln -sfn "$source" "$HOME/Library/Rime/${source##*/}"
-    done
+    link_rime_configs "$HOME/Library/Rime"
+    mkdir -p "$HOME/.config/linearmouse"
 
     ln -sfn "$CONF_DIR/macos/linearmouse/linearmouse.json" \
         "$HOME/.config/linearmouse/linearmouse.json"
+    ln -sfn "$CONF_DIR/wezterm/wezterm.lua" "$HOME/.wezterm.lua"
 }
 
 link_windows_configs() {
     mkdir -p "$APPDATA" "$LOCALAPPDATA" "$USERPROFILE/.config"
 
-    ln -sfn "$CONF_DIR/rime"      "$APPDATA/Rime"
+    link_rime_configs "$APPDATA/Rime"
     ln -sfn "$CONF_DIR/nvim"      "$LOCALAPPDATA/nvim"
     ln -sfn "$CONF_DIR/lazygit"   "$APPDATA/lazygit"
     ln -sfn "$CONF_DIR/yazi"      "$APPDATA/yazi"
