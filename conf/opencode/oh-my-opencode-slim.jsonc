@@ -2,7 +2,7 @@
   "$schema": "https://unpkg.com/oh-my-opencode-slim@latest/oh-my-opencode-slim.schema.json",
   "companion": {
     "debug": false,
-    "enabled": true,
+    "enabled": false,
     "gifPack": "default",
     "loopStyle": "classic",
     "position": "bottom-right",
