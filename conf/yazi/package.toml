@@ -1,17 +1,17 @@
 [[plugin.deps]]
 use = "yazi-rs/plugins:git"
-rev = "4c63ed3"
-hash = "88e56a64b7ce7c4314427452343fef17"
+rev = "f703392"
+hash = "347cc6b190eb0c2fd60513cc7ae37412"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:chmod"
-rev = "4c63ed3"
-hash = "5b1c276b75cae91cbbdbe7863f39a540"
+rev = "f703392"
+hash = "87472b05a8c420100f6a2b9cde1e7746"
 
 [[plugin.deps]]
 use = "Ape/open-with-cmd"
-rev = "eba191d"
-hash = "722a60eca1b338c9c24bb508d2d48578"
+rev = "56705e2"
+hash = "7c84fff414a652c86c44523dbb08026f"
 
 [[plugin.deps]]
 use = "Ape/reflink"
@@ -20,33 +20,33 @@ hash = "4a64788e4802ad27c75a9977c29f0e55"
 
 [[plugin.deps]]
 use = "Rolv-Apneseth/starship"
-rev = "159eaba"
-hash = "7de446280b1ba8c49ffd86dbc24bbbe6"
+rev = "ea92cf4"
+hash = "9776f378459072b6c2875eae5addc49d"
 
 [[plugin.deps]]
 use = "pirafrank/what-size"
-rev = "179ebf6"
-hash = "57056b9728006881d580ccabe8154a9c"
+rev = "1cb456f"
+hash = "7699acf73a1079f8a4afef5cec84ce73"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:diff"
-rev = "4c63ed3"
-hash = "a2b67c52fc36d4c7d3ccb8940d9a140"
+rev = "f703392"
+hash = "14558d2829c0aa05e99c57de8f74d199"
 
 [[plugin.deps]]
 use = "boydaihungst/restore"
-rev = "7bfcfcb"
-hash = "bbb1569978e6d2b3e8343c6ca08a4ea6"
+rev = "864dd05"
+hash = "3070b579618c4831f5d7ca4293c1c275"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:mount"
-rev = "4c63ed3"
-hash = "e3260d0b1feded8c8e3ae3afa1169e30"
+rev = "f703392"
+hash = "b95f898e6dc60b52edbc415952e14395"
 
 [[plugin.deps]]
 use = "ndtoan96/ouch"
-rev = "406ce6c"
-hash = "f5afc904d5106ee368c8aa2ded43bd74"
+rev = "596b666"
+hash = "c2f4f4aca257dcceafa9e3b828dbf1c9"
 
 [[flavor.deps]]
 use = "AdithyanA2005/nord"
@@ -70,10 +70,10 @@ hash = "d4c7003ec6dc4efd5d3a050d5c2f2575"
 
 [[flavor.deps]]
 use = "yazi-rs/flavors:dracula"
-rev = "4770a34"
-hash = "20624fcdfcf7e4e912de05e348065e5e"
+rev = "20b47bf"
+hash = "40136c9a02e166067a36d9ad618887f2"
 
 [[flavor.deps]]
 use = "yazi-rs/flavors:catppuccin-mocha"
-rev = "4770a34"
-hash = "7dfe41c9c3d9be76da8a844263d0bbed"
+rev = "20b47bf"
+hash = "ce320f877fe709b189433941aba747c4"
