@@ -29,6 +29,7 @@ local.nix
 pkg_target
 /docs/
 /.omo/
+/.slim/deepwork/
 /tools/kanata-controller/target/
 
 # OpenCode local overrides and generated/runtime content.
