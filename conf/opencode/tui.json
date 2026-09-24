@@ -6,7 +6,7 @@
     "command_list": "ctrl+x",
     "messages_page_up": "ctrl+u",
     "messages_page_down": "ctrl+d",
-    "input_paste": "ctrl+alt+v",
+    "input_paste": "ctrl+v",
     "history_previous": [
       "up",
       "ctrl+p"
