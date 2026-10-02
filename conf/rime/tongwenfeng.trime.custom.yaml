@@ -342,11 +342,11 @@ local:
       - {click: f, swipe_up: 'è', label_symbol: '#', swipe_down: '#', popup: ['😭', 'è', 'È', '#'], key_back_color: bh1, key_text_color: th1}
       - {click: p, swipe_up: 'à', label_symbol: '$', swipe_down: '$', popup: ['😴', 'à', 'À', '$'], key_back_color: bh1, key_text_color: th1}
       - {click: g, swipe_up: 'ï', label_symbol: '%', swipe_down: '%', popup: ['🤔', 'ï', 'Ï', '%'], key_back_color: bh1, key_text_color: th1}
-      - {click: j, swipe_up: 'æ', label_symbol: "'", swipe_down: "'", popup: ['😎', 'æ', 'Æ', "'"], key_back_color: bh1, key_text_color: th1}
-      - {click: l, swipe_up: 'œ', label_symbol: '"', swipe_down: '"', popup: ['🌝', 'œ', 'Œ', '"'], key_back_color: bh1, key_text_color: th1}
-      - {click: u, swipe_up: 'â', label_symbol: '<', swipe_down: '<', popup: ['🌚', 'â', 'Â', '<'], key_back_color: bh1, key_text_color: th1}
-      - {click: y, swipe_up: 'ë', label_symbol: '>', swipe_down: '>', popup: ['👀', 'ë', 'Ë', '>'], key_back_color: bh1, key_text_color: th1}
-      - {click: ';', long_click: ':', swipe_down: ':', key_back_color: bh1, key_text_color: th1}
+      - {click: j, swipe_up: 'æ', label_symbol: "'", swipe_down: "'", popup: ['😎', 'æ', 'Æ', "'", '€'], key_back_color: bh1, key_text_color: th1}
+      - {click: l, swipe_up: 'œ', label_symbol: '"', swipe_down: '"', popup: ['🌝', 'œ', 'Œ', '"', '¡'], key_back_color: bh1, key_text_color: th1}
+      - {click: u, swipe_up: 'â', label_symbol: '<', swipe_down: '<', popup: ['🌚', 'â', 'Â', '<', '¿'], key_back_color: bh1, key_text_color: th1}
+      - {click: y, swipe_up: 'ë', label_symbol: '>', swipe_down: '>', popup: ['👀', 'ë', 'Ë', '>', '«'], key_back_color: bh1, key_text_color: th1}
+      - {click: ';', long_click: ':', swipe_down: ':', popup: ['»'], key_back_color: bh1, key_text_color: th1}
       - {width: 1}
       - {click: Escape, key_back_color: bh1, key_text_color: th1}
 
@@ -371,7 +371,7 @@ local:
       - {click: v, swipe_up: 'ä', label_symbol: '~', swipe_down: '~', popup: ['👍', 'ä', 'Ä', '~'], key_back_color: bh3, key_text_color: th3}
       - {click: b, swipe_up: 'ì', label_symbol: '^', swipe_down: '^', popup: ['🙏', 'ì', 'Ì', '^'], key_back_color: bh3, key_text_color: th3}
       - {click: k, swipe_up: 'ç', label_symbol: '(', swipe_down: "(", popup: ['💖', 'ç', 'Ç', '('], key_back_color: bh3, key_text_color: th3}
-      - {click: m, swipe_up: 'ò', label_symbol: ')', swipe_down: ')', popup: ['🎈', 'ò', 'Ò', ')'], key_back_color: bh3, key_text_color: th3}
+      - {click: m, swipe_up: 'ò', label_symbol: ')', swipe_down: ')', popup: ['🎈', 'ò', 'Ò', ')', '·'], key_back_color: bh3, key_text_color: th3}
       - {click: Shift_LM, long_click: Shift_LM, composing: delimiterM, label_symbol: " ", width: 13.5, hilited_key_back_color: benter, hilited_key_text_color: tenter, key_back_color: bbs, key_text_color: tbs}
       - {width: 1}
       - {click: Alt_L, key_back_color: bbs, key_text_color: tbs}

@@ -11,5 +11,5 @@
 
 (defalias
   cmod3 lmet
-  platform-screenshot M-S-4
+  shot M-S-4
 )

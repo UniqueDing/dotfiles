@@ -11,5 +11,5 @@
 
 (defalias
   cmod3 rctl
-  platform-screenshot M-S-s
+  shot M-S-s
 )

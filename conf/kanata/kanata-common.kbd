@@ -2,7 +2,7 @@
 ;;| col |@tnav|  q  |  w  |  f  |  p  |  g  |  j  |  l  |  u  |  y  |@temo|  [  |  ]  |  \  |
 ;;| num | tab |  1  |  2  |  3  |  4  |  5  | --  | --  | --  | --  | --  | --  | --  | --  |
 ;;| nav | tab | f1  | f2  | f3  | f4  | f5  |home |pgdn |pgup | end | --  | --  | --  | --  |
-;;| sym | tab |  !  |  @  |  #  |  $  |  %  |  ¡  |  ¿  |  «  |  »  |  €  |  —  |  …  |  °  |
+;;| sym | tab |  !  |  @  |  #  |  $  |  %  |  €  |  ¡  |  ¿  |  «  |  »  |  —  |  …  |  °  |
 ;;| emo | --  | 😀  | 😂  | 😭  | 😴  | 🤔  | 😎  | 🌝  | 🌚  | 👀  | --  | --  | --  | --  |
 ;;| lat | --  |  ú  |  é  |  é  |  ü  |  á  |  í  |  â  |  î  |  ö  |  ù  | --  | --  | --  |
 ;;+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+
@@ -43,13 +43,13 @@
 (deflayer nav
   tab    f1    f2    f3    f4    f5       home  pgdn  pgup  end   XX    XX    XX    XX
   caps   f6    f7    f8    f9    f10      left  down  up    right XX    XX          ret
-  lsft   f11   f12   f13   @platform-screenshot del  XX    XX    XX    XX    XX          @trsft
+  lsft   f11   f12   f13   @shot del  XX    XX    XX    XX    XX          @trsft
   @cmod1 @cmod2 @cmod3 spc @cmod4 @cmod5 @cmod6
 )
 
 ;; Symbol layer (QWERTY physical positions):
 (deflayer sym
-  tab    S-1   S-2   S-3   S-4   S-5      @iexcl @iquest @guillemet-left @guillemet-right @euro @emdash @ellipsis @degree
+  tab    S-1   S-2   S-3   S-4   S-5      @euro @iexcl @iquest @guillemet-left @guillemet-right @emdash @ellipsis @degree
   bspc   [     ]     S-[   S-]   S-\      XX    S-9   S-0   XX    XX    XX          ret
   lsft   \     S-7   `     S-`   S-6      XX    @middot XX    XX    XX                @trsft
   @cmod1       @cmod2      @cmod3         spc               @cmod4      @cmod5      @cmod6

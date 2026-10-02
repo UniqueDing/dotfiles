@@ -17,5 +17,5 @@
 
 (defalias
   cmod3 rctl
-  platform-screenshot prnt
+  shot prnt
 )
