@@ -31,7 +31,7 @@ install_nixpkgs() {
         curl -sSfL https://artifacts.nixos.org/nix-installer | sh -s -- install --enable-flakes
         # shellcheck disable=SC1091
         source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-        sudo nix --extra-experimental-features 'nix-command flakes' run --inputs-from "path:$DOTFILES_DIR" nix-darwin#darwin-rebuild -- switch --flake "path:$DOTFILES_DIR#uniqueding-mbp"
+        sudo -H nix --extra-experimental-features 'nix-command flakes' run --inputs-from "path:$DOTFILES_DIR" nix-darwin#darwin-rebuild -- switch --flake "path:$DOTFILES_DIR#uniqueding-mbp"
         ;;
     Linux)
     restore_if_exists /etc/profile.d/nix.sh.backup-before-nix /etc/profile.d/nix.sh
@@ -79,7 +79,7 @@ switch_dotfiles() {
             return 1
         fi
         if command -v darwin-rebuild >/dev/null 2>&1; then
-            sudo darwin-rebuild switch --flake "path:$DOTFILES_DIR#uniqueding-mbp"
+            sudo -H darwin-rebuild switch --flake "path:$DOTFILES_DIR#uniqueding-mbp"
         else
             local nix_bin
             nix_bin="$(command -v nix)"
@@ -87,7 +87,7 @@ switch_dotfiles() {
                 echo "error: nix is unavailable at an absolute path after loading the Nix daemon profile" >&2
                 return 1
             fi
-            sudo "$nix_bin" --extra-experimental-features 'nix-command flakes' run --inputs-from "path:$DOTFILES_DIR" nix-darwin#darwin-rebuild -- switch --flake "path:$DOTFILES_DIR#uniqueding-mbp"
+            sudo -H "$nix_bin" --extra-experimental-features 'nix-command flakes' run --inputs-from "path:$DOTFILES_DIR" nix-darwin#darwin-rebuild -- switch --flake "path:$DOTFILES_DIR#uniqueding-mbp"
         fi
         ;;
     *)
