@@ -13,3 +13,4 @@ patch:
   st/opencc_config: s2t.json
   "key_binder/bindings":
     - { when: has_menu, accept: semicolon, send: 2 }
+    - { accept: "Shift+Shift_R", toggle: zh_simp, when: always }
