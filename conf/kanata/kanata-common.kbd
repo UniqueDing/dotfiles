@@ -1,37 +1,86 @@
+;;+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+
+;;| col |@tnav|  q  |  w  |  f  |  p  |  g  |  j  |  l  |  u  |  y  |@temo|  [  |  ]  |  \  |
+;;| num | tab |  1  |  2  |  3  |  4  |  5  | --  | --  | --  | --  | --  | --  | --  | --  |
+;;| nav | tab | f1  | f2  | f3  | f4  | f5  |home |pgdn |pgup | end | --  | --  | --  | --  |
+;;| sym | tab |  !  |  @  |  #  |  $  |  %  |  ¡  |  ¿  |  «  |  »  |  €  |  —  |  …  |  °  |
+;;| emo | --  | 😀  | 😂  | 😭  | 😴  | 🤔  | 😎  | 🌝  | 🌚  | 👀  | --  | --  | --  | --  |
+;;| lat | --  |  ú  |  é  |  é  |  ü  |  á  |  í  |  â  |  î  |  ö  |  ù  | --  | --  | --  |
+;;+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+
+;;| col |@cap |  a  |  r  |  s  |  t  |  d  |  h  |  n  |  e  |  i  |  o  |@tsym| ret |     |
+;;| num |bspc |  6  |  7  |  8  |  9  |  0  | --  |  =  |  -  |  +  |  *  |  /  | ret |     |
+;;| nav |caps | f6  | f7  | f8  | f9  | f10 |left |down | up  |right| --  | --  | ret |     |
+;;| sym |bspc |  [  |  ]  |  {  |  }  |  |  | --  |  (  |  )  | --  | --  | --  | ret |     |
+;;| emo | --  | ✅  | ❌  | ❓  | 🚨  | 🎉  | ✨  | 🚀  | 🔥  | 💡  | --  | --  | --  |     |
+;;| lat | --  |  á  |  à  |  è  |  ê  |  ë  |  í  |  ï  |  ñ  |  ó  | --  | --  | --  |     |
+;;+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+
+;;| col |lsft |  z  |  x  |  c  |  v  |  b  |  k  |  m  |  ,  |  .  |@tlat|rsft |     |     |
+;;| num |lsft | --  |  x  |  _  |  .  | --  | --  |@tmux| --  | --  | --  |rsft |     |     |
+;;| nav |lsft | f11 | f12 | f13 |shot | del | --  | --  | --  | --  | --  |rsft |     |     |
+;;| sym |lsft |  \  |  &  |  `  |  ~  |  ^  | --  |  ·  | --  | --  | --  | --  |     |     |
+;;| emo | --  | 👌  | 👏  | 🤝  | 👍  | 🙏  | 💖  | 🎈  | --  | --  | --  | --  |     |     |
+;;| lat | --  |  ï  |  ë  |  ç  |  è  |  â  |  õ  |  ô  | --  | --  | --  | --  |     |     |
+;;+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+
+;;| LW  |lctl |     |lalt |     |rctl |     |     | spc |     |@tnum|     |@tnum|     |@tnum|
+;;|  M  |lctl |     |lalt |     |lmet |     |     | spc |     |@tnum|     |@tnum|     |@tnum|
+;;|term |lctl |     |lalt |     |tmux |     |     | spc |     |@tnum|     |@tnum|     |@tnum|
+;;+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+
+
+(deflayer col
+  @tnav  q     w     f     p     g        j     l     u     y     @temo [     ]     \
+  @cap   a     r     s     t     d        h     n     e     i     o     @tsym       ret
+  lsft   z     x     c     v     b        k     m     ,     .     @tlat            @trsft
+  @cmod1 @cmod2 @cmod3 spc @cmod4 @cmod5 @cmod6
+)
+
+(deflayer num
+  tab    1     2     3     4     5        XX    XX    XX    XX    XX    XX    XX    XX
+  bspc   6     7     8     9     0        XX    =     -     S-=   S-8   /           ret
+  lsft   XX    x     S--   .     XX       XX    @tmux XX    XX    XX                @trsft
+  @cmod1 @cmod2 @cmod3 spc @cmod4 @cmod5 @cmod6
+)
+
+;; Shared navigation layer (QWERTY physical positions):
+(deflayer nav
+  tab    f1    f2    f3    f4    f5       home  pgdn  pgup  end   XX    XX    XX    XX
+  caps   f6    f7    f8    f9    f10      left  down  up    right XX    XX          ret
+  lsft   f11   f12   f13   @platform-screenshot del  XX    XX    XX    XX    XX          @trsft
+  @cmod1 @cmod2 @cmod3 spc @cmod4 @cmod5 @cmod6
+)
+
 ;; Symbol layer (QWERTY physical positions):
-;; Q !   W @   E #   R $   T %   Y ¡   U ¿   I «   O »   P €   [ —   ] …   \ °
-;; A [   S ]   D {   F }   G |   H ·   J (   K )   L ·   ; ·   ' ·
-;; Z \   X &   C `   V ~   B ^   N ·   M ·   , ·   . ·   / ·
-(deflayer symbol
+(deflayer sym
   tab    S-1   S-2   S-3   S-4   S-5      @iexcl @iquest @guillemet-left @guillemet-right @euro @emdash @ellipsis @degree
   bspc   [     ]     S-[   S-]   S-\      XX    S-9   S-0   XX    XX    XX          ret
-  lsft   \     S-7   `     S-`   S-6      XX    @middot XX    XX    XX                rsft
+  lsft   \     S-7   `     S-`   S-6      XX    @middot XX    XX    XX                @trsft
   @cmod1       @cmod2      @cmod3         spc               @cmod4      @cmod5      @cmod6
 )
 
 ;; Emoji layer (QWERTY physical positions):
-;; Q 😀   W 😂   E 😭   R 😴   T 🤔   Y 😎   U 🌝   I 🌚   O 👀   P 😴 (trigger/unreachable)
-;; A ✅   S ❌   D ❓   F ⚠️   G 🎉   H ✨   J 🚀   K 🔥   L 💡   ; ·
-;; Z 👌   X 👏   C 🤝   V 👍   B 🙏   N 💖   M 🎈
-(deflayer emoji
-  XX     @emojia @emojis @emojih @emojiz @emojin @emojiu @emojit @emojiy @emojij @emojiz XX    XX    XX
-  XX     @emojil @emojix @emojiq @emojiw @emojip @emojie @emojir @emojik @emojii XX      XX          XX
-  XX     @emojio @emojic @emojib @emojif @emojim @emojid @emojig XX    XX    XX                XX
+(deflayer emo
+  XX     @emoji_q @emoji_w @emoji_e @emoji_r @emoji_t @emoji_y @emoji_u @emoji_i @emoji_o XX      XX    XX    XX
+  XX     @emoji_a @emoji_s @emoji_d @emoji_f @emoji_g @emoji_h @emoji_j @emoji_k @emoji_l XX      XX          XX
+  XX     @emoji_z @emoji_x @emoji_c @emoji_v @emoji_b @emoji_n @emoji_m XX    XX    XX                @trsft
   @cmod1       @cmod2      @cmod3         spc               @cmod4      @cmod5      @cmod6
 )
 
 ;; Latin layer (QWERTY physical positions):
-;; Q ú, W é, E é, R ü, T á, Y í, U â, I î, O ö, P ù;
-;; A á, S à, D è, F ê, G ë, H í, I î, J ï, K ñ, L ó;
-;; Z ï, X ë, C ç, V è, B â, N õ, M ô.
-(deflayer latin
+(deflayer lat
   XX     @latin_q @latin_w @latin_e @latin_r @latin_t @latin_y @latin_u @latin_i @latin_o @latin_p XX    XX    XX
   XX     @latin_a @latin_s @latin_d @latin_f @latin_g @latin_h @latin_j @latin_k @latin_l XX    XX          XX
-  XX     @latin_z @latin_x @latin_c @latin_v @latin_b @latin_n @latin_m XX    XX    XX                XX
+  XX     @latin_z @latin_x @latin_c @latin_v @latin_b @latin_n @latin_m XX    XX    XX                @trsft
   @cmod1       @cmod2      @cmod3         spc               @cmod4      @cmod5      @cmod6
 )
 
 (defalias
+  cap (tap-hold-press 200 200 esc lctl)
+  lnav (layer-while-held nav) lsym (layer-while-held sym) lnum (layer-while-held num)
+  lemo (layer-while-held emo) llat (layer-while-held lat)
+  tnav (tap-hold-press 200 200 tab @lnav)
+  tsym (tap-hold-press 200 200 ' @lsym) tnum (tap-hold-press 200 200 bspc @lnum)
+  temo (tap-hold-press 200 200 ; @lemo) tlat (tap-hold-press 200 200 / @llat)
+  tmux (tap-hold-release 200 200 rctl C-g)
+  trsft (tap-hold-press 0 200 (multi lsft rsft) rsft)
+  cmod1 lctl cmod2 lalt cmod4 @tnum cmod5 @tnum cmod6 @tnum
   iexcl (unicode U+00A1) iquest (unicode U+00BF)
   guillemet-left (unicode U+00AB) guillemet-right (unicode U+00BB)
   euro (unicode U+20AC) emdash (unicode U+2014) ellipsis (unicode U+2026)
@@ -45,12 +94,13 @@
   latin_s (unicode U+00E0) latin_t (unicode U+00E1) latin_u (unicode U+00E2)
   latin_v (unicode U+00E8) latin_w (unicode U+00E9) latin_x (unicode U+00EB)
   latin_y (unicode U+00ED) latin_z (unicode U+00EF)
-  latin_agrave (unicode U+00E0) latin_atilde (unicode U+00E3)
-  latin_ccedilla (unicode U+00E7) latin_ntilde (unicode U+00F1)
-  latin_oe (unicode U+0153) latin_ugrave (unicode U+00F9)
-  latin_ucircumflex (unicode U+00FB) latin_acircumflex (unicode U+00E2)
-  latin_egrave (unicode U+00E8) latin_ecircumflex (unicode U+00EA)
-  latin_edieresis (unicode U+00EB) latin_icircumflex (unicode U+00EE)
-  latin_idieresis (unicode U+00EF) latin_ocircumflex (unicode U+00F4)
-  latin_odieresis (unicode U+00F6) latin_udieresis (unicode U+00FC)
+  emoji_q (unicode 😀) emoji_w (unicode 😂) emoji_e (unicode 😭)
+  emoji_r (unicode 😴) emoji_t (unicode 🤔) emoji_y (unicode 😎)
+  emoji_u (unicode 🌝) emoji_i (unicode 🌚) emoji_o (unicode 👀)
+  emoji_a (unicode ✅) emoji_s (unicode ❌) emoji_d (unicode ❓)
+  emoji_f (unicode 🚨) emoji_g (unicode 🎉) emoji_h (unicode ✨)
+  emoji_j (unicode 🚀) emoji_k (unicode 🔥) emoji_l (unicode 💡)
+  emoji_z (unicode 👌) emoji_x (unicode 👏) emoji_c (unicode 🤝)
+  emoji_v (unicode 👍) emoji_b (unicode 🙏) emoji_n (unicode 💖)
+  emoji_m (unicode 🎈)
 )
