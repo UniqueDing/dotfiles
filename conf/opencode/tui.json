@@ -2,8 +2,9 @@
   "$schema": "https://opencode.ai/tui.json",
   "theme": "catppuccin",
   "keybinds": {
-    "leader": "ctrl+b",
+    "leader": "ctrl+o",
     "command_list": "ctrl+x",
+    "session_list": "ctrl+l",
     "messages_page_up": "ctrl+u",
     "messages_page_down": "ctrl+d",
     "input_paste": "ctrl+v",
