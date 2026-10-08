@@ -13,6 +13,8 @@
     nushell
     fish
     glances
+  ] ++ lib.optionals (pkgs.stdenv.isDarwin && pkgs.stdenv.hostPlatform.isAarch64) [
+    macmon
   ];
 
   systemd.user.services.glances-server = lib.mkIf pkgs.stdenv.isLinux {
