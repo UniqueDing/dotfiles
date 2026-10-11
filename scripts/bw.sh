@@ -8,6 +8,7 @@ FILES=(
   ".ssh/id_rsa"
   ".ssh/id_rsa.pub"
   ".local/.wakatime.cfg"
+  ".config/zsh/env.local.zsh"
 )
 
 # ---- args: -y / --yes ----
