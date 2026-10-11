@@ -49,3 +49,6 @@ conf/opencode/state/
 conf/opencode/cache/
 conf/opencode/runtime/
 conf/opencode/.oh-my-opencode-slim/
+
+# Private local zsh environment; never sync or commit credentials.
+/conf/zsh/env.local.zsh

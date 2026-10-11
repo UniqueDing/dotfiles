@@ -47,10 +47,15 @@
               "reasoningEffort": "xhigh",
               "textVerbosity": "high"
             }
+          },
+          "attachment": true,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
           }
         },
-        "gpt-6-sol": {
-          "name": "GPT-6 Sol",
+        "gpt-6.1-sol": {
+          "name": "GPT-6.1 Sol",
           "variants": {
             "low": {
               "reasoningEffort": "low",
@@ -69,19 +74,20 @@
               "textVerbosity": "high"
             }
           }
-        },
-        "gemini-3.5-flash": {
-          "name": "gemini"
         }
       },
       "npm": "@ai-sdk/openai",
       "options": {
-        "apiKey": "{env:OPENAI_API_KEY}",
-        "baseURL": "{env:OPENAI_BASE_URL}"
+        "baseURL": "{env:OPENAI_API_BASE}",
+        "apiKey": "{env:OPENAI_API_KEY}"
+
       }
     }
   },
   "lsp": true,
+  "watcher": {
+    "ignore": ["node_modules/**", "dist/**", ".git/**"]
+  },
   "mcp": {
     "codegraph": {
       "type": "local",
@@ -89,6 +95,14 @@
         "codegraph",
         "serve",
         "--mcp"
+      ],
+      "enabled": true
+    },
+    "computeruse": {
+      "type": "local",
+      "command": [
+        "bash",
+        "{env:HOME}/.config/opencode/scripts/computer-use-linux.sh"
       ],
       "enabled": true
     }
@@ -117,11 +131,15 @@
       "kill *": "ask",
       "pkill *": "ask",
       "dd *": "ask"
-    }
+    },
+    "computeruse_*": "ask",
+    "computeruse_get_app_state": "ask",
+    "computeruse_perform_action": "ask",
+    "computeruse_set_value": "ask"
   },
   "agent": {
     "build": {
-      "disable": true
+      "disable": false
     },
     "plan": {
       "disable": true

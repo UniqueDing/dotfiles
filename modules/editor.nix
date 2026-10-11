@@ -1,16 +1,9 @@
 { config, lib, pkgs, confPath, ... }:
 
 {
-  #nixpkgs.overlays = [
-  #  (import (builtins.fetchTarball {
-  #    url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
-  #  }))
-  #];
 
   home.packages = with pkgs; [
- #   neovim-nightly
     neovim
-    # chromium
     translate-shell
     opencode
     codegraph
@@ -30,12 +23,13 @@
     Service = {
       Type = "simple";
       PassEnvironment = "SSH_AUTH_SOCK";
+      UnsetEnvironment = "OPENCODE_SERVER_PASSWORD";
       ExecStartPre = "${pkgs.openssh}/bin/ssh-add -l";
-      ExecStart = "${pkgs.opencode}/bin/opencode serve --hostname 0.0.0.0 --port 4096";
+      ExecStart = "${pkgs.zsh}/bin/zsh -f -c 'set -a; source \"${config.xdg.configHome}/zsh/env.local.zsh\" && unset OPENCODE_SERVER_PASSWORD && exec \"${config.home.homeDirectory}/.opencode/bin/opencode\" serve --hostname 0.0.0.0 --port 4096'";
       Restart = "on-failure";
       RestartSec = "5";
       Environment = [
-        "PATH=${config.home.profileDirectory}/bin:${pkgs.opencode}/bin:${pkgs.bash}/bin:${pkgs.coreutils}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+        "PATH=${config.home.homeDirectory}/.opencode/bin:${config.home.profileDirectory}/bin:${pkgs.opencode}/bin:${pkgs.bash}/bin:${pkgs.coreutils}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
       ];
     };
   };
@@ -45,12 +39,10 @@
     config = {
       Label = "opencode-serve";
       ProgramArguments = [
-        "${pkgs.opencode}/bin/opencode"
-        "serve"
-        "--hostname"
-        "0.0.0.0"
-        "--port"
-        "4096"
+        "${pkgs.zsh}/bin/zsh"
+        "-f"
+        "-c"
+        "set -a; source \"${config.xdg.configHome}/zsh/env.local.zsh\" && unset OPENCODE_SERVER_PASSWORD && export PATH=\"${config.home.homeDirectory}/.opencode/bin:${config.home.profileDirectory}/bin:$PATH\" && exec \"${config.home.homeDirectory}/.opencode/bin/opencode\" serve --hostname 0.0.0.0 --port 4096"
       ];
       RunAtLoad = true;
       KeepAlive = true;

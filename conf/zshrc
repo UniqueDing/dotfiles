@@ -13,3 +13,6 @@ elif [[ -r /home/uniqueding/.nix-profile/etc/profile.d/nix.sh ]]; then
 fi
 
 source $CONFIG_PATH/init.zsh
+
+# opencode
+export PATH=/home/uniqueding/.opencode/bin:$PATH

@@ -39,7 +39,7 @@ alias scpr="rsync -aHAXP --rsh=ssh"
 alias lg="lazygit"
 # Connect the TUI to the systemd-managed OpenCode server.
 # Keep the caller's current directory as the OpenCode project directory.
-alias oc='OPENCODE_ENABLE_EXA=1 opencode attach http://127.0.0.1:4096 --dir "$PWD"'
+alias oc='opencode --server http://127.0.0.1:4096 "$PWD"'
 function mkcd(){
 	mkdir $1
 	cd $1

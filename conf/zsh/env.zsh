@@ -31,3 +31,9 @@ export PATH="$PATH:$(npm config get prefix)/bin"
 
 # opencode
 export OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS=true
+
+() {
+  setopt localoptions allexport
+  source "$HOME/.config/zsh/env.local.zsh"
+  return 0
+}
