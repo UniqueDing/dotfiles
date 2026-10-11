@@ -34,6 +34,7 @@ pkg_target
 
 # OpenCode local overrides and generated/runtime content.
 conf/opencode/opencode.local.jsonc
+conf/opencode/service.json
 conf/opencode/node_modules/
 conf/opencode/package.json
 conf/opencode/package-lock.json
