@@ -9,11 +9,6 @@
     "size": "medium",
     "speed": 1
   },
-  "multiplexer": {
-    "layout": "main-vertical",
-    "main_pane_size": 60,
-    "type": "tmux"
-  },
   "preset": "openai",
   "presets": {
     "openai": {
@@ -62,7 +57,7 @@
           "*",
           "!context7"
         ],
-        "model": "openai/gpt-6-sol",
+        "model": "openai/gpt-6.1-sol",
         "skills": [
           "*"
         ],
@@ -73,14 +68,13 @@
       "designer": {
         "mcps": [],
         "model": "opencode-go/kimi-k2.7-code",
-        "skills": [],
-        "variant": "medium"
+        "skills": []
       },
       "explorer": {
         "mcps": [],
         "model": "opencode-go/deepseek-v4-flash",
         "skills": [],
-        "variant": "max"
+        "variant": "high"
       },
       "fixer": {
         "mcps": [],
@@ -101,8 +95,7 @@
       "observer": {
         "mcps": [],
         "model": "opencode-go/mimo-v2.5",
-        "skills": [],
-        "variant": "max"
+        "skills": []
       },
       "oracle": {
         "mcps": [],
@@ -121,7 +114,61 @@
         "skills": [
           "*"
         ],
-        "variant": "max"
+        "variant": "thinking"
+      }
+    },
+    "zhipu": {
+      "designer": {
+        "mcps": [],
+        "model": "zhipuai-coding-plan/glm-5.3",
+        "skills": [],
+        "variant": "medium"
+      },
+      "explorer": {
+        "mcps": [],
+        "model": "zhipuai-coding-plan/glm-5.3-flash",
+        "skills": [],
+        "variant": "low"
+      },
+      "fixer": {
+        "mcps": [],
+        "model": "zhipuai-coding-plan/glm-5.3",
+        "skills": [],
+        "variant": "medium"
+      },
+      "librarian": {
+        "mcps": [
+          "websearch",
+          "context7",
+          "gh_grep"
+        ],
+        "model": "zhipuai-coding-plan/glm-5.3-flash",
+        "skills": [],
+        "variant": "low"
+      },
+      "observer": {
+        "mcps": [],
+        "model": "zhipuai-coding-plan/glm-5.3-flash",
+        "skills": []
+      },
+      "oracle": {
+        "mcps": [],
+        "model": "zhipuai-coding-plan/glm-5.3",
+        "skills": [
+          "simplify"
+        ],
+        "variant": "xhigh"
+      },
+      "orchestrator": {
+        "mcps": [
+          "*",
+          "!context7"
+        ],
+        "model": "zhipuai-coding-plan/glm-5.3",
+        "skills": [
+          "*"
+        ],
+        "variant": "xhigh"
       }
     }
   }
