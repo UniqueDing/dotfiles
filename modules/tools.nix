@@ -83,4 +83,5 @@
   xdg.configFile.bat.source = config.lib.file.mkOutOfStoreSymlink "${confPath}/bat";
   xdg.configFile.tealdeer.source = config.lib.file.mkOutOfStoreSymlink "${confPath}/tealdeer";
   xdg.configFile.eza.source = config.lib.file.mkOutOfStoreSymlink "${confPath}/eza";
+  home.file.".proxychains/proxychains.conf".source = config.lib.file.mkOutOfStoreSymlink "${confPath}/proxychains/proxychains.conf";
 }

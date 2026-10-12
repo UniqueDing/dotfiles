@@ -13,7 +13,7 @@ alias showkey "wshowkeys -a bottom -b 00000033 -m100 -F 'Hack 44'"
 
 alias scpr "rsync -P --rsh=ssh"
 
-alias pc "proxychains -q"
+alias pc "proxychains4 -q"
 
 alias pS 'sudo pacman -S'
 alias pSs 'pacman -Ss'
