@@ -50,22 +50,22 @@ local function bind_common_tmux_mappings(bind)
   end
 end
 
-if is_macos then
-  -- Let Ctrl+click bypass tmux mouse reporting and open terminal links.
-  config.bypass_mouse_reporting_modifiers = "CTRL"
-  config.mouse_bindings = {
-    {
-      event = { Up = { streak = 1, button = "Left" } },
-      mods = "CTRL",
-      action = act.OpenLinkAtMouseCursor,
-    },
-    {
-      event = { Down = { streak = 1, button = "Left" } },
-      mods = "CTRL",
-      action = act.Nop,
-    },
-  }
+-- Let Ctrl+click bypass tmux mouse reporting and open terminal links.
+config.bypass_mouse_reporting_modifiers = "CTRL"
+config.mouse_bindings = {
+  {
+    event = { Up = { streak = 1, button = "Left" } },
+    mods = "CTRL",
+    action = act.OpenLinkAtMouseCursor,
+  },
+  {
+    event = { Down = { streak = 1, button = "Left" } },
+    mods = "CTRL",
+    action = act.Nop,
+  },
+}
 
+if is_macos then
   local keys = {}
   local function bind(key, action)
     table.insert(keys, { key = "mapped:" .. key, mods = "CMD", action = action })
