@@ -1,4 +1,10 @@
 # default
+if [[ "$OSTYPE" == darwin* ]]; then
+  export HOMEBREW_API_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles/api
+  export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
+  export HOMEBREW_BREW_GIT_REMOTE=https://mirrors.ustc.edu.cn/brew.git
+fi
+
 export BROWSER=firefox
 export EDITOR=nvim
 export SHELL=zsh
