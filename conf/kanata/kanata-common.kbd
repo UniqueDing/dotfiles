@@ -67,17 +67,25 @@
 ;; Q á   W é   E è   R à   T ï   Y æ   U œ   I â   O ë
 ;; A ñ   S í   D ê   F ö   G ü   H ô   J î   K ù   L û   ; ÿ
 ;; Z ó   X ú   C ß   V ä   B ì   N ç   M ò
-(deflayer latin
+(deflayer lat
   XX     @latin-a @latin-e-acute @latin-e-grave @latin-a-grave @latin-i-umlaut @latin-ae @latin-oe @latin-a-circumflex @latin-e-umlaut XX    XX    XX    XX
   XX     @latin-n-tilde @latin-i-acute @latin-e-circumflex @latin-o-umlaut @latin-u-umlaut @latin-o-circumflex @latin-i-circumflex @latin-u-grave @latin-u-circumflex @latin-y-umlaut XX          XX
   XX     @latin-o-acute @latin-u-acute @latin-sharp-s @latin-a-umlaut @latin-i-grave @latin-c-cedilla @latin-o-grave XX    XX    XX                XX
   @cmod1       @cmod2      @cmod3         spc               @cmod4      @cmod5      @cmod6
 )
 
+;; Unicode case pair: hold either physical Shift for uppercase, otherwise lowercase.
+(deftemplate unicode-case (upper lower)
+  (switch
+    ((or (input real lsft) (input real rsft))) (unicode $upper) break
+    () (unicode $lower) break
+  )
+)
+
 (defalias
   cap (tap-hold-press 200 200 esc lctl)
   lnav (layer-while-held nav) lsym (layer-while-held sym) lnum (layer-while-held num)
-  lemo (layer-while-held emo) llat (layer-while-held latin)
+  lemo (layer-while-held emo) llat (layer-while-held lat)
   tnav (tap-hold-press 200 200 tab @lnav)
   tsym (tap-hold-press 200 200 ' @lsym) tnum (tap-hold-press 200 200 bspc @lnum)
   temo (tap-hold-press 200 200 ; @lemo) tlat (tap-hold-press 200 200 / @llat)
@@ -88,32 +96,32 @@
   guillemet-left (unicode U+00AB) guillemet-right (unicode U+00BB)
   euro (unicode U+20AC) emdash (unicode U+2014) ellipsis (unicode U+2026)
   degree (unicode U+00B0) middot (unicode U+00B7)
-  latin-a (switch ((or (input real lsft) (input real rsft))) (unicode U+00C1) break () (unicode U+00E1) break)
-  latin-e-acute (switch ((or (input real lsft) (input real rsft))) (unicode U+00C9) break () (unicode U+00E9) break)
-  latin-e-grave (switch ((or (input real lsft) (input real rsft))) (unicode U+00C8) break () (unicode U+00E8) break)
-  latin-a-grave (switch ((or (input real lsft) (input real rsft))) (unicode U+00C0) break () (unicode U+00E0) break)
-  latin-i-umlaut (switch ((or (input real lsft) (input real rsft))) (unicode U+00CF) break () (unicode U+00EF) break)
-  latin-ae (switch ((or (input real lsft) (input real rsft))) (unicode U+00C6) break () (unicode U+00E6) break)
-  latin-oe (switch ((or (input real lsft) (input real rsft))) (unicode U+0152) break () (unicode U+0153) break)
-  latin-a-circumflex (switch ((or (input real lsft) (input real rsft))) (unicode U+00C2) break () (unicode U+00E2) break)
-  latin-e-umlaut (switch ((or (input real lsft) (input real rsft))) (unicode U+00CB) break () (unicode U+00EB) break)
-  latin-y-umlaut (switch ((or (input real lsft) (input real rsft))) (unicode U+0178) break () (unicode U+00FF) break)
-  latin-n-tilde (switch ((or (input real lsft) (input real rsft))) (unicode U+00D1) break () (unicode U+00F1) break)
-  latin-i-acute (switch ((or (input real lsft) (input real rsft))) (unicode U+00CD) break () (unicode U+00ED) break)
-  latin-e-circumflex (switch ((or (input real lsft) (input real rsft))) (unicode U+00CA) break () (unicode U+00EA) break)
-  latin-o-umlaut (switch ((or (input real lsft) (input real rsft))) (unicode U+00D6) break () (unicode U+00F6) break)
-  latin-u-umlaut (switch ((or (input real lsft) (input real rsft))) (unicode U+00DC) break () (unicode U+00FC) break)
-  latin-o-circumflex (switch ((or (input real lsft) (input real rsft))) (unicode U+00D4) break () (unicode U+00F4) break)
-  latin-i-circumflex (switch ((or (input real lsft) (input real rsft))) (unicode U+00CE) break () (unicode U+00EE) break)
-  latin-u-grave (switch ((or (input real lsft) (input real rsft))) (unicode U+00D9) break () (unicode U+00F9) break)
-  latin-u-circumflex (switch ((or (input real lsft) (input real rsft))) (unicode U+00DB) break () (unicode U+00FB) break)
-  latin-o-acute (switch ((or (input real lsft) (input real rsft))) (unicode U+00D3) break () (unicode U+00F3) break)
-  latin-u-acute (switch ((or (input real lsft) (input real rsft))) (unicode U+00DA) break () (unicode U+00FA) break)
-  latin-sharp-s (switch ((or (input real lsft) (input real rsft))) (unicode U+1E9E) break () (unicode U+00DF) break)
-  latin-a-umlaut (switch ((or (input real lsft) (input real rsft))) (unicode U+00C4) break () (unicode U+00E4) break)
-  latin-i-grave (switch ((or (input real lsft) (input real rsft))) (unicode U+00CC) break () (unicode U+00EC) break)
-  latin-c-cedilla (switch ((or (input real lsft) (input real rsft))) (unicode U+00C7) break () (unicode U+00E7) break)
-  latin-o-grave (switch ((or (input real lsft) (input real rsft))) (unicode U+00D2) break () (unicode U+00F2) break)
+  latin-a (t! unicode-case U+00C1 U+00E1)
+  latin-e-acute (t! unicode-case U+00C9 U+00E9)
+  latin-e-grave (t! unicode-case U+00C8 U+00E8)
+  latin-a-grave (t! unicode-case U+00C0 U+00E0)
+  latin-i-umlaut (t! unicode-case U+00CF U+00EF)
+  latin-ae (t! unicode-case U+00C6 U+00E6)
+  latin-oe (t! unicode-case U+0152 U+0153)
+  latin-a-circumflex (t! unicode-case U+00C2 U+00E2)
+  latin-e-umlaut (t! unicode-case U+00CB U+00EB)
+  latin-y-umlaut (t! unicode-case U+0178 U+00FF)
+  latin-n-tilde (t! unicode-case U+00D1 U+00F1)
+  latin-i-acute (t! unicode-case U+00CD U+00ED)
+  latin-e-circumflex (t! unicode-case U+00CA U+00EA)
+  latin-o-umlaut (t! unicode-case U+00D6 U+00F6)
+  latin-u-umlaut (t! unicode-case U+00DC U+00FC)
+  latin-o-circumflex (t! unicode-case U+00D4 U+00F4)
+  latin-i-circumflex (t! unicode-case U+00CE U+00EE)
+  latin-u-grave (t! unicode-case U+00D9 U+00F9)
+  latin-u-circumflex (t! unicode-case U+00DB U+00FB)
+  latin-o-acute (t! unicode-case U+00D3 U+00F3)
+  latin-u-acute (t! unicode-case U+00DA U+00FA)
+  latin-sharp-s (t! unicode-case U+1E9E U+00DF)
+  latin-a-umlaut (t! unicode-case U+00C4 U+00E4)
+  latin-i-grave (t! unicode-case U+00CC U+00EC)
+  latin-c-cedilla (t! unicode-case U+00C7 U+00E7)
+  latin-o-grave (t! unicode-case U+00D2 U+00F2)
   emoji_q (unicode 😀) emoji_w (unicode 😂) emoji_e (unicode 😭) emoji_r (unicode 😴)
   emoji_t (unicode 🤔) emoji_y (unicode 😎) emoji_u (unicode 🌝) emoji_i (unicode 🌚) emoji_o (unicode 👀)
   emoji_a (unicode ✅) emoji_s (unicode ❌) emoji_d (unicode ❓) emoji_f (unicode 🚨) emoji_g (unicode 🎉)
