@@ -105,7 +105,7 @@ install_nixgl() {
 
 update_nix() {
     if [[ "$(uname -s)" == "Darwin" ]]; then
-        nix flake update "$DOTFILES_DIR" || return 1
+        nix flake update --flake "path:$DOTFILES_DIR" || return 1
         switch_dotfiles
         return
     fi
@@ -116,6 +116,6 @@ update_nix() {
     nix-channel --update
     nix-env -iA nixpkgs.nix
     nix-env -iA nixpkgs.home-manager
-    nix flake update "$DOTFILES_DIR"
+    nix flake update --flake "path:$DOTFILES_DIR" || return 1
     nix --version
 }

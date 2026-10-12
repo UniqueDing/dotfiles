@@ -84,6 +84,7 @@
               confPath = "${dotfilesPath}/conf";
             in
             {
+              nix.settings.experimental-features = [ "nix-command" "flakes" ];
               system.primaryUser = "uniqueding";
               system.stateVersion = 6;
               users.users.uniqueding.home = "/Users/uniqueding";
