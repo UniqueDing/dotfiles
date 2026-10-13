@@ -5,6 +5,22 @@
     "oh-my-opencode-slim"
   ],
   "provider": {
+    "gemini": {
+      "name": "Gemini Gateway",
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "{env:OPENAI_API_BASE}",
+        "apiKey": "{env:OPENAI_API_KEY}"
+      },
+      "models": {
+        "gemini-3.8-flash-high": {
+          "name": "Gemini 3.8 Flash High"
+        },
+        "gemini-3-flash": {
+          "name": "Gemini 3 Flash"
+        }
+      }
+    },
     "openai": {
       "models": {
         "gpt-6-luna": {

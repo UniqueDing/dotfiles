@@ -11,6 +11,38 @@
   },
   "preset": "openai",
   "presets": {
+    "gemini": {
+      "orchestrator": {
+        "model": "gemini/gemini-3.8-flash-high",
+        "mcps": ["*", "!context7"],
+        "skills": ["*"]
+      },
+      "oracle": {
+        "model": "gemini/gemini-3.8-flash-high",
+        "mcps": ["codegraph"],
+        "skills": ["simplify"]
+      },
+      "designer": {
+        "model": "gemini/gemini-3.8-flash-high",
+        "mcps": [],
+        "skills": []
+      },
+      "fixer": {
+        "model": "gemini/gemini-3.8-flash-high",
+        "mcps": [],
+        "skills": []
+      },
+      "explorer": {
+        "model": "gemini/gemini-3-flash",
+        "mcps": ["codegraph"],
+        "skills": []
+      },
+      "librarian": {
+        "model": "gemini/gemini-3-flash",
+        "mcps": ["websearch", "context7", "gh_grep"],
+        "skills": []
+      }
+    },
     "openai": {
       "designer": {
         "mcps": [],
