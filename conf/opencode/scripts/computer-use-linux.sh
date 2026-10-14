@@ -37,11 +37,11 @@ bus_path="${bus_path%%,*}"
 
 package_dir="${HOME:?}/.local/share/computer-use-linux/node_modules/@agent-sh/computer-use-linux"
 native="$package_dir/npm/bin/computer-use-linux-linux-x64"
-[[ -x "$native" ]] || fail "找不到已安装的 Linux 原生程序：$native。请先运行 npm install --prefix \"\$HOME/.local/share/computer-use-linux\" @agent-sh/computer-use-linux@0.7.12。"
+[[ -x "$native" ]] || fail "找不到已安装的 Linux 原生程序：$native。请先运行 npm install --prefix \"\$HOME/.local/share/computer-use-linux\" @agent-sh/computer-use-linux@0.7.16。"
 [[ -r "$package_dir/package.json" ]] || fail "找不到软件包元数据：$package_dir/package.json。"
 command -v node >/dev/null 2>&1 || fail '找不到 node，无法验证已安装软件包版本。'
 version="$(node -e 'process.stdout.write(require(process.argv[1]).version || "")' "$package_dir/package.json")"
-[[ "$version" == 0.7.12 ]] || fail "软件包版本不匹配（需要 0.7.12，实际为 ${version:-未知}）。"
+[[ "$version" == 0.7.16 ]] || fail "软件包版本不匹配（需要 0.7.16，实际为 ${version:-未知}）。"
 
 command -v nix >/dev/null 2>&1 || fail '找不到 Nix；无法提供原生程序所需的兼容运行时。'
 cache_root="${XDG_CACHE_HOME:-${HOME:?}/.cache}/opencode"

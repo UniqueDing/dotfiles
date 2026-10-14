@@ -40,6 +40,17 @@ alias lg="lazygit"
 # Connect the TUI to the systemd-managed OpenCode server.
 # Keep the caller's current directory as the OpenCode project directory.
 alias oc='opencode --server http://127.0.0.1:4096 "$PWD"'
+# Start the existing Firefox profile with MCP interfaces; quit a normal instance first.
+case "$(uname -s)" in
+	Linux)
+		if [[ -x /opt/apps/org.mozilla.firefox-nal/files/firefox ]]; then
+			alias mfirefox='/opt/apps/org.mozilla.firefox-nal/files/firefox --marionette --remote-debugging-port=9222'
+		else
+			alias mfirefox='firefox --marionette --remote-debugging-port=9222'
+		fi
+		;;
+	Darwin) alias mfirefox='open -a Firefox --args --marionette --remote-debugging-port=9222' ;;
+esac
 function mkcd(){
 	mkdir $1
 	cd $1

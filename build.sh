@@ -43,7 +43,7 @@ Commands:
   update               Update Nix, channels, flake lock, and Home Manager
   kanata [target]      Prepare, install, and start Kanata for the current platform
                          targets: linux, other, arch, macos, windows
-  opencode             Bootstrap OpenCode skills and oh-my-opencode-slim
+  opencode [install|help|update] Install tools or update selected Skills and npm MCPs
 EOF
 }
 
@@ -70,6 +70,14 @@ main() {
     local command="${1:-}"
     shift || true
 
+    if [[ "$command" == opencode ]]; then
+        case "${1:-install}" in
+        help|-h|--help)
+            install_opencode_environment "$@"
+            return $?
+            ;;
+        esac
+    fi
     write_local_nix
 
     case "$command" in
@@ -136,7 +144,7 @@ main() {
         install_kanata install "${1:-}"
         ;;
     opencode)
-        install_opencode_environment
+        install_opencode_environment "$@"
         ;;
     -h|--help|help|"")
         usage
