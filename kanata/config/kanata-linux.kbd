@@ -1,7 +1,6 @@
 ;; Linux Kanata configuration.
 
 (defcfg
-  linux-dev-names-include ("uniqueding-kb Keyboard")
   linux-output-device-name "kanata"
   linux-continue-if-no-devs-found yes
 )

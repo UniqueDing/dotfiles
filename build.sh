@@ -12,8 +12,8 @@ source "$DOTFILES_DIR/scripts/opencode.sh"
 source "$DOTFILES_DIR/scripts/pkg.sh"
 # shellcheck source=scripts/font.sh
 source "$DOTFILES_DIR/scripts/font.sh"
-# shellcheck source=scripts/kanata.sh
-source "$DOTFILES_DIR/scripts/kanata.sh"
+# shellcheck source=kanata/kanata.sh
+source "$DOTFILES_DIR/kanata/kanata.sh"
 
 if [[ -f /etc/lsb-release ]]; then
     # shellcheck disable=SC1091
@@ -41,8 +41,8 @@ Commands:
   theme                Install Qogir themes
   windows-terminal     Add Git Bash profile to Windows Terminal
   update               Update Nix, channels, flake lock, and Home Manager
-  kanata [target]      Install Kanata (Linux uses the system-service migration)
-                        targets: other, arch, macos, windows
+  kanata [target]      Prepare, install, and start Kanata for the current platform
+                         targets: linux, other, arch, macos, windows
   opencode             Bootstrap OpenCode skills and oh-my-opencode-slim
 EOF
 }
@@ -133,7 +133,7 @@ main() {
         update_all
         ;;
     kanata)
-        install_kanata "${1:-}"
+        install_kanata install "${1:-}"
         ;;
     opencode)
         install_opencode_environment
