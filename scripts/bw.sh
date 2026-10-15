@@ -11,6 +11,54 @@ FILES=(
   ".config/zsh/env.local.zsh"
 )
 
+HOST=""
+HOST_FILES=()
+
+to_item_name() {
+  local p="$1"
+  if [[ "$p" == /* ]]; then
+    case "$p" in
+      "$HOME"/*) echo "${p#"$HOME"/}" ;;
+      *) echo "path not under HOME: $p" >&2; return 1 ;;
+    esac
+  else
+    echo "$p"
+  fi
+}
+
+is_host_file() {
+  local path candidate
+  path="$(to_item_name "$1")" || return 1
+  for candidate in "${HOST_FILES[@]}"; do
+    [[ "$(to_item_name "$candidate")" == "$path" ]] && return 0
+  done
+  return 1
+}
+
+to_vault_item_name() {
+  local name
+  name="$(to_item_name "$1")" || return 1
+  if is_host_file "$1"; then
+    printf 'hosts/%s/%s\n' "$HOST" "$name"
+  else
+    printf '%s\n' "$name"
+  fi
+}
+
+validate_file_scopes() {
+  local shared host shared_name host_name
+  for shared in "${FILES[@]}"; do
+    shared_name="$(to_item_name "$shared")" || return 1
+    for host in "${HOST_FILES[@]}"; do
+      host_name="$(to_item_name "$host")" || return 1
+      if [[ "$shared_name" == "$host_name" ]]; then
+        echo "file appears in both shared and host scopes: $shared_name" >&2
+        return 1
+      fi
+    done
+  done
+}
+
 # ---- args: -y / --yes ----
 YES=0
 cmd="list"
@@ -30,23 +78,26 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+HOST="$(hostname -s)" || { echo "unable to determine short hostname" >&2; exit 1; }
+if [[ -z "$HOST" || ! "$HOST" =~ ^[A-Za-z0-9][A-Za-z0-9_-]*$ ]]; then
+  echo "unsafe short hostname for host-scoped vault names" >&2
+  exit 1
+fi
+HOST_FILES=(
+  ".config/opencode-telegram-bot/env.${HOST}.zsh"
+)
+validate_file_scopes || exit 1
+
+if [[ "$cmd" == "files" ]]; then
+  printf '%s\n' "${FILES[@]}" "${HOST_FILES[@]}"
+  exit 0
+fi
+
 export BW_SESSION="$(bw unlock --raw)"
 bw sync >/dev/null 2>&1 || true
 
 FOLDER_ID="$(bw list folders | jq -r --arg n "$FOLDER" '.[] | select(.name==$n) | .id' | head -n1)"
 [ -n "$FOLDER_ID" ] && [ "$FOLDER_ID" != "null" ] || { echo "folder not found: $FOLDER"; exit 1; }
-
-to_item_name() {
-  local p="$1"
-  if [[ "$p" == /* ]]; then
-    case "$p" in
-      "$HOME"/*) echo "${p#"$HOME"/}" ;;
-      *) echo "path not under HOME: $p" >&2; return 1 ;;
-    esac
-  else
-    echo "$p"
-  fi
-}
 
 get_item_id() {
   local name="$1"
@@ -76,7 +127,12 @@ show_diff_if_any() {
 
 cleanup_tmp() {
   rm -f "${tmp_local:-}" "${tmp_remote:-}"
+  tmp_local=""
+  tmp_remote=""
 }
+
+tmp_local=""
+tmp_remote=""
 
 case "$cmd" in
   list)
@@ -85,31 +141,33 @@ case "$cmd" in
       | column -t -s $'\t'
     ;;
 
-  files)
-    printf '%s\n' "${FILES[@]}"
-    ;;
-
   push)
-    for f in "${FILES[@]}"; do
-      name="$(to_item_name "$f")" || exit 1
-      src="$HOME/$name"
+    for f in "${FILES[@]}" "${HOST_FILES[@]}"; do
+      local_name="$(to_item_name "$f")" || exit 1
+      name="$(to_vault_item_name "$f")" || exit 1
+      src="$HOME/$local_name"
+      if is_host_file "$f" && [[ ! -f "$src" ]]; then
+        echo "skip missing optional file: $local_name"
+        continue
+      fi
       [ -f "$src" ] || { echo "missing file: $src" >&2; exit 1; }
 
       item_id="$(get_item_id "$name" || true)"
 
       tmp_local="$(mktemp)"
-      tmp_remote="$(mktemp)"
       trap cleanup_tmp EXIT
+      tmp_remote="$(mktemp)"
 
       cat -- "$src" > "$tmp_local"
 
       if [[ -z "${item_id:-}" || "$item_id" == "null" ]]; then
         : > "$tmp_remote"
         echo "diff (create) for: $name"
-        if show_diff_if_any "$tmp_remote" "$tmp_local" "bw:$name (absent)" "local:$name"; then
-          confirm "Create item in Bitwarden for $name?" || { echo "skip: $name"; continue; }
+        if show_diff_if_any "$tmp_remote" "$tmp_local" "bw:$name (absent)" "local:$local_name"; then
+          confirm "Create item in Bitwarden for $name?" || { echo "skip: $name"; cleanup_tmp; continue; }
         else
           echo "no changes: $name"
+          cleanup_tmp
           continue
         fi
 
@@ -126,10 +184,11 @@ case "$cmd" in
         bw get item "$item_id" | jq -r '.notes // ""' > "$tmp_remote"
 
         echo "diff (push) for: $name"
-        if show_diff_if_any "$tmp_remote" "$tmp_local" "bw:$name" "local:$name"; then
-          confirm "Push local changes to Bitwarden for $name?" || { echo "skip: $name"; continue; }
+        if show_diff_if_any "$tmp_remote" "$tmp_local" "bw:$name" "local:$local_name"; then
+          confirm "Push local changes to Bitwarden for $name?" || { echo "skip: $name"; cleanup_tmp; continue; }
         else
           echo "no changes: $name"
+          cleanup_tmp
           continue
         fi
 
@@ -154,18 +213,23 @@ case "$cmd" in
     ;;
 
   pull)
-    for f in "${FILES[@]}"; do
-      name="$(to_item_name "$f")" || exit 1
+    for f in "${FILES[@]}" "${HOST_FILES[@]}"; do
+      local_name="$(to_item_name "$f")" || exit 1
+      name="$(to_vault_item_name "$f")" || exit 1
       item_id="$(get_item_id "$name" || true)"
+      if is_host_file "$f" && [[ -z "$item_id" || "$item_id" == "null" ]]; then
+        echo "skip optional item not found: $name"
+        continue
+      fi
       [[ -n "${item_id:-}" && "$item_id" != "null" ]] || { echo "item not found: $name" >&2; exit 1; }
 
       tmp_local="$(mktemp)"
-      tmp_remote="$(mktemp)"
       trap cleanup_tmp EXIT
+      tmp_remote="$(mktemp)"
 
       bw get item "$item_id" | jq -r '.notes // ""' > "$tmp_remote"
 
-      dst="$HOME/$name"
+      dst="$HOME/$local_name"
       mkdir -p "$(dirname -- "$dst")"
 
       if [[ -f "$dst" ]]; then
@@ -175,15 +239,21 @@ case "$cmd" in
       fi
 
       echo "diff (pull) for: $name"
-      if show_diff_if_any "$tmp_local" "$tmp_remote" "local:$name" "bw:$name"; then
-        confirm "Overwrite local file from Bitwarden for $name?" || { echo "skip: $name"; continue; }
+      if show_diff_if_any "$tmp_local" "$tmp_remote" "local:$local_name" "bw:$name"; then
+        confirm "Overwrite local file from Bitwarden for $name?" || { echo "skip: $name"; cleanup_tmp; continue; }
       else
         echo "no changes: $name"
+        cleanup_tmp
         continue
       fi
 
       cat -- "$tmp_remote" > "$dst"
-      echo "pulled: $name"
+      if is_host_file "$f"; then
+        chmod 600 "$dst"
+        echo "pulled: $local_name (Bitwarden: $name)"
+      else
+        echo "pulled: $local_name"
+      fi
 
       cleanup_tmp
       trap - EXIT

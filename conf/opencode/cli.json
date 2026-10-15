@@ -20,7 +20,8 @@
   },
   "plugins": [
     "oh-my-openagent@4.19.2",
-    "oh-my-opencode-slim"
+    "oh-my-opencode-slim",
+    "@mohak34/opencode-notifier@0.8.2"
   ],
   "diffs": {
     "wrap": "word"

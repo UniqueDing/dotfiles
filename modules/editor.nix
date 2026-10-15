@@ -34,6 +34,28 @@
     };
   };
 
+  systemd.user.services.opencode-telegram-bot = lib.mkIf pkgs.stdenv.isLinux {
+    Unit = {
+      Description = "OpenCode Telegram Bot";
+      After = [ "opencode-serve.service" ];
+      BindsTo = [ "opencode-serve.service" ];
+      PartOf = [ "opencode-serve.service" ];
+    };
+    Install = {
+      WantedBy = [ "default.target" ];
+    };
+    Service = {
+      WorkingDirectory = builtins.dirOf confPath;
+      UMask = "0077";
+      Environment = [
+        "PATH=${config.home.homeDirectory}/.opencode/bin:${config.home.profileDirectory}/bin:/usr/bin:/bin"
+      ];
+      ExecStart = "${pkgs.zsh}/bin/zsh -f -c 'set -a; source \"${config.xdg.configHome}/zsh/env.local.zsh\" && source \"${config.xdg.configHome}/opencode-telegram-bot/env.$$(hostname -s).zsh\" && exec \"${pkgs.nodejs_24}/bin/node\" \"${config.xdg.dataHome}/opencode-telegram-bot/runtime-0.26.4/node_modules/@grinev/opencode-telegram-bot/dist/cli.js\"'";
+      Restart = "on-failure";
+      RestartSec = "5";
+    };
+  };
+
   launchd.agents.opencode-serve = lib.mkIf pkgs.stdenv.isDarwin {
     enable = true;
     config = {
@@ -46,6 +68,24 @@
       ];
       RunAtLoad = true;
       KeepAlive = true;
+    };
+  };
+
+  launchd.agents.opencode-telegram-bot = lib.mkIf pkgs.stdenv.isDarwin {
+    enable = true;
+    config = {
+      Label = "opencode-telegram-bot";
+      RunAtLoad = true;
+      KeepAlive = true;
+      ThrottleInterval = 5;
+      WorkingDirectory = builtins.dirOf confPath;
+      EnvironmentVariables.PATH = "${config.home.homeDirectory}/.opencode/bin:${config.home.profileDirectory}/bin:/usr/bin:/bin";
+      ProgramArguments = [
+        "${pkgs.zsh}/bin/zsh"
+        "-f"
+        "-c"
+        "set -a; source \"${config.xdg.configHome}/zsh/env.local.zsh\" && source \"${config.xdg.configHome}/opencode-telegram-bot/env.$(hostname -s).zsh\" && exec \"${pkgs.nodejs_24}/bin/node\" \"${config.xdg.dataHome}/opencode-telegram-bot/runtime-0.26.4/node_modules/@grinev/opencode-telegram-bot/dist/cli.js\""
+      ];
     };
   };
 

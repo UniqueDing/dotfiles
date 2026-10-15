@@ -1,0 +1,44 @@
+{
+  "sound": false,
+  "notification": true,
+  "bell": false,
+  "suppressWhenFocused": false,
+  "showSessionTitle": true,
+  "showProjectName": true,
+  "notificationTitle": "OpenCode · {projectName}",
+  "messages": {
+    "permission": "需要批准权限\n会话：{sessionTitle}\n时间：{timestamp}",
+    "question": "需要回答或选择\n会话：{sessionTitle}\n时间：{timestamp}",
+    "complete": "本轮执行完成\n会话：{sessionTitle}\n时间：{timestamp}"
+  },
+  "deferCompleteUntilChildrenIdle": true,
+  "command": {
+    "enabled": true,
+    "path": "/usr/bin/env",
+    "args": [
+      "zsh",
+      "-f",
+      "-c",
+      "set -a; source \"${XDG_CONFIG_HOME:-$HOME/.config}/zsh/env.local.zsh\" && source \"${XDG_CONFIG_HOME:-$HOME/.config}/opencode-telegram-bot/env.$(hostname -s).zsh\" && exec node \"${XDG_CONFIG_HOME:-$HOME/.config}/opencode/notify-telegram.mjs\" \"$@\"",
+      "opencode-notify-telegram",
+      "{event}",
+      "{projectName}",
+      "{sessionID}",
+      "{sessionTitle}",
+      "{timestamp}"
+    ]
+  },
+  "events": {
+    "permission": { "sound": false, "notification": true, "command": true, "bell": false },
+    "complete": { "sound": false, "notification": true, "command": true, "bell": false },
+    "question": { "sound": false, "notification": true, "command": true, "bell": false },
+    "subagent_complete": { "sound": false, "notification": false, "command": false, "bell": false },
+    "error": { "sound": false, "notification": false, "command": false, "bell": false },
+    "interrupted": { "sound": false, "notification": false, "command": false, "bell": false },
+    "user_cancelled": { "sound": false, "notification": false, "command": false, "bell": false },
+    "plan_exit": { "sound": false, "notification": false, "command": false, "bell": false },
+    "session_started": { "sound": false, "notification": false, "command": false, "bell": false },
+    "user_message": { "sound": false, "notification": false, "command": false, "bell": false },
+    "client_connected": { "sound": false, "notification": false, "command": false, "bell": false }
+  }
+}

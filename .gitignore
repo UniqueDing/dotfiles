@@ -47,6 +47,7 @@ conf/opencode/*.sqlite
 conf/opencode/*.sqlite3
 conf/opencode/auth.json
 conf/opencode/state/
+conf/opencode/opencode-notifier-state.json
 conf/opencode/cache/
 conf/opencode/runtime/
 conf/opencode/.oh-my-opencode-slim/
