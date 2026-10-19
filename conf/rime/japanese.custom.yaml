@@ -1,6 +1,6 @@
 patch:
   schema/icon: icon/jp.ico
-  schema/name: 日语
+  schema/name: Japanese
   switches:
     - name: kata
       reset: 0

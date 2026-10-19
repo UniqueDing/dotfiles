@@ -1,6 +1,6 @@
 patch:
   "schema/icon": icon/korean.ico
-  "schema/name": 韩语
+  "schema/name": Korean (2-Set)
 
   switches:
     - name: full_shape

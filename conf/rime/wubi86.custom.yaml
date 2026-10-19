@@ -20,7 +20,7 @@ patch:
   mars/option_name: mars
   mars/opencc_config: mars.json
   schema/icon: icon/wubi.ico
-  "schema/name": 五笔
+  "schema/name": Wubi 86
   "key_binder/bindings":
     - { when: has_menu, accept: semicolon, send: 2 }
     - { accept: "Shift+Shift_R", toggle: zh_simp, when: always }

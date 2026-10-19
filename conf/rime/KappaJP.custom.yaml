@@ -2,7 +2,7 @@
 
 patch:
   "schema/icon": icon/jp.ico
-  "schema/name": 日语
+  "schema/name": KappaJP
   switches:
     - name: kata
       reset: 0
