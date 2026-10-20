@@ -1,0 +1,11 @@
+{
+  "name": "local-git-changes",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./tui": "./tui.tsx"
+  },
+  "scripts": {
+    "test": "bun test"
+  }
+}
