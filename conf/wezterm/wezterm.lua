@@ -110,13 +110,21 @@ elseif is_linux then
       action = act.ActivateKeyTable({
         name = "right_ctrl",
         one_shot = false,
-        timeout_milliseconds = 1000,
+        -- Do not expire during pauses while RightCtrl is held; LeftCtrl
+        -- cancels this layer explicitly (see the bindings below).
         replace_current = true,
       }),
     },
   }
 
-  local right_ctrl = {}
+  -- Keep repeated RightCtrl chords, but cancel the layer when LeftCtrl is
+  -- pressed. Backends may report the modifier before or after this key press.
+  local right_ctrl = {
+    { key = "LeftControl", mods = "NONE", action = act.PopKeyTable },
+    { key = "LeftControl", mods = "CTRL", action = act.PopKeyTable },
+    { key = "LeftControl", mods = "SHIFT", action = act.PopKeyTable },
+    { key = "LeftControl", mods = "CTRL|SHIFT", action = act.PopKeyTable },
+  }
   local function add(key, action, mods)
     table.insert(right_ctrl, {
       key = key,
