@@ -29,6 +29,7 @@
     "@mohak34/opencode-notifier@0.8.2"
   ],
   "diffs": {
+    "source": "working",
     "wrap": "word"
   },
   "terminal": {
