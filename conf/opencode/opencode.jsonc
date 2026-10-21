@@ -105,7 +105,7 @@
   },
   "lsp": true,
   "watcher": {
-    "ignore": ["node_modules/**", "dist/**", ".git/**"]
+    "ignore": ["node_modules/**", "dist/**", ".git/**", "**/build*/**"]
   },
   "mcp": {
     "servers": {
