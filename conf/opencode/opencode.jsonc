@@ -13,6 +13,9 @@
         "apiKey": "{env:OPENAI_API_KEY}"
       },
       "models": {
+        "gemini-4-argon-high": {
+          "name": "Gemini 4 Argon High"
+        },
         "gemini-3.8-flash-high": {
           "name": "Gemini 3.8 Flash High"
         },

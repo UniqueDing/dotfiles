@@ -40,6 +40,8 @@ alias lg="lazygit"
 # Connect the TUI to the systemd-managed OpenCode server.
 # Keep the caller's current directory as the OpenCode project directory.
 alias oc='opencode --server http://127.0.0.1:4096 "$PWD"'
+# Start a private OpenCode instance with the Gemini preset.
+alias ocg='OH_MY_OPENCODE_SLIM_PRESET=gemini opencode --standalone'
 # Start the existing Firefox profile with MCP interfaces; quit a normal instance first.
 case "$(uname -s)" in
 	Linux)

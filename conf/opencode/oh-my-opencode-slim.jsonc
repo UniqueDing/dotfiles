@@ -13,22 +13,22 @@
   "presets": {
     "gemini": {
       "orchestrator": {
-        "model": "gemini/gemini-3.8-flash-high",
+        "model": "gemini/gemini-4-argon-high",
         "mcps": ["*", "!context7"],
         "skills": ["*"]
       },
       "oracle": {
-        "model": "gemini/gemini-3.8-flash-high",
+        "model": "gemini/gemini-4-argon-high",
         "mcps": ["codegraph"],
         "skills": ["simplify"]
       },
       "designer": {
-        "model": "gemini/gemini-3.8-flash-high",
+        "model": "gemini/gemini-4-argon-high",
         "mcps": [],
         "skills": []
       },
       "fixer": {
-        "model": "gemini/gemini-3.8-flash-high",
+        "model": "gemini/gemini-4-argon-high",
         "mcps": [],
         "skills": []
       },
@@ -93,7 +93,7 @@
         "skills": [
           "*"
         ],
-        "variant": "high"
+        "variant": "medium"
       }
     },
     "opencode-go": {
