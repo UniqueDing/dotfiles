@@ -8,6 +8,7 @@
     "command.palette.show": "ctrl+x",
     "session.page.up": "ctrl+u",
     "session.page.down": "ctrl+d",
+    "input.newline": "shift+return",
     "prompt.paste": "ctrl+v",
     "prompt.history.previous": [
       "up",

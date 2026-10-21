@@ -150,4 +150,11 @@ elseif is_linux then
   }
 end
 
+-- Preserve Shift+Enter through tmux instead of collapsing it to plain Enter.
+table.insert(config.keys, {
+  key = "Enter",
+  mods = "SHIFT",
+  action = act.SendString("\x1b[13;2u"),
+})
+
 return config
