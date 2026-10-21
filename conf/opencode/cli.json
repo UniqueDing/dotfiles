@@ -4,10 +4,14 @@
     "name": "catppuccin"
   },
   "keybinds": {
-    "leader": "ctrl+b",
-    "command.palette.show": "ctrl+x",
-    "session.page.up": "ctrl+u",
-    "session.page.down": "ctrl+d",
+    "leader": "ctrl+x",
+    "command.palette.show": "alt+p",
+    "session.new": "alt+k",
+    "session.page.up": "alt+e",
+    "session.page.down": "alt+n",
+    "input.visual.line.end": "alt+o",
+    "session.tab.next": "alt+i",
+    "session.tab.previous": "alt+h",
     "input.newline": "shift+return",
     "prompt.paste": "ctrl+v",
     "prompt.history.previous": [
