@@ -1,6 +1,9 @@
+import { isAbsolute, relative as relativePath } from "node:path"
+
 export type GitSnapshot = {
 	state: "loading" | "ready" | "error"
 	directory?: string
+	repository?: { branch?: string; worktree: string; relativeWorktree?: string }
 	files: Array<{
 		file: string
 		additions: number
@@ -58,6 +61,29 @@ export function watchGitChanges(
 		}
 
 		await ctx.data.location.vcs.sync(session.location)
+		const vcsInfo = ctx.data.location.vcs.info(session.location)
+		let repository: GitSnapshot["repository"]
+		if (vcsInfo?.provider === "git") {
+			const locationInfo = await ctx.client.location.get({ location: session.location })
+			const worktree = locationInfo?.project?.directory
+			if (typeof worktree === "string" && worktree.length > 0) {
+				repository = { worktree }
+				const canonical = locationInfo?.project?.canonical
+				if (
+					typeof canonical === "string" &&
+					canonical.length > 0 &&
+					!canonical.includes("\0") &&
+					!worktree.includes("\0") &&
+					isAbsolute(canonical) &&
+					isAbsolute(worktree)
+				) {
+					repository.relativeWorktree = relativePath(canonical, worktree) || "."
+				}
+				if (typeof vcsInfo.branch?.current === "string" && vcsInfo.branch.current.length > 0) {
+					repository.branch = vcsInfo.branch.current
+				}
+			}
+		}
 		const response = await ctx.client.vcs.status({ location: session.location })
 		if (!response || !Array.isArray(response.data) || !response.data.every(isFileChange)) {
 			throw new Error("Invalid VCS status response")
@@ -66,6 +92,7 @@ export function watchGitChanges(
 		return {
 			state: "ready",
 			directory,
+			...(repository ? { repository } : {}),
 			files,
 			additions: files.reduce((total, file) => total + file.additions, 0),
 			deletions: files.reduce((total, file) => total + file.deletions, 0),
@@ -88,6 +115,7 @@ export function watchGitChanges(
 					publish({
 						state: "error",
 						directory: last.directory,
+						repository: last.repository,
 						files: last.files,
 						additions: last.additions,
 						deletions: last.deletions,

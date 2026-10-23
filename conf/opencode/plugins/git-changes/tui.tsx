@@ -38,12 +38,13 @@ const GitChangesPlugin = Plugin.define({
       onCleanup(() => stop?.())
 
       return (
-        <Show when={snapshot().state !== "ready" || snapshot().files.length > 0}>
+        <Show when={snapshot().state !== "ready" || snapshot().files.length > 0 || !!snapshot().repository}>
         <ShowChanges
           snapshot={snapshot()}
           collapsed={collapsed()}
           toggle={() => setCollapsed((value) => !value)}
           openDiff={() => ctx.ui.panel.open("diff")}
+          formatPath={(path) => ctx.ui.format.path(path)}
           theme={ctx.theme.text}
         />
         </Show>
@@ -60,6 +61,7 @@ function ShowChanges(props: {
   collapsed: boolean
   toggle: () => void
   openDiff: () => void
+  formatPath: (path: string) => string
   theme: any
 }) {
   const state = () => props.snapshot
@@ -88,6 +90,24 @@ function ShowChanges(props: {
       )}
       {!props.collapsed && state().state === "ready" && (
         <>
+          <Show when={state().repository}>
+            {(repository) => (
+              <box flexDirection="column">
+                <box flexDirection="row" gap={1}>
+                  <text fg={props.theme.muted} flexShrink={0}>Branch</text>
+                  <text fg={props.theme.muted} wrapMode="none" flexGrow={1} flexShrink={1} minWidth={0}>
+                    {repository().branch || "unknown"}
+                  </text>
+                </box>
+                <box flexDirection="row" gap={1}>
+                  <text fg={props.theme.muted} flexShrink={0}>Worktree</text>
+                  <text fg={props.theme.muted} wrapMode="char" flexGrow={1} flexShrink={1} minWidth={0}>
+                    {repository().relativeWorktree ?? props.formatPath(repository().worktree)}
+                  </text>
+                </box>
+              </box>
+            )}
+          </Show>
           <For each={rows()}>
             {(file) => (
               <box flexDirection="row" gap={1} onMouseDown={props.openDiff}>

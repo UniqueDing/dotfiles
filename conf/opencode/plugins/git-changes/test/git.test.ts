@@ -12,16 +12,20 @@ function harness(options: {
 	sessionID?: string
 	status?: (input: any) => unknown | Promise<unknown>
 	loadSession?: () => any
+	vcsInfo?: (location: any) => unknown
+	locationInfo?: (input: any) => unknown | Promise<unknown>
 } = {}) {
 	const events = new Map<string, Array<() => void>>()
 	const sync = mock(async (_location: unknown) => {})
+	const info = mock(options.vcsInfo ?? (() => ({ branch: {} })))
 	const status = mock(options.status ?? (async () => ({ location: {}, data: [] })))
+	const locationGet = mock(options.locationInfo ?? (({ location }) => ({ directory: location.directory, project: { directory: location.directory } })))
 	const cachedGet = mock(() => options.session)
 	const remoteGet = mock(options.loadSession ?? (() => options.session))
 	const ctx = {
 		data: {
 			session: { get: cachedGet },
-			location: { vcs: { sync } },
+			location: { vcs: { sync, info } },
 			on: (event: string, callback: () => void) => {
 				const callbacks = events.get(event) ?? []
 				callbacks.push(callback)
@@ -29,7 +33,7 @@ function harness(options: {
 				return () => events.set(event, callbacks.filter((item) => item !== callback))
 			},
 		},
-		client: { session: { get: remoteGet }, vcs: { status } },
+		client: { session: { get: remoteGet }, location: { get: locationGet }, vcs: { status } },
 	}
 	const intervals: Array<{ callback: () => void; delay: number | undefined }> = []
 	const timeouts: Array<() => void> = []
@@ -46,7 +50,7 @@ function harness(options: {
 	spies.push(setIntervalSpy, clearIntervalSpy, setTimeoutSpy, clearTimeoutSpy)
 	const snapshots: GitSnapshot[] = []
 	const stop = watchGitChanges(ctx, options.sessionID ?? "session-1", (snapshot) => snapshots.push(snapshot))
-	return { ctx, events, intervals, timeouts, snapshots, stop, sync, status, cachedGet, remoteGet, clearIntervalSpy, clearTimeoutSpy }
+	return { ctx, events, intervals, timeouts, snapshots, stop, sync, info, locationGet, status, cachedGet, remoteGet, clearIntervalSpy, clearTimeoutSpy }
 }
 
 async function settle() {
@@ -58,6 +62,8 @@ describe("watchGitChanges", () => {
 		const location = { directory: "/repo/a" }
 		const h = harness({
 			session: { id: "session-1", location },
+			vcsInfo: () => ({ provider: "git", branch: { current: "main" } }),
+			locationInfo: async () => ({ directory: "/repo/a", project: { id: "repo", directory: "/repo/a", canonical: "/repo/a" } }),
 			status: async (input) => ({ location: input.location, data: [
 				{ file: "new", additions: 3, deletions: 0, status: "added" },
 				{ file: "edit", additions: 2, deletions: 1, status: "modified" },
@@ -68,21 +74,26 @@ describe("watchGitChanges", () => {
 		await settle()
 		expect(h.sync).toHaveBeenCalledWith(location)
 		expect(h.status).toHaveBeenCalledWith({ location })
-		expect(h.snapshots.at(-1)).toMatchObject({ state: "ready", directory: "/repo/a", additions: 5, deletions: 5 })
+		expect(h.locationGet).toHaveBeenCalledWith({ location })
+		expect(h.snapshots.at(-1)).toMatchObject({ state: "ready", directory: "/repo/a", repository: { branch: "main", worktree: "/repo/a", relativeWorktree: "." }, additions: 5, deletions: 5 })
 		expect(h.snapshots.at(-1)?.files).toHaveLength(3)
 		h.stop()
 	})
 
 	test("different sessions in the same repo share location/results; another repo follows its location", async () => {
-		const location = { directory: "/repo/shared" }
+		const location = { directory: "/repo/.worktrees/feature/subdir" }
 		const data = [{ file: "edit", additions: 2, deletions: 1, status: "modified" }]
-		const h = harness({ sessionID: "A", session: { location }, status: async ({ location }) => ({ location, data }) })
+		const repoMeta = { provider: "git", branch: { current: "feature/sidebar" } }
+		const publicInfo = { directory: location.directory, project: { directory: "/repo/.worktrees/feature", canonical: "/repo" } }
+		const h = harness({ sessionID: "A", session: { location }, vcsInfo: () => repoMeta, locationInfo: () => publicInfo, status: async ({ location }) => ({ location, data }) })
 		await settle()
-		expect(h.snapshots.at(-1)?.directory).toBe("/repo/shared")
-		const a2 = harness({ sessionID: "A2", session: { location }, status: async ({ location }) => ({ location, data }) })
+		expect(h.snapshots.at(-1)?.directory).toBe("/repo/.worktrees/feature/subdir")
+		expect(h.snapshots.at(-1)?.repository).toEqual({ branch: "feature/sidebar", worktree: "/repo/.worktrees/feature", relativeWorktree: ".worktrees/feature" })
+		expect(h.snapshots.at(-1)?.repository?.worktree).not.toBe(publicInfo.project.canonical)
+		const a2 = harness({ sessionID: "A2", session: { location }, vcsInfo: () => repoMeta, locationInfo: () => publicInfo, status: async ({ location }) => ({ location, data }) })
 		await settle()
 		expect(a2.status).toHaveBeenCalledWith({ location })
-		expect(a2.snapshots.at(-1)).toMatchObject({ state: "ready", files: data, additions: 2, deletions: 1 })
+		expect(a2.snapshots.at(-1)).toMatchObject({ state: "ready", files: data, repository: { branch: "feature/sidebar", worktree: "/repo/.worktrees/feature", relativeWorktree: ".worktrees/feature" }, additions: 2, deletions: 1 })
 		h.stop()
 		a2.stop()
 		const other = harness({ session: { location: { directory: "/repo/other" } }, status: async ({ location }) => ({ location, data: [] }) })
@@ -93,10 +104,52 @@ describe("watchGitChanges", () => {
 	})
 
 	test("clean workspaces are ready with no files", async () => {
-		const h = harness({ session: { location: { directory: "/repo/clean" } } })
+		const h = harness({
+			session: { location: { directory: "/repo/clean/subdir" } },
+			vcsInfo: () => ({ provider: "git", branch: { current: "main" } }),
+			locationInfo: () => ({ directory: "/repo/clean/subdir", project: { directory: "/repo/clean", canonical: "/repo/clean" } }),
+		})
 		await settle()
-		expect(h.snapshots.at(-1)).toMatchObject({ state: "ready", files: [], additions: 0, deletions: 0 })
+		expect(h.snapshots.at(-1)).toMatchObject({ state: "ready", files: [], repository: { branch: "main", worktree: "/repo/clean", relativeWorktree: "." }, additions: 0, deletions: 0 })
 		h.stop()
+	})
+
+	test("non-Git locations omit repository; Git without a current branch does not invent one", async () => {
+		const nongit = harness({ session: { location: { directory: "/outside" } }, vcsInfo: () => ({ branch: {} }) })
+		await settle()
+		expect(nongit.snapshots.at(-1)?.state).toBe("ready")
+		expect(nongit.snapshots.at(-1)).not.toHaveProperty("repository")
+		expect(nongit.locationGet).not.toHaveBeenCalled()
+		nongit.stop()
+
+		const detached = harness({
+			session: { location: { directory: "/repo" } },
+			vcsInfo: () => ({ provider: "git", branch: {} }),
+			locationInfo: () => ({ directory: "/repo", project: { directory: "/repo" } }),
+		})
+		await settle()
+		expect(detached.snapshots.at(-1)).toMatchObject({ state: "ready", repository: { worktree: "/repo" } })
+		expect(detached.snapshots.at(-1)?.repository).not.toHaveProperty("branch")
+		expect(detached.snapshots.at(-1)?.repository).not.toHaveProperty("relativeWorktree")
+		detached.stop()
+	})
+
+	test("relative worktree roots use canonical main-repository paths", async () => {
+		for (const scenario of [
+			{ cwd: "/tmp/main/subdir", worktree: "/tmp/main", canonical: "/tmp/main", relative: "." },
+			{ cwd: "/tmp/main/.worktrees/feature/nested", worktree: "/tmp/main/.worktrees/feature", canonical: "/tmp/main", relative: ".worktrees/feature" },
+			{ cwd: "/tmp/feature/subdir", worktree: "/tmp/feature", canonical: "/tmp/main", relative: "../feature" },
+		]) {
+			const h = harness({
+				session: { location: { directory: scenario.cwd } },
+				vcsInfo: () => ({ provider: "git", branch: { current: "feature" } }),
+				locationInfo: () => ({ directory: scenario.cwd, project: { directory: scenario.worktree, canonical: scenario.canonical } }),
+			})
+			await settle()
+			expect(h.snapshots.at(-1)?.directory).toBe(scenario.cwd)
+			expect(h.snapshots.at(-1)?.repository).toEqual({ branch: "feature", worktree: scenario.worktree, relativeWorktree: scenario.relative })
+			h.stop()
+		}
 	})
 
 	test("malformed responses and thrown service errors are explicit errors, not clean results", async () => {
@@ -131,14 +184,17 @@ describe("watchGitChanges", () => {
 
 	test("10-second polling publishes changed and clean results; cleanup disables the callback", async () => {
 		let data: any[] = [{ file: "edit", additions: 2, deletions: 0, status: "modified" }]
-		const h = harness({ session: { location: { directory: "/repo" } }, status: async ({ location }) => ({ location, data }) })
+		let branch = "main"
+		const h = harness({ session: { location: { directory: "/repo" } }, vcsInfo: () => ({ provider: "git", branch: { current: branch } }), status: async ({ location }) => ({ location, data }) })
 		await settle()
 		expect(h.intervals[0]?.delay).toBe(10_000)
 		expect(h.snapshots.at(-1)?.files).toEqual(data)
 		data = []
+		branch = "feature/updated"
 		h.intervals[0]!.callback()
 		await settle()
 		expect(h.snapshots.at(-1)).toMatchObject({ state: "ready", files: [], additions: 0, deletions: 0 })
+		expect(h.snapshots.at(-1)?.repository).toEqual({ branch: "feature/updated", worktree: "/repo" })
 		h.stop()
 		const calls = h.status.mock.calls.length
 		h.intervals[0]!.callback()
