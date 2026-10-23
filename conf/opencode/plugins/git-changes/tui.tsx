@@ -67,7 +67,7 @@ function ShowChanges(props: {
   const hidden = () => Math.max(0, state().files.length - rows().length)
 
   return (
-    <box flexDirection="column" paddingLeft={1} paddingRight={1}>
+    <box flexDirection="column" paddingRight={1}>
       <box flexDirection="row" gap={1} onMouseDown={props.toggle}>
         <text fg={state().state === "error" ? props.theme.feedback.error.base : props.theme.base}>
           {props.collapsed ? "▶" : "▼"}
