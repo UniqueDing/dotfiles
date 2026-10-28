@@ -1,5 +1,6 @@
 return {
   "yetone/avante.nvim",
+  enabled = false,
   opts = {
     provider = "opencode",
     acp_providers = {
