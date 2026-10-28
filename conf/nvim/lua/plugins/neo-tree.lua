@@ -1,10 +1,20 @@
 return {
   "nvim-neo-tree/neo-tree.nvim",
   cmd = "Neotree",
+  keys = {
+    { "<leader>e", "<cmd>Neotree filesystem toggle left<cr>", desc = "Explorer NeoTree" },
+  },
   opts = {
     window = {
+      position = "left",
       mappings = {
-        ["i"] = "open",
+        ["i"] = function(state)
+          local node = state.tree:get_node()
+          if node and node.type == "directory" and not node:is_expanded() then
+            require("neo-tree.sources.filesystem.commands").open(state)
+          end
+        end,
+        ["o"] = "open",
         ["h"] = "close_node",
         ["n"] = "",
         ["e"] = "",
