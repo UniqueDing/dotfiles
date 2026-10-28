@@ -25,7 +25,7 @@
       PassEnvironment = "SSH_AUTH_SOCK";
       UnsetEnvironment = "OPENCODE_SERVER_PASSWORD";
       ExecStartPre = "${pkgs.openssh}/bin/ssh-add -l";
-      ExecStart = "${pkgs.zsh}/bin/zsh -f -c 'set -a; source \"${config.xdg.configHome}/zsh/env.local.zsh\" && unset OPENCODE_SERVER_PASSWORD && exec \"${config.home.homeDirectory}/.opencode/bin/opencode\" serve --hostname 0.0.0.0 --port 4096'";
+      ExecStart = "${pkgs.zsh}/bin/zsh -f -c 'set -a; source \"${config.xdg.configHome}/zsh/env.local.zsh\" && unset OPENCODE_SERVER_PASSWORD && exec \"${config.home.homeDirectory}/.opencode/bin/opencode\" serve --hostname 0.0.0.0 --port \"$$OPENCODE_PORT\"'";
       Restart = "on-failure";
       RestartSec = "5";
       Environment = [
@@ -64,7 +64,7 @@
         "${pkgs.zsh}/bin/zsh"
         "-f"
         "-c"
-        "set -a; source \"${config.xdg.configHome}/zsh/env.local.zsh\" && unset OPENCODE_SERVER_PASSWORD && export PATH=\"${config.home.homeDirectory}/.opencode/bin:${config.home.profileDirectory}/bin:$PATH\" && exec \"${config.home.homeDirectory}/.opencode/bin/opencode\" serve --hostname 0.0.0.0 --port 4096"
+        "set -a; source \"${config.xdg.configHome}/zsh/env.local.zsh\" && unset OPENCODE_SERVER_PASSWORD && export PATH=\"${config.home.homeDirectory}/.opencode/bin:${config.home.profileDirectory}/bin:$PATH\" && exec \"${config.home.homeDirectory}/.opencode/bin/opencode\" serve --hostname 0.0.0.0 --port \"$OPENCODE_PORT\""
       ];
       RunAtLoad = true;
       KeepAlive = true;
