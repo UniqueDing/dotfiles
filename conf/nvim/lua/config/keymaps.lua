@@ -36,3 +36,12 @@ vim.keymap.set({ "n", "v", "x", "s", "o" }, "K", "N", { noremap = true, silent =
 vim.keymap.set({ "n", "v", "x", "s", "o" }, ";", ":", { noremap = true, silent = true })
 vim.keymap.set({ "n", "v", "x", "s", "o" }, "<A-n>", "5j", { noremap = true, silent = true })
 vim.keymap.set({ "n", "v", "x", "s", "o" }, "<A-e>", "5k", { noremap = true, silent = true })
+
+-- Colemak window navigation in Normal mode; keep terminal-input Tab completion.
+for _, key in ipairs({ "<C-j>", "<C-k>", "<C-l>" }) do
+  pcall(vim.keymap.del, "n", key)
+end
+vim.keymap.set("n", "<C-h>", "<C-w>h", { noremap = true, silent = true, desc = "Go to Left Window" })
+vim.keymap.set("n", "<C-i>", "<C-w>l", { noremap = true, silent = true, desc = "Go to Right Window" })
+vim.keymap.set("n", "<C-n>", "<C-w>j", { noremap = true, silent = true, desc = "Go to Lower Window" })
+vim.keymap.set("n", "<C-e>", "<C-w>k", { noremap = true, silent = true, desc = "Go to Upper Window" })

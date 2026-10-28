@@ -1,5 +1,8 @@
 local opt = vim.opt
 
+-- Use Zsh for :terminal and terminal plugins, regardless of the parent shell.
+opt.shell = "zsh"
+
 -- tab
 opt.expandtab = true
 opt.smarttab = true
@@ -14,4 +17,3 @@ opt.breakindentopt = "shift:0,min:20"
 
 vim.g.autoformat = false -- globally
 vim.b.autoformat = false -- buffer-local
-
