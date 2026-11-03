@@ -20,6 +20,18 @@ METADATA = "[Requesting program interpreter: /lib64/ld-linux-x86-64.so.2]\nGLIBC
 
 
 class PackageLinuxTests(unittest.TestCase):
+    def test_workflow_initializes_cargo_directory_at_runtime(self):
+        workflow = (ROOT.parents[1] / ".github/workflows/kanata-controller-linux.yml").read_text()
+        lines = workflow.splitlines()
+        for index, line in enumerate(lines):
+            if line != "    env:":
+                continue
+            for entry in lines[index + 1:]:
+                if entry and not entry.startswith("      "):
+                    break
+                self.assertNotIn("runner.", entry, "runner context is unavailable in job-level env")
+        self.assertIn('"$RUNNER_TEMP" >> "$GITHUB_ENV"', workflow)
+
     def test_compatible_gnu_elf_is_accepted(self):
         PACKAGER.validate_metadata(HEADER, METADATA)
 

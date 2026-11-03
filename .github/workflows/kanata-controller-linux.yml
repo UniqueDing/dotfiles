@@ -36,7 +36,6 @@ jobs:
         shell: bash
         working-directory: kanata/controller
     env:
-      CARGO_TARGET_DIR: ${{ runner.temp }}/kanata-controller-target
       CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER: /usr/bin/gcc
       CC: /usr/bin/gcc
       CXX: /usr/bin/g++
@@ -50,6 +49,7 @@ jobs:
 
       - name: Install pinned Rust toolchain
         run: |
+          printf 'CARGO_TARGET_DIR=%s/kanata-controller-target\n' "$RUNNER_TEMP" >> "$GITHUB_ENV"
           rustup toolchain install "$RUST_VERSION" --profile minimal \
             --component rustfmt --component clippy --target "$TARGET"
 
