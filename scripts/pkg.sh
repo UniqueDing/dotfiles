@@ -26,25 +26,18 @@ without_nix_env() {
     env -u NIX_PATH -u NIX_PROFILES -u NIX_SSL_CERT_FILE -u NIX_REMOTE -u IN_NIX_SHELL PATH="$clean_path" "$@"
 }
 
-# Loads ordinary package names into PACKAGE_LIST and records the special entry
-# in PACKAGE_HAS_CLIPROXYAPI.  Lists accept blank lines, comments, CRLF, and
-# surrounding whitespace.
+# Load package names, accepting blank lines, comments, CRLF and surrounding whitespace.
 load_package_list() {
     local package_file="$1"
     local package
 
     PACKAGE_LIST=()
-    PACKAGE_HAS_CLIPROXYAPI=0
     while IFS= read -r package || [[ -n "$package" ]]; do
         package="${package%$'\r'}"
         package="${package#${package%%[![:space:]]*}}"
         package="${package%${package##*[![:space:]]}}"
         [[ -z "$package" || "${package#\#}" != "$package" ]] && continue
-        if [[ "$package" == "cliproxyapi" ]]; then
-            PACKAGE_HAS_CLIPROXYAPI=1
-        else
-            PACKAGE_LIST+=("$package")
-        fi
+        PACKAGE_LIST+=("$package")
     done < "$package_file"
 }
 
@@ -73,10 +66,6 @@ install_deepin_packages() {
     fi
     printf '%s\n' 'clash-party installing'
     install_external_package deepin clash-party || return 1
-    if (( PACKAGE_HAS_CLIPROXYAPI )); then
-        printf '%s\n' 'cliproxyapi installing'
-        install_external_package deepin cliproxyapi || return 1
-    fi
 }
 
 install_arch_packages() {
@@ -91,9 +80,6 @@ install_arch_packages() {
     if ((${#PACKAGE_LIST[@]} > 0)); then
         without_nix_env paru -Sy --noconfirm "${PACKAGE_LIST[@]}" || return 1
     fi
-    if (( PACKAGE_HAS_CLIPROXYAPI )); then
-        install_external_package arch cliproxyapi || return 1
-    fi
 }
 
 install_termux_packages() {
@@ -104,9 +90,6 @@ install_termux_packages() {
         return 1
     fi
     load_package_list "$package_file"
-    if (( PACKAGE_HAS_CLIPROXYAPI )); then
-        install_external_package termux cliproxyapi || return 1
-    fi
     pkg update || return 1
     if ((${#PACKAGE_LIST[@]} > 0)); then
         pkg i -y "${PACKAGE_LIST[@]}" || return 1
@@ -132,7 +115,6 @@ install_windows_packages() {
         windows_packages+=("$package")
     done
     ((${#windows_packages[@]} > 0)) || { echo "error: WinGet list is empty: $package_file" >&2; return 1; }
-    local install_cliproxyapi_requested="$PACKAGE_HAS_CLIPROXYAPI"
 
     load_package_list "$msys_package_file"
     for package in "${PACKAGE_LIST[@]}"; do
@@ -153,9 +135,6 @@ install_windows_packages() {
     for package in "${windows_packages[@]}"; do
         powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "winget install --id '$package' --exact --source winget --accept-package-agreements --accept-source-agreements" || return 1
     done
-    if (( install_cliproxyapi_requested )); then
-        install_external_package windows cliproxyapi || return 1
-    fi
 }
 
 install_macos_packages() {
@@ -169,9 +148,6 @@ install_macos_packages() {
     for package in "${PACKAGE_LIST[@]}"; do
         brew install --cask "$package" || return 1
     done
-    if (( PACKAGE_HAS_CLIPROXYAPI )); then
-        install_external_package macos cliproxyapi || return 1
-    fi
 }
 
 default_pkg_target() {
