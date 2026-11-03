@@ -73,7 +73,7 @@ fn in_rounded_rectangle(x: f32, y: f32) -> bool {
     const BOTTOM: f32 = 62.0;
     const RADIUS: f32 = 10.0;
 
-    if !(LEFT <= x && x < RIGHT && TOP <= y && y < BOTTOM) {
+    if !((LEFT..RIGHT).contains(&x) && (TOP..BOTTOM).contains(&y)) {
         return false;
     }
 

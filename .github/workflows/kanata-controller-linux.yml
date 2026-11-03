@@ -1,0 +1,232 @@
+name: Kanata Controller Packages
+
+on:
+  push:
+    branches: [master]
+    tags: ["kanata-controller-v*"]
+    paths:
+      - "kanata/controller/**"
+      - ".github/workflows/kanata-controller-linux.yml"
+  pull_request:
+    paths:
+      - "kanata/controller/**"
+      - ".github/workflows/kanata-controller-linux.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kanata-controller-${{ github.ref }}
+  cancel-in-progress: ${{ !startsWith(github.ref, 'refs/tags/') }}
+
+env:
+  CARGO_TERM_COLOR: always
+  CARGO_INCREMENTAL: "0"
+  RUST_VERSION: "1.97.1"
+
+jobs:
+  build:
+    name: Linux x86_64
+    # Keep glibc <= 2.35; Deepin 25 currently provides glibc 2.38.
+    runs-on: ubuntu-22.04
+    timeout-minutes: 25
+    defaults:
+      run:
+        shell: bash
+        working-directory: kanata/controller
+    env:
+      TARGET: x86_64-unknown-linux-gnu
+      CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER: /usr/bin/gcc
+      CC: /usr/bin/gcc
+      CXX: /usr/bin/g++
+    outputs:
+      version: ${{ steps.metadata.outputs.version }}
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install pinned Rust toolchain
+        run: |
+          printf 'CARGO_TARGET_DIR=%s/kanata-controller-target\n' "$RUNNER_TEMP" >> "$GITHUB_ENV"
+          rustup toolchain install "$RUST_VERSION" --profile minimal \
+            --component rustfmt --component clippy --target "$TARGET"
+
+      - name: Read version and validate release tag
+        id: metadata
+        run: |
+          version="$(cargo +"$RUST_VERSION" metadata --locked --no-deps --format-version 1 |
+            python3 -c 'import json,sys; print(next(p["version"] for p in json.load(sys.stdin)["packages"] if p["name"] == "kanata-controller"))')"
+          if [[ "$GITHUB_REF" == refs/tags/* && "$GITHUB_REF_NAME" != "kanata-controller-v$version" ]]; then
+            printf 'Release tag must match Cargo.toml: kanata-controller-v%s\n' "$version" >&2
+            exit 1
+          fi
+          printf 'version=%s\n' "$version" >> "$GITHUB_OUTPUT"
+          printf 'SOURCE_DATE_EPOCH=%s\n' "$(git log -1 --format=%ct)" >> "$GITHUB_ENV"
+
+      - name: Check formatting
+        run: cargo +"$RUST_VERSION" fmt --check
+
+      - name: Run Clippy
+        run: cargo +"$RUST_VERSION" clippy --locked --all-targets --target "$TARGET" -- -D warnings
+
+      - name: Test controller and packaging checks
+        run: |
+          cargo +"$RUST_VERSION" test --locked --target "$TARGET"
+          python3 -m unittest discover -s tests -p 'test_package_*.py' -v
+
+      - name: Build release executable
+        run: cargo +"$RUST_VERSION" build --locked --release --target "$TARGET"
+
+      - name: Verify Linux ABI and package executable
+        env:
+          CONTROLLER_VERSION: ${{ steps.metadata.outputs.version }}
+        run: |
+          python3 scripts/package_linux.py \
+            --binary "$CARGO_TARGET_DIR/$TARGET/release/kanata-controller" \
+            --version "$CONTROLLER_VERSION" \
+            --output "$RUNNER_TEMP/kanata-controller-dist" \
+            --source-date-epoch "$SOURCE_DATE_EPOCH"
+
+      - name: Upload tested Linux package
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: kanata-controller-linux-x86_64
+          path: ${{ runner.temp }}/kanata-controller-dist/*
+          if-no-files-found: error
+          retention-days: 14
+
+  macos:
+    name: macOS Apple Silicon
+    runs-on: macos-14
+    timeout-minutes: 25
+    defaults:
+      run:
+        shell: bash
+        working-directory: kanata/controller
+    env:
+      TARGET: aarch64-apple-darwin
+      MACOSX_DEPLOYMENT_TARGET: "11.0"
+      CC: /usr/bin/clang
+      CXX: /usr/bin/clang++
+    outputs:
+      version: ${{ steps.metadata.outputs.version }}
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Configure Apple SDK and pinned Rust toolchain
+        run: |
+          printf 'CARGO_TARGET_DIR=%s/kanata-controller-target\n' "$RUNNER_TEMP" >> "$GITHUB_ENV"
+          printf 'SDKROOT=%s\n' "$(xcrun --sdk macosx --show-sdk-path)" >> "$GITHUB_ENV"
+          printf 'CARGO_TARGET_AARCH64_APPLE_DARWIN_LINKER=%s\n' "$(xcrun --find clang)" >> "$GITHUB_ENV"
+          rustup toolchain install "$RUST_VERSION" --profile minimal \
+            --component rustfmt --component clippy --target "$TARGET"
+
+      - name: Read version and validate release tag
+        id: metadata
+        run: |
+          version="$(cargo +"$RUST_VERSION" metadata --locked --no-deps --format-version 1 |
+            python3 -c 'import json,sys; print(next(p["version"] for p in json.load(sys.stdin)["packages"] if p["name"] == "kanata-controller"))')"
+          if [[ "$GITHUB_REF" == refs/tags/* && "$GITHUB_REF_NAME" != "kanata-controller-v$version" ]]; then
+            printf 'Release tag must match Cargo.toml: kanata-controller-v%s\n' "$version" >&2
+            exit 1
+          fi
+          printf 'version=%s\n' "$version" >> "$GITHUB_OUTPUT"
+          printf 'SOURCE_DATE_EPOCH=%s\n' "$(git log -1 --format=%ct)" >> "$GITHUB_ENV"
+
+      - name: Check formatting
+        run: cargo +"$RUST_VERSION" fmt --check
+
+      - name: Run Clippy
+        run: cargo +"$RUST_VERSION" clippy --locked --all-targets --target "$TARGET" -- -D warnings
+
+      - name: Test controller and packaging checks
+        run: |
+          cargo +"$RUST_VERSION" test --locked --target "$TARGET"
+          python3 -m unittest discover -s tests -p 'test_package_*.py' -v
+
+      - name: Build release executable
+        run: cargo +"$RUST_VERSION" build --locked --release --target "$TARGET"
+
+      - name: Verify architecture and ad-hoc sign executable
+        run: |
+          binary="$CARGO_TARGET_DIR/$TARGET/release/kanata-controller"
+          /usr/bin/lipo "$binary" -verify_arch arm64
+          /usr/bin/codesign --force --sign - "$binary"
+          /usr/bin/codesign --verify --strict --verbose=2 "$binary"
+
+      - name: Verify Mach-O dependencies and package executable
+        env:
+          CONTROLLER_VERSION: ${{ steps.metadata.outputs.version }}
+        run: |
+          python3 scripts/package_macos.py \
+            --binary "$CARGO_TARGET_DIR/$TARGET/release/kanata-controller" \
+            --version "$CONTROLLER_VERSION" \
+            --output "$RUNNER_TEMP/kanata-controller-dist" \
+            --source-date-epoch "$SOURCE_DATE_EPOCH"
+
+      - name: Upload tested macOS package
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: kanata-controller-macos-arm64
+          path: ${{ runner.temp }}/kanata-controller-dist/*
+          if-no-files-found: error
+          retention-days: 14
+
+  release:
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/kanata-controller-v')
+    needs: [build, macos]
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: Download tested platform packages
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          pattern: kanata-controller-*
+          path: artifacts
+          merge-multiple: false
+
+      - name: Verify checksum and publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+          CONTROLLER_VERSION: ${{ needs.build.outputs.version }}
+          MACOS_VERSION: ${{ needs.macos.outputs.version }}
+        run: |
+          [[ "$CONTROLLER_VERSION" == "$MACOS_VERSION" ]]
+          mkdir dist
+          for directory in artifacts/*; do
+            (cd "$directory" && sha256sum --check SHA256SUMS)
+            for package in "$directory"/*.tar.gz; do
+              [[ ! -e "dist/${package##*/}" ]]
+              cp "$package" dist/
+            done
+          done
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+          targets = ["x86_64-unknown-linux-gnu", "aarch64-apple-darwin"]
+          expected = {f"kanata-controller-{os.environ['CONTROLLER_VERSION']}-{target}.tar.gz" for target in targets}
+          actual = {path.name for path in Path("dist").glob("*.tar.gz")}
+          if actual != expected:
+              raise SystemExit(f"Unexpected release packages: {actual ^ expected}")
+          PY
+          cd dist
+          sha256sum ./*.tar.gz > SHA256SUMS
+          sha256sum --check SHA256SUMS
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            printf 'Refusing to overwrite existing release: %s\n' "$RELEASE_TAG" >&2
+            exit 1
+          fi
+          gh release create "$RELEASE_TAG" ./*.tar.gz SHA256SUMS \
+            --verify-tag \
+            --title "kanata-controller $CONTROLLER_VERSION" \
+            --notes "Linux x86_64 GNU and macOS Apple Silicon packages with SHA256SUMS. Linux requires at most glibc 2.35. macOS deployment target is 11.0; the binary is ad-hoc signed, not Developer ID signed or notarized. Native tray/service behavior requires desktop verification."

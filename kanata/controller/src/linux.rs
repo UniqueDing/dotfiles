@@ -7,10 +7,8 @@ use crate::{
     engine::ControllerEngine,
     linux_sni::{KanataTray, TrayCommand},
     model::{ControllerState, Operation},
-    service::{ServiceControl, SystemdControl},
+    service::SystemdControl,
 };
-
-const MAX_ERROR_CHARS: usize = 512;
 
 pub async fn run() -> Result<(), Box<dyn std::error::Error>> {
     let (commands, mut receiver) = mpsc::channel::<TrayCommand>(1);
