@@ -1,6 +1,7 @@
 zmodule zsh-users/zsh-syntax-highlighting
 zmodule zsh-users/zsh-autosuggestions
 zmodule completion
+zmodule termtitle
 zmodule Aloxaf/fzf-tab
 zmodule wfxr/forgit
 zmodule hlissner/zsh-autopair

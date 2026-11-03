@@ -1,3 +1,7 @@
+# Give Zellij an OSC title; leave tmux and ordinary terminal title hooks alone.
+zstyle ':zim:termtitle' hooks ${ZELLIJ:+precmd}
+zstyle ':zim:termtitle' format '%1~'
+
 ZIM_HOME=~/.local/zim
 ZIM_CONFIG_FILE=~/.config/zsh/zimrc
 # Download zimfw plugin manager if missing.
