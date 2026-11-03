@@ -1,15 +1,5 @@
--- +---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+
--- | q       | w       | f       | p       | g       | j       | l       | u       | y       | ;       |
--- | win1    | win2    | win3    | win4    | win5    | master  | width+  | width-  | copyMd  | --      |
--- +---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+
--- +---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+
--- | a       | r       | s       | t       | d       | h       | n       | e       | i       | o       |
--- | win6    | win7    | win8    | win9    | win0    | prevWin | nextPn  | prevPn  | nextWin | newPane |
--- +---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+
--- +---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+
--- | z       | x       | c       | v       | b       | k       | m       | ,       | .       | /       |
--- | reload  | killPn  | copy    | paste   | lastWin | newWin  | zoomPn  | rotate< | rotate> | --      |
--- +---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+
+-- Forward logical Colemak chords through Ctrl-g to Zellij or tmux.
+-- Linux uses RightCtrl; macOS uses Cmd. Actions are defined by the multiplexer.
 
 local wezterm = require("wezterm")
 local act = wezterm.action
@@ -41,12 +31,24 @@ end
 
 local common_tmux_keys = {
   "h", "i", "n", "e", "l", "u", "y", "z",
-  "j", "k", "m", "x", "b", "o", ",", ".",
+  "j", "k", "m", "x", "b", "o", ",", ".", ";",
 }
 
 local function bind_common_tmux_mappings(bind)
   for _, key in ipairs(common_tmux_keys) do
     bind(key, tmux_send(key))
+  end
+end
+
+-- Shift chords send literal uppercase keys, just like typing after Ctrl-g.
+local function bind_shifted_tmux_mappings(bind, mods)
+  for _, mapping in ipairs(window_selection_mappings) do
+    if mapping[2] then
+      bind(mapping[1], tmux_send(mapping[1]:upper()), mods)
+    end
+  end
+  for _, key in ipairs({ "k", "o", "e", "n" }) do
+    bind(key, tmux_send(key:upper()), mods)
   end
 end
 
@@ -67,8 +69,8 @@ config.mouse_bindings = {
 
 if is_macos then
   local keys = {}
-  local function bind(key, action)
-    table.insert(keys, { key = "mapped:" .. key, mods = "CMD", action = action })
+  local function bind(key, action, mods)
+    table.insert(keys, { key = "mapped:" .. key, mods = mods or "CMD", action = action })
   end
 
   local function paste_for_active_program(window, pane)
@@ -89,6 +91,8 @@ if is_macos then
 
   bind_common_tmux_mappings(bind)
   bind("v", wezterm.action_callback(paste_for_active_program))
+
+  bind_shifted_tmux_mappings(bind, "CMD|SHIFT")
 
   config.keys = keys
 elseif is_linux then
@@ -135,15 +139,16 @@ elseif is_linux then
 
   for _, mapping in ipairs(window_selection_mappings) do
     add(mapping[1], tmux_send(mapping[1]))
-    if mapping[2] then
-      add(mapping[1], tmux_send(mapping[2]), "CTRL|SHIFT")
-    end
   end
 
-  add("c", act.CopyTo("Clipboard"))
+  -- Zellij owns its per-pane selection. Use prefix+Alt-c rather than
+  -- prefix+c, which would create a window in tmux. Ctrl+Shift+c stays native.
+  add("c", tmux_send("\x1bc"))
   add("v", act.PasteFrom("Clipboard"))
 
   bind_common_tmux_mappings(add)
+
+  bind_shifted_tmux_mappings(add, "CTRL|SHIFT")
 
   config.key_tables = {
     right_ctrl = right_ctrl,

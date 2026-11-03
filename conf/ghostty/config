@@ -18,5 +18,70 @@ keybind= alt+v=paste_from_clipboard
 keybind= ctrl+shift+n=new_tab
 keybind= ctrl+shift+t=toggle_quick_terminal
 
+# Forward logical Colemak chords through Ctrl-g to Zellij or tmux, like WezTerm.
+# GTK may report RightCtrl with or without its own Ctrl modifier already set.
+keybind = right_control=activate_key_table:right_ctrl
+keybind = ctrl+right_control=activate_key_table:right_ctrl
+
+# Keep the layer available for repeated chords; LeftCtrl restores ordinary Ctrl.
+keybind = right_ctrl/left_control=deactivate_key_table
+keybind = right_ctrl/ctrl+left_control=deactivate_key_table
+keybind = right_ctrl/shift+left_control=deactivate_key_table
+keybind = right_ctrl/ctrl+shift+left_control=deactivate_key_table
+
+# Window/tab selection uses emitted Colemak letters, not physical QWERTY keys.
+keybind = right_ctrl/ctrl+q=text:\x07q
+keybind = right_ctrl/ctrl+w=text:\x07w
+keybind = right_ctrl/ctrl+f=text:\x07f
+keybind = right_ctrl/ctrl+p=text:\x07p
+keybind = right_ctrl/ctrl+g=text:\x07g
+keybind = right_ctrl/ctrl+a=text:\x07a
+keybind = right_ctrl/ctrl+r=text:\x07r
+keybind = right_ctrl/ctrl+s=text:\x07s
+keybind = right_ctrl/ctrl+t=text:\x07t
+keybind = right_ctrl/ctrl+d=text:\x07d
+
+# Common window/pane operations are still owned by the multiplexer.
+keybind = right_ctrl/ctrl+h=text:\x07h
+keybind = right_ctrl/ctrl+i=text:\x07i
+keybind = right_ctrl/ctrl+n=text:\x07n
+keybind = right_ctrl/ctrl+e=text:\x07e
+keybind = right_ctrl/ctrl+l=text:\x07l
+keybind = right_ctrl/ctrl+u=text:\x07u
+keybind = right_ctrl/ctrl+y=text:\x07y
+keybind = right_ctrl/ctrl+z=text:\x07z
+keybind = right_ctrl/ctrl+j=text:\x07j
+keybind = right_ctrl/ctrl+k=text:\x07k
+keybind = right_ctrl/ctrl+m=text:\x07m
+keybind = right_ctrl/ctrl+x=text:\x07x
+keybind = right_ctrl/ctrl+b=text:\x07b
+keybind = right_ctrl/ctrl+o=text:\x07o
+keybind = right_ctrl/ctrl+,=text:\x07,
+keybind = right_ctrl/ctrl+.=text:\x07.
+keybind = right_ctrl/ctrl+;=text:\x07;
+
+# Copy through Zellij's Alt-c binding, not tmux's create-window prefix+c.
+# Ctrl+Shift+c and existing ordinary paste shortcuts remain unchanged.
+keybind = right_ctrl/ctrl+c=text:\x07\x1bc
+keybind = right_ctrl/ctrl+v=paste_from_clipboard
+
+# Shift chords send literal uppercase keys after Ctrl-g, not shifted symbols.
+keybind = right_ctrl/ctrl+shift+q=text:\x07Q
+keybind = right_ctrl/ctrl+shift+w=text:\x07W
+keybind = right_ctrl/ctrl+shift+f=text:\x07F
+keybind = right_ctrl/ctrl+shift+p=text:\x07P
+keybind = right_ctrl/ctrl+shift+g=text:\x07G
+keybind = right_ctrl/ctrl+shift+a=text:\x07A
+keybind = right_ctrl/ctrl+shift+r=text:\x07R
+keybind = right_ctrl/ctrl+shift+s=text:\x07S
+keybind = right_ctrl/ctrl+shift+t=text:\x07T
+keybind = right_ctrl/ctrl+shift+k=text:\x07K
+keybind = right_ctrl/ctrl+shift+o=text:\x07O
+keybind = right_ctrl/ctrl+shift+e=text:\x07E
+keybind = right_ctrl/ctrl+shift+n=text:\x07N
+
+# Preserve Shift+Enter through tmux instead of collapsing it to plain Enter.
+keybind = shift+enter=text:\x1b[13;2u
+
 # shader
 custom-shader = cursor_sweep.glsl
