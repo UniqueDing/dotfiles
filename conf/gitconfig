@@ -19,3 +19,5 @@
   line-numbers-right-format = "{np:>3} "
 [merge]
   conflictstyle = zdiff3
+[include]
+  path = ~/.config/git/config.local
