@@ -14,5 +14,9 @@ fi
 
 source $CONFIG_PATH/init.zsh
 
-# opencode
-export PATH=/home/uniqueding/.opencode/bin:$PATH
+# Prefer the Home Manager package rather than the standalone curl installation.
+path=("${(@)path:#$HOME/.opencode/bin}")
+if [[ -x "$HOME/.nix-profile/bin/opencode" ]]; then
+  path=("$HOME/.nix-profile/bin" $path)
+fi
+typeset -U path

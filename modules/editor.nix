@@ -25,11 +25,11 @@
       PassEnvironment = "SSH_AUTH_SOCK";
       UnsetEnvironment = "OPENCODE_SERVER_PASSWORD";
       ExecStartPre = "${pkgs.openssh}/bin/ssh-add -l";
-      ExecStart = "${pkgs.zsh}/bin/zsh -f -c 'set -a; source \"${config.xdg.configHome}/zsh/env.local.zsh\" && unset OPENCODE_SERVER_PASSWORD && exec \"${config.home.homeDirectory}/.opencode/bin/opencode\" serve --hostname 0.0.0.0 --port \"$$OPENCODE_PORT\"'";
+      ExecStart = "${pkgs.zsh}/bin/zsh -f -c 'set -a; source \"${config.xdg.configHome}/zsh/env.local.zsh\" && unset OPENCODE_SERVER_PASSWORD && exec \"${pkgs.opencode}/bin/opencode\" serve --hostname 0.0.0.0 --port \"$$OPENCODE_PORT\"'";
       Restart = "on-failure";
       RestartSec = "5";
       Environment = [
-        "PATH=${config.home.homeDirectory}/.opencode/bin:${config.home.profileDirectory}/bin:${pkgs.opencode}/bin:${pkgs.bash}/bin:${pkgs.coreutils}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+        "PATH=${pkgs.opencode}/bin:${config.home.profileDirectory}/bin:${pkgs.bash}/bin:${pkgs.coreutils}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
       ];
     };
   };
@@ -48,7 +48,7 @@
       WorkingDirectory = builtins.dirOf confPath;
       UMask = "0077";
       Environment = [
-        "PATH=${config.home.homeDirectory}/.opencode/bin:${config.home.profileDirectory}/bin:/usr/bin:/bin"
+        "PATH=${pkgs.opencode}/bin:${config.home.profileDirectory}/bin:/usr/bin:/bin"
       ];
       ExecStart = "${pkgs.zsh}/bin/zsh -f -c 'set -a; source \"${config.xdg.configHome}/zsh/env.local.zsh\" && source \"${config.xdg.configHome}/opencode-telegram-bot/env.$$(hostname -s).zsh\" && exec \"${pkgs.nodejs_24}/bin/node\" \"${config.xdg.dataHome}/opencode-telegram-bot/runtime-0.26.4/node_modules/@grinev/opencode-telegram-bot/dist/cli.js\"'";
       Restart = "on-failure";
@@ -64,7 +64,7 @@
         "${pkgs.zsh}/bin/zsh"
         "-f"
         "-c"
-        "set -a; source \"${config.xdg.configHome}/zsh/env.local.zsh\" && unset OPENCODE_SERVER_PASSWORD && export PATH=\"${config.home.homeDirectory}/.opencode/bin:${config.home.profileDirectory}/bin:$PATH\" && exec \"${config.home.homeDirectory}/.opencode/bin/opencode\" serve --hostname 0.0.0.0 --port \"$OPENCODE_PORT\""
+        "set -a; source \"${config.xdg.configHome}/zsh/env.local.zsh\" && unset OPENCODE_SERVER_PASSWORD && export PATH=\"${pkgs.opencode}/bin:${config.home.profileDirectory}/bin:$PATH\" && exec \"${pkgs.opencode}/bin/opencode\" serve --hostname 0.0.0.0 --port \"$OPENCODE_PORT\""
       ];
       RunAtLoad = true;
       KeepAlive = true;
@@ -79,7 +79,7 @@
       KeepAlive = true;
       ThrottleInterval = 5;
       WorkingDirectory = builtins.dirOf confPath;
-      EnvironmentVariables.PATH = "${config.home.homeDirectory}/.opencode/bin:${config.home.profileDirectory}/bin:/usr/bin:/bin";
+      EnvironmentVariables.PATH = "${pkgs.opencode}/bin:${config.home.profileDirectory}/bin:/usr/bin:/bin";
       ProgramArguments = [
         "${pkgs.zsh}/bin/zsh"
         "-f"
