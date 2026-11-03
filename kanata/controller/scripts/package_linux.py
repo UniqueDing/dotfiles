@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 """Package a GNU/Linux x86_64 controller only after checking its runtime ABI."""
 import argparse
-import gzip
-import hashlib
 from pathlib import Path
 import re
 import struct
 import subprocess
-import tarfile
+
+from package_common import package_binary
 
 
 TARGET = "x86_64-unknown-linux-gnu"
@@ -29,39 +28,17 @@ def validate_metadata(header, metadata):
         raise ValueError("executable must require no newer than glibc 2.35")
 
 
-def package(binary, version, output, epoch):
-    if not re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+", version):
-        raise ValueError("expected a stable three-component package version")
-    if binary.is_symlink() or not binary.is_file() or not binary.stat().st_mode & 0o111:
-        raise ValueError("binary must be a regular executable, not a symlink")
-    if epoch < 0:
-        raise ValueError("source-date-epoch must not be negative")
+def validate_binary(binary):
     metadata = subprocess.check_output(
         ["readelf", "--file-header", "--program-headers", "--dynamic", "--version-info", str(binary)],
         text=True, env={"PATH": "/usr/bin:/bin", "LC_ALL": "C"},
     )
     with binary.open("rb") as source:
         validate_metadata(source.read(20), metadata)
-    output.mkdir(parents=True, exist_ok=True)
-    archive = output / f"kanata-controller-{version}-{TARGET}.tar.gz"
-    checksum = output / "SHA256SUMS"
-    if archive.exists() or checksum.exists():
-        raise ValueError("refusing to overwrite existing package or checksums")
-    readme = Path(__file__).resolve().parents[1] / "README.md"
-    with archive.open("xb") as raw:
-        with gzip.GzipFile(filename="", mode="wb", fileobj=raw, mtime=0) as compressed:
-            with tarfile.open(fileobj=compressed, mode="w") as bundle:
-                for source, name, mode in [(binary, "kanata-controller", 0o755), (readme, "README.md", 0o644)]:
-                    info = bundle.gettarinfo(str(source), arcname=name)
-                    info.uid = info.gid = 0
-                    info.uname = info.gname = ""
-                    info.mtime = epoch
-                    info.mode = mode
-                    with source.open("rb") as stream:
-                        bundle.addfile(info, stream)
-    digest = hashlib.sha256(archive.read_bytes()).hexdigest()
-    checksum.write_text(f"{digest}  {archive.name}\n", encoding="utf-8")
-    print(f"Verified ELF loader, no Nix/RPATH, glibc <= 2.35; wrote {archive.name}")
+
+
+def package(binary, version, output, epoch):
+    package_binary(binary, version, TARGET, output, epoch, validate_binary)
 
 
 def main():

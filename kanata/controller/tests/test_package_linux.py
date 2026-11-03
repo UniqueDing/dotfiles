@@ -4,12 +4,14 @@ from pathlib import Path
 import shutil
 import struct
 import subprocess
+import sys
 import tarfile
 import tempfile
 import unittest
 
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
 SPEC = importlib.util.spec_from_file_location("package_linux", ROOT / "scripts/package_linux.py")
 PACKAGER = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(PACKAGER)
@@ -62,7 +64,8 @@ class PackageLinuxTests(unittest.TestCase):
             with self.subTest(header=header), self.assertRaisesRegex(ValueError, "x86_64 ELF"):
                 PACKAGER.validate_metadata(header, METADATA)
 
-    @unittest.skipUnless(Path("/usr/bin/gcc").exists() and shutil.which("readelf"), "needs native gcc and readelf")
+    @unittest.skipUnless(sys.platform == "linux" and Path("/usr/bin/gcc").exists()
+                         and shutil.which("readelf"), "needs Linux, native gcc and readelf")
     def test_real_package_contents_checksum_and_repeatability(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
