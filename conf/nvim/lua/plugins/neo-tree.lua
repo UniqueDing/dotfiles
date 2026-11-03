@@ -5,17 +5,21 @@ return {
     { "<leader>e", "<cmd>Neotree filesystem toggle left<cr>", desc = "Explorer NeoTree" },
   },
   opts = {
+    filesystem = {
+      bind_to_cwd = false,
+    },
     window = {
       position = "left",
       mappings = {
         ["i"] = function(state)
           local node = state.tree:get_node()
-          if node and node.type == "directory" and not node:is_expanded() then
-            require("neo-tree.sources.filesystem.commands").open(state)
+          if node and node.type == "directory" then
+            require("neo-tree.sources.filesystem.commands").set_root(state)
           end
         end,
         ["o"] = "open",
-        ["h"] = "close_node",
+        ["h"] = "navigate_up",
+        ["<cr>"] = "toggle_node",
         ["n"] = "",
         ["e"] = "",
         ["/"] = "",
