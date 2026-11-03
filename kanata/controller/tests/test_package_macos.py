@@ -28,6 +28,11 @@ COMMANDS = "Load command 1\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform 
 
 
 class PackageMacosTests(unittest.TestCase):
+    def test_workflow_passes_lipo_input_before_architecture_flags(self):
+        workflow = (ROOT.parents[1] / ".github/workflows/kanata-controller-linux.yml").read_text()
+        self.assertIn('/usr/bin/lipo "$binary" -verify_arch arm64', workflow)
+        self.assertNotIn('/usr/bin/lipo -verify_arch arm64 "$binary"', workflow)
+
     def test_apple_silicon_executable_is_accepted(self):
         PACKAGER.validate_metadata(header(), DEPENDENCIES, COMMANDS)
         PACKAGER.validate_metadata(header(), DEPENDENCIES, COMMANDS.replace("minos 11.0", "minos 11.0.0"))

@@ -156,7 +156,7 @@ jobs:
       - name: Verify architecture and ad-hoc sign executable
         run: |
           binary="$CARGO_TARGET_DIR/$TARGET/release/kanata-controller"
-          /usr/bin/lipo -verify_arch arm64 "$binary"
+          /usr/bin/lipo "$binary" -verify_arch arm64
           /usr/bin/codesign --force --sign - "$binary"
           /usr/bin/codesign --verify --strict --verbose=2 "$binary"
 
