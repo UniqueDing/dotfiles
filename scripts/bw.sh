@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
+set +x
 set -euo pipefail
+umask 077
 
 FOLDER="dotfiles"
 
@@ -61,18 +63,20 @@ validate_file_scopes() {
 
 # ---- args: -y / --yes ----
 YES=0
+SHOW_DIFF=0
 cmd="list"
 while [[ $# -gt 0 ]]; do
   case "$1" in
     -y|--yes) YES=1; shift ;;
+    --show-diff) SHOW_DIFF=1; shift ;;
     list|push|pull|files) cmd="$1"; shift ;;
     -h|--help)
-      echo "Usage: $0 [-y|--yes] {list|push|pull|files}"
+      echo "Usage: $0 [-y|--yes] [--show-diff] {list|push|pull|files}"
  exit 0
       ;;
     *)
       echo "Unknown arg: $1"
-      echo "Usage: $0 [-y|--yes] {list|push|pull|files}"
+      echo "Usage: $0 [-y|--yes] [--show-diff] {list|push|pull|files}"
       exit 1
       ;;
   esac
@@ -120,7 +124,11 @@ show_diff_if_any() {
   if diff -u --label "$label_a" --label "$label_b" "$a" "$b" >/dev/null 2>&1; then
     return 1
   else
-    diff -u --label "$label_a" --label "$label_b" "$a" "$b" || true
+    if [[ "$SHOW_DIFF" == 1 ]]; then
+      diff -u --label "$label_a" --label "$label_b" "$a" "$b" || true
+    else
+      printf 'content changed: %s (diff hidden; use --show-diff only in a private terminal)\n' "$label_b"
+    fi
     return 0
   fi
 }
@@ -171,15 +179,14 @@ case "$cmd" in
           continue
         fi
 
-        content="$(cat -- "$tmp_local")"
         item_json="$(jq -n \
   --arg folderId "$FOLDER_ID" \
     --arg name "$name" \
-    --arg notes "$content" \
-    '{type:2,name:$name,folderId:$folderId,notes:$notes,secureNote:{type:0}}')"
+    --rawfile notes "$tmp_local" \
+    '{type:2,name:$name,folderId:$folderId,notes:($notes | sub("\n+$"; "")),secureNote:{type:0}}')"
 
         echo "create: $name"
-        echo "$item_json" | bw encode | bw create item >/dev/null
+        printf '%s\n' "$item_json" | bw encode | bw create item >/dev/null
       else
         bw get item "$item_id" | jq -r '.notes // ""' > "$tmp_remote"
 
@@ -192,18 +199,16 @@ case "$cmd" in
           continue
         fi
 
-        content="$(cat -- "$tmp_local")"
         item_json="$(
-          bw get template item \
-          | jq -n --arg folderId "$FOLDER_ID" --arg name "$name" --arg notes "$content" '
+          jq -n --arg folderId "$FOLDER_ID" --arg name "$name" --rawfile notes "$tmp_local" '
                 .type=2
               | .name=$name
               | .folderId=$folderId
-              | .notes=$notes
+              | .notes=($notes | sub("\n+$"; ""))
               | .secureNote.type=0'
           )"
         echo "update: $name"
-        echo "$item_json" | bw encode | bw edit item "$item_id" >/dev/null
+        printf '%s\n' "$item_json" | bw encode | bw edit item "$item_id" >/dev/null
       fi
 
       cleanup_tmp
@@ -261,7 +266,7 @@ case "$cmd" in
     ;;
 
   *)
-    echo "Usage: $0 [-y|--yes] {list|push|pull|files}"
+    echo "Usage: $0 [-y|--yes] [--show-diff] {list|push|pull|files}"
     exit 1
     ;;
 esac
