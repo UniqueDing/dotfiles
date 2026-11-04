@@ -18,7 +18,6 @@
     ]
   },
   "plugin": [
-    "oh-my-openagent@4.19.2",
     "oh-my-opencode-slim"
   ]
 }
