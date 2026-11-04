@@ -1,5 +1,7 @@
-# Local provider credentials and private endpoint.
+# Machine-local providers, MCP connections, and credentials.
+/opencode.json
 opencode.local.jsonc
+/opencode.jsonc.before-*
 
 # OpenCode runtime, cache, auth, and generated state.
 node_modules/
