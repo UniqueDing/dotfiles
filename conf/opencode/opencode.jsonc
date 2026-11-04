@@ -8,6 +8,12 @@
     "@mohak34/opencode-notifier@0.8.2"
   ],
   "providers": {
+    "zhipuai-coding-plan": {
+      "settings": {
+        "baseURL": "https://open.bigmodel.cn/api/coding/paas/v4",
+        "apiKey": "{env:ZHIPU_API_KEY}"
+      }
+    },
     "gemini": {
       "name": "Gemini Gateway",
       "package": "aisdk:@ai-sdk/openai-compatible",
