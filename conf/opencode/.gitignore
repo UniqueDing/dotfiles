@@ -5,6 +5,7 @@ opencode.local.jsonc
 
 # OpenCode runtime, cache, auth, and generated state.
 node_modules/
+community-plugins/
 package.json
 !plugins/git-changes/package.json
 package-lock.json
