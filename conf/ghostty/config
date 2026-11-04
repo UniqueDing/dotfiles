@@ -1,7 +1,8 @@
-font-family = "RobotoMonoNerdFont"
+font-family = "JetBrains Mono"
 font-size = 14
 background-blur = false
 background-opacity = 0.95
+gtk-custom-css = hide-key-state.css
 
 link-url = true
 link-previews = true
@@ -82,6 +83,3 @@ keybind = right_ctrl/ctrl+shift+n=text:\x07N
 
 # Preserve Shift+Enter through tmux instead of collapsing it to plain Enter.
 keybind = shift+enter=text:\x1b[13;2u
-
-# shader
-custom-shader = cursor_sweep.glsl

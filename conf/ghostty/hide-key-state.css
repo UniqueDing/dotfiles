@@ -1,0 +1,4 @@
+/* Hide the key-table/sequence indicator without changing keybindings. */
+.key-state-overlay {
+  opacity: 0;
+}
