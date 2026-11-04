@@ -28,39 +28,6 @@
       }
     },
     "openai": {
-      "models": {
-        "gpt-6-luna": {
-          "name": "GPT-6 Luna",
-          "variants": [
-            { "id": "low", "settings": { "reasoningEffort": "low", "textVerbosity": "low" } },
-            { "id": "medium", "settings": { "reasoningEffort": "medium", "textVerbosity": "medium" } },
-            { "id": "high", "settings": { "reasoningEffort": "high", "textVerbosity": "medium" } },
-            { "id": "xhigh", "settings": { "reasoningEffort": "xhigh", "textVerbosity": "high" } }
-          ]
-        },
-        "gpt-6-astra": {
-          "name": "GPT-6 Astra",
-          "variants": [
-            { "id": "low", "settings": { "reasoningEffort": "low", "textVerbosity": "low" } },
-            { "id": "medium", "settings": { "reasoningEffort": "medium", "textVerbosity": "medium" } },
-            { "id": "high", "settings": { "reasoningEffort": "high", "textVerbosity": "medium" } },
-            { "id": "xhigh", "settings": { "reasoningEffort": "xhigh", "textVerbosity": "high" } }
-          ],
-          "capabilities": {
-            "input": ["text", "image"],
-            "output": ["text"]
-          }
-        },
-        "gpt-6.1-sol": {
-          "name": "GPT-6.1 Sol",
-          "variants": [
-            { "id": "low", "settings": { "reasoningEffort": "low", "textVerbosity": "low" } },
-            { "id": "medium", "settings": { "reasoningEffort": "medium", "textVerbosity": "medium" } },
-            { "id": "high", "settings": { "reasoningEffort": "high", "textVerbosity": "medium" } },
-            { "id": "xhigh", "settings": { "reasoningEffort": "xhigh", "textVerbosity": "high" } }
-          ]
-        }
-      },
       "package": "aisdk:@ai-sdk/openai",
       "settings": {
         "baseURL": "{env:OPENAI_API_BASE}",
