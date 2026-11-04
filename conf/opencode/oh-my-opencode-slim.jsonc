@@ -1,5 +1,6 @@
 {
   "$schema": "https://unpkg.com/oh-my-opencode-slim@latest/oh-my-opencode-slim.schema.json",
+  "disabled_mcps": ["context7", "hindsight"],
   "companion": {
     "debug": false,
     "enabled": false,
