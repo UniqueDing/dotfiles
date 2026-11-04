@@ -1,14 +1,14 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "plugin": [
+  "plugins": [
     "oh-my-opencode-slim",
     "@mohak34/opencode-notifier@0.8.2"
   ],
-  "provider": {
+  "providers": {
     "gemini": {
       "name": "Gemini Gateway",
-      "npm": "@ai-sdk/openai-compatible",
-      "options": {
+      "package": "aisdk:@ai-sdk/openai-compatible",
+      "settings": {
         "baseURL": "{env:OPENAI_API_BASE}",
         "apiKey": "{env:OPENAI_API_KEY}"
       },
@@ -28,75 +28,38 @@
       "models": {
         "gpt-6-luna": {
           "name": "GPT-6 Luna",
-          "variants": {
-            "low": {
-              "reasoningEffort": "low",
-              "textVerbosity": "low"
-            },
-            "medium": {
-              "reasoningEffort": "medium",
-              "textVerbosity": "medium"
-            },
-            "high": {
-              "reasoningEffort": "high",
-              "textVerbosity": "medium"
-            },
-            "xhigh": {
-              "reasoningEffort": "xhigh",
-              "textVerbosity": "high"
-            }
-          }
+          "variants": [
+            { "id": "low", "settings": { "reasoningEffort": "low", "textVerbosity": "low" } },
+            { "id": "medium", "settings": { "reasoningEffort": "medium", "textVerbosity": "medium" } },
+            { "id": "high", "settings": { "reasoningEffort": "high", "textVerbosity": "medium" } },
+            { "id": "xhigh", "settings": { "reasoningEffort": "xhigh", "textVerbosity": "high" } }
+          ]
         },
         "gpt-6-astra": {
           "name": "GPT-6 Astra",
-          "variants": {
-            "low": {
-              "reasoningEffort": "low",
-              "textVerbosity": "low"
-            },
-            "medium": {
-              "reasoningEffort": "medium",
-              "textVerbosity": "medium"
-            },
-            "high": {
-              "reasoningEffort": "high",
-              "textVerbosity": "medium"
-            },
-            "xhigh": {
-              "reasoningEffort": "xhigh",
-              "textVerbosity": "high"
-            }
-          },
-          "attachment": true,
-          "modalities": {
+          "variants": [
+            { "id": "low", "settings": { "reasoningEffort": "low", "textVerbosity": "low" } },
+            { "id": "medium", "settings": { "reasoningEffort": "medium", "textVerbosity": "medium" } },
+            { "id": "high", "settings": { "reasoningEffort": "high", "textVerbosity": "medium" } },
+            { "id": "xhigh", "settings": { "reasoningEffort": "xhigh", "textVerbosity": "high" } }
+          ],
+          "capabilities": {
             "input": ["text", "image"],
             "output": ["text"]
           }
         },
         "gpt-6.1-sol": {
           "name": "GPT-6.1 Sol",
-          "variants": {
-            "low": {
-              "reasoningEffort": "low",
-              "textVerbosity": "low"
-            },
-            "medium": {
-              "reasoningEffort": "medium",
-              "textVerbosity": "medium"
-            },
-            "high": {
-              "reasoningEffort": "high",
-              "textVerbosity": "medium"
-            },
-            "xhigh": {
-              "reasoningEffort": "xhigh",
-              "textVerbosity": "high"
-            }
-          }
+          "variants": [
+            { "id": "low", "settings": { "reasoningEffort": "low", "textVerbosity": "low" } },
+            { "id": "medium", "settings": { "reasoningEffort": "medium", "textVerbosity": "medium" } },
+            { "id": "high", "settings": { "reasoningEffort": "high", "textVerbosity": "medium" } },
+            { "id": "xhigh", "settings": { "reasoningEffort": "xhigh", "textVerbosity": "high" } }
+          ]
         }
       },
-      "npm": "@ai-sdk/openai",
-      "options": {
+      "package": "aisdk:@ai-sdk/openai",
+      "settings": {
         "baseURL": "{env:OPENAI_API_BASE}",
         "apiKey": "{env:OPENAI_API_KEY}"
 
@@ -142,48 +105,44 @@
       }
     }
   },
-  "permission": {
-    "read": "allow",
-    "edit": "allow",
-    "external_directory": {
-      "*": "ask",
-      "/tmp": "allow",
-      "/tmp/**": "allow"
-    },
-    "bash": {
-      "*": "allow",
-      "rm": "ask",
-      "rm *": "ask",
-      "git clean *": "ask",
-      "git checkout *": "ask",
-      "git reset --hard *": "ask",
-      "git restore *": "ask",
-      "git push *": "ask",
-      "chmod *": "ask",
-      "chown *": "ask",
-      "sudo *": "ask",
-      "mv *": "ask",
-      "kill *": "ask",
-      "pkill *": "ask",
-      "dd *": "ask"
-    },
-    "computeruse_*": "ask",
-    "computeruse_get_app_state": "ask",
-    "computeruse_perform_action": "ask",
-    "computeruse_set_value": "ask"
-  },
-  "agent": {
+  "permissions": [
+    { "action": "read", "resource": "*", "effect": "allow" },
+    { "action": "edit", "resource": "*", "effect": "allow" },
+    { "action": "external_directory", "resource": "*", "effect": "ask" },
+    { "action": "external_directory", "resource": "/tmp", "effect": "allow" },
+    { "action": "external_directory", "resource": "/tmp/**", "effect": "allow" },
+    { "action": "shell", "resource": "*", "effect": "allow" },
+    { "action": "shell", "resource": "rm", "effect": "ask" },
+    { "action": "shell", "resource": "rm *", "effect": "ask" },
+    { "action": "shell", "resource": "git clean *", "effect": "ask" },
+    { "action": "shell", "resource": "git checkout *", "effect": "ask" },
+    { "action": "shell", "resource": "git reset --hard *", "effect": "ask" },
+    { "action": "shell", "resource": "git restore *", "effect": "ask" },
+    { "action": "shell", "resource": "git push *", "effect": "ask" },
+    { "action": "shell", "resource": "chmod *", "effect": "ask" },
+    { "action": "shell", "resource": "chown *", "effect": "ask" },
+    { "action": "shell", "resource": "sudo *", "effect": "ask" },
+    { "action": "shell", "resource": "mv *", "effect": "ask" },
+    { "action": "shell", "resource": "kill *", "effect": "ask" },
+    { "action": "shell", "resource": "pkill *", "effect": "ask" },
+    { "action": "shell", "resource": "dd *", "effect": "ask" },
+    { "action": "computeruse_*", "resource": "*", "effect": "ask" },
+    { "action": "computeruse_get_app_state", "resource": "*", "effect": "ask" },
+    { "action": "computeruse_perform_action", "resource": "*", "effect": "ask" },
+    { "action": "computeruse_set_value", "resource": "*", "effect": "ask" }
+  ],
+  "agents": {
     "build": {
-      "disable": false
+      "disabled": false
     },
     "plan": {
-      "disable": true
+      "disabled": true
     },
     "explore": {
-      "disable": true
+      "disabled": true
     },
     "general": {
-      "disable": true
+      "disabled": true
     }
   }
 }
