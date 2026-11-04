@@ -3,6 +3,12 @@ set -euo pipefail
 
 DOTFILES_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 
+# Package management must not initialize Nix or start/replace running services.
+if [[ "${1:-}" == brew ]]; then
+    shift
+    exec bash "$DOTFILES_DIR/scripts/homebrew.sh" "$@"
+fi
+
 # shellcheck source=scripts/nix.sh
 source "$DOTFILES_DIR/scripts/nix.sh"
 # shellcheck source=scripts/conf.sh
@@ -36,6 +42,7 @@ Commands:
   fonts [target]       Install fonts for target, defaults by distro
   sdk                  Run scripts/init_sdk.sh
   bw [args]            Run scripts/bw.sh with forwarded args
+  brew [args]          Manage Brewfile packages and the local tap; defaults to install --no-upgrade
   all [profile]        Linux: install Nix/Home Manager and switch profile; macOS: install and switch nix-darwin
   nixgl                Install nixGL
   theme                Install Qogir themes

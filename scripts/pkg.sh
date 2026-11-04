@@ -1,9 +1,7 @@
 PKG_TARGET_FILE="$DOTFILES_DIR/pkg_target"
 
-# shellcheck source=scripts/autostart.sh
-source "$DOTFILES_DIR/scripts/autostart.sh"
-# shellcheck source=scripts/external-packages.sh
-source "$DOTFILES_DIR/scripts/external-packages.sh"
+# shellcheck source=scripts/homebrew.sh
+source "$DOTFILES_DIR/scripts/homebrew.sh"
 
 without_nix_env() {
     local clean_path=""
@@ -52,20 +50,29 @@ package_list_contains() {
 
 install_deepin_packages() {
     local package_file="$DOTFILES_DIR/package/deepin.list"
+    local brew_installer
 
     if [[ ! -f "$package_file" ]]; then
         echo "error: deepin.list not found" >&2
         return 1
     fi
+    [[ $(id -u) != 0 ]] || { echo 'error: run Deepin package setup as your ordinary user, without sudo' >&2; return 1; }
     load_package_list "$package_file"
     echo "deb https://pro-store-packages.uniontech.com/appstore eagle-pro appstore" | sudo tee /etc/apt/sources.list.d/appstoreuos.list || return 1
     without_nix_env sudo apt update || return 1
-    without_nix_env sudo apt install -y curl jq || return 1
+    if ! homebrew_bin >/dev/null 2>&1; then
+        printf '%s\n' 'Homebrew is missing; installing with the official installer.'
+        without_nix_env sudo apt install -y build-essential procps curl file git || return 1
+        brew_installer="$(without_nix_env curl --fail --silent --show-error --location \
+            https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || return 1
+        [[ -n "$brew_installer" ]] || { echo 'error: Homebrew installer download was empty' >&2; return 1; }
+        without_nix_env /bin/bash -c "$brew_installer" || return 1
+        homebrew_bin >/dev/null || return 1
+    fi
     if ((${#PACKAGE_LIST[@]} > 0)); then
         without_nix_env sudo apt install -y "${PACKAGE_LIST[@]}" || return 1
     fi
-    printf '%s\n' 'clash-party installing'
-    install_external_package deepin clash-party || return 1
+    bash "$DOTFILES_DIR/scripts/homebrew.sh" install --no-upgrade || return 1
 }
 
 install_arch_packages() {
@@ -148,6 +155,7 @@ install_macos_packages() {
     for package in "${PACKAGE_LIST[@]}"; do
         brew install --cask "$package" || return 1
     done
+    bash "$DOTFILES_DIR/scripts/homebrew.sh" install --no-upgrade || return 1
 }
 
 default_pkg_target() {
