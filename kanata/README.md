@@ -39,9 +39,11 @@ bash kanata/kanata.sh stop
 
 Arch Linux 使用发行版仓库版本的 Kanata，不受其他 Linux 固定 v1.12.0 限制。`install` 在已有 `yay` 时运行 `yay -S --needed --noconfirm kanata`，否则运行 `sudo pacman --needed --noconfirm -S kanata`；systemd unit 和 `check` 直接使用包管理器安装的 `/usr/bin/kanata`，不复制到 `/usr/local` 管理路径。保留现有 host-architecture 自动选择和 `arch` alias；Arch `check` 应优先选 `/usr/bin/kanata`，避免误用残留的旧 `/usr/local/bin/kanata`。Arch 还可通过 pacman 准备实际缺少的 `base-devel`、`git`、`curl`、`unzip`、`binutils`；只有 `cargo`/`rustc` 不可用时才准备 `rust`，避免与 rustup 工具链冲突。
 
-其他 Linux 发行版仍仅使用固定版本 v1.12.0：仅复用版本符合且实际可运行的已有 Kanata，否则获取该版本匹配架构的官方预编译包并核对 SHA-256。预编译文件必须通过实际运行检查后才进行 parse-only 配置检查；校验失败立即停止，不以源码构建绕过。无匹配包、下载不可用或运行库不兼容时，使用同一 v1.12.0 tag 源码，以普通用户身份显式指定适配本机架构的 GNU/Linux target 并控制继承的 Cargo target 设置，执行默认功能的 `cargo build --locked --release`，再验证构建产物可运行且配置可解析。源码构建使用本机原生 GNU/Linux target，不使用 Nix wrapper/runtime、musl 或额外 `libudev` / `pkg-config` 依赖。Linux controller 继续以普通用户通过 Cargo 使用仓库源码构建。其他发行版缺少工具链时会提示准备步骤，不自动调用其包管理器。不要用更换 glibc 或混装系统库解决兼容问题。
+Deepin 的 `install` 先以普通用户执行本仓库 Homebrew Bundle，读取 Homebrew Kanata 和本地 Tap 的预编译 `kanata-controller`，不再自行下载 Kanata 或现场编译 controller。验证版本/配置和非 Nix 运行库后，才进入原有服务部署流程。运行文件仍显式复制到已有受管目标，Brew 升级本身不会切换服务；需再次明确执行安装器才更新副本。Homebrew 自带的 glibc/加载器是允许的，因此不按 Deepin 系统 glibc 版本拒绝 Kanata 包；controller 的 Release 包仍检查系统 ABI 兼容性。
 
-如需手动检查非 Arch Linux 的 Kanata v1.12.0 同一源码构建路线，先准备该版本源码，再执行：
+其他 Linux 发行版仍仅使用固定版本 v1.12.0：仅复用版本符合且实际可运行的已有 Kanata，否则获取该版本匹配架构的官方预编译包并核对 SHA-256。预编译文件必须通过实际运行检查后才进行 parse-only 配置检查；校验失败立即停止，不以源码构建绕过。无匹配包、下载不可用或运行库不兼容时，使用同一 v1.12.0 tag 源码，以普通用户身份显式指定适配本机架构的 GNU/Linux target 并控制继承的 Cargo target 设置，执行默认功能的 `cargo build --locked --release`，再验证构建产物可运行且配置可解析。源码构建使用本机原生 GNU/Linux target，不使用 Nix wrapper/runtime、musl 或额外 `libudev` / `pkg-config` 依赖。这些发行版的 controller 继续以普通用户通过 Cargo 使用仓库源码构建。缺少工具链时会提示准备步骤，不自动调用其包管理器。不要用更换 glibc 或混装系统库解决兼容问题。
+
+如需手动检查非 Deepin/Arch Linux 的 Kanata v1.12.0 同一源码构建路线，先准备该版本源码，再执行：
 
 ```sh
 cargo build --locked --release --manifest-path <Kanata源码目录>/Cargo.toml
@@ -51,7 +53,7 @@ cargo build --locked --release --manifest-path <Kanata源码目录>/Cargo.toml
 
 ### macOS
 
-安装器通过已存在的 Homebrew 执行 `brew install kanata libiconv`，并以本机 Cargo 构建 controller。Kanata 直接使用 `$(brew --prefix kanata)/bin/kanata` 作为 LaunchDaemon 的 `ProgramArguments`，不复制到独立的 `/usr/local/libexec/kanata`，不覆盖 Intel Homebrew 的 `/usr/local/bin/kanata` symlink，也不自动删除历史遗留的独立副本。Homebrew 不存在时须先自行安装；若本机 Rust/Cargo 或 Apple Command Line Tools 缺失，安装器会提示准备步骤，不自动安装工具链。如需手动构建本仓库的 controller，可执行：
+安装器通过本仓库 Homebrew Bundle 安装 Kanata 和自定义 Tap 的预编译 controller，不再要求 Rust/Cargo 或为 controller 安装 `libiconv`。controller 当前只发布 Apple Silicon 版本，Intel Mac 不回退到现场编译。Kanata 直接使用 `$(brew --prefix kanata)/bin/kanata` 作为 LaunchDaemon 的 `ProgramArguments`，不复制到独立的 `/usr/local/libexec/kanata`，不覆盖历史 `/usr/local/bin/kanata` symlink，也不自动删除历史遗留的独立副本。Homebrew 须先自行安装；原有 Karabiner 驱动、签名和权限检查仍保留。以下命令仅用于开发时手动构建，不属于安装流程：
 
 ```sh
 cargo build --release --manifest-path kanata/controller/Cargo.toml

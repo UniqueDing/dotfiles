@@ -4,6 +4,7 @@ set -euo pipefail
 # Maintains the repository's Kanata installation. This script deliberately
 # does not migrate or remove other keyboard remappers.
 DOTFILES_DIR="${DOTFILES_DIR:-$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)}"
+source "$DOTFILES_DIR/scripts/homebrew.sh"
 KANATA_VERSION=v1.12.0
 KANATA_SYSTEM_BINARY=/usr/local/bin/kanata
 
@@ -158,10 +159,7 @@ kanata_find_binary() {
         printf '%s\n' "$candidate"
         ;;
     macos)
-        candidate="$(command -v kanata 2>/dev/null || true)"
-        if [[ -z "$candidate" ]] && command -v brew >/dev/null 2>&1; then
-            candidate="$(brew --prefix kanata 2>/dev/null)/bin/kanata" || true
-        fi
+        candidate="$(homebrew_prefix kanata 2>/dev/null)/bin/kanata" || return 1
         [[ -n "$candidate" && -f "$candidate" && -x "$candidate" && "$candidate" != *'/nix/store/'* ]] || return 1
         kanata_macos_native_binary "$candidate" || return 1
         printf '%s\n' "$candidate"

@@ -160,6 +160,10 @@ kanata_root_install_file() {
 
 kanata_linux_prepare_packages() {
     local -a packages=(base-devel git curl unzip binutils)
+    if homebrew_is_deepin; then
+        bash "$DOTFILES_DIR/scripts/homebrew.sh" install --no-upgrade >&2 || return 1
+        return
+    fi
     kanata_is_arch_linux || return 0
     kanata_require_commands pacman sudo || return 1
     if ! command -v cargo >/dev/null 2>&1 || ! command -v rustc >/dev/null 2>&1; then
@@ -276,6 +280,18 @@ kanata_linux_build_controller() {
     build="$(kanata_linux_cargo_build "$manifest" "$work/controller-target" kanata-controller)" || return 1
     kanata_linux_native_elf "$build" || return 1
     printf '%s\n' "$build"
+}
+
+kanata_linux_homebrew_binary() {
+    local formula=$1 name=$2 prefix binary metadata
+    prefix=$(homebrew_prefix "$formula") || return 1
+    binary="$prefix/bin/$name"
+    [[ -f "$binary" && -x "$binary" ]] || { kanata_error "Homebrew $formula is missing; run bash build.sh brew"; return 1; }
+    # Homebrew may supply its own glibc/loader, so the host-glibc ceiling used
+    # for standalone downloads does not apply. Still reject Nix-linked builds.
+    metadata=$(readelf -l -d "$binary") || return 1
+    [[ "$metadata" != *'/nix/store/'* ]] || { kanata_error "Homebrew $formula embeds Nix runtime dependencies"; return 1; }
+    printf '%s\n' "$binary"
 }
 
 kanata_linux_build_source() {
@@ -446,11 +462,20 @@ kanata_linux_install() (
         binary=/usr/bin/kanata
         runtime_binary=/usr/bin/kanata
         kanata_check_binary "$binary" "$config" || return 1
+    elif homebrew_is_deepin; then
+        binary="$(kanata_linux_homebrew_binary kanata kanata)" || return 1
+        runtime_binary="$KANATA_SYSTEM_BINARY"
+        kanata_check_binary "$binary" "$config" || return 1
     else
         binary="$(kanata_linux_select_binary "$work" "$config")" || return 1
         runtime_binary="$KANATA_SYSTEM_BINARY"
     fi
-    controller="$(kanata_linux_build_controller "$work")" || return 1
+    if homebrew_is_deepin; then
+        controller="$(kanata_linux_homebrew_binary uniqueding/dotfiles/kanata-controller kanata-controller)" || return 1
+        kanata_linux_native_elf "$controller" || return 1
+    else
+        controller="$(kanata_linux_build_controller "$work")" || return 1
+    fi
     system_unit="$work/kanata.service"
     user_unit="$work/kanata-controller.service"
     polkit="$work/50-kanata-controller.rules"
@@ -501,8 +526,7 @@ kanata_linux_install() (
 
 kanata_macos_binary() {
     local prefix path
-    command -v brew >/dev/null 2>&1 || return 1
-    prefix="$(brew --prefix kanata 2>/dev/null)" || return 1
+    prefix="$(homebrew_prefix kanata)" || return 1
     [[ -n "$prefix" && "$prefix" != *'/nix/store/'* ]] || return 1
     path="$prefix/bin/kanata"
     [[ -f "$path" && -x "$path" ]] || return 1
@@ -510,22 +534,13 @@ kanata_macos_binary() {
     printf '%s\n' "$path"
 }
 
-kanata_macos_require_build_tools() {
-    local tool clt_path
-    command -v brew >/dev/null 2>&1 || { kanata_error 'install Homebrew first; this script does not bootstrap Homebrew'; return 1; }
-    for tool in cargo rustc; do
-        command -v "$tool" >/dev/null 2>&1 || {
-            kanata_error "Rust is required to build kanata-controller; install Rust (for example with rustup), then rerun"
-            return 1
-        }
-    done
-    command -v xcode-select >/dev/null 2>&1 || { kanata_error 'Apple Command Line Tools are required; install them with xcode-select --install'; return 1; }
-    clt_path="$(xcode-select -p 2>/dev/null)" || { kanata_error 'Apple Command Line Tools are required; install them with xcode-select --install'; return 1; }
-    [[ -n "$clt_path" && -x /usr/bin/clang && -x /usr/bin/clang++ ]] || { kanata_error 'Apple Command Line Tools are incomplete; install them with xcode-select --install'; return 1; }
+kanata_macos_require_homebrew() {
+    homebrew_bin >/dev/null || return 1
+    [[ "$(uname -m)" == arm64 ]] || { kanata_error 'the prebuilt macOS controller supports Apple Silicon only'; return 1; }
 }
 
 kanata_macos_prepare_software() {
-    brew install kanata libiconv >&2 || { kanata_error 'Homebrew could not install Kanata and libiconv'; return 1; }
+    bash "$DOTFILES_DIR/scripts/homebrew.sh" install --no-upgrade >&2 || return 1
 }
 
 kanata_macos_validate_vhid_binary() {
@@ -661,27 +676,11 @@ kanata_macos_install_vhid_daemon() {
     kanata_macos_verify_vhid_running
 }
 
-kanata_macos_build_controller() {
-    local work="$1" manifest="$DOTFILES_DIR/kanata/controller/Cargo.toml" host key iconv target_flags unit_separator encoded_flags binary
-    kanata_require_files "$manifest" "$DOTFILES_DIR/kanata/controller/Cargo.lock" || return 1
-    host="$(rustc -vV | sed -n 's/^host: //p')" || return 1
-    [[ "$host" == *-apple-darwin ]] || { kanata_error "Rust host is not a native Apple target: $host"; return 1; }
-    iconv="$(brew --prefix libiconv 2>/dev/null)" || { kanata_error 'Homebrew libiconv is required for the native controller link'; return 1; }
-    [[ -n "$iconv" && "$iconv" != *'/nix/store/'* ]] || { kanata_error 'Homebrew returned an invalid libiconv prefix'; return 1; }
-    key="$(printf '%s' "$host" | tr 'abcdefghijklmnopqrstuvwxyz-' 'ABCDEFGHIJKLMNOPQRSTUVWXYZ_')"
-    target_flags="CARGO_TARGET_${key}_RUSTFLAGS"
-    unit_separator=$'\x1f'
-    encoded_flags="-C${unit_separator}link-arg=-L${iconv}/lib"
-    binary="$work/controller-target/$host/release/kanata-controller"
-    if ! env -u CARGO_BUILD_TARGET -u CARGO_BUILD_RUSTFLAGS -u "$target_flags" \
-        CARGO_TARGET_DIR="$work/controller-target" CC=/usr/bin/clang CXX=/usr/bin/clang++ \
-        CARGO_ENCODED_RUSTFLAGS="$encoded_flags" RUSTFLAGS= \
-        "CARGO_TARGET_${key}_LINKER=/usr/bin/clang" \
-        cargo build --locked --release --target "$host" --manifest-path "$manifest" >&2; then
-        kanata_error 'Cargo could not build the native macOS tray controller'
-        return 1
-    fi
-    [[ -x "$binary" ]] || { kanata_error 'macOS controller build did not produce an executable'; return 1; }
+kanata_macos_controller() {
+    local prefix binary
+    prefix="$(homebrew_prefix uniqueding/dotfiles/kanata-controller)" || return 1
+    binary="$prefix/bin/kanata-controller"
+    [[ -f "$binary" && -x "$binary" ]] || { kanata_error 'Homebrew kanata-controller is missing'; return 1; }
     kanata_macos_native_binary "$binary" || return 1
     printf '%s\n' "$binary"
 }
@@ -710,9 +709,9 @@ kanata_macos_install() (
     local work source_binary controller config user runtime=/etc/kanata helper=/usr/local/libexec/kanata-control
     local sudoers=/etc/sudoers.d/kanata-controller system_plist=/Library/LaunchDaemons/dev.kanata.kanata.plist
     local controller_plist controller_log task system_state controller_state vhid_state vhid_staged uid phase=prepare
-    kanata_require_commands sudo launchctl brew otool plutil visudo id codesign find ps kill sleep || return 1
+    kanata_require_commands sudo launchctl otool plutil visudo id codesign find ps kill sleep || return 1
     [[ "$(id -u)" != 0 ]] || { kanata_error 'run as the logged-in user, not root'; return 1; }
-    kanata_macos_require_build_tools || return 1
+    kanata_macos_require_homebrew || return 1
     work="$(kanata_make_tempdir)" || return 1
     trap '
         status=$?
@@ -731,7 +730,7 @@ kanata_macos_install() (
     ' EXIT
     kanata_macos_prepare_software || return 1
     source_binary="$(kanata_macos_binary)" || { kanata_error 'Homebrew preparation completed, but no runnable non-Nix Kanata binary was found'; return 1; }
-    controller="$(kanata_macos_build_controller "$work")" || return 1
+    controller="$(kanata_macos_controller)" || return 1
     phase=check
     user="$(id -un)"
     controller_plist="$HOME/Library/LaunchAgents/dev.kanata.controller.plist"
