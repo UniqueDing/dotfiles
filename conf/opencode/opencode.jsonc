@@ -102,10 +102,7 @@
     { "action": "shell", "resource": "kill *", "effect": "ask" },
     { "action": "shell", "resource": "pkill *", "effect": "ask" },
     { "action": "shell", "resource": "dd *", "effect": "ask" },
-    { "action": "computeruse_*", "resource": "*", "effect": "ask" },
-    { "action": "computeruse_get_app_state", "resource": "*", "effect": "ask" },
-    { "action": "computeruse_perform_action", "resource": "*", "effect": "ask" },
-    { "action": "computeruse_set_value", "resource": "*", "effect": "ask" }
+    { "action": "computeruse_*", "resource": "*", "effect": "ask" }
   ],
   "agents": {
     "build": {
