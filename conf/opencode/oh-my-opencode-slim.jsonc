@@ -46,7 +46,7 @@
     "openai": {
       "designer": {
         "mcps": [],
-        "model": "openai/gpt-6-luna",
+        "model": "openai/gpt-6.1-terra",
         "skills": [],
         "variant": "medium"
       },
@@ -60,7 +60,7 @@
       },
       "fixer": {
         "mcps": [],
-        "model": "openai/gpt-6-luna",
+        "model": "openai/gpt-6.1-terra",
         "skills": [],
         "variant": "high"
       },
