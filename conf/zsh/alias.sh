@@ -37,6 +37,8 @@ function showkey() {
 alias tssh="TERM=xterm ssh"
 alias scpr="rsync -aHAXP --rsh=ssh"
 alias lg="lazygit"
+# Attach to a Zellij session, creating it if it does not exist.
+alias zj='zellij attach --create'
 # Connect the TUI to the systemd-managed OpenCode server.
 # Keep the caller's current directory as the OpenCode project directory.
 alias oc='opencode --server http://127.0.0.1:4096 "$PWD"'

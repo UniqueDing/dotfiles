@@ -8,11 +8,13 @@
     jq
     starship
     tmux
+    zellij
     # try # Linux-only utility.
     zsh
     nushell
     fish
     glances
+    fastfetch
   ] ++ lib.optionals (pkgs.stdenv.isDarwin && pkgs.stdenv.hostPlatform.isAarch64) [
     macmon
   ];
@@ -54,4 +56,5 @@
   xdg.configFile.zsh.source = config.lib.file.mkOutOfStoreSymlink "${confPath}/zsh";
   xdg.configFile.starship.source = config.lib.file.mkOutOfStoreSymlink "${confPath}/starship";
   xdg.configFile.tmux.source = config.lib.file.mkOutOfStoreSymlink "${confPath}/tmux";
+  xdg.configFile.zellij.source = config.lib.file.mkOutOfStoreSymlink "${confPath}/zellij";
 }

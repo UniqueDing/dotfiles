@@ -1,0 +1,52 @@
+layout {
+    default_tab_template {
+        children
+        pane size=1 borderless=true {
+            plugin location="https://github.com/dj95/zjstatus/releases/download/v0.24.0/zjstatus.wasm" {
+                // Compact single-line footer: tabs/mode left, live metrics right.
+                format_left "{tabs}"
+                format_center "{mode}"
+                format_right "{command_metrics}"
+                format_precedence "crl"
+                format_hide_on_overlength "true"
+                tab_separator " "
+                tab_truncate_start_format "←+{count} "
+                tab_truncate_end_format " +{count}→"
+                format_space "#[bg=#111111]"
+
+                tab_normal "#[fg=#313244,bg=#111111]#[fg=#6c7086,bg=#313244]{index} {name}#[fg=#313244,bg=#111111]"
+                tab_active "#[fg=#94e2d5,bg=#111111]#[fg=#313244,bg=#94e2d5,bold]{index} {name}#[fg=#94e2d5,bg=#111111]"
+
+                mode_locked ""
+                mode_normal ""
+                mode_scroll "#[fg=#fab387,bg=#111111]#[fg=#1e1e2e,bg=#fab387,bold] Scroll · Esc exit #[fg=#fab387,bg=#111111] "
+                mode_enter_search "#[fg=#f9e2af,bg=#111111]#[fg=#1e1e2e,bg=#f9e2af,bold] Search input · Enter confirm / Esc cancel #[fg=#f9e2af,bg=#111111] "
+                mode_search "#[fg=#f9e2af,bg=#111111]#[fg=#1e1e2e,bg=#f9e2af,bold] Search · Esc exit #[fg=#f9e2af,bg=#111111] "
+                mode_pane "#[fg=#f38ba8,bg=#111111]#[fg=#1e1e2e,bg=#f38ba8,bold] Close pane? Enter confirm / Esc cancel #[fg=#f38ba8,bg=#111111] "
+                mode_tmux "#[fg=#cba6f7,bg=#111111]#[fg=#1e1e2e,bg=#cba6f7,bold] Command mode #[fg=#cba6f7,bg=#111111] "
+
+                command_metrics_command "sh -c 'fastfetch --config \"${XDG_CONFIG_HOME:-$HOME/.config}/zellij/fastfetch.jsonc\" --pipe true | sed \"s| KB/s|K|g;s| MB/s|M|g;s| B/s|B|g\" | tr -d \"\\n\"'"
+                command_metrics_interval "1"
+                command_metrics_rendermode "raw"
+            }
+        }
+    }
+
+    tab {
+        // Distinct startup identity keeps this pane pinned to the right.
+        pane command="zsh" close_on_exit=true {
+            args "-i"
+        }
+    }
+
+    swap_tiled_layout name="right-main" {
+        tab min_panes=2 {
+            pane split_direction="vertical" {
+                pane size="40%" split_direction="horizontal" { children; }
+                pane size="60%" command="zsh" close_on_exit=true {
+                    args "-i"
+                }
+            }
+        }
+    }
+}

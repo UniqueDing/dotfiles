@@ -1,0 +1,118 @@
+// Logical Colemak keys. Ctrl-g enters the one-shot command layer.
+// Keep Alt-c: Ghostty/WezTerm emit it for pane-selection copy.
+default_shell "zsh"
+default_mode "locked"
+default_layout "right-main"
+// Terminal-only workflow: do not start the Web server or permit sharing.
+web_server false
+web_sharing "disabled"
+theme "catppuccin-mocha"
+mouse_mode true
+scroll_buffer_size 3000
+scrollback_editor "nvim"
+copy_on_select false
+pane_frames false
+show_startup_tips false
+show_release_notes false
+
+plugins {
+    session-manager location="zellij:session-manager"
+    about location="zellij:about"
+    pane-mover location="https://github.com/timonwong/zellij-palette/releases/download/v0.2.2/zellij-palette.wasm" {
+        palette "move-pane"
+    }
+}
+
+keybinds clear-defaults=true {
+    // Keep Ctrl shortcuts available to shells, editors and OpenCode.
+    locked {
+        bind "Ctrl g" { SwitchToMode "tmux"; }
+    }
+    tmux {
+        // Positional indices, not stable pane slots.
+        bind "q" { GoToTab 1; SwitchToMode "locked"; }
+        bind "w" { GoToTab 2; SwitchToMode "locked"; }
+        bind "f" { GoToTab 3; SwitchToMode "locked"; }
+        bind "p" { GoToTab 4; SwitchToMode "locked"; }
+        bind "g" { GoToTab 5; SwitchToMode "locked"; }
+        bind "a" { GoToTab 6; SwitchToMode "locked"; }
+        bind "r" { GoToTab 7; SwitchToMode "locked"; }
+        bind "s" { GoToTab 8; SwitchToMode "locked"; }
+        bind "t" { GoToTab 9; SwitchToMode "locked"; }
+        bind "d" { GoToTab 10; SwitchToMode "locked"; }
+        // Direct numbered joins are unavailable; R selects the destination instead.
+        bind "Q" "W" "F" "P" "G" "A" "S" "T" { SwitchToMode "locked"; }
+        bind "R" {
+            LaunchOrFocusPlugin "pane-mover" {
+                floating true
+                move_to_focused_tab true
+            }
+            SwitchToMode "locked"
+        }
+        bind ";" { SwitchToMode "renametab"; TabNameInput 0; }
+        bind "h" { GoToPreviousTab; SwitchToMode "locked"; }
+        bind "i" { GoToNextTab; SwitchToMode "locked"; }
+        bind "e" { FocusPreviousPane; SwitchToMode "locked"; }
+        bind "n" { FocusNextPane; SwitchToMode "locked"; }
+        bind "j" { ToggleFocusFullscreen; SwitchToMode "locked"; }
+        // Route ordinary splits into the left column, even after manual resizing dirties the swap layout.
+        bind "k" { MoveFocus "Left"; NewPane; SwitchToMode "locked"; }
+        bind "o" { NewTab { layout "right-main"; }; SwitchToMode "locked"; }
+        // WezTerm forwards held RightCtrl+Shift+k/o/e/n as Ctrl-gK/O/E/N.
+        bind "K" { NewPane "stacked"; SwitchToMode "locked"; }
+        bind "O" { BreakPane; SwitchToMode "locked"; }
+        bind "E" { PageScrollUp; SwitchToMode "scroll"; }
+        bind "N" { PageScrollDown; SwitchToMode "scroll"; }
+        // Move the divider left/right in normal 5% steps, independent of focused side.
+        bind "l" { Resize "Increase Left"; SwitchToMode "locked"; }
+        bind "u" { Resize "Increase Right"; SwitchToMode "locked"; }
+        bind "m" { ToggleFloatingPanes; SwitchToMode "locked"; }
+        // Prefix+x enters close confirmation: Enter closes; Esc cancels.
+        bind "x" { SwitchToMode "pane"; }
+        bind "b" { ToggleTab; SwitchToMode "locked"; }
+        bind "c" "Alt c" { Copy; SwitchToMode "locked"; }
+        bind "," { MovePaneBackwards; SwitchToMode "locked"; }
+        bind "." { MovePane; SwitchToMode "locked"; }
+        bind "y" "v" { SwitchToMode "scroll"; }
+        bind "z" { NextSwapLayout; SwitchToMode "locked"; }
+        bind "?" { LaunchOrFocusPlugin "about" { floating true; }; SwitchToMode "locked"; }
+        bind "Enter" { LaunchOrFocusPlugin "session-manager" { floating true; }; SwitchToMode "locked"; }
+        bind "Esc" { SwitchToMode "locked"; }
+        bind "D" { Detach; }
+        bind "Ctrl g" { Write 7; SwitchToMode "locked"; }
+    }
+    pane {
+        bind "Enter" { CloseFocus; SwitchToMode "locked"; }
+        bind "Esc" { SwitchToMode "locked"; }
+    }
+    renametab {
+        bind "Enter" { SwitchToMode "locked"; }
+        bind "Esc" "Ctrl c" { UndoRenameTab; SwitchToMode "locked"; }
+    }
+    shared_among "scroll" "search" {
+        bind "e" "Up" { ScrollUp; }
+        bind "n" "Down" { ScrollDown; }
+        bind "h" "Left" { MoveFocus "Left"; }
+        bind "i" "Right" { MoveFocus "Right"; }
+        bind "E" "PageUp" "Ctrl b" { PageScrollUp; }
+        bind "N" "PageDown" "Ctrl f" { PageScrollDown; }
+        bind "u" { HalfPageScrollUp; }
+        bind "d" { HalfPageScrollDown; }
+        bind "/" "s" { SwitchToMode "entersearch"; SearchInput 0; }
+        bind "Esc" "Ctrl c" "Ctrl s" { ScrollToBottom; SwitchToMode "locked"; }
+        // Preserve the offset so repeated RightCtrl+Shift+e/n keep scrolling.
+        bind "Ctrl g" { SwitchToMode "tmux"; }
+    }
+    entersearch {
+        bind "Enter" { SwitchToMode "search"; }
+        bind "Esc" "Ctrl c" { SwitchToMode "scroll"; }
+        bind "Ctrl g" { SwitchToMode "tmux"; }
+    }
+    search {
+        bind "k" { Search "down"; }
+        bind "K" { Search "up"; }
+        bind "c" { SearchToggleOption "CaseSensitivity"; }
+        bind "w" { SearchToggleOption "Wrap"; }
+        bind "o" { SearchToggleOption "WholeWord"; }
+    }
+}

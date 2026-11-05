@@ -1,0 +1,15 @@
+themes {
+    tokyonight-moon {
+        fg "#c8d3f5"
+        bg "#111111"
+        black "#1e2030"
+        red "#ff757f"
+        green "#c3e88d"
+        yellow "#ffc777"
+        blue "#82aaff"
+        magenta "#c099ff"
+        cyan "#4fd6be"
+        white "#828bb8"
+        orange "#ff966c"
+    }
+}

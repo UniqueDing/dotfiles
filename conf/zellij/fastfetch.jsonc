@@ -1,0 +1,52 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/2.67.0/doc/json_schema.json",
+  "logo": { "type": "none" },
+  "display": {
+    "showErrors": false,
+    "disableLinewrap": true,
+    "size": {
+      "ndigits": 0,
+      "binaryPrefix": "jedec",
+      "maxPrefix": "MB"
+    },
+    "temp": {
+      "ndigits": 0
+    }
+  },
+  "modules": [
+    {
+      "type": "netio",
+      "defaultRouteOnly": false,
+      "namePrefix": "en",
+      "key": " ",
+      "format": "\u001b[38;2;137;180;250;48;2;17;17;17m\u001b[38;2;49;50;68;48;2;137;180;250m↓{rx-size}↑{tx-size} "
+    },
+    {
+      "type": "cpuusage",
+      "key": " ",
+      "format": "\u001b[38;2;249;226;175;48;2;137;180;250m\u001b[38;2;49;50;68;48;2;249;226;175m {avg~0,-1} "
+    },
+    {
+      "type": "memory",
+      "key": " ",
+      "format": "\u001b[38;2;245;194;231;48;2;249;226;175m\u001b[38;2;49;50;68;48;2;245;194;231m {percentage~0,-1} "
+    },
+    {
+      "type": "cpu",
+      "temp": true,
+      "key": " ",
+      "format": "\u001b[38;2;250;179;135;48;2;245;194;231m\u001b[38;2;49;50;68;48;2;250;179;135m {temperature~0,-3} "
+    },
+    {
+      "type": "disk",
+      "folders": "/",
+      "key": " ",
+      "format": "\u001b[38;2;116;199;236;48;2;250;179;135m\u001b[38;2;49;50;68;48;2;116;199;236m󰆓 {size-percentage~0,-1} "
+    },
+    {
+      "type": "datetime",
+      "key": " ",
+      "format": "\u001b[38;2;49;50;68;48;2;116;199;236m\u001b[38;2;205;214;244;48;2;49;50;68m{month-pretty}-{day-pretty} {hour-pretty}:{minute-pretty}\u001b[0m"
+    }
+  ]
+}

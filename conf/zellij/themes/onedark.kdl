@@ -1,0 +1,15 @@
+themes {
+    onedark {
+        fg "#cdd6f4"
+        bg "#111111"
+        black "#282c34"
+        red "#e06c75"
+        green "#98c379"
+        yellow "#ebd09c"
+        blue "#73b8f1"
+        magenta "#c678dd"
+        cyan "#56b6c2"
+        white "#abb2bf"
+        orange "#e5c07b"
+    }
+}
