@@ -51,7 +51,6 @@ function modify_scheme() {
   _cs_apply_tmux "$config_dir" "$scheme" || return 1
   _cs_apply_lazygit "$config_dir" "$scheme" || return 1
   _cs_apply_delta "$HOME" "$scheme" || return 1
-  _cs_apply_opencode "$config_dir" "$scheme" || return 1
 
   print -- "$scheme" > "$config_dir/colorscheme" || {
     print -u2 -- "colorscheme: could not update $config_dir/colorscheme"
@@ -64,7 +63,7 @@ function modify_scheme() {
   else
     print -- "Tmux configuration reloaded successfully."
   fi
-  print -- "Theme set to $scheme. Reopen the OpenCode TUI (no backend restart needed); restart other applications to apply it."
+  print -- "Theme set to $scheme. Restart applications as needed."
 }
 
 # Run an in-place extended sed expression on GNU or BSD systems.
@@ -194,70 +193,4 @@ function _cs_apply_delta() {
   local target="$home_dir/.gitconfig"
   _cs_require_config "$target" || return 1
   portable_sed_i "s|^  syntax-theme = .*$|  syntax-theme = $scheme|" "$target"
-}
-
-# Apply OpenCode's V2 CLI theme without touching opencode.jsonc.
-function _cs_apply_opencode() {
-  local config_dir="$1"
-  local scheme="$2"
-  local target="$config_dir/opencode/cli.json"
-  local opencode_scheme="$scheme"
-  local -A aliases=(
-    [catppuccin_mocha]=catppuccin
-    [tokyonight_moon]=tokyonight
-    [nord]=nord
-    [onedark]=one-dark
-    [dracula]=dracula
-    [gruvbox_dark]=gruvbox
-  )
-  opencode_scheme="${aliases[$scheme]:-$opencode_scheme}"
-  python3 - "$target" "$opencode_scheme" <<'PY'
-import json
-import os
-import stat
-import sys
-import tempfile
-
-target, theme_name = sys.argv[1:3]
-temporary = None
-
-try:
-    if not os.path.isfile(target):
-        raise FileNotFoundError("configuration file not found")
-
-    # Replace the resolved file to preserve a symlink at the configured path.
-    real_target = os.path.realpath(target)
-    with open(real_target, "r", encoding="utf-8") as source:
-        file_stat = os.fstat(source.fileno())
-        config = json.load(source)
-
-    if not isinstance(config, dict):
-        raise ValueError("configuration root must be an object")
-    if "theme" not in config:
-        config["theme"] = {}
-    if not isinstance(config["theme"], dict):
-        raise ValueError("theme must be an object")
-    config["theme"]["name"] = theme_name
-
-    fd, temporary = tempfile.mkstemp(
-        prefix=".cli.json.", dir=os.path.dirname(real_target)
-    )
-    with os.fdopen(fd, "w", encoding="utf-8") as destination:
-        os.fchmod(destination.fileno(), stat.S_IMODE(file_stat.st_mode))
-        json.dump(config, destination, indent=2, ensure_ascii=False)
-        destination.write("\n")
-        destination.flush()
-        os.fsync(destination.fileno())
-    os.replace(temporary, real_target)
-    temporary = None
-except Exception as error:
-    print(f"OpenCode config update failed: {error}", file=sys.stderr)
-    sys.exit(1)
-finally:
-    if temporary is not None:
-        try:
-            os.unlink(temporary)
-        except FileNotFoundError:
-            pass
-PY
 }
