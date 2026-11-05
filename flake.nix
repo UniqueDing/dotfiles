@@ -8,9 +8,10 @@
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
+    hermes-agent.url = "git+https://github.com/NousResearch/hermes-agent.git?shallow=1";
   };
 
-  outputs = inputs @ { flake-utils, home-manager, nix-darwin, nixpkgs, ... }:
+  outputs = inputs @ { flake-utils, home-manager, nix-darwin, nixpkgs, hermes-agent, ... }:
     flake-utils.lib.eachDefaultSystemPassThrough (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
@@ -40,7 +41,7 @@
             }
           ];
           extraSpecialArgs = {
-            inherit confPath;
+            inherit confPath hermes-agent;
           };
         };
         homeConfigurations.app = home-manager.lib.homeManagerConfiguration {
@@ -62,7 +63,7 @@
             }
           ];
           extraSpecialArgs = {
-            inherit confPath;
+            inherit confPath hermes-agent;
           };
         };
       }
@@ -94,7 +95,7 @@
 
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = { inherit confPath; };
+              home-manager.extraSpecialArgs = { inherit confPath hermes-agent; };
               home-manager.users.uniqueding = {
                 home.username = "uniqueding";
                 home.homeDirectory = "/Users/uniqueding";

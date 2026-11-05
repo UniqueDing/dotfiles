@@ -1,4 +1,4 @@
-{ config, lib, pkgs, confPath, ... }:
+{ config, lib, pkgs, confPath, hermes-agent, ... }:
 
 {
 
@@ -8,6 +8,7 @@
     opencode
     codegraph
     skills
+    hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.minimal
   ];
 
   systemd.user.services.opencode-serve = lib.mkIf pkgs.stdenv.isLinux {
