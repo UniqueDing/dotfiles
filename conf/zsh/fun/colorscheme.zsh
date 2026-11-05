@@ -57,7 +57,9 @@ function modify_scheme() {
     print -u2 -- "colorscheme: could not update $config_dir/colorscheme"
     return 1
   }
-  if ! tmux source-file "$config_dir/tmux/tmux.conf"; then
+  if ! tmux list-sessions >/dev/null 2>&1; then
+    print -- "Tmux configuration updated; no running server, so reload skipped."
+  elif ! tmux source-file "$config_dir/tmux/tmux.conf"; then
     print -u2 -- "Theme configuration updated, but tmux could not be reloaded."
   else
     print -- "Tmux configuration reloaded successfully."
