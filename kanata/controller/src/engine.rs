@@ -18,6 +18,7 @@ impl<C: ServiceControl> ControllerEngine<C> {
         }
     }
 
+    #[cfg(any(target_os = "macos", test))]
     pub(crate) fn state(&self) -> &ControllerState {
         &self.state
     }
@@ -27,6 +28,7 @@ impl<C: ServiceControl> ControllerEngine<C> {
         &self.state
     }
 
+    #[cfg(target_os = "macos")]
     pub(crate) fn set_error(&mut self, error: String) -> &ControllerState {
         self.state.last_error = Some(bound_error(error));
         &self.state
