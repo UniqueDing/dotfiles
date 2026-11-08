@@ -20,8 +20,8 @@ conf/rime/*.userdb
 conf/rime/sync
 conf/hypr/hyprland.conf
 conf/tmux/plugins
-# Zellij downloads plugins from versioned URLs; do not commit local WASM copies.
-/conf/zellij/plugins/*.wasm
+# Zellij downloads plugins from versioned URLs; keep local plugin files out of Git.
+/conf/zellij/plugins/
 conf/fish/functions
 conf/fish/completions
 conf/fish/conf.d

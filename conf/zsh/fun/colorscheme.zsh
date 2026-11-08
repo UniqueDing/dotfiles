@@ -51,6 +51,7 @@ function modify_scheme() {
   _cs_apply_tmux "$config_dir" "$scheme" || return 1
   _cs_apply_lazygit "$config_dir" "$scheme" || return 1
   _cs_apply_delta "$HOME" "$scheme" || return 1
+  _cs_apply_zellij "$config_dir" "$scheme" || return 1
 
   print -- "$scheme" > "$config_dir/colorscheme" || {
     print -u2 -- "colorscheme: could not update $config_dir/colorscheme"
@@ -63,7 +64,67 @@ function modify_scheme() {
   else
     print -- "Tmux configuration reloaded successfully."
   fi
-  print -- "Theme set to $scheme. Restart applications as needed."
+  print -- "Theme set to $scheme. Restart applications as needed. Create a new Zellij session for existing status-bar plugins to pick up the updated colors."
+}
+
+# Apply the selected theme and update zjstatus's named color aliases.
+function _cs_apply_zellij() {
+  local scheme="${2:-}"
+  if [[ -z "$scheme" ]] || (( ! ${color_schemes[(I)$scheme]} )); then
+    print -u2 -- "colorscheme: unknown Zellij scheme: $scheme"
+    return 1
+  fi
+  python3 - "$1/zellij" "${scheme//_/-}" <<'PYCODE'
+import os, re, stat, sys, tempfile
+
+root, slug = sys.argv[1:]
+config = os.path.join(root, "config.kdl")
+theme = os.path.join(root, "themes", slug + ".kdl")
+temporary = None
+try:
+    def read(path):
+        if not os.path.isfile(path):
+            raise FileNotFoundError("required Zellij file is missing: " + path)
+        with open(path, encoding="utf-8") as f:
+            return f.read()
+
+    config_text, theme_text = map(read, (config, theme))
+    entries = re.findall(r'^[ \t]+([a-z]+)[ \t]+"(#[0-9a-fA-F]{6})"[ \t]*$', theme_text, re.M)
+    palette = dict(entries)
+    if len(entries) != len(palette):
+        raise ValueError("duplicate theme palette role")
+
+    theme_pattern = r'^([ \t]*theme[ \t]+")[^"]+("[ \t]*)$'
+    if len(re.findall(theme_pattern, config_text, re.M)) != 1:
+        raise ValueError("expected exactly one Zellij theme setting")
+    alias_pattern = r'^([ \t]*color_([a-z][a-z0-9_]*)[ \t]+")([^"\n]*)("[ \t]*)$'
+    definitions = re.findall(alias_pattern, config_text, re.M)
+    names = [entry[1] for entry in definitions]
+    references = set(re.findall(r'(?:fg|bg)=\$([a-z][a-z0-9_]*)', config_text))
+    if any(not re.fullmatch(r'#[0-9a-fA-F]{6}', entry[2]) for entry in definitions):
+        raise ValueError("invalid zjstatus color alias")
+    if not names or len(names) != len(set(names)) or references != set(names) or set(names) - palette.keys():
+        raise ValueError("missing, duplicate or unknown zjstatus color alias")
+    config_text = re.sub(theme_pattern, lambda m: m[1] + slug + m[2], config_text, flags=re.M)
+    config_text = re.sub(alias_pattern, lambda m: m[1] + palette[m[2]] + m[4], config_text, flags=re.M)
+
+    real = os.path.realpath(config)
+    fd, temporary = tempfile.mkstemp(prefix=".zellij-colors.", dir=os.path.dirname(real))
+    with os.fdopen(fd, "w", encoding="utf-8") as f:
+        os.fchmod(f.fileno(), stat.S_IMODE(os.stat(real).st_mode))
+        f.write(config_text)
+        f.flush()
+        os.fsync(f.fileno())
+    os.replace(temporary, real)
+    temporary = None
+except Exception as error:
+    print("Zellij config update failed: " + str(error), file=sys.stderr)
+    sys.exit(1)
+finally:
+    if temporary is not None:
+        try: os.unlink(temporary)
+        except FileNotFoundError: pass
+PYCODE
 }
 
 # Run an in-place extended sed expression on GNU or BSD systems.

@@ -1,5 +1,3 @@
-// Logical Colemak keys. Ctrl-g enters the one-shot command layer.
-// Keep Alt-c: Ghostty/WezTerm emit it for pane-selection copy.
 default_shell "zsh"
 default_mode "locked"
 default_layout "right-main"
@@ -16,6 +14,73 @@ show_startup_tips false
 show_release_notes false
 
 plugins {
+    zjstatus location="https://github.com/dj95/zjstatus/releases/download/v0.24.0/zjstatus.wasm" {
+        // Compact single-line footer: tabs/mode left, live metrics right.
+        // Updated from the selected Zellij theme palette.
+        color_bg "#111111"
+        color_fg "#cdd6f4"
+        color_black "#45475a"
+        color_white "#bac2de"
+        color_red "#f38ba8"
+        color_yellow "#f9e2af"
+        color_orange "#fab387"
+        color_blue "#89b4fa"
+        color_magenta "#cba6f7"
+        color_cyan "#94e2d5"
+
+        format_left "{tabs}"
+        format_center "{mode}"
+        format_right "{command_network}{command_cpuusage}{command_memory}{command_temperature}{command_disk}{command_clock}"
+        format_precedence "crl"
+        format_hide_on_overlength "true"
+        tab_separator " "
+        tab_truncate_start_format "←+{count} "
+        tab_truncate_end_format " +{count}→"
+        format_space "#[bg=$bg]"
+
+        tab_normal "#[fg=$black,bg=$bg]#[fg=$white,bg=$black]{index} {name}#[fg=$black,bg=$bg]"
+        tab_active "#[fg=$cyan,bg=$bg]#[fg=$black,bg=$cyan,bold]{index} {name}#[fg=$cyan,bg=$bg]"
+
+        mode_locked ""
+        mode_normal ""
+        mode_scroll "#[fg=$orange,bg=$bg]#[fg=$bg,bg=$orange,bold] Scroll · Esc exit #[fg=$orange,bg=$bg] "
+        mode_enter_search "#[fg=$yellow,bg=$bg]#[fg=$bg,bg=$yellow,bold] Search input · Enter confirm / Esc cancel #[fg=$yellow,bg=$bg] "
+        mode_search "#[fg=$yellow,bg=$bg]#[fg=$bg,bg=$yellow,bold] Search · Esc exit #[fg=$yellow,bg=$bg] "
+        mode_pane "#[fg=$red,bg=$bg]#[fg=$bg,bg=$red,bold] Close pane? Enter confirm / Esc cancel #[fg=$red,bg=$bg] "
+        mode_tmux "#[fg=$magenta,bg=$bg]#[fg=$bg,bg=$magenta,bold] Command mode #[fg=$magenta,bg=$bg] "
+
+        // Each command returns plain data; zjstatus owns all styling.
+        command_network_command "sh -c 'fastfetch --config \"${XDG_CONFIG_HOME:-$HOME/.config}/zellij/fastfetch.jsonc\" --pipe true --structure netio | sed \"s| KB/s|K|g;s| MB/s|M|g;s| B/s|B|g\" | tr -d \"\\n\"'"
+        command_network_format "#[fg=$blue,bg=$bg]#[fg=$black,bg=$blue]↓/↑ {stdout} "
+        command_network_interval "1"
+        command_network_hideonemptystdout "true"
+
+        command_cpuusage_command "sh -c 'fastfetch --config \"${XDG_CONFIG_HOME:-$HOME/.config}/zellij/fastfetch.jsonc\" --pipe true --structure cpuusage | tr -d \"\\n\"'"
+        command_cpuusage_format "#[fg=$yellow,bg=$blue]#[fg=$black,bg=$yellow] {stdout} "
+        command_cpuusage_interval "1"
+        command_cpuusage_hideonemptystdout "true"
+
+        command_memory_command "sh -c 'fastfetch --config \"${XDG_CONFIG_HOME:-$HOME/.config}/zellij/fastfetch.jsonc\" --pipe true --structure memory | tr -d \"\\n\"'"
+        command_memory_format "#[fg=$magenta,bg=$yellow]#[fg=$black,bg=$magenta] {stdout} "
+        command_memory_interval "1"
+        command_memory_hideonemptystdout "true"
+
+        command_temperature_command "sh -c 'fastfetch --config \"${XDG_CONFIG_HOME:-$HOME/.config}/zellij/fastfetch.jsonc\" --pipe true --structure cpu | tr -d \"\\n\"'"
+        command_temperature_format "#[fg=$orange,bg=$magenta]#[fg=$black,bg=$orange] {stdout} "
+        command_temperature_interval "1"
+        command_temperature_hideonemptystdout "true"
+
+        command_disk_command "sh -c 'fastfetch --config \"${XDG_CONFIG_HOME:-$HOME/.config}/zellij/fastfetch.jsonc\" --pipe true --structure disk | tr -d \"\\n\"'"
+        command_disk_format "#[fg=$cyan,bg=$orange]#[fg=$black,bg=$cyan]󰆓 {stdout} "
+        command_disk_interval "1"
+        command_disk_hideonemptystdout "true"
+
+        command_clock_command "sh -c 'fastfetch --config \"${XDG_CONFIG_HOME:-$HOME/.config}/zellij/fastfetch.jsonc\" --pipe true --structure datetime | tr -d \"\\n\"'"
+        command_clock_format "#[fg=$black,bg=$cyan]#[fg=$fg,bg=$black]{stdout}"
+        command_clock_interval "1"
+        command_clock_hideonemptystdout "true"
+
+    }
     session-manager location="zellij:session-manager"
     about location="zellij:about"
     pane-mover location="https://github.com/timonwong/zellij-palette/releases/download/v0.2.2/zellij-palette.wasm" {
