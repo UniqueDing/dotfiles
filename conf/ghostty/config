@@ -1,7 +1,8 @@
 font-family = "JetBrains Mono"
 font-size = 14
 background-blur = false
-background-opacity = 0.95
+background = #101010
+background-opacity = 0.90
 gtk-custom-css = hide-key-state.css
 
 link-url = true
