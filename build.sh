@@ -120,7 +120,6 @@ main() {
             install_home_manager
             switch_dotfiles "$profile"
             init_conf "$profile"
-            install_fonts
             ;;
         Darwin)
             if [[ -n "${1:-}" ]]; then
