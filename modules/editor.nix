@@ -1,11 +1,26 @@
 { config, lib, pkgs, confPath, hermes-agent, ... }:
 
-{
+let
+  # OpenTUI loads libxcb.so.1 dynamically for native X11 clipboard access.
+  # Keep this runtime dependency scoped to OpenCode, not the entire shell.
+  opencodeWithClipboard = if pkgs.stdenv.hostPlatform.isLinux then
+    pkgs.symlinkJoin {
+      name = "opencode-with-x11-clipboard-${pkgs.opencode.version}";
+      paths = [ pkgs.opencode ];
+      nativeBuildInputs = [ pkgs.makeWrapper ];
+      postBuild = ''
+        wrapProgram "$out/bin/opencode" \
+          --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath [ pkgs.libxcb ]}"
+      '';
+      meta.mainProgram = "opencode";
+    }
+  else pkgs.opencode;
+in {
 
   home.packages = with pkgs; [
     neovim
     translate-shell
-    opencode
+    opencodeWithClipboard
     codegraph
     skills
     hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.minimal
@@ -26,11 +41,11 @@
       PassEnvironment = "SSH_AUTH_SOCK";
       UnsetEnvironment = "OPENCODE_SERVER_PASSWORD";
       ExecStartPre = "${pkgs.openssh}/bin/ssh-add -l";
-      ExecStart = "${pkgs.zsh}/bin/zsh -f -c 'set -a; source \"${config.xdg.configHome}/zsh/env.local.zsh\" && unset OPENCODE_SERVER_PASSWORD && exec \"${pkgs.opencode}/bin/opencode\" serve --hostname 0.0.0.0 --port \"$$OPENCODE_PORT\"'";
+      ExecStart = "${pkgs.zsh}/bin/zsh -f -c 'set -a; source \"${config.xdg.configHome}/zsh/env.local.zsh\" && unset OPENCODE_SERVER_PASSWORD && exec \"${opencodeWithClipboard}/bin/opencode\" serve --hostname 0.0.0.0 --port \"$$OPENCODE_PORT\"'";
       Restart = "on-failure";
       RestartSec = "5";
       Environment = [
-        "PATH=${pkgs.opencode}/bin:${config.home.profileDirectory}/bin:${pkgs.bash}/bin:${pkgs.coreutils}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+        "PATH=${opencodeWithClipboard}/bin:${config.home.profileDirectory}/bin:${pkgs.bash}/bin:${pkgs.coreutils}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
       ];
     };
   };
@@ -49,7 +64,7 @@
       WorkingDirectory = builtins.dirOf confPath;
       UMask = "0077";
       Environment = [
-        "PATH=${pkgs.opencode}/bin:${config.home.profileDirectory}/bin:/usr/bin:/bin"
+        "PATH=${opencodeWithClipboard}/bin:${config.home.profileDirectory}/bin:/usr/bin:/bin"
       ];
       ExecStart = "${pkgs.zsh}/bin/zsh -f -c 'set -a; source \"${config.xdg.configHome}/zsh/env.local.zsh\" && source \"${config.xdg.configHome}/opencode-telegram-bot/env.$$(hostname -s).zsh\" && exec \"${pkgs.nodejs_24}/bin/node\" \"${config.xdg.dataHome}/opencode-telegram-bot/runtime-0.26.4/node_modules/@grinev/opencode-telegram-bot/dist/cli.js\"'";
       Restart = "on-failure";
