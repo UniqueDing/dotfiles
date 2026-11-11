@@ -34,10 +34,15 @@
               imports = [
                 ./modules/editor.nix
                 ./modules/tools.nix
+                ./modules/bing-wallpaper.nix
                 ./modules/shell.nix
                 ./modules/filemanager.nix
                 ./modules/lang.nix
               ];
+              programs.bing-wallpaper = {
+                enable = true;
+                automatic = true;
+              };
             }
           ];
           extraSpecialArgs = {
@@ -55,11 +60,13 @@
               imports = [
                 ./modules/editor.nix
                 ./modules/tools.nix
+                ./modules/bing-wallpaper.nix
                 ./modules/shell.nix
                 ./modules/filemanager.nix
                 ./modules/lang.nix
                 ./modules/app.nix
               ];
+              programs.bing-wallpaper.enable = true;
             }
           ];
           extraSpecialArgs = {
@@ -104,10 +111,12 @@
                 imports = [
                   ./modules/editor.nix
                   ./modules/tools.nix
+                  ./modules/bing-wallpaper.nix
                   ./modules/shell.nix
                   ./modules/filemanager.nix
                   ./modules/lang.nix
                 ];
+                programs.bing-wallpaper.enable = true;
               };
             })
         ];
