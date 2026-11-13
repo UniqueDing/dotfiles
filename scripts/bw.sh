@@ -88,6 +88,10 @@ if [[ -z "$HOST" || ! "$HOST" =~ ^[A-Za-z0-9][A-Za-z0-9_-]*$ ]]; then
   exit 1
 fi
 HOST_FILES=(
+  ".config/.links/xray.json"
+  ".config/.links/frpc-qual.toml"
+  ".config/.links/frpc-ali.toml"
+  ".config/.links/frpc-vps.toml"
   ".config/opencode-telegram-bot/env.${HOST}.zsh"
 )
 validate_file_scopes || exit 1
