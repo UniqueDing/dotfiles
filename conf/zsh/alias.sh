@@ -60,8 +60,12 @@ function mkcd(){
 	cd $1
 }
 function _ssh_add() {
-	if [[ -z "${SSH_AUTH_SOCK:-}" ]]; then
-		eval "$(ssh-agent -s)" || return
+	local agent_env
+
+	ssh-add -l >/dev/null 2>&1
+	if [[ $? -eq 2 ]]; then
+		agent_env="$(ssh-agent -s)" || return
+		eval "$agent_env" || return
 	fi
 	ssh-add
 }
