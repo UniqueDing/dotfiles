@@ -42,6 +42,7 @@
               programs.bing-wallpaper = {
                 enable = true;
                 automatic = true;
+                market = "zh-CN";
               };
             }
           ];
