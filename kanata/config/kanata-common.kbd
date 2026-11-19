@@ -90,7 +90,8 @@
   tsym (tap-hold-press 200 200 ' @lsym) tnum (tap-hold-press 200 200 bspc @lnum)
   temo (tap-hold-press 200 200 ; @lemo) tlat (tap-hold-press 200 200 / @llat)
   tmux (tap-hold-release 200 200 rctl C-g)
-  trsft (tap-hold-press 0 200 (multi lsft rsft) rsft)
+  ;; Tap sends Rime's dedicated toggle key; hold remains an ordinary Right Shift.
+  trsft (tap-hold-press 0 200 C-S-f12 rsft)
   cmod1 lctl cmod2 lalt cmod4 @tnum cmod5 @tnum cmod6 @tnum
   iexcl (unicode U+00A1) iquest (unicode U+00BF)
   guillemet-left (unicode U+00AB) guillemet-right (unicode U+00BB)

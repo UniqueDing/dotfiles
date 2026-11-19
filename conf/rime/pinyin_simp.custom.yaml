@@ -9,8 +9,11 @@ patch:
       states: [ 半, 全 ]
     - name: zh_simp
       states: [ 简, 繁 ]
+    - name: ascii_mode
+      states: [拼音, 英文]
+      abbrev: [拼, Ａ]
   st/option_name: zh_simp
   st/opencc_config: s2t.json
   "key_binder/bindings":
     - { when: has_menu, accept: semicolon, send: 2 }
-    - { accept: "Shift+Shift_R", toggle: zh_simp, when: always }
+    - { accept: "Control+Shift+F12", toggle: zh_simp, when: always }

@@ -1,0 +1,40 @@
+# Russian (JCUKEN) — physical QWERTY positions on the macOS Kanata Colemak layer.
+# Rime receives the Kanata output codes shown below; each position types its paired letter.
+# Top row:    Qй Wц Eу Rк Tе Yн Uг Iш Oщ Pз
+# Home row:   Aф Sы Dв Fа Gп Hр Jо Kл Lд
+# Bottom row: Zя Xч Cс Vм Bи Nт Mь
+# Special: tap/release / (do not hold; hold activates Kanata's Latin layer), then type:
+#   /+K ё  /+H х  /+F ъ  /+Y ж  /+U э  /+B б  /+I ю   // /
+# No [] or number-row mappings are provided. Shifted uppercase entries exist in the
+# dictionary; shifted physical P emits :, so uppercase handling is not guaranteed.
+schema:
+  schema_id: russian_test
+  name: Russian (JCUKEN)
+  version: "1"
+
+engine:
+  processors:
+    - ascii_composer
+    - key_binder
+    - speller
+    - selector
+    - navigator
+    - express_editor
+  segmentors:
+    - ascii_segmentor
+    - abc_segmentor
+    - fallback_segmentor
+  translators:
+    - table_translator
+
+speller:
+  alphabet: "qwfpgjluy;arstdhneizxcvbkm/QWFPGJLUY:ARSTDHNEIZXCVBKM"
+  delimiter: " "
+  auto_select: true
+  max_code_length: 0
+
+translator:
+  dictionary: russian_test
+  enable_sentence: false
+  enable_completion: false
+  enable_user_dict: false

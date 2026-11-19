@@ -1,0 +1,5 @@
+patch:
+  switches:
+    - name: ascii_mode
+      states: [俄语, 英文]
+      abbrev: [Я, Ａ]

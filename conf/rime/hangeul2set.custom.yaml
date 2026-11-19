@@ -5,6 +5,9 @@ patch:
   switches:
     - name: full_shape
       states: [ "半", "全" ]
+    - name: ascii_mode
+      states: [韩语, 英文]
+      abbrev: [한, Ａ]
 
   "key_binder/bindings":
     - { when: has_menu, accept: semicolon, send: 2 }

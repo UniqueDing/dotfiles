@@ -4,12 +4,13 @@ patch:
     - schema: wubi86
     - schema: japanese
     - schema: hangeul2set
+    - schema: russian_test
 
   key_binder:
     bindings:
       - { when: has_menu, accept: minus, send: Page_Up }
       - { when: has_menu, accept: equal, send: Page_Down }
-      - { when: composing, accept: Escape, send: Escape }
+      - { when: composing, accept: Escape, send_sequence: "{Shift_L}{Release+Shift_L}" }
       - { when: always, accept: Escape, toggle: ascii_mode }
       - { when: always, accept: Control+Shift+F2, select: .next }
 
@@ -22,7 +23,7 @@ patch:
   ascii_composer:
     good_old_caps_lock: true
     switch_key:
-      Shift_L: inline_ascii
+      Shift_L: clear
       Shift_R: noop
       Control_L: noop
       Control_R: noop

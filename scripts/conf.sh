@@ -63,7 +63,7 @@ link_linux_configs() {
 
     ln -sfn "$CONF_DIR/vimrc"                   "$HOME/.vimrc"
     ln -sfn "$CONF_DIR/alacritty"               "$HOME/.config/alacritty"
-    ln -sfn "$CONF_DIR/ghostty/"                "$HOME/.config/ghostty"
+    link_ghostty_configs linux || return 1
     ln -sfn "$CONF_DIR/wezterm"                 "$HOME/.config/wezterm"
     ln -sfn "$CONF_DIR/fcitx5/config"           "$HOME/.config/fcitx5"
     ln -sfn "$CONF_DIR/environment.d/fcitx.env" "$HOME/.config/environment.d/fcitx.env"
@@ -72,7 +72,106 @@ link_linux_configs() {
     #ln -sfn $HOME/dotfiles/conf/rime $HOME/.config/ibus/rime
 }
 
+link_ghostty_configs() {
+    local platform="$1" ghostty_dir config_file config_target config_dir repo_ghostty_dir
+    local target_dir target_name managed_common managed_macos managed_linux managed_old
+    local include_platform mode temporary
+
+    case "$platform" in
+        macos)
+            ghostty_dir="$HOME/Library/Application Support/com.mitchellh.ghostty"
+            include_platform="$(cd "$CONF_DIR/ghostty" && pwd)/macos.conf" || return 1
+            ;;
+        linux)
+            ghostty_dir="${XDG_CONFIG_HOME:-$HOME/.config}/ghostty"
+            include_platform="$(cd "$CONF_DIR/ghostty" && pwd)/linux.conf" || return 1
+            if [[ -L "$ghostty_dir" ]]; then
+                local resolved_dir expected_dir
+                resolved_dir="$(cd "$ghostty_dir" 2>/dev/null && pwd -P)" || {
+                    printf 'Refusing dangling Ghostty directory symlink: %s\n' "$ghostty_dir" >&2
+                    return 1
+                }
+                expected_dir="$(cd "$CONF_DIR/ghostty" && pwd -P)" || return 1
+                if [[ "$resolved_dir" != "$expected_dir" ]]; then
+                    printf 'Refusing unrelated Ghostty directory symlink: %s -> %s\n' "$ghostty_dir" "$resolved_dir" >&2
+                    return 1
+                fi
+                rm "$ghostty_dir" || return 1
+            fi
+            ;;
+        *)
+            printf 'Unknown Ghostty platform: %s\n' "$platform" >&2
+            return 1
+            ;;
+    esac
+
+    mkdir -p "$ghostty_dir" || return 1
+    if [[ -e "$ghostty_dir/config.ghostty" || -L "$ghostty_dir/config.ghostty" ]]; then
+        config_file="$ghostty_dir/config.ghostty"
+    elif [[ -e "$ghostty_dir/config" || -L "$ghostty_dir/config" ]]; then
+        config_file="$ghostty_dir/config"
+    else
+        config_file="$ghostty_dir/config.ghostty"
+    fi
+
+    if [[ -L "$config_file" ]]; then
+        printf 'Refusing Ghostty config symlink: %s\n' "$config_file" >&2
+        return 1
+    fi
+    config_dir="$(cd "$(dirname "$config_file")" 2>/dev/null && pwd -P)" || {
+        printf 'Refusing invalid Ghostty config target: %s\n' "$config_file" >&2
+        return 1
+    }
+    target_name="$(basename "$config_file")"
+    config_target="$config_dir/$target_name"
+    repo_ghostty_dir="$(cd "$CONF_DIR/ghostty" && pwd -P)" || return 1
+    case "$config_target" in
+        "$repo_ghostty_dir"/*)
+            printf 'Refusing to write repo-owned Ghostty config: %s\n' "$config_target" >&2
+            return 1
+            ;;
+    esac
+    if [[ -e "$config_target" ]]; then
+        if [[ ! -f "$config_target" ]]; then
+            printf 'Refusing non-regular Ghostty config target: %s\n' "$config_file" >&2
+            return 1
+        fi
+    else
+        : > "$config_target" || return 1
+    fi
+
+    managed_common="config-file = \"$(cd "$CONF_DIR/ghostty" && pwd)/config\""
+    managed_macos="config-file = \"$(cd "$CONF_DIR/ghostty" && pwd)/macos.conf\""
+    managed_linux="config-file = \"$(cd "$CONF_DIR/ghostty" && pwd)/linux.conf\""
+    managed_old="config-file = \"$(cd "$CONF_DIR/ghostty" && pwd)/macos-keybinds.conf\""
+    target_dir="$(dirname "$config_target")"
+    temporary="$(mktemp "$target_dir/.ghostty-config.XXXXXX")" || return 1
+    mode="$(stat -c '%a' "$config_target" 2>/dev/null || stat -f '%Lp' "$config_target")" || {
+        rm -f "$temporary"
+        return 1
+    }
+    if [[ ! "$mode" =~ ^[0-7]{3,4}$ ]]; then
+        printf 'Unexpected mode from stat for %s: %s\n' "$config_target" "$mode" >&2
+        rm -f "$temporary"
+        return 1
+    fi
+    if ! awk -v common="$managed_common" -v macos="$managed_macos" \
+        -v linux="$managed_linux" -v old="$managed_old" \
+        '$0 != common && $0 != macos && $0 != linux && $0 != old { print }' \
+        "$config_target" > "$temporary"; then
+        rm -f "$temporary"
+        return 1
+    fi
+    printf '%s\n%s\n' "$managed_common" "config-file = \"$include_platform\"" >> "$temporary" || {
+        rm -f "$temporary"
+        return 1
+    }
+    chmod "$mode" "$temporary" || { rm -f "$temporary"; return 1; }
+    mv "$temporary" "$config_target" || { rm -f "$temporary"; return 1; }
+}
+
 link_macos_configs() {
+    link_ghostty_configs macos || return 1
     link_rime_configs "$HOME/Library/Rime"
     mkdir -p "$HOME/.config/linearmouse"
 

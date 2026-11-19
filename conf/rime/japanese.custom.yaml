@@ -8,6 +8,9 @@ patch:
     - name: full_shape
       reset: 0
       states: ["半", "全"]
+    - name: ascii_mode
+      states: [日语, 英文]
+      abbrev: [あ, Ａ]
   engine/filters:
     - simplifier
     - simplifier@kata
@@ -36,6 +39,6 @@ patch:
     tags: [abc]
   "key_binder/bindings":
     - { when: has_menu, accept: semicolon, send: 2 }
-    - { accept: "Shift+Shift_R", toggle: kata, when: always }
+    - { accept: "Control+Shift+F12", toggle: kata, when: always }
     - { accept: minus, send: Page_Up, when: has_menu }
     - { accept: equal, send: Page_Down, when: has_menu }
