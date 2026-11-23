@@ -1,16 +1,15 @@
-# Russian (JCUKEN) — physical QWERTY positions on the macOS Kanata Colemak layer.
+# Russian (Dictor-inspired) — physical QWERTY positions on the macOS Kanata Colemak layer.
 # Rime receives the Kanata output codes shown below; each position types its paired letter.
-# Top row:    Qй Wц Eу Rк Tе Yн Uг Iш Oщ Pз
-# Home row:   Aф Sы Dв Fа Gп Hр Jо Kл Lд
-# Bottom row: Zя Xч Cс Vм Bи Nт Mь
+# Top row:    Qй Wх Eу Rк Tп Yб Uг Iш Oж P; (Shift+P :)
+# Home row:   Aи Sв Dе Fо Gа Hл Jн Kт Lс ;р
+# Bottom row: Zя Xч Cз Vм Bд Nы Mь; comma and period pass through.
 # Special: tap/release / (do not hold; hold activates Kanata's Latin layer), then type:
-#   /+K ё  /+H х  /+F ъ  /+Y ж  /+U э  /+B б  /+I ю   // /
-# No [] or number-row mappings are provided. Shifted uppercase entries exist in the
-# dictionary; shifted physical P emits :, so uppercase handling is not guaranteed.
+#   /+A э  /+S щ  /+D ф  /+F ъ  /+G ю  /+H ц  /+K ё   // /
+# No [] or number-row mappings are provided. Shift produces uppercase letters.
 schema:
   schema_id: russian_test
-  name: Russian (JCUKEN)
-  version: "1"
+  name: Russian
+  version: "2"
 
 engine:
   processors:
@@ -28,7 +27,7 @@ engine:
     - table_translator
 
 speller:
-  alphabet: "qwfpgjluy;arstdhneizxcvbkm/QWFPGJLUY:ARSTDHNEIZXCVBKM"
+  alphabet: "qwfpgjluyarstdhneiozxcvbkm/QWFPGJLUYARSTDHNEIOZXCVBKM"
   delimiter: " "
   auto_select: true
   max_code_length: 0

@@ -32,6 +32,40 @@ patch:
   "preset_keys/Mode_switch_CN": {toggle: ascii_mode, functional: false, send: SWITCH_CHARSET, states: [文, A]}
   "preset_keys/Mode_switch_JP": {toggle: ascii_mode, functional: false, send: SWITCH_CHARSET, states: [あ, A]}
   "preset_keys/Mode_switch_KR": {toggle: ascii_mode, functional: false, send: SWITCH_CHARSET, states: [한, A]}
+  "preset_keys/Mode_switch_RU": {toggle: ascii_mode, functional: false, send: SWITCH_CHARSET, states: [Я, A]}
+  "preset_keys/RU_q": {label: й, text: й}
+  "preset_keys/RU_w": {label: х, text: х}
+  "preset_keys/RU_f": {label: у, text: у}
+  "preset_keys/RU_p": {label: к, text: к}
+  "preset_keys/RU_g": {label: п, text: п}
+  "preset_keys/RU_j": {label: б, text: б}
+  "preset_keys/RU_l": {label: г, text: г}
+  "preset_keys/RU_u": {label: ш, text: ш}
+  "preset_keys/RU_y": {label: ж, text: ж}
+  "preset_keys/RU_a": {label: и, text: и}
+  "preset_keys/RU_r": {label: в, text: в}
+  "preset_keys/RU_s": {label: е, text: е}
+  "preset_keys/RU_t": {label: о, text: о}
+  "preset_keys/RU_d": {label: а, text: а}
+  "preset_keys/RU_h": {label: л, text: л}
+  "preset_keys/RU_n": {label: н, text: н}
+  "preset_keys/RU_e": {label: т, text: т}
+  "preset_keys/RU_i": {label: с, text: с}
+  "preset_keys/RU_o": {label: р, text: р}
+  "preset_keys/RU_z": {label: я, text: я}
+  "preset_keys/RU_x": {label: ч, text: ч}
+  "preset_keys/RU_c": {label: з, text: з}
+  "preset_keys/RU_v": {label: м, text: м}
+  "preset_keys/RU_b": {label: д, text: д}
+  "preset_keys/RU_k": {label: ы, text: ы}
+  "preset_keys/RU_m": {label: ь, text: ь}
+  "preset_keys/RU_yu": {label: ю, text: ю}
+  "preset_keys/RU_yo": {label: ё, text: ё}
+  "preset_keys/RU_kha": {label: х, text: х}
+  "preset_keys/RU_be": {label: б, text: б}
+  "preset_keys/RU_e_reverse": {label: э, text: э}
+  "preset_keys/RU_hard_sign": {label: ъ, text: ъ}
+  "preset_keys/RU_slash": {label: '/', text: '/'}
   "preset_keys/Mode_zhsimp": {toggle: zh_simp, functional: false, send: SWITCH_CHARSET, states: [简, 繁]}
   "preset_keys/Mode_kata": {toggle: kata, functional: false, send: SWITCH_CHARSET, states: [ひ, カ]}
   "preset_keys/Schema_switch": {label: 🌐, functional: false, send: MENU}
@@ -97,6 +131,81 @@ patch:
     __patch:
       "keys/@50/click": Mode_switch_CN
       "keys/@50/long_click": Mode_zhsimp
+
+  "preset_keyboards/russian_test":
+    author: "UniqueDing"
+    name: 26 russian
+    __include: local/10keys
+    __patch:
+      "keys/@13/click": RU_q
+      "keys/@13/ascii": q
+      "keys/@14/click": RU_w
+      "keys/@14/ascii": w
+      "keys/@15/click": RU_f
+      "keys/@15/ascii": f
+      "keys/@16/click": RU_p
+      "keys/@16/ascii": p
+      "keys/@17/click": RU_g
+      "keys/@17/ascii": g
+      "keys/@18/click": RU_j
+      "keys/@18/ascii": j
+      "keys/@19/click": RU_l
+      "keys/@19/ascii": l
+      "keys/@20/click": RU_u
+      "keys/@20/ascii": u
+      "keys/@21/click": RU_y
+      "keys/@21/ascii": y
+      "keys/@26/click": RU_a
+      "keys/@26/ascii": a
+      "keys/@26/popup": ['✅', 'ñ', 'Ñ', '[', 'э', 'Э']
+      "keys/@26/label_symbol": '[ э'
+      "keys/@27/click": RU_r
+      "keys/@27/ascii": r
+      "keys/@27/popup": ['❌', 'í', 'Í', ']', 'щ', 'Щ']
+      "keys/@27/label_symbol": '] щ'
+      "keys/@28/click": RU_s
+      "keys/@28/ascii": s
+      "keys/@28/popup": ['❓', 'ê', 'Ê', '{', 'ф', 'Ф']
+      "keys/@28/label_symbol": '{ ф'
+      "keys/@29/click": RU_t
+      "keys/@29/ascii": t
+      "keys/@29/popup": ['🚨', 'ö', 'Ö', '}', 'ъ', 'Ъ']
+      "keys/@29/label_symbol": '} ъ'
+      "keys/@30/click": RU_d
+      "keys/@30/ascii": d
+      "keys/@30/popup": ['🎉', 'ü', 'Ü', '|', 'ю', 'Ю']
+      "keys/@30/label_symbol": '| ю'
+      "keys/@31/click": RU_h
+      "keys/@31/ascii": h
+      "keys/@31/popup": ['✨', 'ô', 'Ô', '_', 'ц', 'Ц']
+      "keys/@31/label_symbol": '_ ц'
+      "keys/@32/click": RU_n
+      "keys/@32/ascii": n
+      "keys/@33/click": RU_e
+      "keys/@33/ascii": e
+      "keys/@33/popup": ['🔥', 'ù', 'Ù', '-', 'ё', 'Ё']
+      "keys/@33/label_symbol": '- ё'
+      "keys/@34/click": RU_i
+      "keys/@34/ascii": i
+      "keys/@35/click": RU_o
+      "keys/@35/ascii": o
+      "keys/@39/click": RU_z
+      "keys/@39/ascii": z
+      "keys/@40/click": RU_x
+      "keys/@40/ascii": x
+      "keys/@41/click": RU_c
+      "keys/@41/ascii": c
+      "keys/@42/click": RU_v
+      "keys/@42/ascii": v
+      "keys/@43/click": RU_b
+      "keys/@43/ascii": b
+      "keys/@44/click": RU_k
+      "keys/@44/ascii": k
+      "keys/@45/click": RU_m
+      "keys/@45/ascii": m
+      "keys/@50/click": Mode_switch_RU
+      "keys/@54/click": RU_slash
+      "keys/@54/ascii": '/'
 
   "preset_keyboards/japanese":
     author: "UniqueDing"
