@@ -67,6 +67,7 @@ patch:
   "preset_keys/RU_hard_sign": {label: ъ, text: ъ}
   "preset_keys/RU_slash": {label: '/', text: '/'}
   "preset_keys/Mode_switch_GR": {toggle: ascii_mode, functional: false, send: SWITCH_CHARSET, states: [Ε, A]}
+  "preset_keys/Mode_switch_AR": {toggle: ascii_mode, functional: false, send: SWITCH_CHARSET, states: [ع, A]}
   "preset_keys/GR_empty": {label: "·"} # No Greek character on physical Q.
   "preset_keys/Language_slash": {label: "/", commit: "/"}
   "preset_keys/GR_key_14": {label: "ς", text: "ς"}
@@ -105,6 +106,45 @@ patch:
   "preset_keys/GR_key_43": {label: "β", text: "β"}
   "preset_keys/GR_key_44": {label: "λ", text: "λ"}
   "preset_keys/GR_key_45": {label: "μ", text: "μ"}
+  "preset_keys/AR_key_13": {label: "ض", text: "ض"}
+  "preset_keys/AR_extra_13": {label: "،", text: "،"}
+  "preset_keys/AR_key_14": {label: "ص", text: "ص"}
+  "preset_keys/AR_extra_14": {label: "؛", text: "؛"}
+  "preset_keys/AR_key_15": {label: "ث", text: "ث"}
+  "preset_keys/AR_extra_15": {label: "؟", text: "؟"}
+  "preset_keys/AR_key_16": {label: "ق", text: "ق"}
+  "preset_keys/AR_key_17": {label: "ف", text: "ف"}
+  "preset_keys/AR_key_18": {label: "ك", text: "ك"}
+  "preset_keys/AR_key_19": {label: "ش", text: "ش"}
+  "preset_keys/AR_key_20": {label: "ه", text: "ه"}
+  "preset_keys/AR_key_21": {label: "خ", text: "خ"}
+  "preset_keys/AR_key_26": {label: "ع", text: "ع"}
+  "preset_keys/AR_extra_26": {label: "ء", text: "ء"}
+  "preset_keys/AR_key_27": {label: "و", text: "و"}
+  "preset_keys/AR_extra_27": {label: "ذ", text: "ذ"}
+  "preset_keys/AR_key_28": {label: "ي", text: "ي"}
+  "preset_keys/AR_extra_28": {label: "ئ", text: "ئ"}
+  "preset_keys/AR_key_29": {label: "ل", text: "ل"}
+  "preset_keys/AR_extra_29": {label: "إ", text: "إ"}
+  "preset_keys/AR_key_30": {label: "ر", text: "ر"}
+  "preset_keys/AR_extra_30": {label: "آ", text: "آ"}
+  "preset_keys/AR_key_31": {label: "ت", text: "ت"}
+  "preset_keys/AR_extra_31": {label: "أ", text: "أ"}
+  "preset_keys/AR_key_32": {label: "ا", text: "ا"}
+  "preset_keys/AR_extra_32": {label: "غ", text: "غ"}
+  "preset_keys/AR_key_33": {label: "ن", text: "ن"}
+  "preset_keys/AR_extra_33": {label: "ظ", text: "ظ"}
+  "preset_keys/AR_key_34": {label: "م", text: "م"}
+  "preset_keys/AR_extra_34": {label: "ز", text: "ز"}
+  "preset_keys/AR_key_35": {label: "ة", text: "ة"}
+  "preset_keys/AR_key_39": {label: "ج", text: "ج"}
+  "preset_keys/AR_key_40": {label: "ط", text: "ط"}
+  "preset_keys/AR_key_41": {label: "ب", text: "ب"}
+  "preset_keys/AR_key_42": {label: "س", text: "س"}
+  "preset_keys/AR_key_43": {label: "د", text: "د"}
+  "preset_keys/AR_extra_43": {label: "ؤ", text: "ؤ"}
+  "preset_keys/AR_key_44": {label: "ى", text: "ى"}
+  "preset_keys/AR_key_45": {label: "ح", text: "ح"}
   "preset_keys/Mode_zhsimp": {toggle: zh_simp, functional: false, send: SWITCH_CHARSET, states: [简, 繁]}
   "preset_keys/Mode_kata": {toggle: kata, functional: false, send: SWITCH_CHARSET, states: [ひ, カ]}
   "preset_keys/Schema_switch": {label: 🌐, functional: false, send: MENU}
@@ -340,6 +380,93 @@ patch:
       "keys/@45/ascii": "m"
       "keys/@45/popup": ["🎈","ò","Ò",")","·","μ","Μ"]
       "keys/@50/click": Mode_switch_GR
+      "keys/@54/click": Language_slash
+      "keys/@54/ascii": "/"
+
+  "preset_keyboards/arabic_colemak":
+    author: "UniqueDing"
+    name: 26 arabic_colemak
+    __include: local/10keys
+    __patch:
+      "keys/@13/click": AR_key_13
+      "keys/@13/ascii": "q"
+      "keys/@13/swipe_up": AR_extra_13
+      "keys/@13/popup": ["😀","á","Á","!","،"]
+      "keys/@14/click": AR_key_14
+      "keys/@14/ascii": "w"
+      "keys/@14/swipe_up": AR_extra_14
+      "keys/@14/popup": ["😂","é","É","@","؛"]
+      "keys/@15/click": AR_key_15
+      "keys/@15/ascii": "f"
+      "keys/@15/swipe_up": AR_extra_15
+      "keys/@15/popup": ["😭","è","È","#","؟"]
+      "keys/@16/click": AR_key_16
+      "keys/@16/ascii": "p"
+      "keys/@17/click": AR_key_17
+      "keys/@17/ascii": "g"
+      "keys/@18/click": AR_key_18
+      "keys/@18/ascii": "j"
+      "keys/@19/click": AR_key_19
+      "keys/@19/ascii": "l"
+      "keys/@20/click": AR_key_20
+      "keys/@20/ascii": "u"
+      "keys/@21/click": AR_key_21
+      "keys/@21/ascii": "y"
+      "keys/@26/click": AR_key_26
+      "keys/@26/ascii": "a"
+      "keys/@26/swipe_up": AR_extra_26
+      "keys/@26/popup": ["✅","ñ","Ñ","[","ء"]
+      "keys/@27/click": AR_key_27
+      "keys/@27/ascii": "r"
+      "keys/@27/swipe_up": AR_extra_27
+      "keys/@27/popup": ["❌","í","Í","]","ذ"]
+      "keys/@28/click": AR_key_28
+      "keys/@28/ascii": "s"
+      "keys/@28/swipe_up": AR_extra_28
+      "keys/@28/popup": ["❓","ê","Ê","{","ئ"]
+      "keys/@29/click": AR_key_29
+      "keys/@29/ascii": "t"
+      "keys/@29/swipe_up": AR_extra_29
+      "keys/@29/popup": ["🚨","ö","Ö","}","إ"]
+      "keys/@30/click": AR_key_30
+      "keys/@30/ascii": "d"
+      "keys/@30/swipe_up": AR_extra_30
+      "keys/@30/popup": ["🎉","ü","Ü","|","آ"]
+      "keys/@31/click": AR_key_31
+      "keys/@31/ascii": "h"
+      "keys/@31/swipe_up": AR_extra_31
+      "keys/@31/popup": ["✨","ô","Ô","_","أ"]
+      "keys/@32/click": AR_key_32
+      "keys/@32/ascii": "n"
+      "keys/@32/swipe_up": AR_extra_32
+      "keys/@32/popup": ["🚀","î","Î","=","غ"]
+      "keys/@33/click": AR_key_33
+      "keys/@33/ascii": "e"
+      "keys/@33/swipe_up": AR_extra_33
+      "keys/@33/popup": ["🔥","ù","Ù","-","ظ"]
+      "keys/@34/click": AR_key_34
+      "keys/@34/ascii": "i"
+      "keys/@34/swipe_up": AR_extra_34
+      "keys/@34/popup": ["💡","û","Û","+","ز"]
+      "keys/@35/click": AR_key_35
+      "keys/@35/ascii": "o"
+      "keys/@39/click": AR_key_39
+      "keys/@39/ascii": "z"
+      "keys/@40/click": AR_key_40
+      "keys/@40/ascii": "x"
+      "keys/@41/click": AR_key_41
+      "keys/@41/ascii": "c"
+      "keys/@42/click": AR_key_42
+      "keys/@42/ascii": "v"
+      "keys/@43/click": AR_key_43
+      "keys/@43/ascii": "b"
+      "keys/@43/swipe_up": AR_extra_43
+      "keys/@43/popup": ["🙏","ì","Ì","^","ؤ"]
+      "keys/@44/click": AR_key_44
+      "keys/@44/ascii": "k"
+      "keys/@45/click": AR_key_45
+      "keys/@45/ascii": "m"
+      "keys/@50/click": Mode_switch_AR
       "keys/@54/click": Language_slash
       "keys/@54/ascii": "/"
 

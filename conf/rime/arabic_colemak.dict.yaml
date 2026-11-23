@@ -1,0 +1,48 @@
+# Rime dictionary
+# encoding: utf-8
+---
+name: arabic_colemak
+version: "1"
+sort: original
+use_preset_vocabulary: false
+...
+ض	q
+ص	w
+ث	f
+ق	p
+ف	g
+ك	j
+ش	l
+ه	u
+خ	y
+ع	a
+و	r
+ي	s
+ل	t
+ر	d
+ت	h
+ا	n
+ن	e
+م	i
+ة	o
+ج	z
+ط	x
+ب	c
+س	v
+د	b
+ى	k
+ح	m
+ذ	/r
+ز	/i
+غ	/n
+ظ	/e
+ء	/a
+إ	/t
+آ	/d
+أ	/h
+ئ	/s
+ؤ	/b
+،	/q
+؛	/w
+؟	/f
+/	//

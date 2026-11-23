@@ -6,6 +6,7 @@ patch:
     - schema: hangeul2set
     - schema: russian_test
     - schema: greek_colemak
+    - schema: arabic_colemak
 
   key_binder:
     bindings:
