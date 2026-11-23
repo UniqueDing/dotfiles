@@ -12,14 +12,14 @@
   },
   "preset": "openai",
   "presets": {
-    "gemini": {
+    "antigravity": {
       "orchestrator": {
-        "model": "gemini/gemini-4-argon-high",
-        "mcps": ["*", "!context7"],
+        "model": "gemini/claude-opus-5-5-high",
+        "mcps": ["*"],
         "skills": ["*"]
       },
       "oracle": {
-        "model": "gemini/gemini-4-argon-high",
+        "model": "gemini/claude-opus-5-5-high",
         "mcps": ["codegraph"],
         "skills": ["simplify"]
       },
@@ -29,18 +29,50 @@
         "skills": []
       },
       "fixer": {
-        "model": "gemini/gemini-4-argon-high",
+        "model": "gemini/claude-sonnet-5-5-high",
         "mcps": [],
         "skills": []
       },
       "explorer": {
         "model": "gemini/gemini-3-flash",
-        "mcps": ["codegraph"],
+        "mcps": ["codegraph", "websearch", "gh_grep"],
         "skills": []
       },
-      "librarian": {
+      "observer": {
         "model": "gemini/gemini-3-flash",
-        "mcps": ["websearch", "context7", "gh_grep"],
+        "mcps": [],
+        "skills": []
+      }
+    },
+    "gemini": {
+      "orchestrator": {
+        "model": "gemini/gemini-4-carbon-high",
+        "mcps": ["*"],
+        "skills": ["*"]
+      },
+      "oracle": {
+        "model": "gemini/gemini-4-carbon-high",
+        "mcps": ["codegraph"],
+        "skills": ["simplify"]
+      },
+      "designer": {
+        "model": "gemini/gemini-4-neon-xhigh",
+        "mcps": [],
+        "skills": []
+      },
+      "fixer": {
+        "model": "gemini/gemini-4-neon-xhigh",
+        "mcps": [],
+        "skills": []
+      },
+      "explorer": {
+        "model": "gemini/gemini-4-hydrogen-xhigh",
+        "mcps": ["codegraph", "websearch", "gh_grep"],
+        "skills": []
+      },
+      "observer": {
+        "model": "gemini/gemini-4-hydrogen-xhigh",
+        "mcps": [],
         "skills": []
       }
     },
@@ -53,7 +85,9 @@
       },
       "explorer": {
         "mcps": [
-          "codegraph"
+          "codegraph",
+          "websearch",
+          "gh_grep"
         ],
         "model": "openai/gpt-6-luna",
         "skills": [],
@@ -65,12 +99,8 @@
         "skills": [],
         "variant": "high"
       },
-      "librarian": {
-        "mcps": [
-          "websearch",
-          "context7",
-          "gh_grep"
-        ],
+      "observer": {
+        "mcps": [],
         "model": "openai/gpt-6-luna",
         "skills": [],
         "variant": "low"
@@ -79,7 +109,7 @@
         "mcps": [
           "codegraph"
         ],
-        "model": "openai/gpt-6-astra",
+        "model": "openai/gpt-6.2-astra",
         "skills": [
           "simplify"
         ],
@@ -87,10 +117,9 @@
       },
       "orchestrator": {
         "mcps": [
-          "*",
-          "!context7"
+          "*"
         ],
-        "model": "openai/gpt-6.1-sol",
+        "model": "openai/gpt-6.2-sol",
         "skills": [
           "*"
         ],
@@ -104,7 +133,10 @@
         "skills": []
       },
       "explorer": {
-        "mcps": [],
+        "mcps": [
+          "websearch",
+          "gh_grep"
+        ],
         "model": "opencode-go/deepseek-v4-flash",
         "skills": [],
         "variant": "high"
@@ -115,23 +147,15 @@
         "skills": [],
         "variant": "high"
       },
-      "librarian": {
-        "mcps": [
-          "websearch",
-          "context7",
-          "gh_grep"
-        ],
-        "model": "opencode-go/deepseek-v4-flash",
-        "skills": [],
-        "variant": "high"
-      },
       "observer": {
         "mcps": [],
         "model": "opencode-go/mimo-v2.5",
         "skills": []
       },
       "oracle": {
-        "mcps": [],
+        "mcps": [
+          "codegraph"
+        ],
         "model": "opencode-go/qwen3.7-max",
         "skills": [
           "simplify"
@@ -140,8 +164,7 @@
       },
       "orchestrator": {
         "mcps": [
-          "*",
-          "!context7"
+          "*"
         ],
         "model": "opencode-go/minimax-m3",
         "skills": [
@@ -158,7 +181,10 @@
         "variant": "medium"
       },
       "explorer": {
-        "mcps": [],
+        "mcps": [
+          "websearch",
+          "gh_grep"
+        ],
         "model": "zhipuai-coding-plan/glm-5.3-flash",
         "skills": [],
         "variant": "low"
@@ -169,23 +195,15 @@
         "skills": [],
         "variant": "medium"
       },
-      "librarian": {
-        "mcps": [
-          "websearch",
-          "context7",
-          "gh_grep"
-        ],
-        "model": "zhipuai-coding-plan/glm-5.3-flash",
-        "skills": [],
-        "variant": "low"
-      },
       "observer": {
         "mcps": [],
         "model": "zhipuai-coding-plan/glm-5.3-flash",
         "skills": []
       },
       "oracle": {
-        "mcps": [],
+        "mcps": [
+          "codegraph"
+        ],
         "model": "zhipuai-coding-plan/glm-5.3",
         "skills": [
           "simplify"
@@ -194,8 +212,7 @@
       },
       "orchestrator": {
         "mcps": [
-          "*",
-          "!context7"
+          "*"
         ],
         "model": "zhipuai-coding-plan/glm-5.3",
         "skills": [

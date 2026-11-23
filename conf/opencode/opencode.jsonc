@@ -22,6 +22,28 @@
         "apiKey": "{env:OPENAI_API_KEY}"
       },
       "models": {
+        "claude-opus-5-5-high": {
+          "name": "Claude Opus 5.5 High",
+          "limit": {
+            "context": 1000000,
+            "output": 128000
+          }
+        },
+        "claude-sonnet-5-5-high": {
+          "name": "Claude Sonnet 5.5 High"
+        },
+        "gemini-4-carbon-high": {
+          "name": "Gemini 4 Carbon High",
+          "limit": { "context": 1048576, "output": 65536 }
+        },
+        "gemini-4-neon-xhigh": {
+          "name": "Gemini 4 Neon XHigh",
+          "limit": { "context": 1048576, "output": 65536 }
+        },
+        "gemini-4-hydrogen-xhigh": {
+          "name": "Gemini 4 Hydrogen XHigh",
+          "limit": { "context": 1048576, "output": 65536 }
+        },
         "gemini-4-argon-high": {
           "name": "Gemini 4 Argon High"
         },
