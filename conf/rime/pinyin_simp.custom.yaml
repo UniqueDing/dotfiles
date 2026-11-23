@@ -3,7 +3,7 @@
 
 patch:
   "schema/icon": icon/pinyin.ico
-  "schema/name": Pinyin (Simplified)
+  "schema/name": Pinyin
   switches:
     - name: full_shape
       states: [ 半, 全 ]
