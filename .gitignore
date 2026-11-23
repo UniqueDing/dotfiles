@@ -35,6 +35,7 @@ pkg_target
 /kanata/controller/target/
 
 # OpenCode local overrides and generated/runtime content.
+/conf/opencode/skills/qual*/
 conf/opencode/opencode.local.jsonc
 conf/opencode/service.json
 conf/opencode/node_modules/
