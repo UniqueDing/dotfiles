@@ -21,8 +21,11 @@
 - Prefer local configuration and installed version information. Look up external
   documentation when required or when an actual API/version uncertainty remains;
   avoid unrelated documentation tours. Batch independent checks when practical.
-- Do not delegate by default. Use subagents only when the user or applicable
-  project/skill instructions explicitly request delegation.
+- Delegate non-trivial work to specialists: parallelizable lanes, multi-file
+  or cross-area changes, risky or high-uncertainty tasks, and specialized
+  scopes (explorer for recon, oracle for architecture/review, designer for
+  UI/UX, fixer for mechanical implementation). Work directly only for small,
+  localized, low-risk edits. Explicit user or skill delegation requests win.
 - Do not create plan, design, research, or summary documents unless the user asks,
   the task explicitly delivers documentation, or applicable project instructions
   require them. Keep short plans and explanations in the conversation.
