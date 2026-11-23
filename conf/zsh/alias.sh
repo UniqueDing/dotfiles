@@ -34,6 +34,23 @@ function showkey() {
 	esac
 }
 
+# Use a widely supported terminal type and restore input modes after SSH exits.
+function ssh() {
+	local rc
+	TERM=xterm command ssh "$@"
+	rc=$?
+
+	if [[ -t 1 ]]; then
+		# Disable xterm modifyOtherKeys and Kitty keyboard enhancements without clearing.
+		printf '\033[>4;0m\033[=0u'
+		printf '\033[?1000l\033[?1002l\033[?1003l\033[?1005l\033[?1006l\033[?1015l'
+		# Show the text cursor and restore the terminal's default cursor style.
+		printf '\033[?25h\033[0 q'
+	fi
+
+	return "$rc"
+}
+
 alias tssh="TERM=xterm ssh"
 alias scpr="rsync -aHAXP --rsh=ssh"
 alias lg="lazygit"
