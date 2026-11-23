@@ -7,9 +7,20 @@
   lctl         lalt        lmet           spc               rmet        ralt        rctl
 )
 
+(defvirtualkeys com.parallels.desktop.console nop0 com.oray.sunlogin.macclient nop0 moonlight-bypass (layer-while-held moonlight-passthrough))
+
 (include "kanata-common.kbd")
 
+;; Controller-selected passthrough: retain local Caps tap/hold and swap left Command/Option.
+(deflayer moonlight-passthrough
+  tab    q     w     e     r     t        y     u     i     o     p     [     ]     \
+  @cap   a     s     d     f     g        h     j     k     l     ;     '           ret
+  lsft   z     x     c     v     b        n     m     ,     .     /                 rsft
+  lctl         lmet        lalt           spc               rmet        ralt        rctl
+)
+
 (defalias
-  cmod3 lmet
+  remote-command (switch ((input virtual com.parallels.desktop.console)) rctl break ((input virtual com.oray.sunlogin.macclient)) rctl break () lmet break)
+  cmod3 @remote-command
   shot M-S-4
 )

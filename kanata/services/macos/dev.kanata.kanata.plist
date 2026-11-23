@@ -10,6 +10,8 @@
         <string>--cfg</string>
         <string>__KANATA_CONFIG__</string>
         <string>--no-wait</string>
+        <string>--port</string>
+        <string>127.0.0.1:5829</string>
     </array>
     <key>RunAtLoad</key>
     <true/>
