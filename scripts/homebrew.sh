@@ -66,7 +66,7 @@ homebrew_main() {
     fi
 
     [[ $# -gt 0 ]] || set -- install --no-upgrade
-    "$BREW_BIN" bundle "$@" --file "$DOTFILES_DIR/Brewfile" || return $?
+    "$BREW_BIN" bundle "$@" --file "$DOTFILES_DIR/package/Brewfile" || return $?
 
     if [[ "$system" == Linux && "$1" == install ]]; then
         desktop="$("$BREW_BIN" --prefix)/opt/clash-party-linux/share/applications/clash-party-linux.desktop"
