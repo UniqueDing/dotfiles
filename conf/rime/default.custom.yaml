@@ -5,6 +5,7 @@ patch:
     - schema: japanese
     - schema: hangeul2set
     - schema: russian_test
+    - schema: greek_colemak
 
   key_binder:
     bindings:

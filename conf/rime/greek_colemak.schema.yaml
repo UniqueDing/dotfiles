@@ -1,0 +1,46 @@
+# Physical QWERTY rows on the Kanata Colemak layer; P passes ; and : through.
+# Top: ·ςγπδυθξφ;  Home: αστοεηικνρ  Bottom: ζχψωβλμ
+# Tap/release / then the physical key for a combination; // emits /.
+# Comma, period, brackets, apostrophe and other punctuation pass through.
+# Physical Q has no direct Greek letter; Shift selects uppercase entries.
+schema:
+  schema_id: greek_colemak
+  name: Greek
+  version: "1"
+
+switches:
+  - name: ascii_mode
+    reset: 0
+    states: ["ΕΛ", "A"]
+
+engine:
+  processors:
+    - ascii_composer
+    - key_binder
+    - speller
+    - selector
+    - navigator
+    - express_editor
+  segmentors:
+    - ascii_segmentor
+    - abc_segmentor
+    - fallback_segmentor
+  translators:
+    - table_translator
+
+ascii_composer:
+  switch_key:
+    Shift_L: noop
+    Shift_R: noop
+
+speller:
+  alphabet: "qwfpgjluyarstdhneiozxcvbkm/QWFPGJLUYARSTDHNEIOZXCVBKM"
+  delimiter: " "
+  auto_select: true
+  max_code_length: 0
+
+translator:
+  dictionary: greek_colemak
+  enable_sentence: false
+  enable_completion: false
+  enable_user_dict: false

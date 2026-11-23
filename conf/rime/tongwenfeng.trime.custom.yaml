@@ -66,6 +66,45 @@ patch:
   "preset_keys/RU_e_reverse": {label: э, text: э}
   "preset_keys/RU_hard_sign": {label: ъ, text: ъ}
   "preset_keys/RU_slash": {label: '/', text: '/'}
+  "preset_keys/Mode_switch_GR": {toggle: ascii_mode, functional: false, send: SWITCH_CHARSET, states: [Ε, A]}
+  "preset_keys/GR_empty": {label: "·"} # No Greek character on physical Q.
+  "preset_keys/Language_slash": {label: "/", commit: "/"}
+  "preset_keys/GR_key_14": {label: "ς", text: "ς"}
+  "preset_keys/GR_key_15": {label: "γ", text: "γ"}
+  "preset_keys/GR_key_16": {label: "π", text: "π"}
+  "preset_keys/GR_key_17": {label: "δ", text: "δ"}
+  "preset_keys/GR_key_18": {label: "υ", text: "υ"}
+  "preset_keys/GR_extra_18": {label: "ύ", text: "ύ"}
+  "preset_keys/GR_key_19": {label: "θ", text: "θ"}
+  "preset_keys/GR_key_20": {label: "ξ", text: "ξ"}
+  "preset_keys/GR_extra_20": {label: "ϊ", text: "ϊ"}
+  "preset_keys/GR_key_21": {label: "φ", text: "φ"}
+  "preset_keys/GR_extra_21": {label: "ϋ", text: "ϋ"}
+  "preset_keys/GR_key_26": {label: "α", text: "α"}
+  "preset_keys/GR_extra_26": {label: "ά", text: "ά"}
+  "preset_keys/GR_key_27": {label: "σ", text: "σ"}
+  "preset_keys/GR_key_28": {label: "τ", text: "τ"}
+  "preset_keys/GR_key_29": {label: "ο", text: "ο"}
+  "preset_keys/GR_extra_29": {label: "ό", text: "ό"}
+  "preset_keys/GR_key_30": {label: "ε", text: "ε"}
+  "preset_keys/GR_extra_30": {label: "έ", text: "έ"}
+  "preset_keys/GR_key_31": {label: "η", text: "η"}
+  "preset_keys/GR_extra_31": {label: "ή", text: "ή"}
+  "preset_keys/GR_key_32": {label: "ι", text: "ι"}
+  "preset_keys/GR_extra_32": {label: "ί", text: "ί"}
+  "preset_keys/GR_key_33": {label: "κ", text: "κ"}
+  "preset_keys/GR_key_34": {label: "ν", text: "ν"}
+  "preset_keys/GR_key_35": {label: "ρ", text: "ρ"}
+  "preset_keys/GR_key_39": {label: "ζ", text: "ζ"}
+  "preset_keys/GR_key_40": {label: "χ", text: "χ"}
+  "preset_keys/GR_extra_40": {label: "ΐ", text: "ΐ"}
+  "preset_keys/GR_key_41": {label: "ψ", text: "ψ"}
+  "preset_keys/GR_extra_41": {label: "ΰ", text: "ΰ"}
+  "preset_keys/GR_key_42": {label: "ω", text: "ω"}
+  "preset_keys/GR_extra_42": {label: "ώ", text: "ώ"}
+  "preset_keys/GR_key_43": {label: "β", text: "β"}
+  "preset_keys/GR_key_44": {label: "λ", text: "λ"}
+  "preset_keys/GR_key_45": {label: "μ", text: "μ"}
   "preset_keys/Mode_zhsimp": {toggle: zh_simp, functional: false, send: SWITCH_CHARSET, states: [简, 繁]}
   "preset_keys/Mode_kata": {toggle: kata, functional: false, send: SWITCH_CHARSET, states: [ひ, カ]}
   "preset_keys/Schema_switch": {label: 🌐, functional: false, send: MENU}
@@ -206,6 +245,103 @@ patch:
       "keys/@50/click": Mode_switch_RU
       "keys/@54/click": RU_slash
       "keys/@54/ascii": '/'
+
+  "preset_keyboards/greek_colemak":
+    author: "UniqueDing"
+    name: 26 greek_colemak
+    __include: local/10keys
+    __patch:
+      "keys/@13/click": GR_empty
+      "keys/@13/ascii": "q"
+      "keys/@14/click": GR_key_14
+      "keys/@14/ascii": "w"
+      "keys/@14/popup": ["😂","é","É","@","ς","Σ"]
+      "keys/@15/click": GR_key_15
+      "keys/@15/ascii": "f"
+      "keys/@15/popup": ["😭","è","È","#","γ","Γ"]
+      "keys/@16/click": GR_key_16
+      "keys/@16/ascii": "p"
+      "keys/@16/popup": ["😴","à","À","$","π","Π"]
+      "keys/@17/click": GR_key_17
+      "keys/@17/ascii": "g"
+      "keys/@17/popup": ["🤔","ï","Ï","%","δ","Δ"]
+      "keys/@18/click": GR_key_18
+      "keys/@18/ascii": "j"
+      "keys/@18/swipe_up": GR_extra_18
+      "keys/@18/popup": ["😎","æ","Æ","'","€","ύ","Ύ","υ","Υ"]
+      "keys/@19/click": GR_key_19
+      "keys/@19/ascii": "l"
+      "keys/@19/popup": ["🌝","œ","Œ","\"","¡","θ","Θ"]
+      "keys/@20/click": GR_key_20
+      "keys/@20/ascii": "u"
+      "keys/@20/swipe_up": GR_extra_20
+      "keys/@20/popup": ["🌚","â","Â","<","¿","ϊ","Ϊ","ξ","Ξ"]
+      "keys/@21/click": GR_key_21
+      "keys/@21/ascii": "y"
+      "keys/@21/swipe_up": GR_extra_21
+      "keys/@21/popup": ["👀","ë","Ë",">","«","ϋ","Ϋ","φ","Φ"]
+      "keys/@26/click": GR_key_26
+      "keys/@26/ascii": "a"
+      "keys/@26/swipe_up": GR_extra_26
+      "keys/@26/popup": ["✅","ñ","Ñ","[","ά","Ά","α","Α"]
+      "keys/@27/click": GR_key_27
+      "keys/@27/ascii": "r"
+      "keys/@27/popup": ["❌","í","Í","]","σ","Σ"]
+      "keys/@28/click": GR_key_28
+      "keys/@28/ascii": "s"
+      "keys/@28/popup": ["❓","ê","Ê","{","τ","Τ"]
+      "keys/@29/click": GR_key_29
+      "keys/@29/ascii": "t"
+      "keys/@29/swipe_up": GR_extra_29
+      "keys/@29/popup": ["🚨","ö","Ö","}","ό","Ό","ο","Ο"]
+      "keys/@30/click": GR_key_30
+      "keys/@30/ascii": "d"
+      "keys/@30/swipe_up": GR_extra_30
+      "keys/@30/popup": ["🎉","ü","Ü","|","έ","Έ","ε","Ε"]
+      "keys/@31/click": GR_key_31
+      "keys/@31/ascii": "h"
+      "keys/@31/swipe_up": GR_extra_31
+      "keys/@31/popup": ["✨","ô","Ô","_","ή","Ή","η","Η"]
+      "keys/@32/click": GR_key_32
+      "keys/@32/ascii": "n"
+      "keys/@32/swipe_up": GR_extra_32
+      "keys/@32/popup": ["🚀","î","Î","=","ί","Ί","ι","Ι"]
+      "keys/@33/click": GR_key_33
+      "keys/@33/ascii": "e"
+      "keys/@33/popup": ["🔥","ù","Ù","-","κ","Κ"]
+      "keys/@34/click": GR_key_34
+      "keys/@34/ascii": "i"
+      "keys/@34/popup": ["💡","û","Û","+","ν","Ν"]
+      "keys/@35/click": GR_key_35
+      "keys/@35/ascii": "o"
+      "keys/@35/popup": ["ÿ","Ÿ","*","ρ","Ρ"]
+      "keys/@39/click": GR_key_39
+      "keys/@39/ascii": "z"
+      "keys/@39/popup": ["👌","ó","Ó","\\","ζ","Ζ"]
+      "keys/@40/click": GR_key_40
+      "keys/@40/ascii": "x"
+      "keys/@40/swipe_up": GR_extra_40
+      "keys/@40/popup": ["👏","ú","Ú","&","ΐ","Ϊ́","χ","Χ"]
+      "keys/@41/click": GR_key_41
+      "keys/@41/ascii": "c"
+      "keys/@41/swipe_up": GR_extra_41
+      "keys/@41/popup": ["🤝","ß","ẞ","`","ΰ","Ϋ́","ψ","Ψ"]
+      "keys/@42/click": GR_key_42
+      "keys/@42/ascii": "v"
+      "keys/@42/swipe_up": GR_extra_42
+      "keys/@42/popup": ["👍","ä","Ä","~","ώ","Ώ","ω","Ω"]
+      "keys/@43/click": GR_key_43
+      "keys/@43/ascii": "b"
+      "keys/@43/popup": ["🙏","ì","Ì","^","β","Β"]
+      "keys/@44/click": GR_key_44
+      "keys/@44/ascii": "k"
+      "keys/@44/popup": ["💖","ç","Ç","(","λ","Λ"]
+      "keys/@45/click": GR_key_45
+      "keys/@45/ascii": "m"
+      "keys/@45/popup": ["🎈","ò","Ò",")","·","μ","Μ"]
+      "keys/@50/click": Mode_switch_GR
+      "keys/@54/click": Language_slash
+      "keys/@54/ascii": "/"
 
   "preset_keyboards/japanese":
     author: "UniqueDing"
