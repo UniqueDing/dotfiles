@@ -9,6 +9,12 @@ if [[ "${1:-}" == brew ]]; then
     exec bash "$DOTFILES_DIR/scripts/homebrew.sh" "$@"
 fi
 
+# Remote access must not load Nix helpers or write local.nix, even for dry runs.
+if [[ "${1:-}" == remote || "${1:-}" == remote-access ]]; then
+    shift
+    exec bash "$DOTFILES_DIR/scripts/remote-access.sh" "$@"
+fi
+
 # shellcheck source=scripts/nix.sh
 source "$DOTFILES_DIR/scripts/nix.sh"
 # shellcheck source=scripts/conf.sh
@@ -43,6 +49,7 @@ Commands:
   sdk                  Run scripts/init_sdk.sh
   bw [args]            Run scripts/bw.sh with forwarded args
   brew [args]          Manage Brewfile packages and the local tap; defaults to install --no-upgrade
+  remote [args]        Manage native Xray/frpc services without Nix initialization
   all [profile]        Linux: install Nix/Home Manager and switch profile; macOS: install and switch nix-darwin
   nixgl                Install nixGL
   theme                Install Qogir themes

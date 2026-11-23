@@ -9,12 +9,17 @@ FILES=(
   ".ssh/config"
   ".ssh/id_rsa"
   ".ssh/id_rsa.pub"
-  ".local/.wakatime.cfg"
   ".config/zsh/env.local.zsh"
 )
 
+HOST_FILES=(
+  ".config/.links/xray.json"
+  ".config/.links/frpc-qual.toml"
+  ".config/.links/frpc-ali.toml"
+  ".config/.links/frpc-vps.toml"
+)
+
 HOST=""
-HOST_FILES=()
 
 to_item_name() {
   local p="$1"
@@ -87,13 +92,6 @@ if [[ -z "$HOST" || ! "$HOST" =~ ^[A-Za-z0-9][A-Za-z0-9_-]*$ ]]; then
   echo "unsafe short hostname for host-scoped vault names" >&2
   exit 1
 fi
-HOST_FILES=(
-  ".config/.links/xray.json"
-  ".config/.links/frpc-qual.toml"
-  ".config/.links/frpc-ali.toml"
-  ".config/.links/frpc-vps.toml"
-  ".config/opencode-telegram-bot/env.${HOST}.zsh"
-)
 validate_file_scopes || exit 1
 
 if [[ "$cmd" == "files" ]]; then
